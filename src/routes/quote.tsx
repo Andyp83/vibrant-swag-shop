@@ -120,16 +120,16 @@ function QuotePage() {
 
       const values = parsed.data;
       const { error } = await supabase.from("quote_requests").insert({
-        full_name: values.fullName,
+        name: values.fullName,
         email: values.email,
         company: values.company || null,
         phone: values.phone || null,
         product_interest: values.productInterest || null,
-        decoration_method: values.decorationMethod || null,
-        quantity: values.quantity || null,
-        deadline: values.deadline || null,
+        decoration: values.decorationMethod || null,
+        quantity: values.quantity ? Number(values.quantity) : null,
+        required_by: values.deadline || null,
         budget: values.budget || null,
-        brief: values.brief,
+        notes: values.brief,
         file_paths: paths,
       });
       if (error) throw error;
@@ -230,13 +230,14 @@ function QuotePage() {
                 ))}
               </select>
             </div>
-            <Field label="Quantity" name="quantity" placeholder="e.g. 250" error={errors.quantity} />
             <Field
-              label="Deadline"
-              name="deadline"
-              placeholder="e.g. mid-November"
-              error={errors.deadline}
+              label="Quantity"
+              name="quantity"
+              type="number"
+              placeholder="e.g. 250"
+              error={errors.quantity}
             />
+            <Field label="Needed by" name="deadline" type="date" error={errors.deadline} />
             <Field
               label="Budget guide"
               name="budget"
@@ -332,10 +333,10 @@ function Field({
 }: {
   label: string;
   name: string;
-  type?: string;
-  required?: boolean;
-  placeholder?: string;
-  error?: string;
+  type?: string | undefined;
+  required?: boolean | undefined;
+  placeholder?: string | undefined;
+  error?: string | undefined;
 }) {
   return (
     <div className="space-y-2">
