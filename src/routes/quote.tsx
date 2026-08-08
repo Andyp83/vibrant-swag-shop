@@ -11,7 +11,7 @@ import { Label } from "@/components/ui/label";
 
 export const Route = createFileRoute("/quote")({
   validateSearch: (search: Record<string, unknown>) => ({
-    product: typeof search.product === "string" ? search.product : undefined,
+    product: typeof search["product"] === "string" ? (search["product"] as string) : "",
   }),
   head: () => ({
     meta: [
@@ -42,8 +42,14 @@ const quoteSchema = z.object({
   phone: z.string().trim().max(40).optional().or(z.literal("")),
   productInterest: z.string().trim().max(200).optional().or(z.literal("")),
   decorationMethod: z.string().trim().max(120).optional().or(z.literal("")),
-  quantity: z.string().trim().max(60).optional().or(z.literal("")),
-  deadline: z.string().trim().max(60).optional().or(z.literal("")),
+  quantity: z
+    .string()
+    .trim()
+    .max(9)
+    .regex(/^\d*$/, "Quantity must be a whole number")
+    .optional()
+    .or(z.literal("")),
+  deadline: z.string().trim().max(20).optional().or(z.literal("")),
   budget: z.string().trim().max(60).optional().or(z.literal("")),
   brief: z.string().trim().min(10, "Tell us a little more about the brief").max(2000),
 });
