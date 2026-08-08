@@ -4,7 +4,9 @@ import { Loader2, Paperclip, UploadCloud, X, CheckCircle2 } from "lucide-react";
 import { z } from "zod";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
-import { categories, decorations } from "@/lib/catalog";
+import { useQuery } from "@tanstack/react-query";
+import { decorations } from "@/lib/catalog";
+import { catalogQueryOptions } from "@/lib/catalog-query";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
@@ -59,6 +61,7 @@ type FieldErrors = Partial<Record<keyof z.infer<typeof quoteSchema>, string>>;
 
 function QuotePage() {
   const { product } = Route.useSearch();
+  const categories = useQuery(catalogQueryOptions()).data ?? [];
   const [files, setFiles] = useState<File[]>([]);
   const [errors, setErrors] = useState<FieldErrors>({});
   const [submitting, setSubmitting] = useState(false);

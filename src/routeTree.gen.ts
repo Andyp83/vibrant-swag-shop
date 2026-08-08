@@ -10,14 +10,27 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as DecorationRouteImport } from './routes/decoration'
 import { Route as QuoteRouteImport } from './routes/quote'
+import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as ProductsIndexRouteImport } from './routes/products.index'
 import { Route as ProductsCategoryRouteImport } from './routes/products.$category'
+import { Route as ApiPublicCatalogImageSplatRouteImport } from './routes/api/public/catalog-image.$'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DecorationRoute = DecorationRouteImport.update({
@@ -30,6 +43,11 @@ const QuoteRoute = QuoteRouteImport.update({
   path: '/quote',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const ProductsIndexRoute = ProductsIndexRouteImport.update({
   id: '/products/',
   path: '/products/',
@@ -40,50 +58,88 @@ const ProductsCategoryRoute = ProductsCategoryRouteImport.update({
   path: '/products/$category',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicCatalogImageSplatRoute =
+  ApiPublicCatalogImageSplatRouteImport.update({
+    id: '/api/public/catalog-image/$',
+    path: '/api/public/catalog-image/$',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/decoration': typeof DecorationRoute
   '/quote': typeof QuoteRoute
+  '/admin': typeof AuthenticatedAdminRoute
   '/products/$category': typeof ProductsCategoryRoute
   '/products/': typeof ProductsIndexRoute
+  '/api/public/catalog-image/$': typeof ApiPublicCatalogImageSplatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/decoration': typeof DecorationRoute
   '/quote': typeof QuoteRoute
+  '/admin': typeof AuthenticatedAdminRoute
   '/products/$category': typeof ProductsCategoryRoute
   '/products': typeof ProductsIndexRoute
+  '/api/public/catalog-image/$': typeof ApiPublicCatalogImageSplatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/auth': typeof AuthRoute
   '/decoration': typeof DecorationRoute
   '/quote': typeof QuoteRoute
+  '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/products/$category': typeof ProductsCategoryRoute
   '/products/': typeof ProductsIndexRoute
+  '/api/public/catalog-image/$': typeof ApiPublicCatalogImageSplatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/decoration' | '/quote' | '/products/$category' | '/products/'
+    | '/'
+    | '/auth'
+    | '/decoration'
+    | '/quote'
+    | '/admin'
+    | '/products/$category'
+    | '/products/'
+    | '/api/public/catalog-image/$'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/decoration' | '/quote' | '/products/$category' | '/products'
+  to:
+    | '/'
+    | '/auth'
+    | '/decoration'
+    | '/quote'
+    | '/admin'
+    | '/products/$category'
+    | '/products'
+    | '/api/public/catalog-image/$'
   id:
     | '__root__'
     | '/'
+    | '/_authenticated'
+    | '/auth'
     | '/decoration'
     | '/quote'
+    | '/_authenticated/admin'
     | '/products/$category'
     | '/products/'
+    | '/api/public/catalog-image/$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AuthRoute: typeof AuthRoute
   DecorationRoute: typeof DecorationRoute
   QuoteRoute: typeof QuoteRoute
   ProductsCategoryRoute: typeof ProductsCategoryRoute
   ProductsIndexRoute: typeof ProductsIndexRoute
+  ApiPublicCatalogImageSplatRoute: typeof ApiPublicCatalogImageSplatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -93,6 +149,20 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/decoration': {
@@ -109,6 +179,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof QuoteRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/admin': {
+      id: '/_authenticated/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthenticatedAdminRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/products/': {
       id: '/products/'
       path: '/products'
@@ -123,15 +200,36 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductsCategoryRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/catalog-image/$': {
+      id: '/api/public/catalog-image/$'
+      path: '/api/public/catalog-image/$'
+      fullPath: '/api/public/catalog-image/$'
+      preLoaderRoute: typeof ApiPublicCatalogImageSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAdminRoute: AuthenticatedAdminRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AuthRoute: AuthRoute,
   DecorationRoute: DecorationRoute,
   QuoteRoute: QuoteRoute,
   ProductsCategoryRoute: ProductsCategoryRoute,
   ProductsIndexRoute: ProductsIndexRoute,
+  ApiPublicCatalogImageSplatRoute: ApiPublicCatalogImageSplatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

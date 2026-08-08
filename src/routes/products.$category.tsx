@@ -1,12 +1,14 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { categories, getCategory, swatchClass, textClass, type Category } from "@/lib/catalog";
+import { spectrum, swatchClass, textClass } from "@/lib/catalog";
+import { catalogQueryOptions, type CmsCategory } from "@/lib/catalog-query";
 
 export const Route = createFileRoute("/products/$category")({
-  loader: ({ params }) => {
-    const category = getCategory(params.category);
+  loader: async ({ params, context }) => {
+    const catalog = await context.queryClient.ensureQueryData(catalogQueryOptions());
+    const category = catalog.find((c) => c.slug === params.category);
     if (!category) throw notFound();
-    return { category };
+    return { category, others: catalog.filter((c) => c.slug !== category.slug) };
   },
   head: ({ loaderData }) => {
     if (!loaderData) {
@@ -47,12 +49,15 @@ function CategoryNotFound() {
 }
 
 function CategoryPage() {
-  const { category } = Route.useLoaderData() as { category: Category };
-  const others = categories.filter((c) => c.slug !== category.slug);
+  const { category, others } = Route.useLoaderData() as {
+    category: CmsCategory;
+    others: CmsCategory[];
+  };
+  const accent = spectrum(category.colour);
 
   return (
     <div>
-      <div className={`h-2 w-full ${swatchClass[category.colour]}`} />
+      <div className={`h-2 w-full ${swatchClass[accent]}`} />
       <div className="mx-auto max-w-6xl px-5 py-14">
         <Link
           to="/products"
@@ -64,7 +69,7 @@ function CategoryPage() {
         <div className="mt-8 grid gap-10 lg:grid-cols-[1.1fr_1fr] lg:items-center">
           <div>
             <p
-              className={`text-xs font-semibold uppercase tracking-[0.3em] ${textClass[category.colour]}`}
+              className={`text-xs font-semibold uppercase tracking-[0.3em] ${textClass[accent]}`}
             >
               {category.tagline}
             </p>
@@ -80,7 +85,7 @@ function CategoryPage() {
           </div>
           <div className="overflow-hidden rounded-2xl border border-border bg-secondary">
             <img
-              src={category.image}
+              src={category.image_url}
               alt={`${category.name} branded merchandise examples`}
               width={1200}
               height={900}
@@ -93,10 +98,10 @@ function CategoryPage() {
         <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {category.products.map((p) => (
             <article
-              key={p.name}
+              key={p.id}
               className="flex flex-col rounded-xl border border-border bg-card p-6"
             >
-              <span className={`h-1.5 w-10 rounded-full ${swatchClass[category.colour]}`} />
+              <span className={`h-1.5 w-10 rounded-full ${swatchClass[accent]}`} />
               <h3 className="mt-4 font-semibold">{p.name}</h3>
               <p className="mt-2 text-sm text-muted-foreground">{p.blurb}</p>
               <dl className="mt-4 space-y-1 text-xs text-muted-foreground">
@@ -106,7 +111,7 @@ function CategoryPage() {
                 </div>
                 <div className="flex gap-2">
                   <dt className="font-semibold text-foreground">Minimum:</dt>
-                  <dd>{p.minimum}</dd>
+                  <dd>{p.moq}</dd>
                 </div>
               </dl>
               <ul className="mt-4 flex flex-wrap gap-1.5">
@@ -139,7 +144,7 @@ function CategoryPage() {
               params={{ category: c.slug }}
               className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-sm font-medium transition-colors hover:bg-accent"
             >
-              <span className={`size-2.5 rounded-full ${swatchClass[c.colour]}`} aria-hidden="true" />
+              <span className={`size-2.5 rounded-full ${swatchClass[spectrum(c.colour)]}`} aria-hidden="true" />
               {c.name}
             </Link>
           ))}
