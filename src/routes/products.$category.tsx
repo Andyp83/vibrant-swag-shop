@@ -1,6 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { categories, getCategory, swatchClass, textClass } from "@/lib/catalog";
+import { categories, getCategory, swatchClass, textClass, type Category } from "@/lib/catalog";
 
 export const Route = createFileRoute("/products/$category")({
   loader: ({ params }) => {
@@ -47,7 +47,7 @@ function CategoryNotFound() {
 }
 
 function CategoryPage() {
-  const { category } = Route.useLoaderData();
+  const { category } = Route.useLoaderData() as { category: Category };
   const others = categories.filter((c) => c.slug !== category.slug);
 
   return (
