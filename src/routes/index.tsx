@@ -56,6 +56,7 @@ const stats = [
 ];
 
 function Home() {
+  const { data: categories } = useSuspenseQuery(catalogQueryOptions());
   return (
     <div>
       <section className="relative overflow-hidden border-b border-border">
@@ -108,7 +109,7 @@ function Home() {
             >
               <div className="aspect-[4/3] overflow-hidden bg-secondary">
                 <img
-                  src={c.image}
+                  src={c.image_url}
                   alt={`${c.name} promotional products`}
                   loading="lazy"
                   width={1200}
@@ -116,7 +117,7 @@ function Home() {
                   className="size-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
               </div>
-              <div className={`h-1.5 w-full ${swatchClass[c.colour]}`} />
+              <div className={`h-1.5 w-full ${swatchClass[spectrum(c.colour)]}`} />
               <div className="p-5">
                 <p className="display-type text-base">{c.name}</p>
                 <p className="mt-1 text-sm text-muted-foreground">{c.tagline}</p>
