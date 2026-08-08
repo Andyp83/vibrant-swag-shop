@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DecorationRouteImport } from './routes/decoration'
+import { Route as QuoteRouteImport } from './routes/quote'
 import { Route as ProductsIndexRouteImport } from './routes/products.index'
 import { Route as ProductsCategoryRouteImport } from './routes/products.$category'
 
@@ -22,6 +23,11 @@ const IndexRoute = IndexRouteImport.update({
 const DecorationRoute = DecorationRouteImport.update({
   id: '/decoration',
   path: '/decoration',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const QuoteRoute = QuoteRouteImport.update({
+  id: '/quote',
+  path: '/quote',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProductsIndexRoute = ProductsIndexRouteImport.update({
@@ -38,12 +44,14 @@ const ProductsCategoryRoute = ProductsCategoryRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/decoration': typeof DecorationRoute
+  '/quote': typeof QuoteRoute
   '/products/$category': typeof ProductsCategoryRoute
   '/products/': typeof ProductsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/decoration': typeof DecorationRoute
+  '/quote': typeof QuoteRoute
   '/products/$category': typeof ProductsCategoryRoute
   '/products': typeof ProductsIndexRoute
 }
@@ -51,20 +59,29 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/decoration': typeof DecorationRoute
+  '/quote': typeof QuoteRoute
   '/products/$category': typeof ProductsCategoryRoute
   '/products/': typeof ProductsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/decoration' | '/products/$category' | '/products/'
+  fullPaths:
+    '/' | '/decoration' | '/quote' | '/products/$category' | '/products/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/decoration' | '/products/$category' | '/products'
-  id: '__root__' | '/' | '/decoration' | '/products/$category' | '/products/'
+  to: '/' | '/decoration' | '/quote' | '/products/$category' | '/products'
+  id:
+    | '__root__'
+    | '/'
+    | '/decoration'
+    | '/quote'
+    | '/products/$category'
+    | '/products/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DecorationRoute: typeof DecorationRoute
+  QuoteRoute: typeof QuoteRoute
   ProductsCategoryRoute: typeof ProductsCategoryRoute
   ProductsIndexRoute: typeof ProductsIndexRoute
 }
@@ -83,6 +100,13 @@ declare module '@tanstack/react-router' {
       path: '/decoration'
       fullPath: '/decoration'
       preLoaderRoute: typeof DecorationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/quote': {
+      id: '/quote'
+      path: '/quote'
+      fullPath: '/quote'
+      preLoaderRoute: typeof QuoteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/products/': {
@@ -105,6 +129,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DecorationRoute: DecorationRoute,
+  QuoteRoute: QuoteRoute,
   ProductsCategoryRoute: ProductsCategoryRoute,
   ProductsIndexRoute: ProductsIndexRoute,
 }
