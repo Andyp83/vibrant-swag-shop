@@ -1,12 +1,3 @@
-import drinkware from "@/assets/drinkware.jpg.asset.json";
-import apparel from "@/assets/apparel.jpg.asset.json";
-import bags from "@/assets/bags.jpg.asset.json";
-import tech from "@/assets/tech.jpg.asset.json";
-import stationery from "@/assets/stationery.jpg.asset.json";
-import eco from "@/assets/eco.jpg.asset.json";
-import headwear from "@/assets/headwear.jpg.asset.json";
-import giftsets from "@/assets/giftsets.jpg.asset.json";
-
 export type SpectrumColor =
   | "red"
   | "orange"
