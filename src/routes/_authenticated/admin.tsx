@@ -327,7 +327,7 @@ function useImageUpload() {
       const extension = file.name.split(".").pop()?.toLowerCase() ?? "jpg";
       const path = `${crypto.randomUUID()}.${extension}`;
       const { error } = await supabase.storage.from("catalog-images").upload(path, file, {
-        contentType: file.type || undefined,
+        ...(file.type ? { contentType: file.type } : {}),
         upsert: false,
       });
       if (error) throw error;
