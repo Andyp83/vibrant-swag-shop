@@ -61,6 +61,7 @@ type FieldErrors = Partial<Record<keyof z.infer<typeof quoteSchema>, string>>;
 
 function QuotePage() {
   const { product } = Route.useSearch();
+  const categories = useQuery(catalogQueryOptions()).data ?? [];
   const [files, setFiles] = useState<File[]>([]);
   const [errors, setErrors] = useState<FieldErrors>({});
   const [submitting, setSubmitting] = useState(false);
