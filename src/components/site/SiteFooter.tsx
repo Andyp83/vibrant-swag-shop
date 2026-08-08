@@ -1,9 +1,8 @@
-import { useQuery } from "@tanstack/react-query";
-import { Link } from "@tanstack/react-router";
-import { catalogQueryOptions } from "@/lib/catalog-query";
+import { Link, useLoaderData } from "@tanstack/react-router";
+import type { CmsCategory } from "@/lib/catalog-query";
 
 export function SiteFooter() {
-  const { data } = useQuery(catalogQueryOptions());
+  const data = useLoaderData({ from: "__root__" }) as CmsCategory[] | undefined;
   const categories = data ?? [];
 
   return (
@@ -55,6 +54,11 @@ export function SiteFooter() {
             <li>
               <Link to="/quote" className="text-muted-foreground hover:text-foreground">
                 Request a quote
+              </Link>
+            </li>
+            <li>
+              <Link to="/colour-guide" className="text-muted-foreground hover:text-foreground">
+                Colour guide
               </Link>
             </li>
             <li>
