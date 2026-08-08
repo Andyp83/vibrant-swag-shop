@@ -1,12 +1,14 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { categories, getCategory, swatchClass, textClass, type Category } from "@/lib/catalog";
+import { spectrum, swatchClass, textClass } from "@/lib/catalog";
+import { catalogQueryOptions, type CmsCategory } from "@/lib/catalog-query";
 
 export const Route = createFileRoute("/products/$category")({
-  loader: ({ params }) => {
-    const category = getCategory(params.category);
+  loader: async ({ params, context }) => {
+    const catalog = await context.queryClient.ensureQueryData(catalogQueryOptions());
+    const category = catalog.find((c) => c.slug === params.category);
     if (!category) throw notFound();
-    return { category };
+    return { category, others: catalog.filter((c) => c.slug !== category.slug) };
   },
   head: ({ loaderData }) => {
     if (!loaderData) {
