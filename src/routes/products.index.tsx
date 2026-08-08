@@ -26,6 +26,7 @@ export const Route = createFileRoute("/products/")({
 });
 
 function ProductsPage() {
+  const { data: categories } = useSuspenseQuery(catalogQueryOptions());
   return (
     <div className="mx-auto max-w-6xl px-5 py-16">
       <p className="text-xs font-semibold uppercase tracking-[0.3em] text-muted-foreground">
@@ -49,7 +50,7 @@ function ProductsPage() {
             <Link to="/products/$category" params={{ category: c.slug }} className="block">
               <div className="aspect-[16/10] overflow-hidden bg-secondary">
                 <img
-                  src={c.image}
+                  src={c.image_url}
                   alt={`${c.name} branded merchandise examples`}
                   loading="lazy"
                   width={1200}
@@ -57,7 +58,7 @@ function ProductsPage() {
                   className="size-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
               </div>
-              <div className={`h-2 w-full ${swatchClass[c.colour]}`} />
+              <div className={`h-2 w-full ${swatchClass[spectrum(c.colour)]}`} />
               <div className="p-6">
                 <h2 className="display-type text-xl">{c.name}</h2>
                 <p className="mt-3 text-sm text-muted-foreground">{c.description}</p>
