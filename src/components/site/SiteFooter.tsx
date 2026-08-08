@@ -57,6 +57,11 @@ export function SiteFooter() {
                 Request a quote
               </Link>
             </li>
+            <li>
+              <Link to="/admin" className="text-muted-foreground hover:text-foreground">
+                Catalogue manager
+              </Link>
+            </li>
           </ul>
         </div>
 
