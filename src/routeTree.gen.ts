@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as ColourGuideRouteImport } from './routes/colour-guide'
 import { Route as DecorationRouteImport } from './routes/decoration'
 import { Route as QuoteRouteImport } from './routes/quote'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
@@ -31,6 +32,11 @@ const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ColourGuideRoute = ColourGuideRouteImport.update({
+  id: '/colour-guide',
+  path: '/colour-guide',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DecorationRoute = DecorationRouteImport.update({
@@ -68,6 +74,7 @@ const ApiPublicCatalogImageSplatRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/colour-guide': typeof ColourGuideRoute
   '/decoration': typeof DecorationRoute
   '/quote': typeof QuoteRoute
   '/admin': typeof AuthenticatedAdminRoute
@@ -78,6 +85,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/colour-guide': typeof ColourGuideRoute
   '/decoration': typeof DecorationRoute
   '/quote': typeof QuoteRoute
   '/admin': typeof AuthenticatedAdminRoute
@@ -90,6 +98,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
+  '/colour-guide': typeof ColourGuideRoute
   '/decoration': typeof DecorationRoute
   '/quote': typeof QuoteRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
@@ -102,6 +111,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/auth'
+    | '/colour-guide'
     | '/decoration'
     | '/quote'
     | '/admin'
@@ -112,6 +122,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auth'
+    | '/colour-guide'
     | '/decoration'
     | '/quote'
     | '/admin'
@@ -123,6 +134,7 @@ export interface FileRouteTypes {
     | '/'
     | '/_authenticated'
     | '/auth'
+    | '/colour-guide'
     | '/decoration'
     | '/quote'
     | '/_authenticated/admin'
@@ -135,6 +147,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
+  ColourGuideRoute: typeof ColourGuideRoute
   DecorationRoute: typeof DecorationRoute
   QuoteRoute: typeof QuoteRoute
   ProductsCategoryRoute: typeof ProductsCategoryRoute
@@ -163,6 +176,13 @@ declare module '@tanstack/react-router' {
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/colour-guide': {
+      id: '/colour-guide'
+      path: '/colour-guide'
+      fullPath: '/colour-guide'
+      preLoaderRoute: typeof ColourGuideRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/decoration': {
@@ -225,6 +245,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
+  ColourGuideRoute: ColourGuideRoute,
   DecorationRoute: DecorationRoute,
   QuoteRoute: QuoteRoute,
   ProductsCategoryRoute: ProductsCategoryRoute,

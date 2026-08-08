@@ -6,8 +6,10 @@ const nav = [
   { to: "/", label: "Home" },
   { to: "/products", label: "Products" },
   { to: "/decoration", label: "Decoration" },
+  { to: "/colour-guide", label: "Colour guide" },
   { to: "/quote", label: "Get a quote" },
 ] as const;
+
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
@@ -27,7 +29,7 @@ export function SiteHeader() {
         </Link>
 
         <nav className="hidden items-center gap-7 md:flex">
-          {nav.slice(0, 3).map((item) => (
+          {nav.slice(0, 4).map((item) => (
             <Link
               key={item.to}
               to={item.to}
