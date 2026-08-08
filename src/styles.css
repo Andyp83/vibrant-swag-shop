@@ -165,11 +165,13 @@
   );
 }
 
-@utility font-display {
+@utility display-type {
   font-family: var(--font-display);
   font-weight: 400;
   letter-spacing: -0.02em;
+  text-transform: uppercase;
 }
+
 
 
 .dark {
