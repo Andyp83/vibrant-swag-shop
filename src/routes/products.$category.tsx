@@ -49,8 +49,11 @@ function CategoryNotFound() {
 }
 
 function CategoryPage() {
-  const { category } = Route.useLoaderData() as { category: Category };
-  const others = categories.filter((c) => c.slug !== category.slug);
+  const { category, others } = Route.useLoaderData() as {
+    category: CmsCategory;
+    others: CmsCategory[];
+  };
+  const accent = spectrum(category.colour);
 
   return (
     <div>
