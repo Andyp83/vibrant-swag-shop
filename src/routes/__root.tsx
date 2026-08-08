@@ -76,6 +76,7 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
 }
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
+  loader: ({ context }) => context.queryClient.ensureQueryData(catalogQueryOptions()),
   head: () => ({
     meta: [
       { charSet: "utf-8" },
