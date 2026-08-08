@@ -1,8 +1,11 @@
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
-import { categories, swatchClass } from "@/lib/catalog";
+import { spectrum, swatchClass } from "@/lib/catalog";
+import { catalogQueryOptions } from "@/lib/catalog-query";
 
 export const Route = createFileRoute("/products/")({
+  loader: ({ context }) => context.queryClient.ensureQueryData(catalogQueryOptions()),
   head: () => ({
     meta: [
       { title: "Branded Merchandise Categories | Brand Bento" },
