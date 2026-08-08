@@ -1,7 +1,11 @@
+import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
-import { categories } from "@/lib/catalog";
+import { catalogQueryOptions } from "@/lib/catalog-query";
 
 export function SiteFooter() {
+  const { data } = useQuery(catalogQueryOptions());
+  const categories = data ?? [];
+
   return (
     <footer className="mt-24 border-t border-border bg-secondary">
       <div className="spectrum-bar h-1.5 w-full" />
