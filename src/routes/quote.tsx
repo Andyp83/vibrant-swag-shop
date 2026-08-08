@@ -10,9 +10,10 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 
 export const Route = createFileRoute("/quote")({
-  validateSearch: (search: Record<string, unknown>) => ({
-    product: typeof search["product"] === "string" ? (search["product"] as string) : "",
-  }),
+  validateSearch: (search: Record<string, unknown>): { product?: string } =>
+    typeof search["product"] === "string" && search["product"]
+      ? { product: search["product"] as string }
+      : {},
   head: () => ({
     meta: [
       { title: "Request a Quote & Upload Your Logo | Brand Bento" },
