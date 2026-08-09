@@ -4,13 +4,13 @@ import { ArrowRight } from "lucide-react";
 export const Route = createFileRoute("/lookbook")({
   head: () => ({
     meta: [
-      { title: "Brands Lookbook — Merchandise Inspiration | Brand Bento" },
+      { title: "Brands Lookbook | Brand Bento" },
       {
         name: "description",
         content:
           "Browse the Brand Bento brands lookbook: curated merchandise ideas, product pairings and real-world inspiration for branded corporate gifts and team merch.",
       },
-      { property: "og:title", content: "Brands Lookbook — Merchandise Inspiration | Brand Bento" },
+      { property: "og:title", content: "Brands Lookbook | Brand Bento" },
       {
         property: "og:description",
         content:
@@ -25,7 +25,7 @@ function LookbookPage() {
   return (
     <div className="mx-auto max-w-6xl px-5 py-16">
       <p className="text-xs font-semibold uppercase tracking-[0.3em] text-muted-foreground">
-        Brands lookbook
+        Brands Lookbook
       </p>
       <h1 className="display-type mt-4 max-w-2xl text-4xl sm:text-5xl">
         Inspiration for every brand moment
