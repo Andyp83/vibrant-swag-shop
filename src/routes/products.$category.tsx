@@ -94,6 +94,12 @@ function CategoryPage() {
           </div>
         </div>
 
+        <BannerRow
+          title="Featured ranges"
+          banners={categoryBanners[category.slug] ?? []}
+          className="mt-20"
+        />
+
         <h2 className="display-type mt-20 text-2xl sm:text-3xl">Examples</h2>
         <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {category.products.map((p) => (
