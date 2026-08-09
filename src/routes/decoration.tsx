@@ -60,6 +60,13 @@ function DecorationPage() {
         ))}
       </nav>
 
+      <BannerRow
+        banners={[banners.digiflex, banners.puff, banners.prism]}
+        className="mt-12"
+      />
+
+
+
       <div className="mt-16 space-y-16">
         {decorations.map((d, i) => (
           <section
