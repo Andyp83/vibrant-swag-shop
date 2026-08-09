@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 export const Route = createFileRoute("/auth")({
+  ssr: false,
   validateSearch: (search: Record<string, unknown>) => {
     const next = search['next'];
     return typeof next === "string" && next.startsWith("/") && !next.startsWith("//")
