@@ -8,6 +8,13 @@ import brandcraft from "@/assets/banners/Large_Web_Banner_-_BRANDCRAFT.jpg.asset
 import puff from "@/assets/banners/Puff_Print_LWB.jpg.asset.json";
 import bodum from "@/assets/banners/SWB-Distributor.jpg.asset.json";
 import kadi from "@/assets/banners/Small_Web_Banner_-_Kadi_AU_Only_1.jpg.asset.json";
+import mcScreenPrint from "@/assets/banners/MC_Screen_Print_-_Large_Banner.jpg.asset.json";
+import mcPadPrint from "@/assets/banners/Multi-Colour_Pad_Print_-_Large_Banner.jpg.asset.json";
+import siliconeDigital from "@/assets/banners/Silicone_Digital_Print_-_Large_Banner.jpg.asset.json";
+import thermoDebossing from "@/assets/banners/Thermo_Debossing_-_Mini_Banner.jpg.asset.json";
+import colourflex from "@/assets/banners/1920x450px_Web_Banner_Colourflex_B.jpg.asset.json";
+import camelbak from "@/assets/banners/CamelBak_-_Large_Web_Banner.jpg.asset.json";
+import skullcandy from "@/assets/banners/1920x450px-SkullCandy_LWB.jpg.asset.json";
 
 export type Banner = {
   url: string;
