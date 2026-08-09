@@ -8,6 +8,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 export const Route = createFileRoute("/auth")({
+  validateSearch: (search: Record<string, unknown>) => {
+    const next = search['next'];
+    return typeof next === "string" && next.startsWith("/") && !next.startsWith("//")
+      ? { next }
+      : {};
+  },
   head: () => ({
     meta: [
       { title: "Team Sign In | Brand Bento" },
@@ -29,6 +35,7 @@ export const Route = createFileRoute("/auth")({
 
 function AuthPage() {
   const navigate = useNavigate();
+  const { next } = Route.useSearch();
   const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -38,11 +45,15 @@ function AuthPage() {
   useEffect(() => {
     const { data } = supabase.auth.onAuthStateChange((event, session) => {
       if (session && (event === "SIGNED_IN" || event === "INITIAL_SESSION")) {
+        if (next) {
+          window.location.replace(next);
+          return;
+        }
         navigate({ to: "/admin", replace: true });
       }
     });
     return () => data.subscription.unsubscribe();
-  }, [navigate]);
+  }, [navigate, next]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -52,7 +63,10 @@ function AuthPage() {
         const { data, error } = await supabase.auth.signUp({
           email,
           password,
-          options: { emailRedirectTo: window.location.origin + "/auth" },
+          options: {
+            emailRedirectTo:
+              window.location.origin + (next ? `/auth?next=${encodeURIComponent(next)}` : "/auth"),
+          },
         });
         if (error) throw error;
         if (!data.session) {
