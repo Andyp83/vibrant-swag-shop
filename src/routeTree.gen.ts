@@ -14,6 +14,7 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ColourGuideRouteImport } from './routes/colour-guide'
 import { Route as DecorationRouteImport } from './routes/decoration'
+import { Route as ImpactAwareRouteImport } from './routes/impact-aware'
 import { Route as LookbookRouteImport } from './routes/lookbook'
 import { Route as QuoteRouteImport } from './routes/quote'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
@@ -43,6 +44,11 @@ const ColourGuideRoute = ColourGuideRouteImport.update({
 const DecorationRoute = DecorationRouteImport.update({
   id: '/decoration',
   path: '/decoration',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ImpactAwareRoute = ImpactAwareRouteImport.update({
+  id: '/impact-aware',
+  path: '/impact-aware',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LookbookRoute = LookbookRouteImport.update({
@@ -82,6 +88,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/colour-guide': typeof ColourGuideRoute
   '/decoration': typeof DecorationRoute
+  '/impact-aware': typeof ImpactAwareRoute
   '/lookbook': typeof LookbookRoute
   '/quote': typeof QuoteRoute
   '/admin': typeof AuthenticatedAdminRoute
@@ -94,6 +101,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/colour-guide': typeof ColourGuideRoute
   '/decoration': typeof DecorationRoute
+  '/impact-aware': typeof ImpactAwareRoute
   '/lookbook': typeof LookbookRoute
   '/quote': typeof QuoteRoute
   '/admin': typeof AuthenticatedAdminRoute
@@ -108,6 +116,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/colour-guide': typeof ColourGuideRoute
   '/decoration': typeof DecorationRoute
+  '/impact-aware': typeof ImpactAwareRoute
   '/lookbook': typeof LookbookRoute
   '/quote': typeof QuoteRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
@@ -122,6 +131,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/colour-guide'
     | '/decoration'
+    | '/impact-aware'
     | '/lookbook'
     | '/quote'
     | '/admin'
@@ -134,6 +144,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/colour-guide'
     | '/decoration'
+    | '/impact-aware'
     | '/lookbook'
     | '/quote'
     | '/admin'
@@ -147,6 +158,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/colour-guide'
     | '/decoration'
+    | '/impact-aware'
     | '/lookbook'
     | '/quote'
     | '/_authenticated/admin'
@@ -161,6 +173,7 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   ColourGuideRoute: typeof ColourGuideRoute
   DecorationRoute: typeof DecorationRoute
+  ImpactAwareRoute: typeof ImpactAwareRoute
   LookbookRoute: typeof LookbookRoute
   QuoteRoute: typeof QuoteRoute
   ProductsCategoryRoute: typeof ProductsCategoryRoute
@@ -203,6 +216,13 @@ declare module '@tanstack/react-router' {
       path: '/decoration'
       fullPath: '/decoration'
       preLoaderRoute: typeof DecorationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/impact-aware': {
+      id: '/impact-aware'
+      path: '/impact-aware'
+      fullPath: '/impact-aware'
+      preLoaderRoute: typeof ImpactAwareRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/lookbook': {
@@ -267,6 +287,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   ColourGuideRoute: ColourGuideRoute,
   DecorationRoute: DecorationRoute,
+  ImpactAwareRoute: ImpactAwareRoute,
   LookbookRoute: LookbookRoute,
   QuoteRoute: QuoteRoute,
   ProductsCategoryRoute: ProductsCategoryRoute,
@@ -276,3 +297,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
