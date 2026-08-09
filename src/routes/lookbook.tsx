@@ -37,7 +37,10 @@ function LookbookPage() {
         drops and corporate gift sets.
       </p>
 
+      <BannerRow banners={[banners.lookbookLwb]} className="mt-10" />
+
       <div className="mt-10 overflow-hidden rounded-2xl border border-border bg-card">
+
         <div className="spectrum-bar h-1.5 w-full" />
         <iframe
           title="Brand Bento brands lookbook"
