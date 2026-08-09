@@ -82,13 +82,68 @@ export const banners = {
     to: "/products/bags",
     cta: "See the bag range",
   },
+  mcScreenPrint: {
+    url: mcScreenPrint.url,
+    alt: "Multi-colour rotary screen printing on drink bottles with tight registration",
+    to: "/decoration#screen-print",
+    cta: "About screen print",
+  },
+  mcPadPrint: {
+    url: mcPadPrint.url,
+    alt: "Multi-colour pad printing on a silicone cup band, up to five colours",
+    to: "/decoration#pad-print",
+    cta: "About pad print",
+  },
+  siliconeDigital: {
+    url: siliconeDigital.url,
+    alt: "Silicone digital print — full-colour photographic branding on reusable cups",
+    to: "/decoration#digital-uv-print",
+    cta: "About digital printing",
+  },
+  thermoDebossing: {
+    url: thermoDebossing.url,
+    alt: "Thermo debossing pressing a logo into a soft-touch notebook cover",
+    to: "/decoration#debossing",
+    cta: "About debossing",
+  },
+  colourflex: {
+    url: colourflex.url,
+    alt: "Colourflex high-impact branding on bags, towels and hoodies",
+    to: "/decoration#full-colour-wrap",
+    cta: "About full-colour transfers",
+  },
+  camelbak: {
+    url: camelbak.url,
+    alt: "CamelBak bottles and hydration packs — unleash your brand on every adventure",
+    to: "/products/drinkware",
+    cta: "See drinkware",
+  },
+  skullcandy: {
+    url: skullcandy.url,
+    alt: "Skullcandy headphones and earbuds — music you can feel",
+    to: "/products/tech",
+    cta: "See tech gifts",
+  },
 } satisfies Record<string, Banner>;
 
 /** Banners shown on each category page, keyed by category slug. */
 export const categoryBanners: Record<string, Banner[]> = {
-  drinkware: [banners.aura, banners.camaro, banners.bodum],
+  drinkware: [banners.aura, banners.camaro, banners.camelbak, banners.bodum],
   bags: [banners.archer, banners.kadi],
-  apparel: [banners.puff, banners.digiflex],
+  apparel: [banners.puff, banners.colourflex, banners.digiflex],
+  tech: [banners.skullcandy],
   giftsets: [banners.brandcraft],
   eco: [banners.impactAware],
 };
+
+/** Decoration-method promo banners shown on the decoration page. */
+export const decorationBanners: Banner[] = [
+  banners.mcScreenPrint,
+  banners.mcPadPrint,
+  banners.siliconeDigital,
+  banners.colourflex,
+  banners.thermoDebossing,
+  banners.digiflex,
+  banners.puff,
+  banners.prism,
+];
