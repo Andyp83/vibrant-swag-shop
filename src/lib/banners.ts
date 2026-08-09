@@ -15,6 +15,8 @@ import thermoDebossing from "@/assets/banners/Thermo_Debossing_-_Mini_Banner.jpg
 import colourflex from "@/assets/banners/1920x450px_Web_Banner_Colourflex_B.jpg.asset.json";
 import camelbak from "@/assets/banners/CamelBak_-_Large_Web_Banner.jpg.asset.json";
 import skullcandy from "@/assets/banners/1920x450px-SkullCandy_LWB.jpg.asset.json";
+import lookbookLwb from "@/assets/banners/Brands_Lookbook_LWB.jpg.asset.json";
+import lookbookSwb from "@/assets/banners/Brands_Lookbook_SWB.jpg.asset.json";
 
 export type Banner = {
   url: string;
@@ -124,7 +126,20 @@ export const banners = {
     to: "/products/tech",
     cta: "See tech gifts",
   },
+  lookbookLwb: {
+    url: lookbookLwb.url,
+    alt: "Brands Lookbook out now — branded bags, drinkware, audio and apparel",
+    to: "/lookbook",
+    cta: "Open the Brands Lookbook",
+  },
+  lookbookSwb: {
+    url: lookbookSwb.url,
+    alt: "Brands Lookbook out now, shown open across two spreads",
+    to: "/lookbook",
+    cta: "Open the Brands Lookbook",
+  },
 } satisfies Record<string, Banner>;
+
 
 /** Banners shown on each category page, keyed by category slug. */
 export const categoryBanners: Record<string, Banner[]> = {

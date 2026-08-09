@@ -3,7 +3,9 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import { spectrum, swatchClass, textClass } from "@/lib/catalog";
 import { catalogQueryOptions, type CmsCategory } from "@/lib/catalog-query";
 import { categoryBanners } from "@/lib/banners";
+import { categoryVideos } from "@/lib/videos";
 import { BannerRow } from "@/components/site/BannerStrip";
+import { VideoStrip } from "@/components/site/VideoStrip";
 
 export const Route = createFileRoute("/products/$category")({
   loader: async ({ params, context }) => {
@@ -101,6 +103,19 @@ function CategoryPage() {
           banners={categoryBanners[category.slug] ?? []}
           className="mt-20"
         />
+
+        {(categoryVideos[category.slug] ?? []).length > 0 ? (
+          <section className="mt-20">
+            <h2 className="display-type text-2xl sm:text-3xl">In motion</h2>
+            <div className="mt-8 grid gap-6 sm:grid-cols-2">
+              {(categoryVideos[category.slug] ?? []).map((v) => (
+                <VideoStrip key={v.url} video={v} />
+              ))}
+            </div>
+          </section>
+        ) : null}
+
+
 
         <h2 className="display-type mt-20 text-2xl sm:text-3xl">Examples</h2>
         <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">

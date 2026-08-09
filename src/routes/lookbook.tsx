@@ -1,5 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
+import { banners } from "@/lib/banners";
+import { BannerRow } from "@/components/site/BannerStrip";
 
 export const Route = createFileRoute("/lookbook")({
   head: () => ({
@@ -35,7 +37,10 @@ function LookbookPage() {
         drops and corporate gift sets.
       </p>
 
+      <BannerRow banners={[banners.lookbookLwb]} className="mt-10" />
+
       <div className="mt-10 overflow-hidden rounded-2xl border border-border bg-card">
+
         <div className="spectrum-bar h-1.5 w-full" />
         <iframe
           title="Brand Bento brands lookbook"
