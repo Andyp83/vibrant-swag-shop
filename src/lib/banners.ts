@@ -126,7 +126,20 @@ export const banners = {
     to: "/products/tech",
     cta: "See tech gifts",
   },
+  lookbookLwb: {
+    url: lookbookLwb.url,
+    alt: "Brands Lookbook out now — branded bags, drinkware, audio and apparel",
+    to: "/lookbook",
+    cta: "Open the Brands Lookbook",
+  },
+  lookbookSwb: {
+    url: lookbookSwb.url,
+    alt: "Brands Lookbook out now, shown open across two spreads",
+    to: "/lookbook",
+    cta: "Open the Brands Lookbook",
+  },
 } satisfies Record<string, Banner>;
+
 
 /** Banners shown on each category page, keyed by category slug. */
 export const categoryBanners: Record<string, Banner[]> = {
