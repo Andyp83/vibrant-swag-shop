@@ -63,8 +63,9 @@ function DecorationPage() {
       </nav>
 
       <BannerRow
-        banners={[banners.digiflex, banners.puff, banners.prism]}
-        className="mt-12"
+        title="New branding technologies"
+        banners={decorationBanners}
+        className="mt-14"
       />
 
 
