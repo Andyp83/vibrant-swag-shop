@@ -3,6 +3,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import { decorations, spectrum, swatchClass } from "@/lib/catalog";
 import { catalogQueryOptions } from "@/lib/catalog-query";
+import { banners } from "@/lib/banners";
+import { BannerRow } from "@/components/site/BannerStrip";
 
 export const Route = createFileRoute("/")({
   loader: ({ context }) => context.queryClient.ensureQueryData(catalogQueryOptions()),
