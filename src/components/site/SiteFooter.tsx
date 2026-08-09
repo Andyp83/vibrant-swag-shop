@@ -67,6 +67,11 @@ export function SiteFooter() {
               </Link>
             </li>
             <li>
+              <Link to="/impact-aware" className="text-muted-foreground hover:text-foreground">
+                Impact Aware
+              </Link>
+            </li>
+            <li>
               <Link to="/admin" className="text-muted-foreground hover:text-foreground">
                 Catalogue manager
               </Link>
