@@ -2,6 +2,8 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { spectrum, swatchClass, textClass } from "@/lib/catalog";
 import { catalogQueryOptions, type CmsCategory } from "@/lib/catalog-query";
+import { categoryBanners } from "@/lib/banners";
+import { BannerRow } from "@/components/site/BannerStrip";
 
 export const Route = createFileRoute("/products/$category")({
   loader: async ({ params, context }) => {
@@ -93,6 +95,12 @@ function CategoryPage() {
             />
           </div>
         </div>
+
+        <BannerRow
+          title="Featured ranges"
+          banners={categoryBanners[category.slug] ?? []}
+          className="mt-20"
+        />
 
         <h2 className="display-type mt-20 text-2xl sm:text-3xl">Examples</h2>
         <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">

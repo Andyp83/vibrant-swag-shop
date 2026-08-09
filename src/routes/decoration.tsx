@@ -2,6 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import { artworkFaq, decorations, swatchClass, textClass } from "@/lib/catalog";
 import { decorationImages } from "@/lib/decoration-images";
+import { banners } from "@/lib/banners";
+import { BannerRow } from "@/components/site/BannerStrip";
 import {
   Accordion,
   AccordionContent,
@@ -59,6 +61,13 @@ function DecorationPage() {
           </a>
         ))}
       </nav>
+
+      <BannerRow
+        banners={[banners.digiflex, banners.puff, banners.prism]}
+        className="mt-12"
+      />
+
+
 
       <div className="mt-16 space-y-16">
         {decorations.map((d, i) => (

@@ -1,0 +1,87 @@
+import archer from "@/assets/banners/Archer-Launch_LWB_1.jpg.asset.json";
+import aura from "@/assets/banners/Aura_LWB.jpg.asset.json";
+import digiflex from "@/assets/banners/Distributor-LWB.jpg.asset.json";
+import prism from "@/assets/banners/Prism-Digital-Print_-SWB.jpg.asset.json";
+import camaro from "@/assets/banners/Camaro_LWB_Unbranded.jpg.asset.json";
+import impactAware from "@/assets/banners/Impact_Aware_LWB.jpg.asset.json";
+import brandcraft from "@/assets/banners/Large_Web_Banner_-_BRANDCRAFT.jpg.asset.json";
+import puff from "@/assets/banners/Puff_Print_LWB.jpg.asset.json";
+import bodum from "@/assets/banners/SWB-Distributor.jpg.asset.json";
+import kadi from "@/assets/banners/Small_Web_Banner_-_Kadi_AU_Only_1.jpg.asset.json";
+
+export type Banner = {
+  url: string;
+  alt: string;
+  to?: string;
+  cta?: string;
+};
+
+export const banners = {
+  archer: {
+    url: archer.url,
+    alt: "Archer bag range launch banner — for life in motion",
+    to: "/products/bags",
+    cta: "See the bag range",
+  },
+  aura: {
+    url: aura.url,
+    alt: "Aura vacuum bottle range shown across a full rainbow of colourways",
+    to: "/colour-guide",
+    cta: "Browse the colour guide",
+  },
+  camaro: {
+    url: camaro.url,
+    alt: "Camaro vacuum bottle in sixteen colours, one signature shape",
+    to: "/products/drinkware",
+    cta: "See drinkware",
+  },
+  digiflex: {
+    url: digiflex.url,
+    alt: "DigiFlex Transfer — personalised full-colour designs on apparel and bags",
+    to: "/decoration",
+    cta: "Compare decoration methods",
+  },
+  prism: {
+    url: prism.url,
+    alt: "Prism Print — full colour, high-gloss branding for a lasting impact",
+    to: "/decoration#digital-uv-print",
+    cta: "About digital UV print",
+  },
+  puff: {
+    url: puff.url,
+    alt: "Puff Print — raised texture printing on branded apparel",
+    to: "/decoration#screen-print",
+    cta: "About screen print",
+  },
+  impactAware: {
+    url: impactAware.url,
+    alt: "Impact Aware — designed with tomorrow in mind, recycled and natural materials",
+  },
+  brandcraft: {
+    url: brandcraft.url,
+    alt: "Brandcraft flat-pack cardboard model kits branded in full colour",
+    to: "/products/giftsets",
+    cta: "See gift sets",
+  },
+  bodum: {
+    url: bodum.url,
+    alt: "Bodum glassware and coffee presses — for the perfect brew",
+    to: "/products/drinkware",
+    cta: "See drinkware",
+  },
+  kadi: {
+    url: kadi.url,
+    alt: "Kadi hard-shell luggage range with a debossed logo",
+    to: "/products/bags",
+    cta: "See the bag range",
+  },
+} satisfies Record<string, Banner>;
+
+/** Banners shown on each category page, keyed by category slug. */
+export const categoryBanners: Record<string, Banner[]> = {
+  drinkware: [banners.aura, banners.camaro, banners.bodum],
+  bags: [banners.archer, banners.kadi],
+  apparel: [banners.puff, banners.digiflex],
+  giftsets: [banners.brandcraft],
+  eco: [banners.impactAware],
+};

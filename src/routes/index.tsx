@@ -3,6 +3,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import { decorations, spectrum, swatchClass } from "@/lib/catalog";
 import { catalogQueryOptions } from "@/lib/catalog-query";
+import { banners } from "@/lib/banners";
+import { BannerRow } from "@/components/site/BannerStrip";
 
 export const Route = createFileRoute("/")({
   loader: ({ context }) => context.queryClient.ensureQueryData(catalogQueryOptions()),
@@ -90,6 +92,14 @@ function Home() {
           </div>
         </div>
       </section>
+
+      <BannerRow
+        title="In the spotlight"
+        banners={[banners.aura, banners.camaro, banners.brandcraft]}
+        className="mx-auto max-w-6xl px-5 pt-20"
+      />
+
+
 
       <section className="mx-auto max-w-6xl px-5 py-20">
         <div className="flex flex-wrap items-end justify-between gap-4">

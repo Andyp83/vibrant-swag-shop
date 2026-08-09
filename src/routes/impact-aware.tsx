@@ -1,5 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
+import { banners } from "@/lib/banners";
+import { BannerRow } from "@/components/site/BannerStrip";
 
 export const Route = createFileRoute("/impact-aware")({
   head: () => ({
@@ -34,6 +36,8 @@ function ImpactAwarePage() {
         Flip through the Impact Aware lookbook to see sustainable products, recycled materials and
         thoughtful corporate gifts with a lighter footprint.
       </p>
+
+      <BannerRow banners={[banners.impactAware]} className="mt-10" />
 
       <div className="mt-10 overflow-hidden rounded-2xl border border-border bg-card">
         <div className="spectrum-bar h-1.5 w-full" />
