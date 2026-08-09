@@ -3,7 +3,9 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import { spectrum, swatchClass, textClass } from "@/lib/catalog";
 import { catalogQueryOptions, type CmsCategory } from "@/lib/catalog-query";
 import { categoryBanners } from "@/lib/banners";
+import { categoryVideos } from "@/lib/videos";
 import { BannerRow } from "@/components/site/BannerStrip";
+import { VideoStrip } from "@/components/site/VideoStrip";
 
 export const Route = createFileRoute("/products/$category")({
   loader: async ({ params, context }) => {
