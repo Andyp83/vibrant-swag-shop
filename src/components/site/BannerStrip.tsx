@@ -1,4 +1,3 @@
-import { Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import type { Banner } from "@/lib/banners";
 
@@ -14,12 +13,12 @@ export function BannerStrip({ banner }: { banner: Banner }) {
       />
       {banner.to && banner.cta ? (
         <figcaption className="border-t border-border bg-card px-5 py-3">
-          <Link
-            to={banner.to}
+          <a
+            href={banner.to}
             className="inline-flex items-center gap-2 text-sm font-semibold underline underline-offset-4"
           >
             {banner.cta} <ArrowRight className="size-4" aria-hidden="true" />
-          </Link>
+          </a>
         </figcaption>
       ) : null}
     </figure>
