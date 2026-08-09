@@ -15,6 +15,8 @@ import thermoDebossing from "@/assets/banners/Thermo_Debossing_-_Mini_Banner.jpg
 import colourflex from "@/assets/banners/1920x450px_Web_Banner_Colourflex_B.jpg.asset.json";
 import camelbak from "@/assets/banners/CamelBak_-_Large_Web_Banner.jpg.asset.json";
 import skullcandy from "@/assets/banners/1920x450px-SkullCandy_LWB.jpg.asset.json";
+import lookbookLwb from "@/assets/banners/Brands_Lookbook_LWB.jpg.asset.json";
+import lookbookSwb from "@/assets/banners/Brands_Lookbook_SWB.jpg.asset.json";
 
 export type Banner = {
   url: string;
