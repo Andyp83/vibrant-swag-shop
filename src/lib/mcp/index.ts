@@ -19,5 +19,6 @@ export default defineMcp({
     issuer: `https://${projectRef}.supabase.co/auth/v1`,
     acceptedAudiences: "authenticated",
   }),
-  tools: [listCategoriesTool, listProductsTool, updateProductTool, listQuoteRequestsTool],
+  // exactOptionalPropertyTypes makes optional-less tool definitions structurally mismatch.
+  tools: [listCategoriesTool, listProductsTool, updateProductTool, listQuoteRequestsTool] as never[],
 });
