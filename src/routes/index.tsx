@@ -91,6 +91,14 @@ function Home() {
         </div>
       </section>
 
+      <BannerRow
+        title="In the spotlight"
+        banners={[banners.aura, banners.camaro, banners.brandcraft]}
+        className="mx-auto max-w-6xl px-5 pt-20"
+      />
+
+
+
       <section className="mx-auto max-w-6xl px-5 py-20">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <h2 className="display-type text-3xl sm:text-4xl">Shop by category</h2>
