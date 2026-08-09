@@ -1,0 +1,123 @@
+{
+  "version": 1,
+  "sdk_version": "0.26.1",
+  "path": "/mcp",
+  "auth": {
+    "type": "oauth",
+    "issuer": "https://tmodfefmkdxxtrgjnegt.supabase.co/auth/v1",
+    "accepted_audiences": [
+      "authenticated"
+    ]
+  },
+  "mcp": {
+    "server": {
+      "name": "bright-brand-gifts",
+      "version": "0.1.0",
+      "title": "Bright Brand Gifts"
+    },
+    "tools": [
+      {
+        "name": "list_categories",
+        "title": "List catalogue categories",
+        "description": "List every Brand Bento product category with its slug, tagline, description, accent colour and sort order.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "list_products",
+        "title": "List catalogue products",
+        "description": "List merchandise products with blurb, colours, minimum order quantity (MOQ) and decoration methods. Optionally filter by category slug.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "category_slug": {
+              "description": "Category slug to filter by, e.g. 'drinkware'. Omit for all products.",
+              "type": "string"
+            }
+          }
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "update_product",
+        "title": "Update a catalogue product",
+        "description": "Update an existing product's blurb, colours, minimum order quantity or decoration methods. Admin access required.",
+        "annotations": {
+          "readOnlyHint": false,
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "Product id from list_products."
+            },
+            "blurb": {
+              "type": "string"
+            },
+            "colours": {
+              "type": "string"
+            },
+            "moq": {
+              "description": "Minimum order quantity, e.g. '50 units'.",
+              "type": "string"
+            },
+            "methods": {
+              "description": "Decoration method tags, e.g. ['Screen print','Laser engraving'].",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "id"
+          ]
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "list_quote_requests",
+        "title": "List quote requests",
+        "description": "List incoming customer quote requests, newest first, including contact details, product interest, quantity, decoration and deadline. Admin access required.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "limit": {
+              "description": "How many to return (default 20, max 100).",
+              "type": "integer",
+              "minimum": -9007199254740991,
+              "maximum": 9007199254740991
+            }
+          }
+        },
+        "outputSchema": null
+      }
+    ]
+  }
+}
