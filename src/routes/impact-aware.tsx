@@ -35,6 +35,8 @@ function ImpactAwarePage() {
         thoughtful corporate gifts with a lighter footprint.
       </p>
 
+      <BannerRow banners={[banners.impactAware]} className="mt-10" />
+
       <div className="mt-10 overflow-hidden rounded-2xl border border-border bg-card">
         <div className="spectrum-bar h-1.5 w-full" />
         <iframe
