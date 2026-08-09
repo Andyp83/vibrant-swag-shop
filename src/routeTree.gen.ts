@@ -14,6 +14,7 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ColourGuideRouteImport } from './routes/colour-guide'
 import { Route as DecorationRouteImport } from './routes/decoration'
+import { Route as LookbookRouteImport } from './routes/lookbook'
 import { Route as QuoteRouteImport } from './routes/quote'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as ProductsIndexRouteImport } from './routes/products.index'
@@ -42,6 +43,11 @@ const ColourGuideRoute = ColourGuideRouteImport.update({
 const DecorationRoute = DecorationRouteImport.update({
   id: '/decoration',
   path: '/decoration',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LookbookRoute = LookbookRouteImport.update({
+  id: '/lookbook',
+  path: '/lookbook',
   getParentRoute: () => rootRouteImport,
 } as any)
 const QuoteRoute = QuoteRouteImport.update({
@@ -76,6 +82,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/colour-guide': typeof ColourGuideRoute
   '/decoration': typeof DecorationRoute
+  '/lookbook': typeof LookbookRoute
   '/quote': typeof QuoteRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/products/$category': typeof ProductsCategoryRoute
@@ -87,6 +94,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/colour-guide': typeof ColourGuideRoute
   '/decoration': typeof DecorationRoute
+  '/lookbook': typeof LookbookRoute
   '/quote': typeof QuoteRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/products/$category': typeof ProductsCategoryRoute
@@ -100,6 +108,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/colour-guide': typeof ColourGuideRoute
   '/decoration': typeof DecorationRoute
+  '/lookbook': typeof LookbookRoute
   '/quote': typeof QuoteRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/products/$category': typeof ProductsCategoryRoute
@@ -113,6 +122,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/colour-guide'
     | '/decoration'
+    | '/lookbook'
     | '/quote'
     | '/admin'
     | '/products/$category'
@@ -124,6 +134,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/colour-guide'
     | '/decoration'
+    | '/lookbook'
     | '/quote'
     | '/admin'
     | '/products/$category'
@@ -136,6 +147,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/colour-guide'
     | '/decoration'
+    | '/lookbook'
     | '/quote'
     | '/_authenticated/admin'
     | '/products/$category'
@@ -149,6 +161,7 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   ColourGuideRoute: typeof ColourGuideRoute
   DecorationRoute: typeof DecorationRoute
+  LookbookRoute: typeof LookbookRoute
   QuoteRoute: typeof QuoteRoute
   ProductsCategoryRoute: typeof ProductsCategoryRoute
   ProductsIndexRoute: typeof ProductsIndexRoute
@@ -190,6 +203,13 @@ declare module '@tanstack/react-router' {
       path: '/decoration'
       fullPath: '/decoration'
       preLoaderRoute: typeof DecorationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/lookbook': {
+      id: '/lookbook'
+      path: '/lookbook'
+      fullPath: '/lookbook'
+      preLoaderRoute: typeof LookbookRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/quote': {
@@ -247,6 +267,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   ColourGuideRoute: ColourGuideRoute,
   DecorationRoute: DecorationRoute,
+  LookbookRoute: LookbookRoute,
   QuoteRoute: QuoteRoute,
   ProductsCategoryRoute: ProductsCategoryRoute,
   ProductsIndexRoute: ProductsIndexRoute,
@@ -255,3 +276,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
