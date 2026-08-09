@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import { artworkFaq, decorations, swatchClass, textClass } from "@/lib/catalog";
 import { decorationImages } from "@/lib/decoration-images";
-import { banners } from "@/lib/banners";
+import { decorationBanners } from "@/lib/banners";
 import { BannerRow } from "@/components/site/BannerStrip";
 import {
   Accordion,
