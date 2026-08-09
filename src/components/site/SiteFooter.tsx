@@ -57,6 +57,11 @@ export function SiteFooter() {
               </Link>
             </li>
             <li>
+              <Link to="/lookbook" className="text-muted-foreground hover:text-foreground">
+                Brands lookbook
+              </Link>
+            </li>
+            <li>
               <Link to="/colour-guide" className="text-muted-foreground hover:text-foreground">
                 Colour guide
               </Link>
