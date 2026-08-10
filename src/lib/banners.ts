@@ -17,6 +17,16 @@ import camelbak from "@/assets/banners/CamelBak_-_Large_Web_Banner.jpg.asset.jso
 import skullcandy from "@/assets/banners/1920x450px-SkullCandy_LWB.jpg.asset.json";
 import lookbookLwb from "@/assets/banners/Brands_Lookbook_LWB.jpg.asset.json";
 import lookbookSwb from "@/assets/banners/Brands_Lookbook_SWB.jpg.asset.json";
+import keepsake from "@/assets/banners/Keepsake_SWB.jpg.asset.json";
+import fullColourTowels from "@/assets/banners/1920x450px-Full-Colour-Towels_LWB.jpg.asset.json";
+import customPackaging from "@/assets/banners/Custom_Packaging_LWB.jpg.asset.json";
+import rotaryVarnish from "@/assets/banners/Rotary_Digital_Varnish_LWB_4.jpg.asset.json";
+import alchemy from "@/assets/banners/Alchemy_New_Colours_LWB_3.jpg.asset.json";
+import brandcraftSwb from "@/assets/banners/BrandCraft_SWB.jpg.asset.json";
+import oceanBottle from "@/assets/banners/Ocean-Bottle_LWB.jpg.asset.json";
+import foilPrinting from "@/assets/banners/Foil_Printing_LWB_2_Oct_2024_NB.jpg.asset.json";
+import blindDebossing from "@/assets/banners/1920x450px-Thermo-and-Blind-Debossing_LWB.jpg.asset.json";
+import boxSleeves from "@/assets/banners/1920x450px-Drinkware-Box-Sleeves_LWB_GENERIC.jpg.asset.json";
 
 export type Banner = {
   url: string;
