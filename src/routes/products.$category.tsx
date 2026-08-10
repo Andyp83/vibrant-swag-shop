@@ -149,8 +149,16 @@ function CategoryPage() {
 
 
         <h2 className="display-type mt-20 text-2xl sm:text-3xl">Examples</h2>
+        <ProductFilters
+          className="mt-6"
+          value={filters}
+          decorations={decorationOptions(category.products)}
+          onChange={updateFilters}
+          resultCount={visibleProducts.length}
+          totalCount={category.products.length}
+        />
         <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {category.products.map((p) => (
+          {visibleProducts.map((p) => (
             <article
               key={p.id}
               className="flex flex-col rounded-xl border border-border bg-card p-6"
@@ -188,6 +196,13 @@ function CategoryPage() {
             </article>
           ))}
         </div>
+        {visibleProducts.length === 0 ? (
+          <p className="mt-8 rounded-xl border border-dashed border-border p-8 text-center text-sm text-muted-foreground">
+            No examples in this category match those filters — try a different decoration method or
+            a higher minimum order.
+          </p>
+        ) : null}
+
 
         <h2 className="display-type mt-20 text-2xl">Other categories</h2>
         <div className="mt-6 flex flex-wrap gap-3">
