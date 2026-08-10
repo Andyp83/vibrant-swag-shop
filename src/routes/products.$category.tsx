@@ -65,7 +65,30 @@ function CategoryPage() {
     category: CmsCategory;
     others: CmsCategory[];
   };
+  const search = Route.useSearch();
+  const navigate = useNavigate({ from: Route.fullPath });
+  const filters: ProductFilterValue = {
+    decoration: search.decoration ?? "",
+    impact: search.impact ?? false,
+    moq: search.moq ?? 0,
+  };
+  const visibleProducts = category.products.filter((p) =>
+    matchesFilters(p, filters, category.slug),
+  );
   const accent = spectrum(category.colour);
+
+  const updateFilters = (next: Partial<ProductFilterValue>) => {
+    const merged = { ...filters, ...next };
+    navigate({
+      search: {
+        ...(merged.decoration ? { decoration: merged.decoration } : {}),
+        ...(merged.impact ? { impact: true } : {}),
+        ...(merged.moq ? { moq: merged.moq } : {}),
+      },
+      replace: true,
+    });
+  };
+
 
   return (
     <div>
