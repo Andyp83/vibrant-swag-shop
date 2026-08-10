@@ -17,6 +17,16 @@ import camelbak from "@/assets/banners/CamelBak_-_Large_Web_Banner.jpg.asset.jso
 import skullcandy from "@/assets/banners/1920x450px-SkullCandy_LWB.jpg.asset.json";
 import lookbookLwb from "@/assets/banners/Brands_Lookbook_LWB.jpg.asset.json";
 import lookbookSwb from "@/assets/banners/Brands_Lookbook_SWB.jpg.asset.json";
+import keepsake from "@/assets/banners/Keepsake_SWB.jpg.asset.json";
+import fullColourTowels from "@/assets/banners/1920x450px-Full-Colour-Towels_LWB.jpg.asset.json";
+import customPackaging from "@/assets/banners/Custom_Packaging_LWB.jpg.asset.json";
+import rotaryVarnish from "@/assets/banners/Rotary_Digital_Varnish_LWB_4.jpg.asset.json";
+import alchemy from "@/assets/banners/Alchemy_New_Colours_LWB_3.jpg.asset.json";
+import brandcraftSwb from "@/assets/banners/BrandCraft_SWB.jpg.asset.json";
+import oceanBottle from "@/assets/banners/Ocean-Bottle_LWB.jpg.asset.json";
+import foilPrinting from "@/assets/banners/Foil_Printing_LWB_2_Oct_2024_NB.jpg.asset.json";
+import blindDebossing from "@/assets/banners/1920x450px-Thermo-and-Blind-Debossing_LWB.jpg.asset.json";
+import boxSleeves from "@/assets/banners/1920x450px-Drinkware-Box-Sleeves_LWB_GENERIC.jpg.asset.json";
 
 export type Banner = {
   url: string;
@@ -69,7 +79,7 @@ export const banners = {
   brandcraft: {
     url: brandcraft.url,
     alt: "Brandcraft flat-pack cardboard model kits branded in full colour",
-    to: "/products/giftsets",
+    to: "/products/gift-sets",
     cta: "See gift sets",
   },
   bodum: {
@@ -138,17 +148,90 @@ export const banners = {
     to: "/lookbook",
     cta: "Open the Brands Lookbook",
   },
+  keepsake: {
+    url: keepsake.url,
+    alt: "Keepsake Collection — premium wine and glassware gifting on a hillside table",
+    to: "/products/gift-sets",
+    cta: "See the Keepsake gifting range",
+  },
+  fullColourTowels: {
+    url: fullColourTowels.url,
+    alt: "Full-colour sublimation towels printed in-house for events and summer campaigns",
+    to: "/decoration#full-colour-wrap",
+    cta: "About full-colour printing",
+  },
+  customPackaging: {
+    url: customPackaging.url,
+    alt: "Custom printed packaging — CMYK digital printed mailer boxes with no minimum order",
+    to: "/products/gift-sets",
+    cta: "See gift sets",
+  },
+  rotaryVarnish: {
+    url: rotaryVarnish.url,
+    alt: "Rotary digital print on drinkware now with a stunning gloss varnish finish",
+    to: "/decoration#digital-uv-print",
+    cta: "About digital printing",
+  },
+  alchemy: {
+    url: alchemy.url,
+    alt: "All new Alchemy glass tumblers with bamboo lids in eight new silicone sleeve colours",
+    to: "/products/drinkware",
+    cta: "See drinkware",
+  },
+  brandcraftSwb: {
+    url: brandcraftSwb.url,
+    alt: "Brandcraft flat-pack cardboard vehicles and animals ready for full-colour branding",
+    to: "/products/gift-sets",
+    cta: "See gift sets",
+  },
+  oceanBottle: {
+    url: oceanBottle.url,
+    alt: "Ocean Bottle — planet-positive reusable bottles making refilling everyday behaviour",
+    to: "/products/eco",
+    cta: "See the eco range",
+  },
+  foilPrinting: {
+    url: foilPrinting.url,
+    alt: "Foil printing on notebooks in gold, copper and silver for a premium finish",
+    to: "/decoration#debossing",
+    cta: "About premium finishes",
+  },
+  blindDebossing: {
+    url: blindDebossing.url,
+    alt: "Thermo and blind debossing pressing logos into soft-touch notebook covers",
+    to: "/decoration#debossing",
+    cta: "About debossing",
+  },
+  boxSleeves: {
+    url: boxSleeves.url,
+    alt: "Full-colour printed drinkware gift box sleeves in a range of designs",
+    to: "/products/drinkware",
+    cta: "See drinkware",
+  },
 } satisfies Record<string, Banner>;
 
 
 /** Banners shown on each category page, keyed by category slug. */
 export const categoryBanners: Record<string, Banner[]> = {
-  drinkware: [banners.aura, banners.camaro, banners.camelbak, banners.bodum],
+  drinkware: [
+    banners.aura,
+    banners.camaro,
+    banners.alchemy,
+    banners.camelbak,
+    banners.bodum,
+    banners.boxSleeves,
+  ],
   bags: [banners.archer, banners.kadi],
-  apparel: [banners.puff, banners.colourflex, banners.digiflex],
+  apparel: [banners.puff, banners.colourflex, banners.digiflex, banners.fullColourTowels],
   tech: [banners.skullcandy],
-  giftsets: [banners.brandcraft],
-  eco: [banners.impactAware],
+  "gift-sets": [
+    banners.keepsake,
+    banners.brandcraft,
+    banners.brandcraftSwb,
+    banners.customPackaging,
+  ],
+  eco: [banners.impactAware, banners.oceanBottle],
+  stationery: [banners.foilPrinting, banners.blindDebossing],
 };
 
 /** Decoration-method promo banners shown on the decoration page. */
@@ -156,9 +239,14 @@ export const decorationBanners: Banner[] = [
   banners.mcScreenPrint,
   banners.mcPadPrint,
   banners.siliconeDigital,
+  banners.rotaryVarnish,
   banners.colourflex,
+  banners.fullColourTowels,
+  banners.foilPrinting,
+  banners.blindDebossing,
   banners.thermoDebossing,
   banners.digiflex,
   banners.puff,
   banners.prism,
 ];
+
