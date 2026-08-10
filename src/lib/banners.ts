@@ -148,17 +148,90 @@ export const banners = {
     to: "/lookbook",
     cta: "Open the Brands Lookbook",
   },
+  keepsake: {
+    url: keepsake.url,
+    alt: "Keepsake Collection — premium wine and glassware gifting on a hillside table",
+    to: "/products/giftsets",
+    cta: "See the Keepsake gifting range",
+  },
+  fullColourTowels: {
+    url: fullColourTowels.url,
+    alt: "Full-colour sublimation towels printed in-house for events and summer campaigns",
+    to: "/decoration#full-colour-wrap",
+    cta: "About full-colour printing",
+  },
+  customPackaging: {
+    url: customPackaging.url,
+    alt: "Custom printed packaging — CMYK digital printed mailer boxes with no minimum order",
+    to: "/products/giftsets",
+    cta: "See gift sets",
+  },
+  rotaryVarnish: {
+    url: rotaryVarnish.url,
+    alt: "Rotary digital print on drinkware now with a stunning gloss varnish finish",
+    to: "/decoration#digital-uv-print",
+    cta: "About digital printing",
+  },
+  alchemy: {
+    url: alchemy.url,
+    alt: "All new Alchemy glass tumblers with bamboo lids in eight new silicone sleeve colours",
+    to: "/products/drinkware",
+    cta: "See drinkware",
+  },
+  brandcraftSwb: {
+    url: brandcraftSwb.url,
+    alt: "Brandcraft flat-pack cardboard vehicles and animals ready for full-colour branding",
+    to: "/products/giftsets",
+    cta: "See gift sets",
+  },
+  oceanBottle: {
+    url: oceanBottle.url,
+    alt: "Ocean Bottle — planet-positive reusable bottles making refilling everyday behaviour",
+    to: "/products/eco",
+    cta: "See the eco range",
+  },
+  foilPrinting: {
+    url: foilPrinting.url,
+    alt: "Foil printing on notebooks in gold, copper and silver for a premium finish",
+    to: "/decoration#debossing",
+    cta: "About premium finishes",
+  },
+  blindDebossing: {
+    url: blindDebossing.url,
+    alt: "Thermo and blind debossing pressing logos into soft-touch notebook covers",
+    to: "/decoration#debossing",
+    cta: "About debossing",
+  },
+  boxSleeves: {
+    url: boxSleeves.url,
+    alt: "Full-colour printed drinkware gift box sleeves in a range of designs",
+    to: "/products/drinkware",
+    cta: "See drinkware",
+  },
 } satisfies Record<string, Banner>;
 
 
 /** Banners shown on each category page, keyed by category slug. */
 export const categoryBanners: Record<string, Banner[]> = {
-  drinkware: [banners.aura, banners.camaro, banners.camelbak, banners.bodum],
+  drinkware: [
+    banners.aura,
+    banners.camaro,
+    banners.alchemy,
+    banners.camelbak,
+    banners.bodum,
+    banners.boxSleeves,
+  ],
   bags: [banners.archer, banners.kadi],
-  apparel: [banners.puff, banners.colourflex, banners.digiflex],
+  apparel: [banners.puff, banners.colourflex, banners.digiflex, banners.fullColourTowels],
   tech: [banners.skullcandy],
-  giftsets: [banners.brandcraft],
-  eco: [banners.impactAware],
+  giftsets: [
+    banners.keepsake,
+    banners.brandcraft,
+    banners.brandcraftSwb,
+    banners.customPackaging,
+  ],
+  eco: [banners.impactAware, banners.oceanBottle],
+  stationery: [banners.foilPrinting, banners.blindDebossing],
 };
 
 /** Decoration-method promo banners shown on the decoration page. */
@@ -166,9 +239,14 @@ export const decorationBanners: Banner[] = [
   banners.mcScreenPrint,
   banners.mcPadPrint,
   banners.siliconeDigital,
+  banners.rotaryVarnish,
   banners.colourflex,
+  banners.fullColourTowels,
+  banners.foilPrinting,
+  banners.blindDebossing,
   banners.thermoDebossing,
   banners.digiflex,
   banners.puff,
   banners.prism,
 ];
+
