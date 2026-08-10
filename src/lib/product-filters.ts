@@ -68,13 +68,15 @@ export function parseFilterSearch(search: Record<string, unknown>): {
   moq?: number;
 } {
   const out: { decoration?: string; impact?: boolean; moq?: number } = {};
-  if (typeof search.decoration === "string" && search.decoration.trim()) {
-    out.decoration = search.decoration.slice(0, 60);
+  const rawDecoration = search["decoration"];
+  if (typeof rawDecoration === "string" && rawDecoration.trim()) {
+    out.decoration = rawDecoration.slice(0, 60);
   }
-  if (search.impact === true || search.impact === "true" || search.impact === "1") {
+  const rawImpact = search["impact"];
+  if (rawImpact === true || rawImpact === "true" || rawImpact === "1") {
     out.impact = true;
   }
-  const moq = Number(search.moq);
+  const moq = Number(search["moq"]);
   if (Number.isFinite(moq) && moq > 0) out.moq = Math.min(9999, Math.round(moq));
   return out;
 }
