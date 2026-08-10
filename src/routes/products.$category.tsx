@@ -1,4 +1,4 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { createFileRoute, Link, notFound, useNavigate } from "@tanstack/react-router";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { spectrum, swatchClass, textClass } from "@/lib/catalog";
 import { catalogQueryOptions, type CmsCategory } from "@/lib/catalog-query";
@@ -6,8 +6,16 @@ import { categoryBanners } from "@/lib/banners";
 import { categoryVideos } from "@/lib/videos";
 import { BannerRow } from "@/components/site/BannerStrip";
 import { VideoStrip } from "@/components/site/VideoStrip";
+import { ProductFilters } from "@/components/site/ProductFilters";
+import {
+  decorationOptions,
+  matchesFilters,
+  parseFilterSearch,
+  type ProductFilterValue,
+} from "@/lib/product-filters";
 
 export const Route = createFileRoute("/products/$category")({
+  validateSearch: parseFilterSearch,
   loader: async ({ params, context }) => {
     const catalog = await context.queryClient.ensureQueryData(catalogQueryOptions());
     const category = catalog.find((c) => c.slug === params.category);
