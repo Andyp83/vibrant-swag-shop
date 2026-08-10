@@ -79,7 +79,7 @@ export const banners = {
   brandcraft: {
     url: brandcraft.url,
     alt: "Brandcraft flat-pack cardboard model kits branded in full colour",
-    to: "/products/giftsets",
+    to: "/products/gift-sets",
     cta: "See gift sets",
   },
   bodum: {
@@ -151,7 +151,7 @@ export const banners = {
   keepsake: {
     url: keepsake.url,
     alt: "Keepsake Collection — premium wine and glassware gifting on a hillside table",
-    to: "/products/giftsets",
+    to: "/products/gift-sets",
     cta: "See the Keepsake gifting range",
   },
   fullColourTowels: {
@@ -163,7 +163,7 @@ export const banners = {
   customPackaging: {
     url: customPackaging.url,
     alt: "Custom printed packaging — CMYK digital printed mailer boxes with no minimum order",
-    to: "/products/giftsets",
+    to: "/products/gift-sets",
     cta: "See gift sets",
   },
   rotaryVarnish: {
@@ -181,7 +181,7 @@ export const banners = {
   brandcraftSwb: {
     url: brandcraftSwb.url,
     alt: "Brandcraft flat-pack cardboard vehicles and animals ready for full-colour branding",
-    to: "/products/giftsets",
+    to: "/products/gift-sets",
     cta: "See gift sets",
   },
   oceanBottle: {
@@ -224,7 +224,7 @@ export const categoryBanners: Record<string, Banner[]> = {
   bags: [banners.archer, banners.kadi],
   apparel: [banners.puff, banners.colourflex, banners.digiflex, banners.fullColourTowels],
   tech: [banners.skullcandy],
-  giftsets: [
+  "gift-sets": [
     banners.keepsake,
     banners.brandcraft,
     banners.brandcraftSwb,
