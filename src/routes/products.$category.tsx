@@ -1,4 +1,4 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { createFileRoute, Link, notFound, useNavigate } from "@tanstack/react-router";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { spectrum, swatchClass, textClass } from "@/lib/catalog";
 import { catalogQueryOptions, type CmsCategory } from "@/lib/catalog-query";
@@ -6,8 +6,16 @@ import { categoryBanners } from "@/lib/banners";
 import { categoryVideos } from "@/lib/videos";
 import { BannerRow } from "@/components/site/BannerStrip";
 import { VideoStrip } from "@/components/site/VideoStrip";
+import { ProductFilters } from "@/components/site/ProductFilters";
+import {
+  decorationOptions,
+  matchesFilters,
+  parseFilterSearch,
+  type ProductFilterValue,
+} from "@/lib/product-filters";
 
 export const Route = createFileRoute("/products/$category")({
+  validateSearch: parseFilterSearch,
   loader: async ({ params, context }) => {
     const catalog = await context.queryClient.ensureQueryData(catalogQueryOptions());
     const category = catalog.find((c) => c.slug === params.category);
@@ -57,7 +65,30 @@ function CategoryPage() {
     category: CmsCategory;
     others: CmsCategory[];
   };
+  const search = Route.useSearch();
+  const navigate = useNavigate({ from: Route.fullPath });
+  const filters: ProductFilterValue = {
+    decoration: search.decoration ?? "",
+    impact: search.impact ?? false,
+    moq: search.moq ?? 0,
+  };
+  const visibleProducts = category.products.filter((p) =>
+    matchesFilters(p, filters, category.slug),
+  );
   const accent = spectrum(category.colour);
+
+  const updateFilters = (next: Partial<ProductFilterValue>) => {
+    const merged = { ...filters, ...next };
+    navigate({
+      search: {
+        ...(merged.decoration ? { decoration: merged.decoration } : {}),
+        ...(merged.impact ? { impact: true } : {}),
+        ...(merged.moq ? { moq: merged.moq } : {}),
+      },
+      replace: true,
+    });
+  };
+
 
   return (
     <div>
@@ -118,8 +149,16 @@ function CategoryPage() {
 
 
         <h2 className="display-type mt-20 text-2xl sm:text-3xl">Examples</h2>
+        <ProductFilters
+          className="mt-6"
+          value={filters}
+          decorations={decorationOptions(category.products)}
+          onChange={updateFilters}
+          resultCount={visibleProducts.length}
+          totalCount={category.products.length}
+        />
         <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {category.products.map((p) => (
+          {visibleProducts.map((p) => (
             <article
               key={p.id}
               className="flex flex-col rounded-xl border border-border bg-card p-6"
@@ -157,6 +196,13 @@ function CategoryPage() {
             </article>
           ))}
         </div>
+        {visibleProducts.length === 0 ? (
+          <p className="mt-8 rounded-xl border border-dashed border-border p-8 text-center text-sm text-muted-foreground">
+            No examples in this category match those filters — try a different decoration method or
+            a higher minimum order.
+          </p>
+        ) : null}
+
 
         <h2 className="display-type mt-20 text-2xl">Other categories</h2>
         <div className="mt-6 flex flex-wrap gap-3">
