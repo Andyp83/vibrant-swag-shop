@@ -10,7 +10,14 @@ export function SiteFooter() {
       <div className="spectrum-bar h-1.5 w-full" />
       <div className="mx-auto grid max-w-6xl gap-10 px-5 py-14 sm:grid-cols-2 lg:grid-cols-4">
         <div>
-          <p className="display-type text-lg">Brand Bento</p>
+          <img
+            src={brandMark.url}
+            alt="Brand Bento logo"
+            width={40}
+            height={40}
+            className="size-10 rounded-md"
+          />
+          <p className="display-type mt-3 text-lg">Brand Bento</p>
           <p className="mt-3 text-sm text-muted-foreground">
             Neatly curated. Beautifully branded. Merchandise and corporate gifts, sourced and
             decorated for teams that care how things look.
