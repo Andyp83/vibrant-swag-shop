@@ -198,6 +198,216 @@
   text-transform: uppercase;
 }
 
+/* ---------- Motion system ---------- */
+
+@keyframes bb-spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes bb-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes bb-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-14px);
+  }
+}
+
+@keyframes bb-ken-burns {
+  from {
+    transform: scale(1) translate3d(0, 0, 0);
+  }
+  to {
+    transform: scale(1.12) translate3d(-1.5%, -1.5%, 0);
+  }
+}
+
+@keyframes bb-sweep {
+  from {
+    transform: translateX(-120%) skewX(-18deg);
+  }
+  to {
+    transform: translateX(220%) skewX(-18deg);
+  }
+}
+
+@keyframes bb-pulse-ring {
+  0% {
+    opacity: 0.55;
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.5);
+  }
+}
+
+@utility spectrum-rays-spin {
+  animation: bb-spin-slow 44s linear infinite;
+}
+
+@utility float-slow {
+  animation: bb-float 7s ease-in-out infinite;
+}
+
+@utility ken-burns {
+  animation: bb-ken-burns 14s ease-in-out infinite alternate;
+}
+
+@utility pulse-ring {
+  animation: bb-pulse-ring 2.6s ease-out infinite;
+}
+
+@utility marquee {
+  mask-image: linear-gradient(90deg, transparent, black 6%, black 94%, transparent);
+}
+
+@utility ticker-line {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* Motion + scroll reveal primitives (plain CSS so they can be composed) */
+.marquee-track {
+  animation: bb-marquee var(--marquee-duration, 38s) linear infinite;
+  animation-direction: var(--marquee-direction, normal);
+}
+
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+.reveal-up,
+.reveal-left,
+.reveal-right,
+.reveal-scale,
+.reveal-blur {
+  transition:
+    opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.75s ease;
+  opacity: 0;
+  will-change: opacity, transform;
+}
+
+.reveal-up {
+  transform: translateY(46px);
+}
+.reveal-left {
+  transform: translateX(-48px);
+}
+.reveal-right {
+  transform: translateX(48px);
+}
+.reveal-scale {
+  transform: scale(0.92);
+}
+.reveal-blur {
+  filter: blur(14px);
+  transform: translateY(20px);
+}
+
+.is-revealed {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+/* Dramatic card lift used across product / category tiles */
+.lift {
+  transition:
+    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.lift:hover {
+  transform: translateY(-10px) scale(1.015);
+  box-shadow: 0 30px 60px -28px color-mix(in oklab, var(--ink) 55%, transparent);
+}
+
+/* Light sweep across a surface on hover */
+.sweep {
+  position: relative;
+  overflow: hidden;
+}
+
+.sweep::after {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 45%;
+  background: linear-gradient(90deg, transparent, oklch(1 0 0 / 0.45), transparent);
+  transform: translateX(-120%) skewX(-18deg);
+  pointer-events: none;
+}
+
+.sweep:hover::after {
+  animation: bb-sweep 0.9s ease-out;
+}
+
+/* Word-by-word hero entrance */
+.hero-word,
+.hero-rise {
+  opacity: 0;
+  transform: translateY(0.5em) rotate(3deg);
+  animation: bb-word-in 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@utility hero-word {
+  display: inline-block;
+}
+
+@keyframes bb-word-in {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track,
+  .spectrum-rays-spin,
+  .float-slow,
+  .ken-burns,
+  .pulse-ring,
+  .hero-word,
+  .hero-rise {
+    animation: none !important;
+  }
+
+  .reveal-up,
+  .reveal-left,
+  .reveal-right,
+  .reveal-scale,
+  .reveal-blur,
+  .hero-word,
+  .hero-rise {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    transition: none;
+  }
+
+  .lift:hover {
+    transform: none;
+  }
+}
+
+
+
 
 
 .dark {
