@@ -81,10 +81,13 @@ function Home() {
         />
 
         <div className="relative mx-auto max-w-6xl px-5 pb-28 pt-24 text-center sm:pt-32">
-          <p className="hero-rise mx-auto inline-flex items-center gap-2 rounded-full border border-white/25 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.35em]">
-            <Sparkles className="size-3.5" aria-hidden="true" />
-            Branded merchandise · Corporate gifts
+          <p className="hero-rise">
+            <span className="inline-flex items-center gap-2 rounded-full border border-white/25 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.35em]">
+              <Sparkles className="size-3.5" aria-hidden="true" />
+              Branded merchandise · Corporate gifts
+            </span>
           </p>
+
 
           <h1 className="display-type mx-auto mt-8 max-w-4xl text-6xl leading-[0.88] sm:text-8xl">
             {heroWords.map((w, i) => (
