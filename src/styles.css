@@ -406,6 +406,42 @@
   }
 }
 
+/* Explicit in-app preference overrides the media query. */
+html[data-motion="reduced"] .marquee-track,
+html[data-motion="reduced"] .spectrum-rays-spin,
+html[data-motion="reduced"] .float-slow,
+html[data-motion="reduced"] .ken-burns,
+html[data-motion="reduced"] .pulse-ring,
+html[data-motion="reduced"] .hero-word,
+html[data-motion="reduced"] .hero-rise {
+    animation: none !important;
+  }
+
+html[data-motion="reduced"] .reveal-up,
+html[data-motion="reduced"] .reveal-left,
+html[data-motion="reduced"] .reveal-right,
+html[data-motion="reduced"] .reveal-scale,
+html[data-motion="reduced"] .reveal-blur,
+html[data-motion="reduced"] .hero-word,
+html[data-motion="reduced"] .hero-rise {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    transition: none;
+  }
+
+html[data-motion="reduced"] .lift:hover {
+    transform: none;
+  }
+
+/* Visitor explicitly asked for full motion — undo the media-query suppression. */
+@media (prefers-reduced-motion: reduce) {
+  html[data-motion="full"] .marquee-track {
+    animation: bb-marquee var(--marquee-duration, 38s) linear infinite;
+    animation-direction: var(--marquee-direction, normal);
+  }
+}
+
 
 
 
