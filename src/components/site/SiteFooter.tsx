@@ -1,5 +1,6 @@
 import { Link, useLoaderData } from "@tanstack/react-router";
 import type { CmsCategory } from "@/lib/catalog-query";
+import brandMark from "@/assets/brand/brand-bento-mark.png.asset.json";
 
 export function SiteFooter() {
   const data = useLoaderData({ from: "__root__" }) as CmsCategory[] | undefined;
