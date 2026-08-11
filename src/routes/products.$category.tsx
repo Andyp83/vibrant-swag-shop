@@ -168,44 +168,50 @@ function CategoryPage() {
           totalCount={category.products.length}
         />
         <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {visibleProducts.map((p) => (
-            <article
-              key={p.id}
-              className={`flex flex-col rounded-xl border-2 bg-card p-6 ${borderAccentClass[accent]}`}
-            >
-              <span className={`h-1.5 w-10 rounded-full ${swatchClass[accent]}`} />
-              <h3 className="mt-4 font-semibold">{p.name}</h3>
-              <p className="mt-2 text-sm text-muted-foreground">{p.blurb}</p>
-              <dl className="mt-4 space-y-1 text-xs text-muted-foreground">
-                <div className="flex gap-2">
-                  <dt className="font-semibold text-foreground">Colours:</dt>
-                  <dd>{p.colours}</dd>
-                </div>
-                <div className="flex gap-2">
-                  <dt className="font-semibold text-foreground">Minimum:</dt>
-                  <dd>{p.moq}</dd>
-                </div>
-              </dl>
-              <ul className="mt-4 flex flex-wrap gap-1.5">
-                {p.methods.map((m) => (
-                  <li
-                    key={m}
-                    className={`rounded-full border px-2.5 py-1 text-[11px] font-medium ${borderAccentClass[accent]} ${textClass[accent]}`}
-                  >
-                    {m}
-                  </li>
-                ))}
-              </ul>
-              <Link
-                to="/quote"
-                search={{ product: p.name }}
-                className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold underline underline-offset-4"
+          {visibleProducts.map((p, i) => (
+            <Reveal key={p.id} delay={(i % 3) * 90} variant="up">
+              <article
+                className={`lift flex h-full flex-col rounded-xl border-2 bg-card p-6 ${borderAccentClass[accent]}`}
               >
-                Quote this item <ArrowRight className="size-3.5" aria-hidden="true" />
-              </Link>
-            </article>
+                <span className={`h-1.5 w-10 rounded-full ${swatchClass[accent]}`} />
+                <h3 className="mt-4 font-semibold">{p.name}</h3>
+                <p className="mt-2 text-sm text-muted-foreground">{p.blurb}</p>
+                <dl className="mt-4 space-y-1 text-xs text-muted-foreground">
+                  <div className="flex gap-2">
+                    <dt className="font-semibold text-foreground">Colours:</dt>
+                    <dd>{p.colours}</dd>
+                  </div>
+                  <div className="flex gap-2">
+                    <dt className="font-semibold text-foreground">Minimum:</dt>
+                    <dd>{p.moq}</dd>
+                  </div>
+                </dl>
+                <ul className="mt-4 flex flex-wrap gap-1.5">
+                  {p.methods.map((m) => (
+                    <li
+                      key={m}
+                      className={`rounded-full border px-2.5 py-1 text-[11px] font-medium transition-transform duration-300 hover:scale-105 ${borderAccentClass[accent]} ${textClass[accent]}`}
+                    >
+                      {m}
+                    </li>
+                  ))}
+                </ul>
+                <Link
+                  to="/quote"
+                  search={{ product: p.name }}
+                  className="group mt-6 inline-flex items-center gap-1.5 text-sm font-semibold underline underline-offset-4"
+                >
+                  Quote this item
+                  <ArrowRight
+                    className="size-3.5 transition-transform duration-300 group-hover:translate-x-1"
+                    aria-hidden="true"
+                  />
+                </Link>
+              </article>
+            </Reveal>
           ))}
         </div>
+
         {visibleProducts.length === 0 ? (
           <p className="mt-8 rounded-xl border border-dashed border-border p-8 text-center text-sm text-muted-foreground">
             No examples in this category match those filters — try a different decoration method or
