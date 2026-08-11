@@ -102,32 +102,40 @@ function CategoryPage() {
         </Link>
 
         <div className="mt-8 grid gap-10 lg:grid-cols-[1.1fr_1fr] lg:items-center">
-          <div>
+          <Reveal variant="left">
             <p
               className={`text-xs font-semibold uppercase tracking-[0.3em] ${textClass[accent]}`}
             >
               {category.tagline}
             </p>
-            <h1 className="display-type mt-4 text-4xl sm:text-5xl">{category.name}</h1>
+            <h1 className="display-type mt-4 text-5xl sm:text-6xl">{category.name}</h1>
             <p className="mt-5 text-muted-foreground">{category.description}</p>
             <Link
               to="/quote"
               search={{ product: category.name }}
-              className="mt-7 inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90"
+              className="sweep group mt-7 inline-flex items-center gap-2 rounded-full bg-primary px-7 py-3.5 text-sm font-semibold text-primary-foreground transition-transform duration-300 hover:scale-[1.04]"
             >
-              Quote this category <ArrowRight className="size-4" aria-hidden="true" />
+              Quote this category
+              <ArrowRight
+                className="size-4 transition-transform duration-300 group-hover:translate-x-1"
+                aria-hidden="true"
+              />
             </Link>
-          </div>
-          <div className={`overflow-hidden rounded-2xl border-2 ${borderAccentClass[accent]}`}>
+          </Reveal>
+          <Reveal
+            variant="scale"
+            className={`overflow-hidden rounded-2xl border-2 ${borderAccentClass[accent]}`}
+          >
             <img
               src={category.image_url}
               alt={`${category.name} branded merchandise examples`}
               width={1200}
               height={900}
-              className="size-full object-cover"
+              className="ken-burns size-full object-cover"
             />
-          </div>
+          </Reveal>
         </div>
+
 
         <BannerRow
           title="Featured ranges"
