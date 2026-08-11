@@ -437,8 +437,35 @@ html[data-motion="reduced"] .lift:hover {
 /* Visitor explicitly asked for full motion — undo the media-query suppression. */
 @media (prefers-reduced-motion: reduce) {
   html[data-motion="full"] .marquee-track {
-    animation: bb-marquee var(--marquee-duration, 38s) linear infinite;
+    animation: bb-marquee var(--marquee-duration, 38s) linear infinite !important;
     animation-direction: var(--marquee-direction, normal);
+  }
+
+  html[data-motion="full"] .spectrum-rays-spin {
+    animation: bb-spin-slow 44s linear infinite !important;
+  }
+
+  html[data-motion="full"] .float-slow {
+    animation: bb-float 7s ease-in-out infinite !important;
+  }
+
+  html[data-motion="full"] .ken-burns {
+    animation: bb-ken-burns 14s ease-in-out infinite alternate !important;
+  }
+
+  html[data-motion="full"] .pulse-ring {
+    animation: bb-pulse-ring 2.6s ease-out infinite !important;
+  }
+
+  html[data-motion="full"] .reveal-up,
+  html[data-motion="full"] .reveal-left,
+  html[data-motion="full"] .reveal-right,
+  html[data-motion="full"] .reveal-scale,
+  html[data-motion="full"] .reveal-blur {
+    transition:
+      opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+      filter 0.7s cubic-bezier(0.16, 1, 0.3, 1);
   }
 }
 
