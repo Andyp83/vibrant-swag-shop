@@ -1,7 +1,7 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
-import { borderAccentClass, softBgClass, spectrum, swatchClass, textClass } from "@/lib/catalog";
+import { borderAccentClass, softBgClass, spectrum, swatchClass } from "@/lib/catalog";
 import { catalogQueryOptions } from "@/lib/catalog-query";
 
 export const Route = createFileRoute("/products/")({
@@ -61,7 +61,7 @@ function ProductsPage() {
               <div className={`h-2 w-full ${swatchClass[spectrum(c.colour)]}`} />
               <div className="p-6">
                 <h2 className="display-type text-xl">{c.name}</h2>
-                <p className={`mt-3 text-sm ${textClass[spectrum(c.colour)]}`}>{c.description}</p>
+                <p className="mt-3 text-sm text-muted-foreground">{c.description}</p>
                 <p className="mt-5 inline-flex items-center gap-2 text-sm font-semibold">
                   View {c.products.length} examples
                   <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />

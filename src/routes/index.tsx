@@ -1,7 +1,7 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
-import { borderAccentClass, decorations, softBgClass, spectrum, swatchClass, textClass } from "@/lib/catalog";
+import { borderAccentClass, decorations, softBgClass, spectrum, swatchClass } from "@/lib/catalog";
 import { catalogQueryOptions } from "@/lib/catalog-query";
 import { banners } from "@/lib/banners";
 import { BannerRow } from "@/components/site/BannerStrip";
@@ -130,7 +130,7 @@ function Home() {
               <div className={`h-1.5 w-full ${swatchClass[spectrum(c.colour)]}`} />
               <div className="p-5">
                 <p className="display-type text-base">{c.name}</p>
-                <p className={`mt-1 text-sm font-medium ${textClass[spectrum(c.colour)]}`}>{c.tagline}</p>
+                <p className="mt-1 text-sm text-muted-foreground">{c.tagline}</p>
               </div>
             </Link>
           ))}
