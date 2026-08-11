@@ -1,5 +1,7 @@
 import type { ReactNode } from "react";
 
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
+
 /** Infinite horizontal ticker. Duplicates content for a seamless loop. */
 export function Marquee({
   items,
@@ -15,6 +17,7 @@ export function Marquee({
   className?: string;
   separator?: string;
 }) {
+  const reduced = useReducedMotion();
   const track = (
     <ul className="marquee-track flex shrink-0 items-center gap-10 pr-10">
       {items.map((item, i) => (
@@ -30,7 +33,7 @@ export function Marquee({
 
   return (
     <div
-      className={`marquee group relative flex overflow-hidden ${className}`}
+      className={`marquee group relative flex ${reduced ? "flex-wrap justify-center gap-x-10 gap-y-2 overflow-hidden" : "overflow-hidden"} ${className}`}
       style={{
         // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
         ["--marquee-duration" as string]: `${speed}s`,
@@ -38,9 +41,11 @@ export function Marquee({
       }}
     >
       {track}
-      <div aria-hidden="true" className="contents">
-        {track}
-      </div>
+      {!reduced && (
+        <div aria-hidden="true" className="contents">
+          {track}
+        </div>
+      )}
     </div>
   );
 }

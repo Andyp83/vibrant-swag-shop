@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
+
 /** Counts from 0 to `to` the first time it scrolls into view. */
 export function CountUp({
   to,
@@ -16,14 +18,12 @@ export function CountUp({
 }) {
   const ref = useRef<HTMLSpanElement | null>(null);
   const [value, setValue] = useState(0);
+  const reduced = useReducedMotion();
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    const reduce =
-      typeof window !== "undefined" &&
-      window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
-    if (reduce || typeof IntersectionObserver === "undefined") {
+    if (reduced || typeof IntersectionObserver === "undefined") {
       setValue(to);
       return;
     }
@@ -48,7 +48,7 @@ export function CountUp({
       io.disconnect();
       cancelAnimationFrame(frame);
     };
-  }, [to, duration]);
+  }, [to, duration, reduced]);
 
   return (
     <span ref={ref} className={className}>

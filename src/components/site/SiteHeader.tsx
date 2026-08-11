@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { Menu } from "lucide-react";
 import { useState } from "react";
 import brandMark from "@/assets/brand/brand-bento-mark.png.asset.json";
+import { MotionToggle } from "@/components/site/MotionToggle";
 
 const nav = [
   { to: "/", label: "Home" },
@@ -44,6 +45,7 @@ export function SiteHeader() {
               {item.label}
             </Link>
           ))}
+          <MotionToggle />
           <Link
             to="/quote"
             className="rounded-full bg-primary px-5 py-2 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90"
@@ -52,9 +54,11 @@ export function SiteHeader() {
           </Link>
         </nav>
 
-        <button
-          type="button"
-          aria-label="Toggle navigation"
+        <div className="flex items-center gap-2 md:hidden">
+          <MotionToggle />
+          <button
+            type="button"
+            aria-label="Toggle navigation"
           aria-expanded={open}
           onClick={() => setOpen((v) => !v)}
           className="inline-flex size-10 items-center justify-center rounded-md border border-border md:hidden"
