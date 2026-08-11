@@ -361,14 +361,13 @@
 /* Word-by-word hero entrance */
 .hero-word,
 .hero-rise {
-  display: inline-block;
   opacity: 0;
   transform: translateY(0.5em) rotate(3deg);
   animation: bb-word-in 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.hero-rise {
-  display: block;
+@utility hero-word {
+  display: inline-block;
 }
 
 @keyframes bb-word-in {
