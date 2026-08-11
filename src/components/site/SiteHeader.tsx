@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Menu } from "lucide-react";
 import { useState } from "react";
+import brandMark from "@/assets/brand/brand-bento-mark.png.asset.json";
 
 const nav = [
   { to: "/", label: "Home" },
