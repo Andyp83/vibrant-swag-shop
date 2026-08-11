@@ -1,3 +1,5 @@
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
+
 export type SiteVideo = {
   url: string;
   title: string;
@@ -7,6 +9,8 @@ export type SiteVideo = {
 
 /** Muted, looping autoplay product video, contained to the page width. */
 export function VideoStrip({ video }: { video: SiteVideo }) {
+  const reduced = useReducedMotion();
+
   return (
     <figure className="overflow-hidden rounded-2xl border border-border bg-secondary">
       <video
@@ -14,8 +18,8 @@ export function VideoStrip({ video }: { video: SiteVideo }) {
         poster={video.poster}
         aria-label={video.title}
         muted
-        loop
-        autoPlay
+        loop={!reduced}
+        autoPlay={!reduced}
         playsInline
         controls
         preload="metadata"
