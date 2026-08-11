@@ -72,16 +72,16 @@ function Home() {
       {/* ---------- Cinematic hero ---------- */}
       <section className="relative isolate overflow-hidden border-b border-border bg-ink text-primary-foreground">
         <div
-          className="spectrum-rays spectrum-rays-spin absolute left-1/2 top-1/2 -z-10 aspect-square w-[160vw] -translate-x-1/2 -translate-y-1/2 opacity-40 blur-[2px]"
+          className="spectrum-rays spectrum-rays-spin absolute left-1/2 top-1/2 -z-10 aspect-square w-[160vw] -translate-x-1/2 -translate-y-1/2 opacity-60 blur-[1px]"
           aria-hidden="true"
         />
         <div
-          className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,transparent_10%,var(--ink)_72%)]"
+          className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,transparent_18%,var(--ink)_82%)]"
           aria-hidden="true"
         />
 
         <div className="relative mx-auto max-w-6xl px-5 pb-28 pt-24 text-center sm:pt-32">
-          <p className="hero-word inline-flex items-center gap-2 rounded-full border border-white/25 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.35em]">
+          <p className="hero-rise mx-auto inline-flex items-center gap-2 rounded-full border border-white/25 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.35em]">
             <Sparkles className="size-3.5" aria-hidden="true" />
             Branded merchandise · Corporate gifts
           </p>
@@ -99,7 +99,7 @@ function Home() {
           </h1>
 
           <p
-            className="hero-word mx-auto mt-7 max-w-xl text-lg text-primary-foreground/75"
+            className="hero-rise mx-auto mt-7 max-w-xl text-lg text-primary-foreground/75"
             style={{ animationDelay: "560ms" }}
           >
             Brand Bento sources, decorates and delivers promotional product in every colour of the
@@ -107,7 +107,7 @@ function Home() {
           </p>
 
           <div
-            className="hero-word mt-10 flex flex-wrap items-center justify-center gap-3"
+            className="hero-rise mt-10 flex flex-wrap items-center justify-center gap-3"
             style={{ animationDelay: "680ms" }}
           >
             <Link
