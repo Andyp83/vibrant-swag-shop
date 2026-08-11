@@ -42,6 +42,51 @@ export const textClass: Record<SpectrumColor, string> = {
   pink: "text-spectrum-pink",
 };
 
+export const softBgClass: Record<SpectrumColor, string> = {
+  red: "bg-spectrum-red-soft",
+  orange: "bg-spectrum-orange-soft",
+  amber: "bg-spectrum-amber-soft",
+  lime: "bg-spectrum-lime-soft",
+  green: "bg-spectrum-green-soft",
+  teal: "bg-spectrum-teal-soft",
+  cyan: "bg-spectrum-cyan-soft",
+  blue: "bg-spectrum-blue-soft",
+  indigo: "bg-spectrum-indigo-soft",
+  violet: "bg-spectrum-violet-soft",
+  magenta: "bg-spectrum-magenta-soft",
+  pink: "bg-spectrum-pink-soft",
+};
+
+export const borderAccentClass: Record<SpectrumColor, string> = {
+  red: "border-spectrum-red",
+  orange: "border-spectrum-orange",
+  amber: "border-spectrum-amber",
+  lime: "border-spectrum-lime",
+  green: "border-spectrum-green",
+  teal: "border-spectrum-teal",
+  cyan: "border-spectrum-cyan",
+  blue: "border-spectrum-blue",
+  indigo: "border-spectrum-indigo",
+  violet: "border-spectrum-violet",
+  magenta: "border-spectrum-magenta",
+  pink: "border-spectrum-pink",
+};
+
+export const onAccentTextClass: Record<SpectrumColor, string> = {
+  red: "text-spectrum-red",
+  orange: "text-spectrum-orange",
+  amber: "text-spectrum-amber",
+  lime: "text-spectrum-lime",
+  green: "text-spectrum-green",
+  teal: "text-spectrum-teal",
+  cyan: "text-spectrum-cyan",
+  blue: "text-spectrum-blue",
+  indigo: "text-spectrum-indigo",
+  violet: "text-spectrum-violet",
+  magenta: "text-spectrum-magenta",
+  pink: "text-spectrum-pink",
+};
+
 export function spectrum(colour: string): SpectrumColor {
   return colour in swatchClass ? (colour as SpectrumColor) : "red";
 }
