@@ -59,12 +59,14 @@ export function SiteHeader() {
           <button
             type="button"
             aria-label="Toggle navigation"
-          aria-expanded={open}
-          onClick={() => setOpen((v) => !v)}
-          className="inline-flex size-10 items-center justify-center rounded-md border border-border md:hidden"
-        >
-          <Menu className="size-5" aria-hidden="true" />
-        </button>
+            aria-expanded={open}
+            onClick={() => setOpen((v) => !v)}
+            className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-md border border-border"
+          >
+            <Menu className="size-5" aria-hidden="true" />
+          </button>
+        </div>
+
       </div>
 
       {open && (
