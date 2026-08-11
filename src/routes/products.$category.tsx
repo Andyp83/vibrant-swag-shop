@@ -6,6 +6,8 @@ import { categoryBanners } from "@/lib/banners";
 import { categoryVideos } from "@/lib/videos";
 import { BannerRow } from "@/components/site/BannerStrip";
 import { VideoStrip } from "@/components/site/VideoStrip";
+import { Reveal } from "@/components/site/Reveal";
+
 import { ProductFilters } from "@/components/site/ProductFilters";
 import {
   decorationOptions,
