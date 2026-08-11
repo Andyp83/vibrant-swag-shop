@@ -214,7 +214,9 @@ function Home() {
                 aria-hidden="true"
               />
               <span className="absolute inset-x-0 bottom-0 p-5 text-left">
-                <span className="display-type block text-lg text-primary-foreground">{c.name}</span>
+                <span className="display-type block text-sm leading-tight text-primary-foreground xl:text-base">
+                  {c.name}
+                </span>
                 <span className="mt-1 block max-h-0 overflow-hidden text-sm text-primary-foreground/80 opacity-0 transition-all duration-500 group-hover:max-h-20 group-hover:opacity-100">
                   {c.tagline}
                 </span>
