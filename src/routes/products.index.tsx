@@ -1,7 +1,7 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
-import { spectrum, swatchClass } from "@/lib/catalog";
+import { borderAccentClass, softBgClass, spectrum, swatchClass } from "@/lib/catalog";
 import { catalogQueryOptions } from "@/lib/catalog-query";
 
 export const Route = createFileRoute("/products/")({
@@ -45,10 +45,10 @@ function ProductsPage() {
         {categories.map((c) => (
           <article
             key={c.slug}
-            className="group overflow-hidden rounded-2xl border border-border bg-card"
+            className={`group overflow-hidden rounded-2xl border-2 ${borderAccentClass[spectrum(c.colour)]} ${softBgClass[spectrum(c.colour)]}`}
           >
             <Link to="/products/$category" params={{ category: c.slug }} className="block">
-              <div className="aspect-[16/10] overflow-hidden bg-secondary">
+              <div className="aspect-[16/10] overflow-hidden">
                 <img
                   src={c.image_url}
                   alt={`${c.name} branded merchandise examples`}

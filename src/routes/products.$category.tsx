@@ -1,6 +1,6 @@
 import { createFileRoute, Link, notFound, useNavigate } from "@tanstack/react-router";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { spectrum, swatchClass, textClass } from "@/lib/catalog";
+import { borderAccentClass, softBgClass, spectrum, swatchClass, textClass } from "@/lib/catalog";
 import { catalogQueryOptions, type CmsCategory } from "@/lib/catalog-query";
 import { categoryBanners } from "@/lib/banners";
 import { categoryVideos } from "@/lib/videos";
@@ -91,7 +91,7 @@ function CategoryPage() {
 
 
   return (
-    <div>
+    <div className={softBgClass[accent]}>
       <div className={`h-2 w-full ${swatchClass[accent]}`} />
       <div className="mx-auto max-w-6xl px-5 py-14">
         <Link
@@ -118,7 +118,7 @@ function CategoryPage() {
               Quote this category <ArrowRight className="size-4" aria-hidden="true" />
             </Link>
           </div>
-          <div className="overflow-hidden rounded-2xl border border-border bg-secondary">
+          <div className={`overflow-hidden rounded-2xl border-2 ${borderAccentClass[accent]}`}>
             <img
               src={category.image_url}
               alt={`${category.name} branded merchandise examples`}
@@ -161,7 +161,7 @@ function CategoryPage() {
           {visibleProducts.map((p) => (
             <article
               key={p.id}
-              className="flex flex-col rounded-xl border border-border bg-card p-6"
+              className={`flex flex-col rounded-xl border-2 bg-card p-6 ${borderAccentClass[accent]}`}
             >
               <span className={`h-1.5 w-10 rounded-full ${swatchClass[accent]}`} />
               <h3 className="mt-4 font-semibold">{p.name}</h3>
@@ -180,7 +180,7 @@ function CategoryPage() {
                 {p.methods.map((m) => (
                   <li
                     key={m}
-                    className="rounded-full bg-secondary px-2.5 py-1 text-[11px] font-medium text-muted-foreground"
+                    className={`rounded-full border px-2.5 py-1 text-[11px] font-medium ${borderAccentClass[accent]} ${textClass[accent]}`}
                   >
                     {m}
                   </li>

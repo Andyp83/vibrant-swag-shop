@@ -1,7 +1,7 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
-import { decorations, spectrum, swatchClass } from "@/lib/catalog";
+import { borderAccentClass, decorations, softBgClass, spectrum, swatchClass } from "@/lib/catalog";
 import { catalogQueryOptions } from "@/lib/catalog-query";
 import { banners } from "@/lib/banners";
 import { BannerRow } from "@/components/site/BannerStrip";
@@ -115,9 +115,9 @@ function Home() {
               key={c.slug}
               to="/products/$category"
               params={{ category: c.slug }}
-              className="group overflow-hidden rounded-xl border border-border bg-card transition-shadow hover:shadow-lg"
+              className={`group overflow-hidden rounded-xl border-2 transition-shadow hover:shadow-lg ${borderAccentClass[spectrum(c.colour)]} ${softBgClass[spectrum(c.colour)]}`}
             >
-              <div className="aspect-[4/3] overflow-hidden bg-secondary">
+              <div className="aspect-[4/3] overflow-hidden">
                 <img
                   src={c.image_url}
                   alt={`${c.name} promotional products`}
