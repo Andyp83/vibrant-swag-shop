@@ -21,12 +21,13 @@ export function SiteHeader() {
       <div className="spectrum-bar h-1.5 w-full" />
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-4">
         <Link to="/" className="flex items-center gap-2.5" onClick={() => setOpen(false)}>
-          <span className="grid grid-cols-2 gap-0.5">
-            <span className="size-2.5 rounded-[2px] bg-spectrum-red" />
-            <span className="size-2.5 rounded-[2px] bg-spectrum-amber" />
-            <span className="size-2.5 rounded-[2px] bg-spectrum-teal" />
-            <span className="size-2.5 rounded-[2px] bg-spectrum-violet" />
-          </span>
+          <img
+            src={brandMark.url}
+            alt="Brand Bento logo"
+            width={36}
+            height={36}
+            className="size-9 rounded-md"
+          />
           <span className="display-type text-lg leading-none">Brand Bento</span>
         </Link>
 
