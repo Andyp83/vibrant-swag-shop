@@ -10,7 +10,8 @@ export type SpectrumColor =
   | "indigo"
   | "violet"
   | "magenta"
-  | "pink";
+  | "pink"
+  | "chalk";
 
 export const swatchClass: Record<SpectrumColor, string> = {
   red: "bg-spectrum-red",
@@ -25,6 +26,7 @@ export const swatchClass: Record<SpectrumColor, string> = {
   violet: "bg-spectrum-violet",
   magenta: "bg-spectrum-magenta",
   pink: "bg-spectrum-pink",
+  chalk: "bg-spectrum-chalk",
 };
 
 export const textClass: Record<SpectrumColor, string> = {
@@ -40,6 +42,7 @@ export const textClass: Record<SpectrumColor, string> = {
   violet: "text-spectrum-violet",
   magenta: "text-spectrum-magenta",
   pink: "text-spectrum-pink",
+  chalk: "text-ink",
 };
 
 export const softBgClass: Record<SpectrumColor, string> = {
@@ -55,6 +58,7 @@ export const softBgClass: Record<SpectrumColor, string> = {
   violet: "bg-spectrum-violet-soft",
   magenta: "bg-spectrum-magenta-soft",
   pink: "bg-spectrum-pink-soft",
+  chalk: "bg-spectrum-chalk-soft",
 };
 
 export const borderAccentClass: Record<SpectrumColor, string> = {
@@ -70,6 +74,7 @@ export const borderAccentClass: Record<SpectrumColor, string> = {
   violet: "border-spectrum-violet",
   magenta: "border-spectrum-magenta",
   pink: "border-spectrum-pink",
+  chalk: "border-spectrum-chalk",
 };
 
 export const onAccentTextClass: Record<SpectrumColor, string> = {
@@ -85,6 +90,7 @@ export const onAccentTextClass: Record<SpectrumColor, string> = {
   violet: "text-spectrum-violet",
   magenta: "text-spectrum-magenta",
   pink: "text-spectrum-pink",
+  chalk: "text-ink",
 };
 
 export function spectrum(colour: string): SpectrumColor {
