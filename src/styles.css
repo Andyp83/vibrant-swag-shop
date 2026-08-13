@@ -71,6 +71,7 @@
   --color-spectrum-violet: var(--spectrum-violet);
   --color-spectrum-magenta: var(--spectrum-magenta);
   --color-spectrum-pink: var(--spectrum-pink);
+  --color-spectrum-chalk: var(--spectrum-chalk);
   --color-spectrum-red-soft: var(--spectrum-red-soft);
   --color-spectrum-orange-soft: var(--spectrum-orange-soft);
   --color-spectrum-amber-soft: var(--spectrum-amber-soft);
@@ -83,6 +84,7 @@
   --color-spectrum-violet-soft: var(--spectrum-violet-soft);
   --color-spectrum-magenta-soft: var(--spectrum-magenta-soft);
   --color-spectrum-pink-soft: var(--spectrum-pink-soft);
+  --color-spectrum-chalk-soft: var(--spectrum-chalk-soft);
   --color-ink: var(--ink);
   --font-display: "Archivo Black", system-ui, sans-serif;
   --font-sans: "Work Sans", system-ui, sans-serif;
@@ -124,6 +126,7 @@
   --spectrum-violet: oklch(0.56 0.2 295);
   --spectrum-magenta: oklch(0.63 0.24 330);
   --spectrum-pink: oklch(0.75 0.16 350);
+  --spectrum-chalk: oklch(0.86 0.004 260);
 
 
   --spectrum-red-soft: oklch(0.955 0.035 27);
@@ -138,6 +141,7 @@
   --spectrum-violet-soft: oklch(0.955 0.03 295);
   --spectrum-magenta-soft: oklch(0.955 0.03 330);
   --spectrum-pink-soft: oklch(0.96 0.03 350);
+  --spectrum-chalk-soft: oklch(0.985 0.002 260);
 
   --chart-1: var(--spectrum-red);
   --chart-2: var(--spectrum-amber);
