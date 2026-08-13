@@ -1,0 +1,1 @@
+UPDATE public.catalog_categories SET colour='violet', image_url='/__l5e/assets-v1/adcd6222-5f6e-463c-9129-c2b6ec00d6c4/cat-giftsets-violet.png' WHERE slug='gift-sets';
