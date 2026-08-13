@@ -1,0 +1,1 @@
+UPDATE public.catalog_categories SET image_url = '/__l5e/assets-v1/f1c7f55f-d607-4a00-9446-b23e7659c57e/cat-tech-bamboo-hero.png' WHERE slug = 'tech';
