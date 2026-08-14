@@ -230,8 +230,8 @@ export const categoryBanners: Record<string, Banner[]> = {
     banners.brandcraftSwb,
     banners.customPackaging,
   ],
-  eco: [banners.impactAware, banners.oceanBottle],
-  stationery: [banners.foilPrinting, banners.blindDebossing],
+  "outdoor-leisure": [banners.impactAware, banners.oceanBottle],
+  packaging: [banners.customPackaging, banners.foilPrinting, banners.blindDebossing],
 };
 
 /** Decoration-method promo banners shown on the decoration page. */
