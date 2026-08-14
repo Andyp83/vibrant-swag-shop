@@ -79,8 +79,8 @@ export const banners = {
   brandcraft: {
     url: brandcraft.url,
     alt: "Brandcraft flat-pack cardboard model kits branded in full colour",
-    to: "/products/gift-sets",
-    cta: "See gift sets",
+    to: "/products/promotional",
+    cta: "See promotional items",
   },
   bodum: {
     url: bodum.url,
@@ -151,7 +151,7 @@ export const banners = {
   keepsake: {
     url: keepsake.url,
     alt: "Keepsake Collection — premium wine and glassware gifting on a hillside table",
-    to: "/products/gift-sets",
+    to: "/products/promotional",
     cta: "See the Keepsake gifting range",
   },
   fullColourTowels: {
@@ -163,8 +163,8 @@ export const banners = {
   customPackaging: {
     url: customPackaging.url,
     alt: "Custom printed packaging — CMYK digital printed mailer boxes with no minimum order",
-    to: "/products/gift-sets",
-    cta: "See gift sets",
+    to: "/products/packaging",
+    cta: "See packaging",
   },
   rotaryVarnish: {
     url: rotaryVarnish.url,
@@ -181,13 +181,13 @@ export const banners = {
   brandcraftSwb: {
     url: brandcraftSwb.url,
     alt: "Brandcraft flat-pack cardboard vehicles and animals ready for full-colour branding",
-    to: "/products/gift-sets",
-    cta: "See gift sets",
+    to: "/products/promotional",
+    cta: "See promotional items",
   },
   oceanBottle: {
     url: oceanBottle.url,
     alt: "Ocean Bottle — planet-positive reusable bottles making refilling everyday behaviour",
-    to: "/products/eco",
+    to: "/products/outdoor-leisure",
     cta: "See the eco range",
   },
   foilPrinting: {
@@ -224,12 +224,7 @@ export const categoryBanners: Record<string, Banner[]> = {
   bags: [banners.archer, banners.kadi],
   apparel: [banners.puff, banners.colourflex, banners.digiflex, banners.fullColourTowels],
   tech: [banners.skullcandy],
-  "gift-sets": [
-    banners.keepsake,
-    banners.brandcraft,
-    banners.brandcraftSwb,
-    banners.customPackaging,
-  ],
+  promotional: [banners.keepsake, banners.brandcraft, banners.brandcraftSwb],
   "outdoor-leisure": [banners.impactAware, banners.oceanBottle],
   packaging: [banners.customPackaging, banners.foilPrinting, banners.blindDebossing],
 };
