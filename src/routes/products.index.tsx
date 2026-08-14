@@ -14,13 +14,13 @@ export const Route = createFileRoute("/products/")({
       {
         name: "description",
         content:
-          "Explore branded merchandise by category: drinkware, apparel, bags, tech, stationery, eco, headwear and curated corporate gift sets.",
+          "Explore branded merchandise by category: drinkware, promotional items, headwear, business items, outdoor, bags, apparel, packaging and curated corporate gift sets.",
       },
       { property: "og:title", content: "Branded Merchandise Categories | Brand Bento" },
       {
         property: "og:description",
         content:
-          "Drinkware, apparel, bags, tech, stationery, eco, headwear and curated corporate gift sets.",
+          "Drinkware, promotional items, headwear, business items, outdoor, bags, apparel, packaging and curated corporate gift sets.",
       },
     ],
   }),
