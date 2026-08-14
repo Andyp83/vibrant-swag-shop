@@ -144,6 +144,8 @@
   --spectrum-magenta-soft: oklch(0.955 0.03 330);
   --spectrum-pink-soft: oklch(0.96 0.03 350);
   --spectrum-chalk-soft: oklch(0.985 0.002 260);
+  --spectrum-onyx-soft: oklch(0.945 0.004 265);
+  --spectrum-sand-soft: oklch(0.965 0.028 80);
 
   --chart-1: var(--spectrum-red);
   --chart-2: var(--spectrum-amber);
