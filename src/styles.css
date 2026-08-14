@@ -72,6 +72,8 @@
   --color-spectrum-magenta: var(--spectrum-magenta);
   --color-spectrum-pink: var(--spectrum-pink);
   --color-spectrum-chalk: var(--spectrum-chalk);
+  --color-spectrum-onyx: var(--spectrum-onyx);
+  --color-spectrum-sand: var(--spectrum-sand);
   --color-spectrum-red-soft: var(--spectrum-red-soft);
   --color-spectrum-orange-soft: var(--spectrum-orange-soft);
   --color-spectrum-amber-soft: var(--spectrum-amber-soft);
@@ -85,6 +87,8 @@
   --color-spectrum-magenta-soft: var(--spectrum-magenta-soft);
   --color-spectrum-pink-soft: var(--spectrum-pink-soft);
   --color-spectrum-chalk-soft: var(--spectrum-chalk-soft);
+  --color-spectrum-onyx-soft: var(--spectrum-onyx-soft);
+  --color-spectrum-sand-soft: var(--spectrum-sand-soft);
   --color-ink: var(--ink);
   --font-display: "Archivo Black", system-ui, sans-serif;
   --font-sans: "Work Sans", system-ui, sans-serif;
