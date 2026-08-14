@@ -127,6 +127,8 @@
   --spectrum-magenta: oklch(0.63 0.24 330);
   --spectrum-pink: oklch(0.75 0.16 350);
   --spectrum-chalk: oklch(0.86 0.004 260);
+  --spectrum-onyx: oklch(0.26 0.008 265);
+  --spectrum-sand: oklch(0.74 0.075 75);
 
 
   --spectrum-red-soft: oklch(0.955 0.035 27);
