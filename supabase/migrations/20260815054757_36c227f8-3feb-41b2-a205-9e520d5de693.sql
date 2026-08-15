@@ -1,0 +1,2 @@
+UPDATE public.catalog_categories SET colour='magenta', image_url='/__l5e/assets-v1/a279ee0f-fac7-40d4-9ee0-cdd9ac3d4672/cat-personal-magenta.png' WHERE slug='personal-products';
+UPDATE public.catalog_categories SET colour='pink', image_url='/__l5e/assets-v1/1d9cd6fc-f030-4d3e-915f-63abd7ecb4cc/cat-tech-pink.png' WHERE slug='tech';
