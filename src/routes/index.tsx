@@ -216,16 +216,16 @@ function Home() {
               />
               {/* Vertical label while collapsed */}
               <span className="absolute bottom-4 left-3 flex items-end rounded-lg bg-ink/85 px-2 py-3 transition-opacity duration-300 group-hover:opacity-0">
-                <span className="display-type block text-lg leading-none tracking-tight text-white [writing-mode:vertical-rl] rotate-180">
+                <span className="display-type block text-lg leading-none tracking-tight text-primary-foreground [writing-mode:vertical-rl] rotate-180">
                   {c.name}
                 </span>
               </span>
               {/* Horizontal label + tagline on hover */}
               <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink via-ink/85 to-transparent p-6 pt-16 text-left opacity-0 transition-opacity duration-500 group-hover:opacity-100">
-                <span className="display-type block text-2xl leading-tight text-white">
+                <span className="display-type block text-2xl leading-tight text-primary-foreground">
                   {c.name}
                 </span>
-                <span className="mt-2 block max-w-sm text-sm text-white/90">
+                <span className="mt-2 block max-w-sm text-sm text-primary-foreground/90">
                   {c.tagline}
                 </span>
               </span>
