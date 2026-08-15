@@ -205,8 +205,9 @@ function Home() {
                 height={900}
                 className="absolute inset-0 size-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-110"
               />
+              {/* Base scrim: strong enough for AA text on any photo, light or dark */}
               <span
-                className={`absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/35 to-transparent`}
+                className="absolute inset-0 bg-gradient-to-t from-ink/95 via-ink/65 to-ink/25"
                 aria-hidden="true"
               />
               <span
@@ -214,20 +215,21 @@ function Home() {
                 aria-hidden="true"
               />
               {/* Vertical label while collapsed */}
-              <span className="absolute bottom-5 left-4 flex items-end transition-opacity duration-300 group-hover:opacity-0">
-                <span className="display-type block text-lg leading-none tracking-tight text-primary-foreground [text-shadow:0_1px_12px_var(--ink)] [writing-mode:vertical-rl] rotate-180">
+              <span className="absolute bottom-4 left-3 flex items-end rounded-lg bg-ink/85 px-2 py-3 transition-opacity duration-300 group-hover:opacity-0">
+                <span className="display-type block text-lg leading-none tracking-tight text-white [writing-mode:vertical-rl] rotate-180">
                   {c.name}
                 </span>
               </span>
               {/* Horizontal label + tagline on hover */}
-              <span className="absolute inset-x-0 bottom-0 p-6 text-left opacity-0 transition-opacity duration-500 group-hover:opacity-100">
-                <span className="display-type block text-2xl leading-tight text-primary-foreground [text-shadow:0_1px_12px_var(--ink)]">
+              <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink via-ink/85 to-transparent p-6 pt-16 text-left opacity-0 transition-opacity duration-500 group-hover:opacity-100">
+                <span className="display-type block text-2xl leading-tight text-white">
                   {c.name}
                 </span>
-                <span className="mt-2 block max-w-sm text-sm text-primary-foreground/85">
+                <span className="mt-2 block max-w-sm text-sm text-white/90">
                   {c.tagline}
                 </span>
               </span>
+
 
             </Link>
           ))}
