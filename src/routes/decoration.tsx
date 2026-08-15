@@ -168,7 +168,17 @@ function DecorationPage() {
 
       <BannerRow title="New branding technologies" banners={decorationBanners} className="mt-16" />
 
-
+      <section className="mt-20">
+        <h2 className="display-type text-2xl sm:text-3xl">Artwork, answered</h2>
+        <Accordion type="single" collapsible className="mt-6">
+          {artworkFaq.map((item) => (
+            <AccordionItem key={item.q} value={item.q}>
+              <AccordionTrigger className="text-left">{item.q}</AccordionTrigger>
+              <AccordionContent className="text-muted-foreground">{item.a}</AccordionContent>
+            </AccordionItem>
+          ))}
+        </Accordion>
+      </section>
 
       <section className="mt-20 rounded-2xl border border-border bg-secondary p-10 text-center">
         <h2 className="display-type text-3xl">Not sure which method you need?</h2>
