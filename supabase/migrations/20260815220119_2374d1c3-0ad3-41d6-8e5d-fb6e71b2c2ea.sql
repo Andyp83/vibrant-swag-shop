@@ -1,0 +1,9 @@
+UPDATE public.catalog_categories SET image_url = '/__l5e/assets-v1/4be2d817-3e51-4519-90d6-b35fa9fff433/cat-drinkware-flat.png' WHERE slug = 'drinkware';
+UPDATE public.catalog_categories SET image_url = '/__l5e/assets-v1/163a0a83-6bf9-4679-98ea-9b28424100da/cat-promotional-flat.png' WHERE slug = 'promotional';
+UPDATE public.catalog_categories SET image_url = '/__l5e/assets-v1/13331297-2098-4855-aaa5-1a5c2bdb0950/cat-headwear-flat.png' WHERE slug = 'headwear';
+UPDATE public.catalog_categories SET image_url = '/__l5e/assets-v1/8b6e2609-1579-4671-a212-5a6a913740e5/cat-business-items-flat.png' WHERE slug = 'business-items';
+UPDATE public.catalog_categories SET image_url = '/__l5e/assets-v1/4b4330a2-91f5-4220-9835-d75248bad07d/cat-outdoor-leisure-flat.png' WHERE slug = 'outdoor-leisure';
+UPDATE public.catalog_categories SET image_url = '/__l5e/assets-v1/7980521e-18d9-48e5-8958-ae9f229aa3d0/cat-gift-packs-flat.png' WHERE slug = 'gift-packs';
+UPDATE public.catalog_categories SET image_url = '/__l5e/assets-v1/b0bf67df-22cb-4c0c-a524-16cfba36ed9f/cat-bags-flat.png' WHERE slug = 'bags';
+UPDATE public.catalog_categories SET image_url = '/__l5e/assets-v1/ff4c2ed2-721d-4cfd-b6e1-cc00da891eff/cat-apparel-flat.png' WHERE slug = 'apparel';
+UPDATE public.catalog_categories SET image_url = '/__l5e/assets-v1/c28272dc-2fe2-4105-8c11-bf90c951d4fa/cat-packaging-flat.png' WHERE slug = 'packaging';
