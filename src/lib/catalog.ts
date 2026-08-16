@@ -508,6 +508,28 @@ export const decorations: Decoration[] = [
       "The resin needs to be cured for one day before shipping the product",
     ],
   },
+  {
+    slug: "rotary-digital-print",
+    name: "Rotary Digital Print",
+    colour: "teal",
+    what: "Direct to product rotary digital printing involves the transfer of UV ink and a varnish coating from inkjet print heads. It is used to produce detailed gloss artwork using both closely matched spot colours and full colour branding.",
+    bestFor: "Cylindrical products such as drinkware and bottles needing detailed full-colour gloss prints",
+    colourLimit: "Full colour plus spot colour matching, with gloss varnish",
+    leadTime: "Production speed is limited so lead times can be longer in some cases",
+    artwork: "Vector or bitmap artwork accepted. Supplied bitmaps must be higher than 300DPI at actual print size. Fonts should be converted to outlines/objects.",
+    advantages: [
+      "Ideal for large or complex full colour gloss prints",
+      "The print is dry and ready to ship as soon as the product is printed",
+      "Only one setup charge is required regardless of the number of print colours",
+      "No loss of print vibrancy, even on darker products",
+    ],
+    limitations: [
+      "Production speed is limited so lead times can be longer in some cases",
+      "Some colours cannot be reproduced including metallic and neon/fluorescent colours",
+      "As the print does not wrap completely around the product, there is a small gap between the start and end of the print",
+      "More expensive than other branding options",
+    ],
+  },
 ];
 
 export const artworkFaq = [

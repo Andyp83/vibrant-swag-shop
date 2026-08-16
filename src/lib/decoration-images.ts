@@ -18,6 +18,7 @@ import imitationEtch from "@/assets/decoration/imitation-etch.png.asset.json";
 import prismDigitalPrint from "@/assets/decoration/prism-digital-print.png.asset.json";
 import puffPrint from "@/assets/decoration/puff-print.png.asset.json";
 import resinCoatedFinish from "@/assets/decoration/resin-coated-finish.png.asset.json";
+import rotaryDigitalPrint from "@/assets/decoration/rotary-digital-print.png.asset.json";
 
 export const decorationImages: Record<string, { url: string; alt: string }> = {
   "screen-print": {
@@ -99,5 +100,9 @@ export const decorationImages: Record<string, { url: string; alt: string }> = {
   "resin-coated-finish": {
     url: resinCoatedFinish.url,
     alt: "Metal keyring with a full-colour Garage Complete Auto Repair resin coated dome decal",
+  },
+  "rotary-digital-print": {
+    url: rotaryDigitalPrint.url,
+    alt: "White stainless steel bottle with bamboo lid and base, branded with a full-colour Rotary Digital Print Dream Works design",
   },
 };
