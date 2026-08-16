@@ -121,8 +121,8 @@ export const banners = {
   colourflex: {
     url: colourflex.url,
     alt: "Colourflex high-impact branding on bags, towels and hoodies",
-    to: "/decoration#full-colour-wrap",
-    cta: "About full-colour transfers",
+    to: "/decoration#colourflex-transfer",
+    cta: "About Colourflex transfer",
   },
   camelbak: {
     url: camelbak.url,

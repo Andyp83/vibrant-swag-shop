@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { artworkFaq, decorations, swatchClass, textClass } from "@/lib/catalog";
 import { decorationImages } from "@/lib/decoration-images";
 import { decorationBanners } from "@/lib/banners";
@@ -38,8 +38,19 @@ export const Route = createFileRoute("/decoration")({
 });
 
 function DecorationPage() {
-  const [selected, setSelected] = useState(decorations[0]!.slug);
+  const hashSlug = typeof window !== "undefined" ? window.location.hash.replace("#", "") : "";
+  const initialSlug = decorations.find((d) => d.slug === hashSlug) ? hashSlug : decorations[0]!.slug;
+  const [selected, setSelected] = useState(initialSlug);
   const active = decorations.find((d) => d.slug === selected) ?? decorations[0]!;
+
+  useEffect(() => {
+    const onHashChange = () => {
+      const slug = window.location.hash.replace("#", "");
+      if (decorations.find((d) => d.slug === slug)) setSelected(slug);
+    };
+    window.addEventListener("hashchange", onHashChange);
+    return () => window.removeEventListener("hashchange", onHashChange);
+  }, []);
 
   return (
     <div className="mx-auto max-w-6xl px-5 py-16">
@@ -47,7 +58,7 @@ function DecorationPage() {
         Decoration
       </p>
       <h1 className="display-type mt-4 max-w-2xl text-4xl sm:text-5xl">
-        Eight ways to put your logo on it
+        Nine ways to put your logo on it
       </h1>
       <p className="mt-5 max-w-2xl text-muted-foreground">
         The method matters as much as the product. Pick a method below to see what it's best for, how
