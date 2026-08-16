@@ -348,6 +348,27 @@ export const decorations: Decoration[] = [
       "Metallic colours not available",
     ],
   },
+  {
+    slug: "foil-printing",
+    name: "Foil Printing",
+    colour: "amber",
+    what: "A printing method that applies a metallic foil onto a flat surface using heat and pressure. This method utilises modern digital foiling, which is more cost-effective and eliminates the need for plates or stamps, allowing for direct printing from a digital file to the product. The printing will inherit the texture of the substrate, and the available foil colour options include Gold, Silver and Copper.",
+    bestFor: "Notebooks, diaries, journals and flat-surface products needing a premium metallic finish",
+    colourLimit: "Gold, Silver and Copper foil options. Finish varies on soft-touch PU vs Standard PU and textured substrates.",
+    leadTime: "Can be shipped as soon as printing is finished",
+    artwork: "Vector artwork required. Fonts should be converted to outlines/objects. Minimum line thickness 0.4mm on smooth substrates and 1mm on textured substrates.",
+    advantages: [
+      "Higher perceived value than other forms of branding",
+      "The product can be shipped as soon as printing is finished",
+      "Offers variable data such as individual naming",
+      "The foil is flexible which means it is suitable for softcover notebooks",
+    ],
+    limitations: [
+      "Detailed artwork can get lost on textured substrates",
+      "Min line thickness 0.4mm for smooth substrates",
+      "Min line thickness 1mm for textured substrates",
+    ],
+  },
 ];
 
 export const artworkFaq = [
