@@ -38,18 +38,17 @@ export const Route = createFileRoute("/decoration")({
 });
 
 function DecorationPage() {
-  const hashSlug = typeof window !== "undefined" ? window.location.hash.replace("#", "") : "";
-  const initialSlug = decorations.find((d) => d.slug === hashSlug) ? hashSlug : decorations[0]!.slug;
-  const [selected, setSelected] = useState(initialSlug);
+  const [selected, setSelected] = useState(decorations[0]!.slug);
   const active = decorations.find((d) => d.slug === selected) ?? decorations[0]!;
 
   useEffect(() => {
-    const onHashChange = () => {
+    const readHash = () => {
       const slug = window.location.hash.replace("#", "");
       if (decorations.find((d) => d.slug === slug)) setSelected(slug);
     };
-    window.addEventListener("hashchange", onHashChange);
-    return () => window.removeEventListener("hashchange", onHashChange);
+    readHash();
+    window.addEventListener("hashchange", readHash);
+    return () => window.removeEventListener("hashchange", readHash);
   }, []);
 
   return (
