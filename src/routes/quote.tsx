@@ -66,7 +66,14 @@ const quoteSchema = z.object({
 type FieldErrors = Partial<Record<keyof z.infer<typeof quoteSchema>, string>>;
 
 function QuotePage() {
-  const { product } = Route.useSearch();
+  const { product, decoration } = Route.useSearch();
+  const preselectedDecoration = decoration
+    ? (decorations.find(
+        (d) =>
+          d.slug === decoration ||
+          d.name.toLowerCase() === decoration.toLowerCase(),
+      )?.name ?? "")
+    : "";
   const categories = useQuery(catalogQueryOptions()).data ?? [];
   const [files, setFiles] = useState<File[]>([]);
   const [errors, setErrors] = useState<FieldErrors>({});
