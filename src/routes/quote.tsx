@@ -79,6 +79,26 @@ function QuotePage() {
   const [errors, setErrors] = useState<FieldErrors>({});
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
+  const [method, setMethod] = useState(preselectedDecoration);
+  const [lowRes, setLowRes] = useState<string[]>([]);
+  const [artworkConfirmed, setArtworkConfirmed] = useState(false);
+  const [artworkError, setArtworkError] = useState("");
+
+  const spec = getArtworkSpec(method);
+  const invalidFiles = files.filter((f) => !spec.fileTypes.includes(fileExtension(f.name)));
+
+  async function measure(file: File) {
+    if (!isRaster(file.name) || spec.minRasterEdge === 0) return;
+    try {
+      const url = URL.createObjectURL(file);
+      const bitmap = await createImageBitmap(file).finally(() => URL.revokeObjectURL(url));
+      if (Math.min(bitmap.width, bitmap.height) < spec.minRasterEdge) {
+        setLowRes((prev) => (prev.includes(file.name) ? prev : [...prev, file.name]));
+      }
+    } catch {
+      /* unreadable formats (PSD, TIFF) are checked by our studio instead */
+    }
+  }
 
   function addFiles(event: ChangeEvent<HTMLInputElement>) {
     const picked = Array.from(event.target.files ?? []);
@@ -89,8 +109,16 @@ function QuotePage() {
         toast.error(`${file.name} is larger than 20MB`);
         continue;
       }
+      if (!spec.fileTypes.includes(fileExtension(file.name))) {
+        toast.error(
+          `${file.name} isn't a supported format for ${method || "this brief"} — use ${spec.fileTypes.join(", ")}`,
+        );
+        continue;
+      }
       accepted.push(file);
+      void measure(file);
     }
+    setArtworkError("");
     setFiles((prev) => {
       const next = [...prev, ...accepted];
       if (next.length > MAX_FILES) {
