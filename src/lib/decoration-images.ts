@@ -86,4 +86,8 @@ export const decorationImages: Record<string, { url: string; alt: string }> = {
     url: imitationEtch.url,
     alt: "Clear stemless wine glass with an imitation etch Palm Island logo",
   },
+  "prism-digital-print": {
+    url: prismDigitalPrint.url,
+    alt: "Black zip case branded with a vivid full-colour Prism Digital Print Delicioso Monstruo logo",
+  },
 };
