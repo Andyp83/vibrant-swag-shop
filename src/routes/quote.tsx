@@ -1,6 +1,14 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, type ChangeEvent, type FormEvent } from "react";
-import { Loader2, Paperclip, UploadCloud, X, CheckCircle2 } from "lucide-react";
+import {
+  Loader2,
+  Paperclip,
+  UploadCloud,
+  X,
+  CheckCircle2,
+  Info,
+  AlertTriangle,
+} from "lucide-react";
 import { z } from "zod";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
