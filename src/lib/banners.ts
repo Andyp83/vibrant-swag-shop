@@ -63,8 +63,8 @@ export const banners = {
   prism: {
     url: prism.url,
     alt: "Prism Print — full colour, high-gloss branding for a lasting impact",
-    to: "/decoration#digital-uv-print",
-    cta: "About digital UV print",
+    to: "/decoration#prism-digital-print",
+    cta: "About Prism Digital Print",
   },
   puff: {
     url: puff.url,
