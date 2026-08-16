@@ -9,6 +9,7 @@ import doming from "@/assets/decoration/doming.jpg.asset.json";
 import colourflexTransfer from "@/assets/decoration/colourflex-transfer.png.asset.json";
 import digiflexTransfer from "@/assets/decoration/digiflex-transfer.png.asset.json";
 import digitalPackagingPrint from "@/assets/decoration/digital-packaging-print.png.asset.json";
+import digitalPrint from "@/assets/decoration/digital-print.png.asset.json";
 
 export const decorationImages: Record<string, { url: string; alt: string }> = {
   "screen-print": {
@@ -54,5 +55,9 @@ export const decorationImages: Record<string, { url: string; alt: string }> = {
   "digital-packaging-print": {
     url: digitalPackagingPrint.url,
     alt: "Teal digitally printed packaging box with Fresh Bread branding pattern",
+  },
+  "digital-print": {
+    url: digitalPrint.url,
+    alt: "Teal digitally printed badge with colourful Join Now branding",
   },
 };
