@@ -21,7 +21,7 @@ export const Route = createFileRoute("/decoration")({
       {
         name: "description",
         content:
-          "Compare twenty branding methods: screen print, embroidery, pad print, laser engraving, digital UV, debossing, full-colour wrap, doming, Colourflex transfer, DigiFlex transfer, Digital Packaging Print, Digital Print, Direct Digital, Faux Embroidery, Foil Printing, Hot Stamping, Imitation Etch, Prism Digital Print, Puff Print and Resin Coated Finish, with lead times and artwork specs.",
+          "Compare twenty-one branding methods: screen print, embroidery, pad print, laser engraving, digital UV, debossing, full-colour wrap, doming, Colourflex transfer, DigiFlex transfer, Digital Packaging Print, Digital Print, Direct Digital, Faux Embroidery, Foil Printing, Hot Stamping, Imitation Etch, Prism Digital Print, Puff Print, Resin Coated Finish and Rotary Digital Print, with lead times and artwork specs.",
       },
       {
         property: "og:title",
@@ -30,7 +30,7 @@ export const Route = createFileRoute("/decoration")({
       {
         property: "og:description",
         content:
-          "Twenty branding methods compared: colour limits, lead times and artwork requirements for each.",
+          "Twenty-one branding methods compared: colour limits, lead times and artwork requirements for each.",
       },
     ],
   }),
@@ -57,7 +57,7 @@ function DecorationPage() {
         Decoration
       </p>
       <h1 className="display-type mt-4 max-w-2xl text-4xl sm:text-5xl">
-        Twenty ways to put your logo on it
+        Twenty-one ways to put your logo on it
       </h1>
       <p className="mt-5 max-w-2xl text-muted-foreground">
         The method matters as much as the product. Pick a method below to see what it's best for, how
