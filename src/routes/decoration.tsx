@@ -1,7 +1,9 @@
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
-import { useEffect, useState } from "react";
-import { artworkFaq, decorations, swatchClass, textClass } from "@/lib/catalog";
+import { useEffect, useMemo, useState } from "react";
+import { artworkFaq, decorations, spectrum, swatchClass, textClass } from "@/lib/catalog";
+import { catalogQueryOptions } from "@/lib/catalog-query";
 import { decorationImages } from "@/lib/decoration-images";
 import { decorationBanners } from "@/lib/banners";
 import { BannerRow } from "@/components/site/BannerStrip";
@@ -15,6 +17,8 @@ import {
 
 
 export const Route = createFileRoute("/decoration")({
+  loader: ({ context }) => context.queryClient.ensureQueryData(catalogQueryOptions()),
+
   head: () => ({
     meta: [
       { title: "Decoration Options — Print, Embroidery & Engraving | Brand Bento" },
