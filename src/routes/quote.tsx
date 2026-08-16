@@ -146,8 +146,26 @@ function QuotePage() {
       return;
     }
 
+    if (invalidFiles.length > 0) {
+      setErrors({});
+      setArtworkError(
+        `${invalidFiles.map((f) => f.name).join(", ")} ${invalidFiles.length > 1 ? "aren't" : "isn't"} accepted for ${method}. Accepted: ${spec.fileTypes.join(", ")}.`,
+      );
+      toast.error("Please fix the artwork files before sending");
+      return;
+    }
+
+    if (files.length > 0 && spec.confirmRequired && !artworkConfirmed) {
+      setErrors({});
+      setArtworkError("Please confirm the resolution and bleed requirements for this method.");
+      toast.error("Confirm the artwork requirements to continue");
+      return;
+    }
+
     setErrors({});
+    setArtworkError("");
     setSubmitting(true);
+
 
     try {
       const folder = `${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
