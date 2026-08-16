@@ -10,6 +10,7 @@ import colourflexTransfer from "@/assets/decoration/colourflex-transfer.png.asse
 import digiflexTransfer from "@/assets/decoration/digiflex-transfer.png.asset.json";
 import digitalPackagingPrint from "@/assets/decoration/digital-packaging-print.png.asset.json";
 import digitalPrint from "@/assets/decoration/digital-print.png.asset.json";
+import directDigital from "@/assets/decoration/direct-digital.png.asset.json";
 
 export const decorationImages: Record<string, { url: string; alt: string }> = {
   "screen-print": {
@@ -59,5 +60,9 @@ export const decorationImages: Record<string, { url: string; alt: string }> = {
   "digital-print": {
     url: digitalPrint.url,
     alt: "Teal digitally printed badge with colourful Join Now branding",
+  },
+  "direct-digital": {
+    url: directDigital.url,
+    alt: "Green glass coasters branded with full-colour direct digital print",
   },
 };

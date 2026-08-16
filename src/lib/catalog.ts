@@ -292,6 +292,28 @@ export const decorations: Decoration[] = [
       "Cannot print on dark coloured substrates as white ink cannot be printed underneath the artwork",
     ],
   },
+  {
+    slug: "direct-digital",
+    name: "Direct Digital",
+    colour: "green",
+    what: "Direct digital printing involves the transfer of ink directly from the print heads of an inkjet machine to the product. It can be used to produce both full colour and closely matched spot colour branding on flat or slightly curved surfaces.",
+    bestFor: "Coasters, glassware, flat panels, slightly curved products and items needing white underbase on dark surfaces",
+    colourLimit: "Full colour plus white underbase. Metallic and neon/fluorescent colours cannot be reproduced.",
+    leadTime: "Dried instantly, so products can be shipped immediately",
+    artwork: "Vector or bitmap at 300DPI at actual print size. Add a 3mm bleed if artwork bleeds off the product.",
+    advantages: [
+      "Ideal for printing dark coloured products as a layer of white ink can be printed under the artwork",
+      "Variable data including individual names is available on select products",
+      "Dried instantly so products can be shipped immediately",
+      "Offers larger print areas on many products and can print very close to the edge of flat products",
+      "Only one set up charge is required regardless of the number of print colours",
+    ],
+    limitations: [
+      "Some colours cannot be reproduced including metallic and neon/fluorescent colours",
+      "The size of branding areas is limited on curved surfaces",
+      "Larger print areas can be more expensive",
+    ],
+  },
 ];
 
 export const artworkFaq = [
