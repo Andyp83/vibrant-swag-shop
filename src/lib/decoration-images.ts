@@ -12,6 +12,7 @@ import digitalPackagingPrint from "@/assets/decoration/digital-packaging-print.p
 import digitalPrint from "@/assets/decoration/digital-print.png.asset.json";
 import directDigital from "@/assets/decoration/direct-digital.png.asset.json";
 import fauxEmbroidery from "@/assets/decoration/faux-embroidery.png.asset.json";
+import foilPrinting from "@/assets/decoration/foil-printing.png.asset.json";
 
 export const decorationImages: Record<string, { url: string; alt: string }> = {
   "screen-print": {
@@ -69,5 +70,9 @@ export const decorationImages: Record<string, { url: string; alt: string }> = {
   "faux-embroidery": {
     url: fauxEmbroidery.url,
     alt: "Black cap with a colourful Tropical Summer faux-embroidery style badge",
+  },
+  "foil-printing": {
+    url: foilPrinting.url,
+    alt: "Notebooks branded with metallic gold foil printing on black, grey and teal covers",
   },
 };
