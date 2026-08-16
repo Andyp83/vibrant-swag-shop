@@ -390,6 +390,27 @@ export const decorations: Decoration[] = [
       "Minimum line thickness: 0.4mm",
     ],
   },
+  {
+    slug: "imitation-etch",
+    name: "Imitation Etch",
+    colour: "blue",
+    what: "Imitation etch uses a special ink to produce an etch-like effect on glass products via pad or screen print.",
+    bestFor: "Glassware, drinkware and curved or uneven glass products needing an etched look",
+    colourLimit: "Single tone — frosted etch-like finish",
+    leadTime: "Requires a curing period before the product can be shipped",
+    artwork: "Vector editable artwork required. Fonts should be converted to outlines/objects.",
+    advantages: [
+      "Much more affordable than real etching",
+      "Can brand curved or uneven products",
+      "Produces a subtle finish with a higher perceived value that looks like etching",
+    ],
+    limitations: [
+      "Halftones cannot be consistently reproduced",
+      "The size of branding areas is limited on curved surfaces",
+      "Requires a curing period before the product can be shipped",
+      "Unable to print variable data",
+    ],
+  },
 ];
 
 export const artworkFaq = [
