@@ -629,6 +629,27 @@ export const decorations: Decoration[] = [
       "Minimum line thickness: 0.4mm",
     ],
   },
+  {
+    slug: "digital-label",
+    name: "Digital Label",
+    colour: "lime",
+    what: "Digital adhesive labels are used to brand products that cannot be branded with any other method. They are printed with a digital printing press and applied to the product.",
+    bestFor: "Products that cannot be branded by other methods, complex or small-surface items needing a full-colour adhesive label",
+    colourLimit: "Full colour CMYK — metallic and neon/fluorescent colours are not available",
+    leadTime: "Dries instantly, so products can be shipped immediately",
+    artwork: "Vector or bitmap at 300DPI at actual print size. Add a 3mm bleed if artwork bleeds off the product. Fonts should be converted to outlines/objects.",
+    advantages: [
+      "Ideal for producing vivid full colour images as well as closely matched spot colour branding",
+      "Can print variable data including individual names",
+      "Only one set up charge is required regardless of the number of print colours",
+      "Edge-to-edge branding can be achieved",
+      "Can be cut to custom shapes",
+    ],
+    limitations: [
+      "Metallic and neon/fluorescent colours are not available",
+      "White print cannot be produced on clear, silver or gold stock",
+    ],
+  },
 ];
 
 export const artworkFaq = [
