@@ -1,6 +1,6 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Download } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { artworkFaq, decorations, spectrum, swatchClass, textClass } from "@/lib/catalog";
 import { catalogQueryOptions } from "@/lib/catalog-query";
