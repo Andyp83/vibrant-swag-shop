@@ -411,6 +411,29 @@ function DecorationPage() {
           Upload artwork & get a quote <ArrowRight className="size-4" aria-hidden="true" />
         </Link>
       </section>
+
+      <Dialog open={!!lightboxSlug} onOpenChange={(open) => !open && setLightboxSlug(null)}>
+        <DialogContent className="max-w-4xl border-none bg-transparent p-0 shadow-none">
+          <DialogTitle className="sr-only">
+            {lightboxSlug ? decorations.find((d) => d.slug === lightboxSlug)?.name : "Decoration preview"}
+          </DialogTitle>
+          <DialogDescription className="sr-only">
+            Enlarged preview of the selected decoration method.
+          </DialogDescription>
+          {lightboxSlug && decorationImages[lightboxSlug]?.url && (
+            <figure className="relative">
+              <img
+                src={decorationImages[lightboxSlug].url}
+                alt={decorationImages[lightboxSlug].alt}
+                className="max-h-[80vh] w-full rounded-2xl object-contain shadow-2xl"
+              />
+              <figcaption className="mt-3 text-center text-sm font-semibold text-white/90">
+                {decorations.find((d) => d.slug === lightboxSlug)?.name}
+              </figcaption>
+            </figure>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
