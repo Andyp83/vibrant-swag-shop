@@ -564,6 +564,29 @@ export const decorations: Decoration[] = [
       "Each colour requires its own setup charge",
     ],
   },
+  {
+    slug: "silicone-digital-print",
+    name: "Silicone Digital Print",
+    colour: "cyan",
+    what: "A CMYK+W digital branding process designed specifically for silicone surfaces. It produces crisp, clear, high-definition artwork with a matt finish that does not crack or fade with typical use.",
+    bestFor: "Silicone products such as reusable cups, bands, sleeves and other flexible silicone items",
+    colourLimit: "Full colour CMYK plus white underbase — metallic and neon/fluorescent colours cannot be reproduced",
+    leadTime: "Standard digital print lead time applies",
+    artwork: "Vector or bitmap artwork accepted. Supplied bitmaps must be higher than 300DPI at actual print size. Fonts should be converted to outlines/objects to avoid font conflicts.",
+    advantages: [
+      "Provides crisp, clear, high-definition artwork",
+      "Durable, flexible branding that can be hand washed",
+      "Perfect for printing dark coloured products as a layer of white ink can be printed under the artwork",
+      "Ideal for producing full colour images as well as approximate spot colour branding",
+      "Has a matt finish and does not crack or fade with typical use of product",
+      "Only one set up charge is required regardless of the number of print colours",
+    ],
+    limitations: [
+      "Some colours cannot be reproduced including metallic and neon/fluorescent colours",
+      "Unable to print variable data",
+      "Minimum detail is advised to be no finer than 0.7mm",
+    ],
+  },
 ];
 
 export const artworkFaq = [

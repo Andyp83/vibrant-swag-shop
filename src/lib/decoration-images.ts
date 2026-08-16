@@ -20,6 +20,7 @@ import puffPrint from "@/assets/decoration/puff-print.png.asset.json";
 import resinCoatedFinish from "@/assets/decoration/resin-coated-finish.png.asset.json";
 import rotaryDigitalPrint from "@/assets/decoration/rotary-digital-print.png.asset.json";
 import rotaryScreenPrint from "@/assets/decoration/rotary-screen-print.png.asset.json";
+import siliconeDigitalPrint from "@/assets/decoration/silicone-digital-print.png.asset.json";
 
 export const decorationImages: Record<string, { url: string; alt: string }> = {
   "screen-print": {
@@ -109,5 +110,9 @@ export const decorationImages: Record<string, { url: string; alt: string }> = {
   "rotary-screen-print": {
     url: rotaryScreenPrint.url,
     alt: "White bottle branded with a grey boot-tread Outdoor Identity logo and teal text using Rotary Screen Print",
+  },
+  "silicone-digital-print": {
+    url: siliconeDigitalPrint.url,
+    alt: "Grey reusable coffee cup with a Good Vibes Only silicone digital print on the band",
   },
 };
