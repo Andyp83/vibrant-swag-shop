@@ -118,6 +118,8 @@ export type Decoration = {
   colourLimit: string;
   leadTime: string;
   artwork: string;
+  advantages?: string[];
+  limitations?: string[];
 };
 
 export const decorations: Decoration[] = [
