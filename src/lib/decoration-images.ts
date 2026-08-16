@@ -1,72 +1,43 @@
-import screenPrint from "@/assets/decoration/screen-print.png.asset.json";
-import embroidery from "@/assets/decoration/embroidery.png.asset.json";
-import padPrint from "@/assets/decoration/pad-print.png.asset.json";
-import laserEngraving from "@/assets/decoration/laser-engraving.png.asset.json";
-import digitalUvPrint from "@/assets/decoration/digital-uv-print.jpg.asset.json";
-import debossing from "@/assets/decoration/debossing-notebook.png.asset.json";
-import fullColourWrap from "@/assets/decoration/full-colour-wrap.jpg.asset.json";
-import doming from "@/assets/decoration/doming.jpg.asset.json";
 import colourflexTransfer from "@/assets/decoration/colourflex-transfer.png.asset.json";
+import debossing from "@/assets/decoration/debossing-notebook.png.asset.json";
 import digiflexTransfer from "@/assets/decoration/digiflex-transfer.png.asset.json";
+import digitalLabel from "@/assets/decoration/digital-label.png.asset.json";
 import digitalPackagingPrint from "@/assets/decoration/digital-packaging-print.png.asset.json";
 import digitalPrint from "@/assets/decoration/digital-print.png.asset.json";
 import directDigital from "@/assets/decoration/direct-digital.png.asset.json";
+import embroidery from "@/assets/decoration/embroidery.png.asset.json";
 import fauxEmbroidery from "@/assets/decoration/faux-embroidery.png.asset.json";
 import foilPrinting from "@/assets/decoration/foil-printing.png.asset.json";
 import hotStamping from "@/assets/decoration/hot-stamping.png.asset.json";
 import imitationEtch from "@/assets/decoration/imitation-etch.png.asset.json";
+import laserEngraving from "@/assets/decoration/laser-engraving.png.asset.json";
+import padPrint from "@/assets/decoration/pad-print.png.asset.json";
 import prismDigitalPrint from "@/assets/decoration/prism-digital-print.png.asset.json";
 import puffPrint from "@/assets/decoration/puff-print.png.asset.json";
 import resinCoatedFinish from "@/assets/decoration/resin-coated-finish.png.asset.json";
 import rotaryDigitalPrint from "@/assets/decoration/rotary-digital-print.png.asset.json";
 import rotaryScreenPrint from "@/assets/decoration/rotary-screen-print.png.asset.json";
+import screenPrint from "@/assets/decoration/screen-print.png.asset.json";
 import siliconeDigitalPrint from "@/assets/decoration/silicone-digital-print.png.asset.json";
 import sublimationPrint from "@/assets/decoration/sublimation-print.png.asset.json";
 import thermoDebossing from "@/assets/decoration/thermo-debossing.png.asset.json";
-import digitalLabel from "@/assets/decoration/digital-label.png.asset.json";
-
-
 
 export const decorationImages: Record<string, { url: string; alt: string }> = {
-  "screen-print": {
-    url: screenPrint.url,
-    alt: "Grey recycled lunch bag with a teal screen printed logo",
-  },
-  embroidery: {
-    url: embroidery.url,
-    alt: "Grey beanie with an embroidered EXPRESS logo in black and cyan thread",
-  },
-  "pad-print": {
-    url: padPrint.url,
-    alt: "Clear water bottle with bamboo lid and a multi-colour pad printed Waterwave logo",
-  },
-  "laser-engraving": {
-    url: laserEngraving.url,
-    alt: "White metal pen with a laser engraved Melody Jasmine logo",
-  },
-  "digital-uv-print": {
-    url: digitalUvPrint.url,
-    alt: "Full-colour digital UV print on a white hardcover notebook",
+  "colourflex-transfer": {
+    url: colourflexTransfer.url,
+    alt: "Navy hoodie branded with a full-colour Colourflex transfer print",
   },
   debossing: {
     url: debossing.url,
     alt: "Blind debossed Warada logo on a marble-patterned notebook cover",
   },
-  "full-colour-wrap": {
-    url: fullColourWrap.url,
-    alt: "Insulated tumbler with a seamless full-colour printed wrap",
-  },
-  doming: {
-    url: doming.url,
-    alt: "Glossy domed resin label on a branded keyring",
-  },
-  "colourflex-transfer": {
-    url: colourflexTransfer.url,
-    alt: "Navy hoodie branded with a full-colour Colourflex transfer print",
-  },
   "digiflex-transfer": {
     url: digiflexTransfer.url,
     alt: "Black sweatshirt branded with a colourful DigiFlex transfer print",
+  },
+  "digital-label": {
+    url: digitalLabel.url,
+    alt: "Red lollipop in a clear wrapper with a full-colour Prime Label digital adhesive label",
   },
   "digital-packaging-print": {
     url: digitalPackagingPrint.url,
@@ -79,6 +50,10 @@ export const decorationImages: Record<string, { url: string; alt: string }> = {
   "direct-digital": {
     url: directDigital.url,
     alt: "Green glass coasters branded with full-colour direct digital print",
+  },
+  embroidery: {
+    url: embroidery.url,
+    alt: "Grey beanie with an embroidered EXPRESS logo in black and cyan thread",
   },
   "faux-embroidery": {
     url: fauxEmbroidery.url,
@@ -95,6 +70,14 @@ export const decorationImages: Record<string, { url: string; alt: string }> = {
   "imitation-etch": {
     url: imitationEtch.url,
     alt: "Clear stemless wine glass with an imitation etch Palm Island logo",
+  },
+  "laser-engraving": {
+    url: laserEngraving.url,
+    alt: "White metal pen with a laser engraved Melody Jasmine logo",
+  },
+  "pad-print": {
+    url: padPrint.url,
+    alt: "Clear water bottle with bamboo lid and a multi-colour pad printed Waterwave logo",
   },
   "prism-digital-print": {
     url: prismDigitalPrint.url,
@@ -116,6 +99,10 @@ export const decorationImages: Record<string, { url: string; alt: string }> = {
     url: rotaryScreenPrint.url,
     alt: "White bottle branded with a grey boot-tread Outdoor Identity logo and teal text using Rotary Screen Print",
   },
+  "screen-print": {
+    url: screenPrint.url,
+    alt: "Grey recycled lunch bag with a teal screen printed logo",
+  },
   "silicone-digital-print": {
     url: siliconeDigitalPrint.url,
     alt: "Grey reusable coffee cup with a Good Vibes Only silicone digital print on the band",
@@ -127,9 +114,5 @@ export const decorationImages: Record<string, { url: string; alt: string }> = {
   "thermo-debossing": {
     url: thermoDebossing.url,
     alt: "Teal notebook cover with a blind Thermo Debossed The Local Craft Food logo",
-  },
-  "digital-label": {
-    url: digitalLabel.url,
-    alt: "Red lollipop in a clear wrapper with a full-colour Prime Label digital adhesive label",
   },
 };
