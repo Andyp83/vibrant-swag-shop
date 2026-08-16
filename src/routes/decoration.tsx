@@ -320,7 +320,34 @@ function DecorationPage() {
         ))}
       </div>
 
+      <section className="mt-16 rounded-2xl border border-border bg-card p-7">
+        <h2 className="display-type text-2xl">Spec sheets</h2>
+        <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
+          One-page PDF for each method — description, colour limits, lead time, artwork
+          requirements and suited product categories. Handy for briefing your designer.
+        </p>
+        <ul className="mt-6 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+          {visible.map((d) => (
+            <li key={d.slug}>
+              <a
+                href={`/spec-sheets/${d.slug}.pdf`}
+                download
+                className="flex items-center gap-3 rounded-xl border border-border px-4 py-3 text-sm font-medium transition-colors hover:bg-accent"
+              >
+                <span
+                  className={`size-2.5 shrink-0 rounded-full ${swatchClass[d.colour]}`}
+                  aria-hidden="true"
+                />
+                <span className="flex-1">{d.name}</span>
+                <Download className="size-4 shrink-0 text-muted-foreground" aria-hidden="true" />
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+
       <BannerRow title="New branding technologies" banners={decorationBanners} className="mt-16" />
+
 
       <section className="mt-20">
         <h2 className="display-type text-2xl sm:text-3xl">Artwork, answered</h2>
