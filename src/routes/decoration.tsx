@@ -307,7 +307,7 @@ function DecorationPage() {
         </div>
       </section>
 
-      <div className="mt-12 grid gap-4 gap-y-8 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mt-12 grid gap-4 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
         {visible.map((d) => (
           <div
             key={d.slug}
@@ -321,7 +321,7 @@ function DecorationPage() {
               }
             }}
             aria-pressed={d.slug === active.slug}
-            className={`relative rounded-2xl border p-5 pr-24 text-left transition-colors ${
+            className={`relative rounded-2xl border p-5 text-left transition-colors ${
               d.slug === active.slug
                 ? "border-foreground bg-secondary"
                 : "border-border bg-card hover:bg-accent"
@@ -335,7 +335,7 @@ function DecorationPage() {
                   setLightboxSlug(d.slug);
                 }}
                 aria-label={`Enlarge ${d.name} preview`}
-                className="absolute -right-3 -top-5 z-10 size-24 cursor-zoom-in overflow-visible rounded-xl border-0 bg-transparent p-0 transition-transform duration-200 ease-out hover:z-20 hover:scale-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                className="absolute -right-2 -top-4 z-10 size-16 cursor-zoom-in overflow-visible rounded-xl border-0 bg-transparent p-0 transition-transform duration-200 ease-out hover:z-20 hover:scale-125 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:-right-3 sm:-top-5 sm:size-20 lg:size-24 lg:hover:scale-150"
               >
                 <img
                   src={decorationImages[d.slug]!.url}
@@ -350,11 +350,14 @@ function DecorationPage() {
               className={`block h-1.5 w-10 rounded-full ${swatchClass[d.colour]}`}
               aria-hidden="true"
             />
-            <span className="mt-4 block font-semibold">{d.name}</span>
-            <span className="mt-2 block text-sm text-muted-foreground">{d.bestFor}</span>
+            <div className="min-w-0 pr-16 sm:pr-20 lg:pr-24">
+              <span className="mt-4 block font-semibold">{d.name}</span>
+              <span className="mt-2 block text-sm text-muted-foreground">{d.bestFor}</span>
+            </div>
           </div>
         ))}
       </div>
+
 
 
       <section className="mt-16 rounded-2xl border border-border bg-card p-7">
