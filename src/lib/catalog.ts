@@ -323,6 +323,31 @@ export const decorations: Decoration[] = [
       "Larger print areas can be more expensive",
     ],
   },
+  {
+    slug: "faux-embroidery",
+    name: "Faux Embroidery",
+    colour: "orange",
+    what: "A Colourflex® Transfer with the supplied artwork digitised to create a texture and depth that mimics traditional embroidery. Suitable for branding bags, apparel and other textile products with unlimited colours.",
+    bestFor: "Caps, apparel, bags and textile products needing an embroidered look with unlimited colours",
+    colourLimit: "Unlimited colours. Pantone matching is not available — artwork is matched to the closest thread colour with 3D shading that affects the final colour outcome. Metallic colours not available.",
+    leadTime: "Can be shipped straight after being printed",
+    artwork: "Vector and/or high-resolution JPEG. Bitmaps can be used, but insufficient resolution will affect output quality. Sans Serif fonts: min. height 4.5mm, 1.3mm thickness, 1mm letter spacing. Serif/Script fonts: min. height 5.5mm, 1.3mm thickness, 1mm letter spacing.",
+    advantages: [
+      "Durable, flexible branding for apparel that is machine washable with a soft-touch matte finish",
+      "Eco-friendly water-based inks",
+      "Efficient self-weeding technology",
+      "Only one set up charge is required regardless of the number of print colours",
+      "Can be shipped straight after being printed",
+      "Can be applied to a larger range of products and positions",
+      "Results on smaller sized prints is far better than can be achieved with conventional embroidery",
+    ],
+    limitations: [
+      "Pantone colour matching is not available. Artwork will be matched to the closest available thread colour with a 3D shading that will affect the colour outcome",
+      "Not suitable for fine details in the artwork – bold larger art is recommended to create the most realistic Faux Embroidery",
+      "As the size of the design decreases, both stitch clarity and detail resolution be reduced",
+      "Metallic colours not available",
+    ],
+  },
 ];
 
 export const artworkFaq = [
