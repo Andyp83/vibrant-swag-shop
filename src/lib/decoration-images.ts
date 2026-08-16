@@ -91,4 +91,8 @@ export const decorationImages: Record<string, { url: string; alt: string }> = {
     url: prismDigitalPrint.url,
     alt: "Black zip case branded with a vivid full-colour Prism Digital Print Delicioso Monstruo logo",
   },
+  "puff-print": {
+    url: puffPrint.url,
+    alt: "Charcoal sweatshirt with a raised orange Puff Print Swell Seeker design",
+  },
 };
