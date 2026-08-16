@@ -236,7 +236,8 @@ function QuotePage() {
               <select
                 id="decorationMethod"
                 name="decorationMethod"
-                defaultValue=""
+                key={preselectedDecoration}
+                defaultValue={preselectedDecoration}
                 className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
               >
                 <option value="">Not sure — recommend one</option>
