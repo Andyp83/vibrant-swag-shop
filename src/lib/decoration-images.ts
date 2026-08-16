@@ -96,4 +96,8 @@ export const decorationImages: Record<string, { url: string; alt: string }> = {
     url: puffPrint.url,
     alt: "Charcoal sweatshirt with a raised orange Puff Print Swell Seeker design",
   },
+  "resin-coated-finish": {
+    url: resinCoatedFinish.url,
+    alt: "Metal keyring with a full-colour Garage Complete Auto Repair resin coated dome decal",
+  },
 };
