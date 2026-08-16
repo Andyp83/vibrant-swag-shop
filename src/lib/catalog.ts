@@ -247,6 +247,28 @@ export const decorations: Decoration[] = [
       "Minimum detail advised at 1mm",
     ],
   },
+  {
+    slug: "digital-packaging-print",
+    name: "Digital Packaging Print",
+    colour: "teal",
+    what: "A single-pass CMYK digital print onto a range of packaging materials, producing full-colour, complex images with gradients.",
+    bestFor: "Boxes, mailers, retail cartons and packaging needing photographic or gradient artwork",
+    colourLimit: "Full CMYK digital print. Metallic, neon and closely matched PMS/RGB colours cannot be produced.",
+    leadTime: "Dries instantly, so products can be shipped immediately",
+    artwork: "Vector or bitmap at 300DPI at actual print size. Fonts should be converted to outlines/objects.",
+    advantages: [
+      "Ideal for producing full colour, complex images with gradients",
+      "Variable data, including names, is available on select products",
+      "Only one setup charge is required regardless of the number of print colours",
+      "Dries instantly, so products can be shipped immediately",
+      "Uses dye so there is no ink build-up",
+    ],
+    limitations: [
+      "Some colours, including closely matched PMS, RGB, metallic and neon colours, cannot be produced",
+      "Cannot print on dark coloured substrates as white ink cannot be printed underneath the artwork",
+      "Edge-to-edge branding and large block colours cannot be achieved",
+    ],
+  },
 ];
 
 export const artworkFaq = [

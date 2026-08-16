@@ -21,7 +21,7 @@ export const Route = createFileRoute("/decoration")({
       {
         name: "description",
         content:
-          "Compare ten branding methods: screen print, embroidery, pad print, laser engraving, digital UV, debossing, full-colour wrap, doming, Colourflex transfer and DigiFlex transfer, with lead times and artwork specs.",
+          "Compare eleven branding methods: screen print, embroidery, pad print, laser engraving, digital UV, debossing, full-colour wrap, doming, Colourflex transfer, DigiFlex transfer and Digital Packaging Print, with lead times and artwork specs.",
       },
       {
         property: "og:title",
@@ -30,7 +30,7 @@ export const Route = createFileRoute("/decoration")({
       {
         property: "og:description",
         content:
-          "Ten branding methods compared: colour limits, lead times and artwork requirements for each.",
+          "Eleven branding methods compared: colour limits, lead times and artwork requirements for each.",
       },
     ],
   }),
@@ -38,18 +38,17 @@ export const Route = createFileRoute("/decoration")({
 });
 
 function DecorationPage() {
-  const hashSlug = typeof window !== "undefined" ? window.location.hash.replace("#", "") : "";
-  const initialSlug = decorations.find((d) => d.slug === hashSlug) ? hashSlug : decorations[0]!.slug;
-  const [selected, setSelected] = useState(initialSlug);
+  const [selected, setSelected] = useState(decorations[0]!.slug);
   const active = decorations.find((d) => d.slug === selected) ?? decorations[0]!;
 
   useEffect(() => {
-    const onHashChange = () => {
+    const readHash = () => {
       const slug = window.location.hash.replace("#", "");
       if (decorations.find((d) => d.slug === slug)) setSelected(slug);
     };
-    window.addEventListener("hashchange", onHashChange);
-    return () => window.removeEventListener("hashchange", onHashChange);
+    readHash();
+    window.addEventListener("hashchange", readHash);
+    return () => window.removeEventListener("hashchange", readHash);
   }, []);
 
   return (
@@ -58,7 +57,7 @@ function DecorationPage() {
         Decoration
       </p>
       <h1 className="display-type mt-4 max-w-2xl text-4xl sm:text-5xl">
-        Ten ways to put your logo on it
+        Eleven ways to put your logo on it
       </h1>
       <p className="mt-5 max-w-2xl text-muted-foreground">
         The method matters as much as the product. Pick a method below to see what it's best for, how
