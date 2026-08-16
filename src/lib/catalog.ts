@@ -201,6 +201,16 @@ export const decorations: Decoration[] = [
     leadTime: "9–11 working days",
     artwork: "Vector or 300dpi raster with a defined outer cut shape.",
   },
+  {
+    slug: "colourflex-transfer",
+    name: "Colourflex Transfer",
+    colour: "pink",
+    what: "A CMYK+W digital print process for apparel and fabrics. It produces high-definition, vibrant artwork with a soft-touch matt finish and efficient self-weeding technology.",
+    bestFor: "Tees, hoodies, apparel, bags and fabric items needing full-colour or photographic artwork",
+    colourLimit: "Full CMYK + white underbase; approximate spot colours. Metallic and neon/fluorescent colours cannot be reproduced.",
+    leadTime: "6–8 working days; can be shipped straight after printing",
+    artwork: "Vector or bitmap at 300DPI at actual print size. Fonts should be converted to outlines/objects. Minimum detail 1mm.",
+  },
 ];
 
 export const artworkFaq = [
