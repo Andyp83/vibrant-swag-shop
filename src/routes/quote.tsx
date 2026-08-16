@@ -283,8 +283,13 @@ function QuotePage() {
               <select
                 id="decorationMethod"
                 name="decorationMethod"
-                key={preselectedDecoration}
-                defaultValue={preselectedDecoration}
+                value={method}
+                onChange={(e) => {
+                  setMethod(e.target.value);
+                  setArtworkConfirmed(false);
+                  setArtworkError("");
+                  setLowRes([]);
+                }}
                 className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
               >
                 <option value="">Not sure — recommend one</option>
