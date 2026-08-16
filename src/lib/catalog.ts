@@ -269,6 +269,29 @@ export const decorations: Decoration[] = [
       "Edge-to-edge branding and large block colours cannot be achieved",
     ],
   },
+  {
+    slug: "digital-print",
+    name: "Digital Print",
+    colour: "cyan",
+    what: "A CMYK digital print process for paper, vinyl and magnetic material used in the manufacture of labels, badges, fridge magnets and similar items.",
+    bestFor: "Labels, badges, fridge magnets, stickers and promotional paper products",
+    colourLimit: "Full CMYK digital print. Metallic and neon/fluorescent colours are not available.",
+    leadTime: "Dries instantly, so products can be shipped immediately",
+    artwork: "Vector or bitmap at 300DPI at actual print size. Add a 3mm bleed if artwork bleeds off the product. Fonts should be converted to outlines/objects.",
+    advantages: [
+      "Ideal for producing full colour, complex images with gradients",
+      "Variable data including individual names is available on select products",
+      "Only one set up charge is required regardless of the number of print colours",
+      "Dries instantly so products can be shipped immediately",
+      "Select products can be cut to custom shapes",
+      "Edge-to-edge branding can be achieved on certain products",
+    ],
+    limitations: [
+      "Metallic and neon/fluorescent colours are not available",
+      "White print cannot be produced on kraft, clear, silver or gold stock",
+      "Cannot print on dark coloured substrates as white ink cannot be printed underneath the artwork",
+    ],
+  },
 ];
 
 export const artworkFaq = [
