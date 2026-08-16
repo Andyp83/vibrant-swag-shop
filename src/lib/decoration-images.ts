@@ -41,4 +41,8 @@ export const decorationImages: Record<string, { url: string; alt: string }> = {
     url: doming.url,
     alt: "Glossy domed resin label on a branded keyring",
   },
+  "colourflex-transfer": {
+    url: colourflexTransfer.url,
+    alt: "Navy hoodie branded with a full-colour Colourflex transfer print",
+  },
 };
