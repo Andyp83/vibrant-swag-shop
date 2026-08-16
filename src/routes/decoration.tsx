@@ -252,6 +252,28 @@ function DecorationPage() {
                 )}
               </div>
             )}
+            <div className="mt-6">
+              <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                Available for
+              </p>
+              <ul className="mt-2 flex flex-wrap gap-2">
+                {active.categories.map((slug) => (
+                  <li key={slug}>
+                    <Link
+                      to="/products/$category"
+                      params={{ category: slug }}
+                      className="inline-flex items-center gap-2 rounded-full border border-border px-3 py-1.5 text-xs font-medium hover:bg-accent"
+                    >
+                      <span
+                        className={`size-2 rounded-full ${swatchClass[categoryColour(slug)]}`}
+                        aria-hidden="true"
+                      />
+                      {categoryName(slug)}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
             <Link
               to="/quote"
               className="mt-7 inline-flex items-center gap-2 text-sm font-semibold underline underline-offset-4"
@@ -264,7 +286,8 @@ function DecorationPage() {
       </section>
 
       <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {decorations.map((d) => (
+        {visible.map((d) => (
+
           <button
             key={d.slug}
             type="button"
