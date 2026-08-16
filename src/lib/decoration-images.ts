@@ -105,4 +105,8 @@ export const decorationImages: Record<string, { url: string; alt: string }> = {
     url: rotaryDigitalPrint.url,
     alt: "White stainless steel bottle with bamboo lid and base, branded with a full-colour Rotary Digital Print Dream Works design",
   },
+  "rotary-screen-print": {
+    url: rotaryScreenPrint.url,
+    alt: "White tumbler branded with a grey tyre-tread Outdoor Identity logo and teal text using Rotary Screen Print",
+  },
 };
