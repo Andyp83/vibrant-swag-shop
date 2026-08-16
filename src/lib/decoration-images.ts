@@ -1,5 +1,5 @@
 import screenPrint from "@/assets/decoration/screen-print.jpg.asset.json";
-import embroidery from "@/assets/decoration/embroidery.jpg.asset.json";
+import embroidery from "@/assets/decoration/embroidery.png.asset.json";
 import padPrint from "@/assets/decoration/pad-print.jpg.asset.json";
 import laserEngraving from "@/assets/decoration/laser-engraving.jpg.asset.json";
 import digitalUvPrint from "@/assets/decoration/digital-uv-print.jpg.asset.json";
@@ -19,7 +19,7 @@ export const decorationImages: Record<string, { url: string; alt: string }> = {
   },
   embroidery: {
     url: embroidery.url,
-    alt: "Close-up of an embroidered logo stitched onto a navy cap",
+    alt: "Grey beanie with an embroidered EXPRESS logo in black and cyan thread",
   },
   "pad-print": {
     url: padPrint.url,
