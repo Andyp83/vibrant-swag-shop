@@ -13,6 +13,12 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 
 
@@ -45,6 +51,7 @@ function DecorationPage() {
   const { data: categories } = useSuspenseQuery(catalogQueryOptions());
   const [categoryFilter, setCategoryFilter] = useState("");
   const [selected, setSelected] = useState(decorations[0]!.slug);
+  const [lightboxSlug, setLightboxSlug] = useState<string | null>(null);
 
   const visible = useMemo(
     () =>
@@ -302,10 +309,17 @@ function DecorationPage() {
 
       <div className="mt-12 grid gap-4 gap-y-8 sm:grid-cols-2 lg:grid-cols-4">
         {visible.map((d) => (
-          <button
+          <div
             key={d.slug}
-            type="button"
+            role="button"
+            tabIndex={0}
             onClick={() => setSelected(d.slug)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                setSelected(d.slug);
+              }
+            }}
             aria-pressed={d.slug === active.slug}
             className={`relative rounded-2xl border p-5 pr-24 text-left transition-colors ${
               d.slug === active.slug
@@ -314,13 +328,23 @@ function DecorationPage() {
             }`}
           >
             {decorationImages[d.slug]?.url && (
-              <img
-                src={decorationImages[d.slug]!.url}
-                alt=""
-                aria-hidden="true"
-                loading="lazy"
-                className="pointer-events-none absolute -right-3 -top-5 size-24 object-contain mix-blend-multiply drop-shadow-sm"
-              />
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setLightboxSlug(d.slug);
+                }}
+                aria-label={`Enlarge ${d.name} preview`}
+                className="absolute -right-3 -top-5 z-10 size-24 cursor-zoom-in overflow-visible rounded-xl border-0 bg-transparent p-0 transition-transform duration-200 ease-out hover:z-20 hover:scale-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              >
+                <img
+                  src={decorationImages[d.slug]!.url}
+                  alt=""
+                  aria-hidden="true"
+                  loading="lazy"
+                  className="pointer-events-none size-full object-contain mix-blend-multiply drop-shadow-lg"
+                />
+              </button>
             )}
             <span
               className={`block h-1.5 w-10 rounded-full ${swatchClass[d.colour]}`}
@@ -328,7 +352,7 @@ function DecorationPage() {
             />
             <span className="mt-4 block font-semibold">{d.name}</span>
             <span className="mt-2 block text-sm text-muted-foreground">{d.bestFor}</span>
-          </button>
+          </div>
         ))}
       </div>
 
@@ -387,6 +411,29 @@ function DecorationPage() {
           Upload artwork & get a quote <ArrowRight className="size-4" aria-hidden="true" />
         </Link>
       </section>
+
+      <Dialog open={!!lightboxSlug} onOpenChange={(open) => !open && setLightboxSlug(null)}>
+        <DialogContent className="max-w-4xl border-none bg-transparent p-0 shadow-none">
+          <DialogTitle className="sr-only">
+            {lightboxSlug ? decorations.find((d) => d.slug === lightboxSlug)?.name : "Decoration preview"}
+          </DialogTitle>
+          <DialogDescription className="sr-only">
+            Enlarged preview of the selected decoration method.
+          </DialogDescription>
+          {lightboxSlug && decorationImages[lightboxSlug]?.url && (
+            <figure className="relative">
+              <img
+                src={decorationImages[lightboxSlug].url}
+                alt={decorationImages[lightboxSlug].alt}
+                className="max-h-[80vh] w-full rounded-2xl object-contain shadow-2xl"
+              />
+              <figcaption className="mt-3 text-center text-sm font-semibold text-white/90">
+                {decorations.find((d) => d.slug === lightboxSlug)?.name}
+              </figcaption>
+            </figure>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
