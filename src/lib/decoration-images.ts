@@ -19,6 +19,7 @@ import prismDigitalPrint from "@/assets/decoration/prism-digital-print.png.asset
 import puffPrint from "@/assets/decoration/puff-print.png.asset.json";
 import resinCoatedFinish from "@/assets/decoration/resin-coated-finish.png.asset.json";
 import rotaryDigitalPrint from "@/assets/decoration/rotary-digital-print.png.asset.json";
+import rotaryScreenPrint from "@/assets/decoration/rotary-screen-print.png.asset.json";
 
 export const decorationImages: Record<string, { url: string; alt: string }> = {
   "screen-print": {
@@ -104,5 +105,9 @@ export const decorationImages: Record<string, { url: string; alt: string }> = {
   "rotary-digital-print": {
     url: rotaryDigitalPrint.url,
     alt: "White stainless steel bottle with bamboo lid and base, branded with a full-colour Rotary Digital Print Dream Works design",
+  },
+  "rotary-screen-print": {
+    url: rotaryScreenPrint.url,
+    alt: "White tumbler branded with a grey tyre-tread Outdoor Identity logo and teal text using Rotary Screen Print",
   },
 };

@@ -530,6 +530,28 @@ export const decorations: Decoration[] = [
       "More expensive than other branding options",
     ],
   },
+  {
+    slug: "rotary-screen-print",
+    name: "Rotary Screen Print",
+    colour: "teal",
+    what: "Screen Printing is achieved by forcing ink through a fine mesh screen with a squeegee onto the product. The rotary version is ideal for branding cylindrical objects with the same crisp, opaque finish as flat screen printing.",
+    bestFor: "Cylindrical products such as drinkware, bottles and flat objects needing bold, opaque branding",
+    colourLimit: "Up to 5 spot colours with tight multi-colour registration; fluorescent, metallic gold and silver inks available on select products",
+    leadTime: "Most screen print inks dry quickly and can be shipped immediately after printing",
+    artwork: "Editable vector artwork required. Fonts should be converted to outlines/objects.",
+    advantages: [
+      "Large print areas are possible on flat products",
+      "Close PMS matches are possible on white or light-coloured products",
+      "Most screen print inks dry quickly and can be shipped immediately after printing",
+      "Fluorescent, metallic gold and silver inks are available on select textile products",
+      "Many products can print with tight multi-colour registration, with some products able to be printed using up to five colours",
+    ],
+    limitations: [
+      "Close PMS matches are more difficult on darker products and will only be approximate. In some instances, a white base will create a better print",
+      "Unable to print variable data",
+      "Each colour requires its own setup charge",
+    ],
+  },
 ];
 
 export const artworkFaq = [
