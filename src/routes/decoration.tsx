@@ -21,7 +21,7 @@ export const Route = createFileRoute("/decoration")({
       {
         name: "description",
         content:
-          "Compare eight branding methods: screen print, embroidery, pad print, laser engraving, digital UV, debossing, full-colour wrap and doming, with lead times and artwork specs.",
+          "Compare nine branding methods: screen print, embroidery, pad print, laser engraving, digital UV, debossing, full-colour wrap, doming and Colourflex transfer, with lead times and artwork specs.",
       },
       {
         property: "og:title",
@@ -30,7 +30,7 @@ export const Route = createFileRoute("/decoration")({
       {
         property: "og:description",
         content:
-          "Eight branding methods compared: colour limits, lead times and artwork requirements for each.",
+          "Nine branding methods compared: colour limits, lead times and artwork requirements for each.",
       },
     ],
   }),
@@ -143,6 +143,34 @@ function DecorationPage() {
                 <dd className="mt-1">{active.artwork}</dd>
               </div>
             </dl>
+            {(active.advantages || active.limitations) && (
+              <div className="mt-6 grid gap-6 text-sm sm:grid-cols-2">
+                {active.advantages && (
+                  <div>
+                    <dt className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                      Advantages
+                    </dt>
+                    <ul className="mt-2 list-disc space-y-1 pl-4">
+                      {active.advantages.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+                {active.limitations && (
+                  <div>
+                    <dt className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                      Limitations
+                    </dt>
+                    <ul className="mt-2 list-disc space-y-1 pl-4">
+                      {active.limitations.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            )}
             <Link
               to="/quote"
               className="mt-7 inline-flex items-center gap-2 text-sm font-semibold underline underline-offset-4"

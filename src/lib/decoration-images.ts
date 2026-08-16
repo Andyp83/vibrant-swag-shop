@@ -3,7 +3,7 @@ import embroidery from "@/assets/decoration/embroidery.jpg.asset.json";
 import padPrint from "@/assets/decoration/pad-print.jpg.asset.json";
 import laserEngraving from "@/assets/decoration/laser-engraving.jpg.asset.json";
 import digitalUvPrint from "@/assets/decoration/digital-uv-print.jpg.asset.json";
-import debossing from "@/assets/decoration/debossing.jpg.asset.json";
+import debossing from "@/assets/decoration/debossing-notebook.png.asset.json";
 import fullColourWrap from "@/assets/decoration/full-colour-wrap.jpg.asset.json";
 import doming from "@/assets/decoration/doming.jpg.asset.json";
 import colourflexTransfer from "@/assets/decoration/colourflex-transfer.png.asset.json";
@@ -31,7 +31,7 @@ export const decorationImages: Record<string, { url: string; alt: string }> = {
   },
   debossing: {
     url: debossing.url,
-    alt: "Debossed logo pressed into a tan PU leather notebook cover",
+    alt: "Blind debossed Warada logo on a marble-patterned notebook cover",
   },
   "full-colour-wrap": {
     url: fullColourWrap.url,
