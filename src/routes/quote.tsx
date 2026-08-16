@@ -1,11 +1,20 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, type ChangeEvent, type FormEvent } from "react";
-import { Loader2, Paperclip, UploadCloud, X, CheckCircle2 } from "lucide-react";
+import {
+  Loader2,
+  Paperclip,
+  UploadCloud,
+  X,
+  CheckCircle2,
+  Info,
+  AlertTriangle,
+} from "lucide-react";
 import { z } from "zod";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery } from "@tanstack/react-query";
 import { decorations } from "@/lib/catalog";
+import { getArtworkSpec, fileExtension, isRaster } from "@/lib/artwork-specs";
 import { catalogQueryOptions } from "@/lib/catalog-query";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -79,6 +88,26 @@ function QuotePage() {
   const [errors, setErrors] = useState<FieldErrors>({});
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
+  const [method, setMethod] = useState(preselectedDecoration);
+  const [lowRes, setLowRes] = useState<string[]>([]);
+  const [artworkConfirmed, setArtworkConfirmed] = useState(false);
+  const [artworkError, setArtworkError] = useState("");
+
+  const spec = getArtworkSpec(method);
+  const invalidFiles = files.filter((f) => !spec.fileTypes.includes(fileExtension(f.name)));
+
+  async function measure(file: File) {
+    if (!isRaster(file.name) || spec.minRasterEdge === 0) return;
+    try {
+      const url = URL.createObjectURL(file);
+      const bitmap = await createImageBitmap(file).finally(() => URL.revokeObjectURL(url));
+      if (Math.min(bitmap.width, bitmap.height) < spec.minRasterEdge) {
+        setLowRes((prev) => (prev.includes(file.name) ? prev : [...prev, file.name]));
+      }
+    } catch {
+      /* unreadable formats (PSD, TIFF) are checked by our studio instead */
+    }
+  }
 
   function addFiles(event: ChangeEvent<HTMLInputElement>) {
     const picked = Array.from(event.target.files ?? []);
@@ -89,8 +118,16 @@ function QuotePage() {
         toast.error(`${file.name} is larger than 20MB`);
         continue;
       }
+      if (!spec.fileTypes.includes(fileExtension(file.name))) {
+        toast.error(
+          `${file.name} isn't a supported format for ${method || "this brief"} — use ${spec.fileTypes.join(", ")}`,
+        );
+        continue;
+      }
       accepted.push(file);
+      void measure(file);
     }
+    setArtworkError("");
     setFiles((prev) => {
       const next = [...prev, ...accepted];
       if (next.length > MAX_FILES) {
@@ -117,8 +154,26 @@ function QuotePage() {
       return;
     }
 
+    if (invalidFiles.length > 0) {
+      setErrors({});
+      setArtworkError(
+        `${invalidFiles.map((f) => f.name).join(", ")} ${invalidFiles.length > 1 ? "aren't" : "isn't"} accepted for ${method}. Accepted: ${spec.fileTypes.join(", ")}.`,
+      );
+      toast.error("Please fix the artwork files before sending");
+      return;
+    }
+
+    if (files.length > 0 && spec.confirmRequired && !artworkConfirmed) {
+      setErrors({});
+      setArtworkError("Please confirm the resolution and bleed requirements for this method.");
+      toast.error("Confirm the artwork requirements to continue");
+      return;
+    }
+
     setErrors({});
+    setArtworkError("");
     setSubmitting(true);
+
 
     try {
       const folder = `${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
@@ -236,8 +291,13 @@ function QuotePage() {
               <select
                 id="decorationMethod"
                 name="decorationMethod"
-                key={preselectedDecoration}
-                defaultValue={preselectedDecoration}
+                value={method}
+                onChange={(e) => {
+                  setMethod(e.target.value);
+                  setArtworkConfirmed(false);
+                  setArtworkError("");
+                  setLowRes([]);
+                }}
                 className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
               >
                 <option value="">Not sure — recommend one</option>
@@ -283,20 +343,57 @@ function QuotePage() {
 
         <fieldset className="rounded-2xl border border-border bg-card p-6">
           <legend className="display-type px-2 text-base">Logos & designs</legend>
+
+          <div className="mt-2 rounded-xl border border-border bg-secondary/60 p-5">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+              Artwork requirements{method ? ` · ${method}` : ""}
+            </p>
+            <dl className="mt-4 grid gap-4 sm:grid-cols-3">
+              <div>
+                <dt className="text-xs font-semibold">File types</dt>
+                <dd className="mt-1 text-xs text-muted-foreground">{spec.formatGuidance}</dd>
+              </div>
+              <div>
+                <dt className="text-xs font-semibold">Resolution</dt>
+                <dd className="mt-1 text-xs text-muted-foreground">{spec.dpi}</dd>
+              </div>
+              <div>
+                <dt className="text-xs font-semibold">Bleed</dt>
+                <dd className="mt-1 text-xs text-muted-foreground">{spec.bleed}</dd>
+              </div>
+            </dl>
+            {spec.notes.length > 0 && (
+              <ul className="mt-4 space-y-1.5">
+                {spec.notes.map((note) => (
+                  <li key={note} className="flex gap-2 text-xs text-muted-foreground">
+                    <Info className="mt-0.5 size-3.5 shrink-0" aria-hidden="true" />
+                    <span>{note}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
+            {!method && (
+              <p className="mt-4 text-xs text-muted-foreground">
+                Pick a preferred decoration above to see the exact file, resolution and bleed rules.
+              </p>
+            )}
+          </div>
+
           <label
             htmlFor="artwork"
-            className="mt-2 flex cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-border bg-secondary px-6 py-10 text-center transition-colors hover:border-primary"
+            className="mt-5 flex cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-border bg-secondary px-6 py-10 text-center transition-colors hover:border-primary"
           >
             <UploadCloud className="size-7 text-muted-foreground" aria-hidden="true" />
             <span className="text-sm font-semibold">Choose files to upload</span>
             <span className="text-xs text-muted-foreground">
-              AI, EPS, PDF, SVG, PNG or JPG · up to {MAX_FILES} files · 20MB each
+              {spec.fileTypes.map((t) => t.replace(".", "").toUpperCase()).join(" · ")} · up to{" "}
+              {MAX_FILES} files · 20MB each
             </span>
             <input
               id="artwork"
               type="file"
               multiple
-              accept=".ai,.eps,.pdf,.svg,.png,.jpg,.jpeg,.zip"
+              accept={spec.fileTypes.join(",")}
               className="sr-only"
               onChange={addFiles}
             />
@@ -304,27 +401,81 @@ function QuotePage() {
 
           {files.length > 0 && (
             <ul className="mt-4 space-y-2">
-              {files.map((file, i) => (
-                <li
-                  key={`${file.name}-${i}`}
-                  className="flex items-center gap-3 rounded-lg border border-border px-3 py-2 text-sm"
-                >
-                  <Paperclip className="size-4 shrink-0 text-muted-foreground" aria-hidden="true" />
-                  <span className="min-w-0 flex-1 truncate">{file.name}</span>
-                  <span className="shrink-0 text-xs text-muted-foreground">
-                    {(file.size / 1024 / 1024).toFixed(1)}MB
-                  </span>
-                  <button
-                    type="button"
-                    aria-label={`Remove ${file.name}`}
-                    onClick={() => setFiles((prev) => prev.filter((_, index) => index !== i))}
-                    className="shrink-0 rounded-full p-1 hover:bg-accent"
+              {files.map((file, i) => {
+                const badType = !spec.fileTypes.includes(fileExtension(file.name));
+                const soft = lowRes.includes(file.name);
+                return (
+                  <li
+                    key={`${file.name}-${i}`}
+                    className={`rounded-lg border px-3 py-2 text-sm ${
+                      badType ? "border-destructive/60 bg-destructive/5" : "border-border"
+                    }`}
                   >
-                    <X className="size-4" aria-hidden="true" />
-                  </button>
-                </li>
-              ))}
+                    <div className="flex items-center gap-3">
+                      <Paperclip
+                        className="size-4 shrink-0 text-muted-foreground"
+                        aria-hidden="true"
+                      />
+                      <span className="min-w-0 flex-1 truncate">{file.name}</span>
+                      <span className="shrink-0 text-xs text-muted-foreground">
+                        {(file.size / 1024 / 1024).toFixed(1)}MB
+                      </span>
+                      <button
+                        type="button"
+                        aria-label={`Remove ${file.name}`}
+                        onClick={() => {
+                          setFiles((prev) => prev.filter((_, index) => index !== i));
+                          setLowRes((prev) => prev.filter((n) => n !== file.name));
+                          setArtworkError("");
+                        }}
+                        className="shrink-0 rounded-full p-1 hover:bg-accent"
+                      >
+                        <X className="size-4" aria-hidden="true" />
+                      </button>
+                    </div>
+                    {badType && (
+                      <p className="mt-1.5 flex gap-2 text-xs text-destructive">
+                        <AlertTriangle className="mt-0.5 size-3.5 shrink-0" aria-hidden="true" />
+                        Not accepted for {method} — remove it or supply{" "}
+                        {spec.fileTypes.slice(0, 4).join(", ")}.
+                      </p>
+                    )}
+                    {!badType && soft && (
+                      <p className="mt-1.5 flex gap-2 text-xs text-spectrum-orange">
+                        <AlertTriangle className="mt-0.5 size-3.5 shrink-0" aria-hidden="true" />
+                        Resolution looks low — this method needs {spec.minRasterEdge}px minimum on
+                        the shortest edge. Send vector artwork if you have it.
+                      </p>
+                    )}
+                  </li>
+                );
+              })}
             </ul>
+          )}
+
+          {files.length > 0 && spec.confirmRequired && (
+            <label className="mt-4 flex cursor-pointer items-start gap-3 rounded-lg border border-border p-3 text-xs">
+              <input
+                type="checkbox"
+                checked={artworkConfirmed}
+                onChange={(e) => {
+                  setArtworkConfirmed(e.target.checked);
+                  setArtworkError("");
+                }}
+                className="mt-0.5 size-4 shrink-0"
+              />
+              <span>
+                I confirm this artwork meets the {method} requirements above — correct file type,{" "}
+                {spec.dpi.toLowerCase()} and the bleed noted.
+              </span>
+            </label>
+          )}
+
+          {artworkError && (
+            <p className="mt-3 flex gap-2 text-xs text-destructive">
+              <AlertTriangle className="mt-0.5 size-3.5 shrink-0" aria-hidden="true" />
+              {artworkError}
+            </p>
           )}
         </fieldset>
 
