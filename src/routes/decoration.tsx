@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { artworkFaq, decorations, swatchClass, textClass } from "@/lib/catalog";
 import { decorationImages } from "@/lib/decoration-images";
 import { decorationBanners } from "@/lib/banners";
