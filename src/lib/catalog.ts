@@ -463,6 +463,29 @@ export const decorations: Decoration[] = [
       "Not suitable for designs with gradients that fade out to a transparency",
     ],
   },
+  {
+    slug: "puff-print",
+    name: "Puff Print",
+    colour: "orange",
+    what: "A specialty Screen Print process used for branding apparel. Puff Print uses a special ink which expands during curing to create a raised, textured, three-dimensional finish.",
+    bestFor: "Apparel, bold logos, large typography and simple graphic elements where a tactile look is desired",
+    colourLimit: "One colour per artwork — exact colour matching cannot be guaranteed",
+    leadTime: "Standard screen print lead time applies",
+    artwork: "Vector artwork required. Supplied bitmaps must be higher than 300DPI at actual print size. Minimum line thickness 3mm. Minimum negative space/open gaps 4mm. Fonts should be converted to outlines/objects.",
+    advantages: [
+      "Adds a retail-style finish to garments",
+      "Produces a highly tactile and eye-catching result",
+      "Can be combined with one colour Screen Print to add dimension to your design",
+      "Durable and long-lasting branding process",
+    ],
+    limitations: [
+      "Not suitable for fine detail, thin lines, or gradients",
+      "Small text and tight spacing may close during Puff Print expansion",
+      "Exact colour matching cannot be guaranteed",
+      "Puff Print expansion can vary slightly across different garment types",
+      "Puff Print is available in one colour per artwork",
+    ],
+  },
 ];
 
 export const artworkFaq = [
