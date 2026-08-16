@@ -21,7 +21,7 @@ export const Route = createFileRoute("/decoration")({
       {
         name: "description",
         content:
-          "Compare seventeen branding methods: screen print, embroidery, pad print, laser engraving, digital UV, debossing, full-colour wrap, doming, Colourflex transfer, DigiFlex transfer, Digital Packaging Print, Digital Print, Direct Digital, Faux Embroidery, Foil Printing, Hot Stamping and Imitation Etch, with lead times and artwork specs.",
+          "Compare eighteen branding methods: screen print, embroidery, pad print, laser engraving, digital UV, debossing, full-colour wrap, doming, Colourflex transfer, DigiFlex transfer, Digital Packaging Print, Digital Print, Direct Digital, Faux Embroidery, Foil Printing, Hot Stamping, Imitation Etch and Prism Digital Print, with lead times and artwork specs.",
       },
       {
         property: "og:title",
@@ -30,7 +30,7 @@ export const Route = createFileRoute("/decoration")({
       {
         property: "og:description",
         content:
-          "Seventeen branding methods compared: colour limits, lead times and artwork requirements for each.",
+          "Eighteen branding methods compared: colour limits, lead times and artwork requirements for each.",
       },
     ],
   }),
