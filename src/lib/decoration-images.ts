@@ -1,6 +1,6 @@
 import screenPrint from "@/assets/decoration/screen-print.jpg.asset.json";
 import embroidery from "@/assets/decoration/embroidery.png.asset.json";
-import padPrint from "@/assets/decoration/pad-print.jpg.asset.json";
+import padPrint from "@/assets/decoration/pad-print.png.asset.json";
 import laserEngraving from "@/assets/decoration/laser-engraving.png.asset.json";
 import digitalUvPrint from "@/assets/decoration/digital-uv-print.jpg.asset.json";
 import debossing from "@/assets/decoration/debossing-notebook.png.asset.json";
@@ -27,7 +27,7 @@ export const decorationImages: Record<string, { url: string; alt: string }> = {
   },
   "pad-print": {
     url: padPrint.url,
-    alt: "Pad printed branding on a set of colourful promotional pens",
+    alt: "Clear water bottle with bamboo lid and a multi-colour pad printed Waterwave logo",
   },
   "laser-engraving": {
     url: laserEngraving.url,
