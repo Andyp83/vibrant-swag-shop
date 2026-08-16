@@ -118,6 +118,8 @@ export type Decoration = {
   colourLimit: string;
   leadTime: string;
   artwork: string;
+  /** Category slugs this method is suited to. */
+  categories: string[];
   advantages?: string[];
   limitations?: string[];
 };
@@ -125,6 +127,7 @@ export type Decoration = {
 export const decorations: Decoration[] = [
   {
     slug: "colourflex-transfer",
+    categories: ["apparel", "bags", "headwear"],
     name: "Colourflex Transfer",
     colour: "pink",
     what: "A CMYK+W digital print process for apparel and fabrics. It produces high-definition, vibrant artwork with a soft-touch matt finish and efficient self-weeding technology.",
@@ -135,6 +138,7 @@ export const decorations: Decoration[] = [
   },
   {
     slug: "debossing",
+    categories: ["business-items", "bags", "personal-products", "packaging", "gift-packs"],
     name: "Debossing",
     colour: "indigo",
     what: "Commonly referred to as ‘Blind’ debossing, a heated custom metal plate is pressed firmly onto the product leaving an impression of the artwork.",
@@ -156,6 +160,7 @@ export const decorations: Decoration[] = [
   },
   {
     slug: "digiflex-transfer",
+    categories: ["apparel", "bags", "headwear"],
     name: "DigiFlex Transfer",
     colour: "amber",
     what: "DigiFlex Transfer is a DTF or Direct to Film digital transfer process, used for branding apparel and fabrics.",
@@ -179,6 +184,7 @@ export const decorations: Decoration[] = [
   },
   {
     slug: "digital-label",
+    categories: ["promotional", "packaging", "gift-packs", "personal-products"],
     name: "Digital Label",
     colour: "lime",
     what: "Digital adhesive labels are used to brand products that cannot be branded with any other method. They are printed with a digital printing press and applied to the product.",
@@ -200,6 +206,7 @@ export const decorations: Decoration[] = [
   },
   {
     slug: "digital-packaging-print",
+    categories: ["packaging", "gift-packs"],
     name: "Digital Packaging Print",
     colour: "teal",
     what: "A single-pass CMYK digital print onto a range of packaging materials, producing full-colour, complex images with gradients.",
@@ -222,6 +229,7 @@ export const decorations: Decoration[] = [
   },
   {
     slug: "digital-print",
+    categories: ["promotional", "business-items", "personal-products", "tech", "gift-packs"],
     name: "Digital Print",
     colour: "cyan",
     what: "A CMYK digital print process for paper, vinyl and magnetic material used in the manufacture of labels, badges, fridge magnets and similar items.",
@@ -245,6 +253,7 @@ export const decorations: Decoration[] = [
   },
   {
     slug: "direct-digital",
+    categories: ["promotional", "business-items", "tech", "personal-products"],
     name: "Direct Digital",
     colour: "green",
     what: "Direct digital printing involves the transfer of ink directly from the print heads of an inkjet machine to the product. It can be used to produce both full colour and closely matched spot colour branding on flat or slightly curved surfaces.",
@@ -267,6 +276,7 @@ export const decorations: Decoration[] = [
   },
   {
     slug: "embroidery",
+    categories: ["apparel", "headwear", "bags", "outdoor-leisure"],
     name: "Embroidery",
     colour: "orange",
     what: "An excellent way of branding bags, apparel, and other textile products. It offers higher perceived value and a depth of branding quality which other processes cannot match. Embroidery uses rayon thread which is stitched into the product and has a slightly raised effect.",
@@ -286,6 +296,7 @@ export const decorations: Decoration[] = [
   },
   {
     slug: "faux-embroidery",
+    categories: ["apparel", "headwear", "bags"],
     name: "Faux Embroidery",
     colour: "orange",
     what: "A Colourflex® Transfer with the supplied artwork digitised to create a texture and depth that mimics traditional embroidery. Suitable for branding bags, apparel and other textile products with unlimited colours.",
@@ -311,6 +322,7 @@ export const decorations: Decoration[] = [
   },
   {
     slug: "foil-printing",
+    categories: ["business-items", "gift-packs", "packaging", "personal-products"],
     name: "Foil Printing",
     colour: "amber",
     what: "A printing method that applies a metallic foil onto a flat surface using heat and pressure. This method utilises modern digital foiling, which is more cost-effective and eliminates the need for plates or stamps, allowing for direct printing from a digital file to the product. The printing will inherit the texture of the substrate, and the available foil colour options include Gold, Silver and Copper.",
@@ -332,6 +344,7 @@ export const decorations: Decoration[] = [
   },
   {
     slug: "hot-stamping",
+    categories: ["business-items", "personal-products", "gift-packs"],
     name: "Hot Stamping",
     colour: "sand",
     what: "A printing method that creates an indented design on the product surface using a heated custom metal plate. This plate is pressed firmly onto the product surface, leaving a permanent impression of the artwork. It's often used on materials like wood.",
@@ -353,6 +366,7 @@ export const decorations: Decoration[] = [
   },
   {
     slug: "imitation-etch",
+    categories: ["drinkware", "business-items", "promotional"],
     name: "Imitation Etch",
     colour: "blue",
     what: "Imitation etch uses a special ink to produce an etch-like effect on glass products via pad or screen print.",
@@ -374,6 +388,7 @@ export const decorations: Decoration[] = [
   },
   {
     slug: "laser-engraving",
+    categories: ["drinkware", "tech", "business-items", "outdoor-leisure", "personal-products"],
     name: "Laser Engraving",
     colour: "green",
     what: "Laser engraving is a permanent branding process that engraves artwork into the surface of the product using a laser. Different materials produce different engraving finishes, so pre-production samples are recommended to avoid uncertainty.",
@@ -394,6 +409,7 @@ export const decorations: Decoration[] = [
   },
   {
     slug: "pad-print",
+    categories: ["drinkware", "promotional", "tech", "business-items", "outdoor-leisure"],
     name: "Pad Print",
     colour: "amber",
     what: "Pad printing uses a silicone pad to transfer an image to a product from a laser etched printing plate. It is one of the most popular and affordable ways of branding promotional products due to its ability to reproduce images on uneven or curved products and print multiple colours in a single pass.",
@@ -420,6 +436,7 @@ export const decorations: Decoration[] = [
   },
   {
     slug: "prism-digital-print",
+    categories: ["drinkware", "promotional", "gift-packs"],
     name: "Prism Digital Print",
     colour: "violet",
     what: "A UV-DTF (Direct to Film) process using CMYK + White + Varnish. UV inks print directly onto film, are cured by UV light, laminated and applied directly to the object like a sticker — eliminating the need for heat presses or powders. The result is a vibrant, durable and high-resolution logo with a gloss finish.",
@@ -446,6 +463,7 @@ export const decorations: Decoration[] = [
   },
   {
     slug: "puff-print",
+    categories: ["apparel", "headwear", "bags"],
     name: "Puff Print",
     colour: "orange",
     what: "A specialty Screen Print process used for branding apparel. Puff Print uses a special ink which expands during curing to create a raised, textured, three-dimensional finish.",
@@ -469,6 +487,7 @@ export const decorations: Decoration[] = [
   },
   {
     slug: "resin-coated-finish",
+    categories: ["promotional", "business-items", "personal-products"],
     name: "Resin Coated Finish",
     colour: "cyan",
     what: "A CMYK branding process produced by printing artwork onto a vinyl material with strong adhesive on the reverse. The branded area is then coated with a crystal-clear resin. Once dry, the finished decal is applied to the product and the adhesive forms a permanent bond.",
@@ -491,6 +510,7 @@ export const decorations: Decoration[] = [
   },
   {
     slug: "rotary-digital-print",
+    categories: ["drinkware", "tech"],
     name: "Rotary Digital Print",
     colour: "teal",
     what: "Direct to product rotary digital printing involves the transfer of UV ink and a varnish coating from inkjet print heads. It is used to produce detailed gloss artwork using both closely matched spot colours and full colour branding.",
@@ -513,6 +533,7 @@ export const decorations: Decoration[] = [
   },
   {
     slug: "rotary-screen-print",
+    categories: ["drinkware", "outdoor-leisure"],
     name: "Rotary Screen Print",
     colour: "teal",
     what: "Screen Printing is achieved by forcing ink through a fine mesh screen with a squeegee onto the product. The rotary version is ideal for branding cylindrical objects with the same crisp, opaque finish as flat screen printing.",
@@ -535,6 +556,7 @@ export const decorations: Decoration[] = [
   },
   {
     slug: "screen-print",
+    categories: ["apparel", "bags", "promotional", "business-items", "headwear", "outdoor-leisure"],
     name: "Screen Print",
     colour: "red",
     what: "Screen Printing is achieved by forcing ink through a fine mesh screen with a squeegee onto the product and is ideal for branding flat objects.",
@@ -557,6 +579,7 @@ export const decorations: Decoration[] = [
   },
   {
     slug: "silicone-digital-print",
+    categories: ["drinkware", "personal-products", "tech"],
     name: "Silicone Digital Print",
     colour: "cyan",
     what: "A CMYK+W digital branding process designed specifically for silicone surfaces. It produces crisp, clear, high-definition artwork with a matt finish that does not crack or fade with typical use.",
@@ -580,6 +603,7 @@ export const decorations: Decoration[] = [
   },
   {
     slug: "sublimation-print",
+    categories: ["apparel", "headwear", "bags", "drinkware", "outdoor-leisure"],
     name: "Sublimation Print",
     colour: "green",
     what: "Dye sublimation print is used for branding products that have a special coating on them, or fabrics suitable for the sublimation process. A transfer is produced by printing sublimation ink onto transfer paper and then heat pressing it onto the product.",
@@ -602,6 +626,7 @@ export const decorations: Decoration[] = [
   },
   {
     slug: "thermo-debossing",
+    categories: ["business-items", "personal-products", "gift-packs"],
     name: "Thermo Debossing",
     colour: "teal",
     what: "Thermo debossing is only available on certain products, using additional heat to create a unique and eye-catching two-tone finish.",
