@@ -176,11 +176,28 @@ async function buildSheet(method: (typeof decorations)[number]) {
         const img = asset.url.endsWith(".png")
           ? await doc.embedPng(bytes)
           : await doc.embedJpg(bytes);
-        const h = 190;
-        const scale = h / img.height;
-        const w = Math.min(contentW, img.width * scale);
-        page.drawImage(img, { x: M, y: y - h, width: w, height: h });
-        y -= h + 20;
+        const panelH = 200;
+        const pad = 12;
+        page.drawRectangle({
+          x: M,
+          y: y - panelH,
+          width: contentW,
+          height: panelH,
+          color: rgb(0.965, 0.96, 0.95),
+        });
+        const scale = Math.min(
+          (contentW - pad * 2) / img.width,
+          (panelH - pad * 2) / img.height,
+        );
+        const w = img.width * scale;
+        const h = img.height * scale;
+        page.drawImage(img, {
+          x: M + (contentW - w) / 2,
+          y: y - panelH + (panelH - h) / 2,
+          width: w,
+          height: h,
+        });
+        y -= panelH + 20;
       } catch {
         /* unsupported image format — skip */
       }
@@ -215,7 +232,7 @@ async function buildSheet(method: (typeof decorations)[number]) {
   y -=
     paragraph(
       ctx,
-      method.categories.map((s) => CATEGORY_LABELS[s] ?? s).join("  •  "),
+      method.categories.map((s) => CATEGORY_LABELS[s] ?? s).join("   /   "),
       M,
       y,
       contentW,
