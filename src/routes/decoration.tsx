@@ -300,20 +300,28 @@ function DecorationPage() {
         </div>
       </section>
 
-      <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mt-12 grid gap-4 gap-y-8 sm:grid-cols-2 lg:grid-cols-4">
         {visible.map((d) => (
-
           <button
             key={d.slug}
             type="button"
             onClick={() => setSelected(d.slug)}
             aria-pressed={d.slug === active.slug}
-            className={`rounded-2xl border p-5 text-left transition-colors ${
+            className={`relative rounded-2xl border p-5 pr-24 text-left transition-colors ${
               d.slug === active.slug
                 ? "border-foreground bg-secondary"
                 : "border-border bg-card hover:bg-accent"
             }`}
           >
+            {decorationImages[d.slug]?.url && (
+              <img
+                src={decorationImages[d.slug]!.url}
+                alt=""
+                aria-hidden="true"
+                loading="lazy"
+                className="pointer-events-none absolute -right-3 -top-5 size-24 object-contain mix-blend-multiply drop-shadow-sm"
+              />
+            )}
             <span
               className={`block h-1.5 w-10 rounded-full ${swatchClass[d.colour]}`}
               aria-hidden="true"
@@ -323,6 +331,7 @@ function DecorationPage() {
           </button>
         ))}
       </div>
+
 
       <section className="mt-16 rounded-2xl border border-border bg-card p-7">
         <h2 className="display-type text-2xl">Spec sheets</h2>
