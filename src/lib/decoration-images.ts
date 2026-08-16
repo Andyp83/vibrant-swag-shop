@@ -22,6 +22,7 @@ import rotaryDigitalPrint from "@/assets/decoration/rotary-digital-print.png.ass
 import rotaryScreenPrint from "@/assets/decoration/rotary-screen-print.png.asset.json";
 import siliconeDigitalPrint from "@/assets/decoration/silicone-digital-print.png.asset.json";
 import sublimationPrint from "@/assets/decoration/sublimation-print.png.asset.json";
+import thermoDebossing from "@/assets/decoration/thermo-debossing.png.asset.json";
 
 export const decorationImages: Record<string, { url: string; alt: string }> = {
   "screen-print": {
@@ -119,5 +120,9 @@ export const decorationImages: Record<string, { url: string; alt: string }> = {
   "sublimation-print": {
     url: sublimationPrint.url,
     alt: "Green plaid fabric item with a white Baltimore County sublimation print",
+  },
+  "thermo-debossing": {
+    url: thermoDebossing.url,
+    alt: "Teal notebook cover with a blind Thermo Debossed The Local Craft Food logo",
   },
 };

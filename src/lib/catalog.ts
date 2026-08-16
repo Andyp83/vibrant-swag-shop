@@ -609,6 +609,26 @@ export const decorations: Decoration[] = [
       "Fine detail/text may experience minor colour bleed across adjacent design elements",
     ],
   },
+  {
+    slug: "thermo-debossing",
+    name: "Thermo Debossing",
+    colour: "teal",
+    what: "Thermo debossing is only available on certain products, using additional heat to create a unique and eye-catching two-tone finish.",
+    bestFor: "PU and leather notebooks, journals and certain products that can accept a heated two-tone impression",
+    colourLimit: "Two-tone finish — the contrast comes from the heat reaction, not ink",
+    leadTime: "The product can be shipped as soon as heat pressing is finished",
+    artwork: "Vector artwork required. Fonts should be converted to outlines/objects. Minimum line thickness 0.4mm.",
+    advantages: [
+      "Produces a two tone finish that means it stands out",
+      "Higher perceived value than other forms of branding",
+      "The branding becomes part of the product and is permanent",
+      "The product can be shipped as soon as heat pressing is finished",
+    ],
+    limitations: [
+      "Unable to print variable data such as individual naming",
+      "Minimum line thickness: 0.4mm",
+    ],
+  },
 ];
 
 export const artworkFaq = [
