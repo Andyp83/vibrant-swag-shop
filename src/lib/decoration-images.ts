@@ -1,7 +1,7 @@
 import screenPrint from "@/assets/decoration/screen-print.jpg.asset.json";
 import embroidery from "@/assets/decoration/embroidery.png.asset.json";
 import padPrint from "@/assets/decoration/pad-print.jpg.asset.json";
-import laserEngraving from "@/assets/decoration/laser-engraving.jpg.asset.json";
+import laserEngraving from "@/assets/decoration/laser-engraving.png.asset.json";
 import digitalUvPrint from "@/assets/decoration/digital-uv-print.jpg.asset.json";
 import debossing from "@/assets/decoration/debossing-notebook.png.asset.json";
 import fullColourWrap from "@/assets/decoration/full-colour-wrap.jpg.asset.json";
@@ -31,7 +31,7 @@ export const decorationImages: Record<string, { url: string; alt: string }> = {
   },
   "laser-engraving": {
     url: laserEngraving.url,
-    alt: "Laser engraved mark on a brushed stainless steel insulated bottle",
+    alt: "White metal pen with a laser engraved Melody Jasmine logo",
   },
   "digital-uv-print": {
     url: digitalUvPrint.url,
