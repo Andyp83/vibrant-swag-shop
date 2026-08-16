@@ -486,6 +486,28 @@ export const decorations: Decoration[] = [
       "Puff Print is available in one colour per artwork",
     ],
   },
+  {
+    slug: "resin-coated-finish",
+    name: "Resin Coated Finish",
+    colour: "cyan",
+    what: "A CMYK branding process produced by printing artwork onto a vinyl material with strong adhesive on the reverse. The branded area is then coated with a crystal-clear resin. Once dry, the finished decal is applied to the product and the adhesive forms a permanent bond.",
+    bestFor: "Keyrings, metal products and items needing a vivid full-colour image with a 3D domed effect",
+    colourLimit: "Full colour CMYK — white, metallic gold, silver and neon colours cannot be printed",
+    leadTime: "The resin needs to be cured for one day before shipping the product",
+    artwork: "Vector or bitmap artwork accepted. Supplied bitmaps must be higher than 300DPI at actual print size. A 3mm bleed must be added if the artwork bleeds off the product.",
+    advantages: [
+      "Ideal for producing vivid full colour images as well as closely matched spot colour branding",
+      "Produces a stunning 3D effect that elevates the perceived value of a product",
+      "Variable data including individual names is available on select products",
+      "Edge-to-edge branding can be achieved on the resin coated area",
+      "Only one set up charge is required regardless of the number of print colours",
+    ],
+    limitations: [
+      "Larger print areas can be more expensive",
+      "White, metallic gold, silver and neon colours cannot be printed",
+      "The resin needs to be cured for one day before shipping the product",
+    ],
+  },
 ];
 
 export const artworkFaq = [
