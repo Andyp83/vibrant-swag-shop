@@ -6,6 +6,7 @@ import digitalUvPrint from "@/assets/decoration/digital-uv-print.jpg.asset.json"
 import debossing from "@/assets/decoration/debossing.jpg.asset.json";
 import fullColourWrap from "@/assets/decoration/full-colour-wrap.jpg.asset.json";
 import doming from "@/assets/decoration/doming.jpg.asset.json";
+import colourflexTransfer from "@/assets/decoration/colourflex-transfer.png.asset.json";
 
 export const decorationImages: Record<string, { url: string; alt: string }> = {
   "screen-print": {
