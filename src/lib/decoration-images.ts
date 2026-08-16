@@ -19,6 +19,7 @@ import prismDigitalPrint from "@/assets/decoration/prism-digital-print.png.asset
 import puffPrint from "@/assets/decoration/puff-print.png.asset.json";
 import resinCoatedFinish from "@/assets/decoration/resin-coated-finish.png.asset.json";
 import rotaryDigitalPrint from "@/assets/decoration/rotary-digital-print.png.asset.json";
+import rotaryScreenPrint from "@/assets/decoration/rotary-screen-print.png.asset.json";
 
 export const decorationImages: Record<string, { url: string; alt: string }> = {
   "screen-print": {
