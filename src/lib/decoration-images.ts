@@ -1,4 +1,4 @@
-import screenPrint from "@/assets/decoration/screen-print.jpg.asset.json";
+import screenPrint from "@/assets/decoration/screen-print.png.asset.json";
 import embroidery from "@/assets/decoration/embroidery.png.asset.json";
 import padPrint from "@/assets/decoration/pad-print.png.asset.json";
 import laserEngraving from "@/assets/decoration/laser-engraving.png.asset.json";
@@ -24,7 +24,7 @@ import rotaryScreenPrint from "@/assets/decoration/rotary-screen-print.png.asset
 export const decorationImages: Record<string, { url: string; alt: string }> = {
   "screen-print": {
     url: screenPrint.url,
-    alt: "Screen printing a single-colour logo onto a cotton t-shirt",
+    alt: "Grey recycled lunch bag with a teal screen printed logo",
   },
   embroidery: {
     url: embroidery.url,
