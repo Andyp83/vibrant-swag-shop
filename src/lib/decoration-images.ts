@@ -17,6 +17,7 @@ import hotStamping from "@/assets/decoration/hot-stamping.png.asset.json";
 import imitationEtch from "@/assets/decoration/imitation-etch.png.asset.json";
 import prismDigitalPrint from "@/assets/decoration/prism-digital-print.png.asset.json";
 import puffPrint from "@/assets/decoration/puff-print.png.asset.json";
+import resinCoatedFinish from "@/assets/decoration/resin-coated-finish.png.asset.json";
 
 export const decorationImages: Record<string, { url: string; alt: string }> = {
   "screen-print": {
