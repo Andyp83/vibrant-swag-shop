@@ -12,10 +12,16 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 
 export const Route = createFileRoute("/quote")({
-  validateSearch: (search: Record<string, unknown>): { product?: string } =>
-    typeof search["product"] === "string" && search["product"]
-      ? { product: search["product"] as string }
-      : {},
+  validateSearch: (
+    search: Record<string, unknown>,
+  ): { product?: string; decoration?: string } => {
+    const out: { product?: string; decoration?: string } = {};
+    if (typeof search["product"] === "string" && search["product"])
+      out.product = search["product"] as string;
+    if (typeof search["decoration"] === "string" && search["decoration"])
+      out.decoration = search["decoration"] as string;
+    return out;
+  },
   head: () => ({
     meta: [
       { title: "Request a Quote & Upload Your Logo | Brand Bento" },
@@ -60,7 +66,14 @@ const quoteSchema = z.object({
 type FieldErrors = Partial<Record<keyof z.infer<typeof quoteSchema>, string>>;
 
 function QuotePage() {
-  const { product } = Route.useSearch();
+  const { product, decoration } = Route.useSearch();
+  const preselectedDecoration = decoration
+    ? (decorations.find(
+        (d) =>
+          d.slug === decoration ||
+          d.name.toLowerCase() === decoration.toLowerCase(),
+      )?.name ?? "")
+    : "";
   const categories = useQuery(catalogQueryOptions()).data ?? [];
   const [files, setFiles] = useState<File[]>([]);
   const [errors, setErrors] = useState<FieldErrors>({});
@@ -223,7 +236,8 @@ function QuotePage() {
               <select
                 id="decorationMethod"
                 name="decorationMethod"
-                defaultValue=""
+                key={preselectedDecoration}
+                defaultValue={preselectedDecoration}
                 className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
               >
                 <option value="">Not sure — recommend one</option>

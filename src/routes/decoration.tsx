@@ -285,6 +285,10 @@ function DecorationPage() {
               </a>
               <Link
                 to="/quote"
+                search={{
+                  decoration: active.slug,
+                  ...(categoryFilter ? { product: categoryName(categoryFilter) } : {}),
+                }}
                 className="inline-flex items-center gap-2 text-sm font-semibold underline underline-offset-4"
               >
                 Quote a {active.name.toLowerCase()} job{" "}
