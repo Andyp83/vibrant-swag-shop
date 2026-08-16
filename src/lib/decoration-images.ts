@@ -23,6 +23,9 @@ import rotaryScreenPrint from "@/assets/decoration/rotary-screen-print.png.asset
 import siliconeDigitalPrint from "@/assets/decoration/silicone-digital-print.png.asset.json";
 import sublimationPrint from "@/assets/decoration/sublimation-print.png.asset.json";
 import thermoDebossing from "@/assets/decoration/thermo-debossing.png.asset.json";
+import digitalLabel from "@/assets/decoration/digital-label.png.asset.json";
+
+
 
 export const decorationImages: Record<string, { url: string; alt: string }> = {
   "screen-print": {
@@ -124,5 +127,9 @@ export const decorationImages: Record<string, { url: string; alt: string }> = {
   "thermo-debossing": {
     url: thermoDebossing.url,
     alt: "Teal notebook cover with a blind Thermo Debossed The Local Craft Food logo",
+  },
+  "digital-label": {
+    url: digitalLabel.url,
+    alt: "Red lollipop in a clear wrapper with a full-colour Prime Label digital adhesive label",
   },
 };
