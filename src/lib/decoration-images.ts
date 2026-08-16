@@ -108,6 +108,6 @@ export const decorationImages: Record<string, { url: string; alt: string }> = {
   },
   "rotary-screen-print": {
     url: rotaryScreenPrint.url,
-    alt: "White tumbler branded with a grey tyre-tread Outdoor Identity logo and teal text using Rotary Screen Print",
+    alt: "White bottle branded with a grey boot-tread Outdoor Identity logo and teal text using Rotary Screen Print",
   },
 };
