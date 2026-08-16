@@ -13,6 +13,7 @@ import digitalPrint from "@/assets/decoration/digital-print.png.asset.json";
 import directDigital from "@/assets/decoration/direct-digital.png.asset.json";
 import fauxEmbroidery from "@/assets/decoration/faux-embroidery.png.asset.json";
 import foilPrinting from "@/assets/decoration/foil-printing.png.asset.json";
+import hotStamping from "@/assets/decoration/hot-stamping.png.asset.json";
 
 export const decorationImages: Record<string, { url: string; alt: string }> = {
   "screen-print": {
@@ -74,5 +75,9 @@ export const decorationImages: Record<string, { url: string; alt: string }> = {
   "foil-printing": {
     url: foilPrinting.url,
     alt: "Notebooks branded with metallic gold foil printing on black, grey and teal covers",
+  },
+  "hot-stamping": {
+    url: hotStamping.url,
+    alt: "Wooden serving board with a hot-stamped WINESTORE logo",
   },
 };

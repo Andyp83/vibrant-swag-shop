@@ -369,6 +369,27 @@ export const decorations: Decoration[] = [
       "Min line thickness 1mm for textured substrates",
     ],
   },
+  {
+    slug: "hot-stamping",
+    name: "Hot Stamping",
+    colour: "sand",
+    what: "A printing method that creates an indented design on the product surface using a heated custom metal plate. This plate is pressed firmly onto the product surface, leaving a permanent impression of the artwork. It's often used on materials like wood.",
+    bestFor: "Wooden products, natural materials, giftware and premium packaging",
+    colourLimit: "Single tone — the natural impression of the heated plate on the substrate",
+    leadTime: "Can be shipped as soon as heat pressing is finished",
+    artwork: "Vector artwork required. Fonts should be converted to outlines/objects. Minimum line thickness 0.4mm.",
+    advantages: [
+      "Higher perceived value than other forms of branding",
+      "The branding becomes part of the product and is permanent",
+      "The product can be shipped as soon as heat pressing is finished",
+      "Certain products can produce a two-tone, contrasting finish",
+    ],
+    limitations: [
+      "Unable to print variable data such as individual naming",
+      "Large block artwork can produce an inconsistent print result",
+      "Minimum line thickness: 0.4mm",
+    ],
+  },
 ];
 
 export const artworkFaq = [
