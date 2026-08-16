@@ -7,6 +7,7 @@ import debossing from "@/assets/decoration/debossing-notebook.png.asset.json";
 import fullColourWrap from "@/assets/decoration/full-colour-wrap.jpg.asset.json";
 import doming from "@/assets/decoration/doming.jpg.asset.json";
 import colourflexTransfer from "@/assets/decoration/colourflex-transfer.png.asset.json";
+import digiflexTransfer from "@/assets/decoration/digiflex-transfer.png.asset.json";
 
 export const decorationImages: Record<string, { url: string; alt: string }> = {
   "screen-print": {
@@ -44,5 +45,9 @@ export const decorationImages: Record<string, { url: string; alt: string }> = {
   "colourflex-transfer": {
     url: colourflexTransfer.url,
     alt: "Navy hoodie branded with a full-colour Colourflex transfer print",
+  },
+  "digiflex-transfer": {
+    url: digiflexTransfer.url,
+    alt: "Black sweatshirt branded with a colourful DigiFlex transfer print",
   },
 };

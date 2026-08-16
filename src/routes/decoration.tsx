@@ -21,7 +21,7 @@ export const Route = createFileRoute("/decoration")({
       {
         name: "description",
         content:
-          "Compare nine branding methods: screen print, embroidery, pad print, laser engraving, digital UV, debossing, full-colour wrap, doming and Colourflex transfer, with lead times and artwork specs.",
+          "Compare ten branding methods: screen print, embroidery, pad print, laser engraving, digital UV, debossing, full-colour wrap, doming, Colourflex transfer and DigiFlex transfer, with lead times and artwork specs.",
       },
       {
         property: "og:title",
@@ -30,7 +30,7 @@ export const Route = createFileRoute("/decoration")({
       {
         property: "og:description",
         content:
-          "Nine branding methods compared: colour limits, lead times and artwork requirements for each.",
+          "Ten branding methods compared: colour limits, lead times and artwork requirements for each.",
       },
     ],
   }),
