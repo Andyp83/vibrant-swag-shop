@@ -63,8 +63,8 @@ export const banners = {
   prism: {
     url: prism.url,
     alt: "Prism Print — full colour, high-gloss branding for a lasting impact",
-    to: "/decoration#digital-uv-print",
-    cta: "About digital UV print",
+    to: "/decoration#prism-digital-print",
+    cta: "About Prism Digital Print",
   },
   puff: {
     url: puff.url,
@@ -109,8 +109,8 @@ export const banners = {
   siliconeDigital: {
     url: siliconeDigital.url,
     alt: "Silicone digital print — full-colour photographic branding on reusable cups",
-    to: "/decoration#digital-uv-print",
-    cta: "About digital printing",
+    to: "/decoration#silicone-digital-print",
+    cta: "About Silicone Digital Print",
   },
   thermoDebossing: {
     url: thermoDebossing.url,
@@ -157,8 +157,8 @@ export const banners = {
   fullColourTowels: {
     url: fullColourTowels.url,
     alt: "Full-colour sublimation towels printed in-house for events and summer campaigns",
-    to: "/decoration#full-colour-wrap",
-    cta: "About full-colour printing",
+    to: "/decoration#sublimation-print",
+    cta: "About Sublimation Print",
   },
   customPackaging: {
     url: customPackaging.url,
@@ -169,8 +169,8 @@ export const banners = {
   rotaryVarnish: {
     url: rotaryVarnish.url,
     alt: "Rotary digital print on drinkware now with a stunning gloss varnish finish",
-    to: "/decoration#digital-uv-print",
-    cta: "About digital printing",
+    to: "/decoration#rotary-digital-print",
+    cta: "About Rotary Digital Print",
   },
   alchemy: {
     url: alchemy.url,
