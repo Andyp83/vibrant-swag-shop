@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery } from "@tanstack/react-query";
 import { decorations } from "@/lib/catalog";
+import { getArtworkSpec, fileExtension, isRaster } from "@/lib/artwork-specs";
 import { catalogQueryOptions } from "@/lib/catalog-query";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
