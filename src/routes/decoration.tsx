@@ -274,13 +274,24 @@ function DecorationPage() {
                 ))}
               </ul>
             </div>
-            <Link
-              to="/quote"
-              className="mt-7 inline-flex items-center gap-2 text-sm font-semibold underline underline-offset-4"
-            >
-              Quote a {active.name.toLowerCase()} job{" "}
-              <ArrowRight className="size-4" aria-hidden="true" />
-            </Link>
+            <div className="mt-7 flex flex-wrap items-center gap-x-6 gap-y-3">
+              <a
+                href={`/spec-sheets/${active.slug}.pdf`}
+                download
+                className="inline-flex items-center gap-2 rounded-full border border-foreground px-5 py-2.5 text-sm font-semibold transition-colors hover:bg-foreground hover:text-background"
+              >
+                <Download className="size-4" aria-hidden="true" />
+                Download spec sheet (PDF)
+              </a>
+              <Link
+                to="/quote"
+                className="inline-flex items-center gap-2 text-sm font-semibold underline underline-offset-4"
+              >
+                Quote a {active.name.toLowerCase()} job{" "}
+                <ArrowRight className="size-4" aria-hidden="true" />
+              </Link>
+            </div>
+
           </div>
         </div>
       </section>
