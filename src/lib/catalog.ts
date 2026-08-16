@@ -224,6 +224,29 @@ export const decorations: Decoration[] = [
     leadTime: "6–8 working days; can be shipped straight after printing",
     artwork: "Vector or bitmap at 300DPI at actual print size. Fonts should be converted to outlines/objects. Minimum detail 1mm.",
   },
+  {
+    slug: "digiflex-transfer",
+    name: "DigiFlex Transfer",
+    colour: "amber",
+    what: "DigiFlex Transfer is a DTF or Direct to Film digital transfer process, used for branding apparel and fabrics.",
+    bestFor: "Tees, hoodies, apparel, bags and fabric items needing full-colour, personalised or variable-data artwork",
+    colourLimit: "Full colour digital transfer. Metallic and neon/fluorescent colours cannot be reproduced.",
+    leadTime: "Can be shipped straight after being printed",
+    artwork: "Vector or bitmap at 300DPI at actual print size. Fonts should be converted to outlines/objects. Minimum detail 1mm.",
+    advantages: [
+      "More economical for short runs",
+      "Ideal for personalisation and variable data, including names and numbering",
+      "Eco-friendly water-based inks",
+      "Durable, flexible branding for apparel that is machine washable",
+      "Efficient self-weeding technology",
+      "Only one set up charge is required regardless of the number of print colours",
+      "Can be shipped straight after being printed",
+    ],
+    limitations: [
+      "Some colours cannot be reproduced including metallic and neon/fluorescent colours",
+      "Minimum detail advised at 1mm",
+    ],
+  },
 ];
 
 export const artworkFaq = [
