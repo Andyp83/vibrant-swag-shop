@@ -42,8 +42,26 @@ export const Route = createFileRoute("/decoration")({
 });
 
 function DecorationPage() {
+  const { data: categories } = useSuspenseQuery(catalogQueryOptions());
+  const [categoryFilter, setCategoryFilter] = useState("");
   const [selected, setSelected] = useState(decorations[0]!.slug);
-  const active = decorations.find((d) => d.slug === selected) ?? decorations[0]!;
+
+  const visible = useMemo(
+    () =>
+      categoryFilter
+        ? decorations.filter((d) => d.categories.includes(categoryFilter))
+        : decorations,
+    [categoryFilter],
+  );
+
+  const active =
+    visible.find((d) => d.slug === selected) ??
+    decorations.find((d) => d.slug === selected) ??
+    decorations[0]!;
+
+  const categoryName = (slug: string) => categories.find((c) => c.slug === slug)?.name ?? slug;
+  const categoryColour = (slug: string) =>
+    spectrum(categories.find((c) => c.slug === slug)?.colour ?? "red");
 
   useEffect(() => {
     const readHash = () => {
@@ -54,6 +72,12 @@ function DecorationPage() {
     window.addEventListener("hashchange", readHash);
     return () => window.removeEventListener("hashchange", readHash);
   }, []);
+
+  useEffect(() => {
+    if (visible.length && !visible.some((d) => d.slug === selected)) {
+      setSelected(visible[0]!.slug);
+    }
+  }, [visible, selected]);
 
   return (
     <div className="mx-auto max-w-6xl px-5 py-16">
@@ -68,12 +92,65 @@ function DecorationPage() {
         many colours it holds, lead time and the artwork we need.
       </p>
 
+      <section
+        aria-label="Filter methods by product category"
+        className="mt-10 rounded-2xl border border-border bg-card p-5"
+      >
+        <div className="flex flex-wrap items-baseline justify-between gap-3">
+          <h2 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            Show methods available for
+          </h2>
+          <p className="text-sm text-muted-foreground" aria-live="polite">
+            {visible.length} of {decorations.length} methods
+            {categoryFilter ? ` suited to ${categoryName(categoryFilter)}` : ""}
+          </p>
+        </div>
+        <div className="mt-4 flex flex-wrap gap-2">
+          <button
+            type="button"
+            aria-pressed={categoryFilter === ""}
+            onClick={() => setCategoryFilter("")}
+            className={`rounded-full border px-4 py-2 text-sm font-semibold transition-colors ${
+              categoryFilter === ""
+                ? "border-foreground bg-foreground text-background"
+                : "border-border bg-background hover:bg-accent"
+            }`}
+          >
+            All products
+          </button>
+          {categories.map((c) => {
+            const isOn = categoryFilter === c.slug;
+            const count = decorations.filter((d) => d.categories.includes(c.slug)).length;
+            return (
+              <button
+                key={c.slug}
+                type="button"
+                aria-pressed={isOn}
+                onClick={() => setCategoryFilter(isOn ? "" : c.slug)}
+                className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-colors ${
+                  isOn
+                    ? "border-foreground bg-foreground text-background"
+                    : "border-border bg-background hover:bg-accent"
+                }`}
+              >
+                <span
+                  className={`size-2.5 rounded-full ${swatchClass[spectrum(c.colour)]}`}
+                  aria-hidden="true"
+                />
+                {c.name}
+                <span className="text-xs text-muted-foreground">{count}</span>
+              </button>
+            );
+          })}
+        </div>
+      </section>
+
       <div
         role="tablist"
         aria-label="Decoration methods"
         className="mt-8 flex flex-wrap gap-2"
       >
-        {decorations.map((d) => {
+        {visible.map((d) => {
           const isActive = d.slug === active.slug;
           return (
             <button
@@ -98,6 +175,7 @@ function DecorationPage() {
           );
         })}
       </div>
+
 
       <section
         id="decoration-detail"
