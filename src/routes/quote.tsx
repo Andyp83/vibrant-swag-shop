@@ -443,8 +443,8 @@ function QuotePage() {
                     {!badType && soft && (
                       <p className="mt-1.5 flex gap-2 text-xs text-spectrum-orange">
                         <AlertTriangle className="mt-0.5 size-3.5 shrink-0" aria-hidden="true" />
-                        Resolution looks low for {spec.dpi.toLowerCase()} Send vector artwork if you
-                        have it.
+                        Resolution looks low — this method needs {spec.minRasterEdge}px minimum on
+                        the shortest edge. Send vector artwork if you have it.
                       </p>
                     )}
                   </li>
