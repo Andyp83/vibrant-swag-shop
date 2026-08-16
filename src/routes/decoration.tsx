@@ -51,6 +51,7 @@ function DecorationPage() {
   const { data: categories } = useSuspenseQuery(catalogQueryOptions());
   const [categoryFilter, setCategoryFilter] = useState("");
   const [selected, setSelected] = useState(decorations[0]!.slug);
+  const [lightboxSlug, setLightboxSlug] = useState<string | null>(null);
 
   const visible = useMemo(
     () =>
