@@ -21,6 +21,7 @@ import resinCoatedFinish from "@/assets/decoration/resin-coated-finish.png.asset
 import rotaryDigitalPrint from "@/assets/decoration/rotary-digital-print.png.asset.json";
 import rotaryScreenPrint from "@/assets/decoration/rotary-screen-print.png.asset.json";
 import siliconeDigitalPrint from "@/assets/decoration/silicone-digital-print.png.asset.json";
+import sublimationPrint from "@/assets/decoration/sublimation-print.png.asset.json";
 
 export const decorationImages: Record<string, { url: string; alt: string }> = {
   "screen-print": {
@@ -114,5 +115,9 @@ export const decorationImages: Record<string, { url: string; alt: string }> = {
   "silicone-digital-print": {
     url: siliconeDigitalPrint.url,
     alt: "Grey reusable coffee cup with a Good Vibes Only silicone digital print on the band",
+  },
+  "sublimation-print": {
+    url: sublimationPrint.url,
+    alt: "Green plaid fabric item with a white Baltimore County sublimation print",
   },
 };

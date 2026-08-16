@@ -21,7 +21,7 @@ export const Route = createFileRoute("/decoration")({
       {
         name: "description",
         content:
-          "Compare twenty-three branding methods: screen print, embroidery, pad print, laser engraving, digital UV, debossing, full-colour wrap, doming, Colourflex transfer, DigiFlex transfer, Digital Packaging Print, Digital Print, Direct Digital, Faux Embroidery, Foil Printing, Hot Stamping, Imitation Etch, Prism Digital Print, Puff Print, Resin Coated Finish, Rotary Digital Print, Rotary Screen Print and Silicone Digital Print, with lead times and artwork specs.",
+          "Compare twenty-four branding methods: screen print, embroidery, pad print, laser engraving, digital UV, debossing, full-colour wrap, doming, Colourflex transfer, DigiFlex transfer, Digital Packaging Print, Digital Print, Direct Digital, Faux Embroidery, Foil Printing, Hot Stamping, Imitation Etch, Prism Digital Print, Puff Print, Resin Coated Finish, Rotary Digital Print, Rotary Screen Print, Silicone Digital Print and Sublimation Print, with lead times and artwork specs.",
       },
       {
         property: "og:title",
@@ -30,7 +30,7 @@ export const Route = createFileRoute("/decoration")({
       {
         property: "og:description",
         content:
-          "Twenty-three branding methods compared: colour limits, lead times and artwork requirements for each.",
+          "Twenty-four branding methods compared: colour limits, lead times and artwork requirements for each.",
       },
     ],
   }),
@@ -57,7 +57,7 @@ function DecorationPage() {
         Decoration
       </p>
       <h1 className="display-type mt-4 max-w-2xl text-4xl sm:text-5xl">
-        Twenty-three ways to put your logo on it
+        Twenty-four ways to put your logo on it
       </h1>
       <p className="mt-5 max-w-2xl text-muted-foreground">
         The method matters as much as the product. Pick a method below to see what it's best for, how

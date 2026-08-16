@@ -587,6 +587,28 @@ export const decorations: Decoration[] = [
       "Minimum detail is advised to be no finer than 0.7mm",
     ],
   },
+  {
+    slug: "sublimation-print",
+    name: "Sublimation Print",
+    colour: "green",
+    what: "Dye sublimation print is used for branding products that have a special coating on them, or fabrics suitable for the sublimation process. A transfer is produced by printing sublimation ink onto transfer paper and then heat pressing it onto the product.",
+    bestFor: "Coated products and fabrics suitable for sublimation, items needing vivid full-colour or edge-to-edge branding",
+    colourLimit: "Full colour CMYK — white, metallic and neon/fluorescent colours cannot be reproduced",
+    leadTime: "Standard sublimation lead time applies",
+    artwork: "Vector or bitmap artwork accepted. Supplied bitmaps must be higher than 300DPI at actual print size. A 3mm bleed must be added if the artwork bleeds off the product. Fonts should be converted to outlines/objects to avoid font conflicts.",
+    advantages: [
+      "Sublimation ink is a dye so there is no ink build-up. The finished print is embedded in the product",
+      "Ideal for producing vivid full colour images as well as closely matched spot colour branding",
+      "Variable data including individual names is available on select products",
+      "Edge-to-edge branding can be achieved on some products",
+      "Only one set up charge is required regardless of the number of print colours",
+    ],
+    limitations: [
+      "Can only be used on suitable products with white surfaces",
+      "Some colours cannot be reproduced including white, metallic, and neon/fluorescent colours",
+      "Fine detail/text may experience minor colour bleed across adjacent design elements",
+    ],
+  },
 ];
 
 export const artworkFaq = [
