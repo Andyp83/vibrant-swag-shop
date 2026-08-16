@@ -437,6 +437,32 @@ export const decorations: Decoration[] = [
       "Unable to print variable data",
     ],
   },
+  {
+    slug: "prism-digital-print",
+    name: "Prism Digital Print",
+    colour: "violet",
+    what: "A UV-DTF (Direct to Film) process using CMYK + White + Varnish. UV inks print directly onto film, are cured by UV light, laminated and applied directly to the object like a sticker — eliminating the need for heat presses or powders. The result is a vibrant, durable and high-resolution logo with a gloss finish.",
+    bestFor: "Hard surface products, personalisation, variable data including names and numbering",
+    colourLimit: "Full colour with white underbase and gloss varnish",
+    leadTime: "Can be shipped straight after printing",
+    artwork: "Vector or bitmap artwork accepted. Supplied bitmaps must be higher than 300DPI at actual print size. Fonts should be converted to outlines/objects.",
+    advantages: [
+      "Produces vivid, full colour print with a gloss finish",
+      "Long-lasting and resistant to scratching and fading",
+      "Can be applied to most hard surfaces",
+      "No need for heat presses or screens",
+      "Ideal for personalisation and variable data, including names and numbering",
+      "Efficient self-weeding technology",
+      "Only one set up charge is required regardless of the number of print colours",
+      "Can be shipped straight after printing",
+    ],
+    limitations: [
+      "Not suitable for soft or flexible products",
+      "Some colours cannot be reproduced including metallic and neon/fluorescent colours",
+      "Minimum detail advised at 0.8mm",
+      "Not suitable for designs with gradients that fade out to a transparency",
+    ],
+  },
 ];
 
 export const artworkFaq = [
