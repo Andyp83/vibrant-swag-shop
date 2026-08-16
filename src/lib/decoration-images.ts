@@ -15,6 +15,7 @@ import fauxEmbroidery from "@/assets/decoration/faux-embroidery.png.asset.json";
 import foilPrinting from "@/assets/decoration/foil-printing.png.asset.json";
 import hotStamping from "@/assets/decoration/hot-stamping.png.asset.json";
 import imitationEtch from "@/assets/decoration/imitation-etch.png.asset.json";
+import prismDigitalPrint from "@/assets/decoration/prism-digital-print.png.asset.json";
 
 export const decorationImages: Record<string, { url: string; alt: string }> = {
   "screen-print": {
@@ -84,5 +85,9 @@ export const decorationImages: Record<string, { url: string; alt: string }> = {
   "imitation-etch": {
     url: imitationEtch.url,
     alt: "Clear stemless wine glass with an imitation etch Palm Island logo",
+  },
+  "prism-digital-print": {
+    url: prismDigitalPrint.url,
+    alt: "Black zip case branded with a vivid full-colour Prism Digital Print Delicioso Monstruo logo",
   },
 };
