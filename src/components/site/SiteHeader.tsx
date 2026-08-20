@@ -28,7 +28,7 @@ export function SiteHeader() {
             alt="See See Bloom logo"
             width={36}
             height={36}
-            className="size-9 rounded-md"
+            className="size-9"
           />
           <span className="display-type text-lg leading-none">See See Bloom</span>
         </Link>
