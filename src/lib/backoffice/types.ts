@@ -174,7 +174,7 @@ export type DashboardSummary = {
   openQuotes: number;
   quotedValueCents: number;
   jobsDueSoon: number;
-  proofsAwaiting: number
+  proofsAwaiting: number;
   unpaidInvoices: number;
   unpaidValueCents: number;
   paidThisMonthCents: number;
