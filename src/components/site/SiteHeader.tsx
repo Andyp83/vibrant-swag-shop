@@ -8,10 +8,7 @@ import { MotionToggle } from "@/components/site/MotionToggle";
 const nav = [
   { to: "/", label: "Home" },
   { to: "/products", label: "Products" },
-  { to: "/lookbook", label: "Lookbook" },
-  { to: "/colour-guide", label: "Colour guide" },
-  { to: "/impact-aware", label: "Impact Aware" },
-  { to: "/star-performers", label: "Star Performers" },
+  { to: "/catalogues", label: "Catalogues" },
   { to: "/decoration", label: "Decoration" },
   { to: "/quote", label: "Get a quote" },
 ] as const;
@@ -36,7 +33,7 @@ export function SiteHeader() {
 
 
         <nav className="hidden items-center gap-7 md:flex">
-          {nav.slice(0, 6).map((item) => (
+          {nav.slice(0, 3).map((item) => (
             <Link
               key={item.to}
               to={item.to}
