@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { Menu } from "lucide-react";
 import { useState } from "react";
 import brandLockup from "@/assets/brand/see-see-bloom-lockup-light.png";
+import { DecorationMenu } from "@/components/site/DecorationMenu";
 import { MotionToggle } from "@/components/site/MotionToggle";
 
 const nav = [
@@ -45,6 +46,7 @@ export function SiteHeader() {
               {item.label}
             </Link>
           ))}
+          <DecorationMenu />
           <MotionToggle />
           <Link
             to="/quote"
