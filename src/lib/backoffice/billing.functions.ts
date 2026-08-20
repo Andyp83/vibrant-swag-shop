@@ -43,12 +43,7 @@ export const setInvoiceStatus = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((input: unknown) => {
     const raw = input as { id: string; status: string };
-    return {
-      id: uuid.parse(raw.id),
-      status: invoiceSchema.pick({ kind: true }).shape.kind.options.includes(raw.status as never)
-        ? raw.status
-        : raw.status,
-    };
+    return { id: uuid.parse(raw.id), status: String(raw.status) };
   })
   .handler(async ({ data, context }) => {
     await assertAdmin(context);
