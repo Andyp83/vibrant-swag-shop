@@ -33,13 +33,13 @@ export const Route = createFileRoute("/quote")({
   },
   head: () => ({
     meta: [
-      { title: "Request a Quote & Upload Your Logo | Brand Bento" },
+      { title: "Request a Quote & Upload Your Logo | See See Bloom" },
       {
         name: "description",
         content:
           "Send us your brief and upload your logo files. We reply with a curated merchandise shortlist and pricing, usually within one business day.",
       },
-      { property: "og:title", content: "Request a Quote & Upload Your Logo | Brand Bento" },
+      { property: "og:title", content: "Request a Quote & Upload Your Logo | See See Bloom" },
       {
         property: "og:description",
         content:

@@ -10,13 +10,13 @@ export const Route = createFileRoute("/products/")({
   loader: ({ context }) => context.queryClient.ensureQueryData(catalogQueryOptions()),
   head: () => ({
     meta: [
-      { title: "Branded Merchandise Categories | Brand Bento" },
+      { title: "Branded Merchandise Categories | See See Bloom" },
       {
         name: "description",
         content:
           "Explore branded merchandise by category: drinkware, promotional items, headwear, business items, outdoor, bags, apparel, packaging and curated corporate gift sets.",
       },
-      { property: "og:title", content: "Branded Merchandise Categories | Brand Bento" },
+      { property: "og:title", content: "Branded Merchandise Categories | See See Bloom" },
       {
         property: "og:description",
         content:

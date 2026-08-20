@@ -20,13 +20,13 @@ export const Route = createFileRoute("/lookbook")({
   },
   head: () => ({
     meta: [
-      { title: "Brands Lookbook | Brand Bento" },
+      { title: "Brands Lookbook | See See Bloom" },
       {
         name: "description",
         content:
-          "Browse the Brand Bento brands lookbook: filter every product by decoration method, Impact Aware materials and minimum order quantity to find ideas fast.",
+          "Browse the See See Bloom brands lookbook: filter every product by decoration method, Impact Aware materials and minimum order quantity to find ideas fast.",
       },
-      { property: "og:title", content: "Brands Lookbook | Brand Bento" },
+      { property: "og:title", content: "Brands Lookbook | See See Bloom" },
       {
         property: "og:description",
         content:
@@ -94,7 +94,7 @@ function LookbookPage() {
       <div className="mt-10 overflow-hidden rounded-2xl border border-border bg-card">
         <div className="spectrum-bar h-1.5 w-full" />
         <iframe
-          title="Brand Bento brands lookbook"
+          title="See See Bloom brands lookbook"
           allowFullScreen
           loading="lazy"
           className="block h-[500px] w-full border-none sm:h-[640px] lg:h-[760px]"

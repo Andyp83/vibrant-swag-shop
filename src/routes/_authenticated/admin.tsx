@@ -33,14 +33,14 @@ import {
 export const Route = createFileRoute("/_authenticated/admin")({
   head: () => ({
     meta: [
-      { title: "Catalogue Manager | Brand Bento" },
+      { title: "Catalogue Manager | See See Bloom" },
       {
         name: "description",
         content:
-          "Manage Brand Bento product categories, minimum order quantities, decoration tags and catalogue imagery.",
+          "Manage See See Bloom product categories, minimum order quantities, decoration tags and catalogue imagery.",
       },
-      { property: "og:title", content: "Catalogue Manager | Brand Bento" },
-      { property: "og:description", content: "Manage the Brand Bento product catalogue." },
+      { property: "og:title", content: "Catalogue Manager | See See Bloom" },
+      { property: "og:description", content: "Manage the See See Bloom product catalogue." },
       { name: "robots", content: "noindex" },
     ],
   }),

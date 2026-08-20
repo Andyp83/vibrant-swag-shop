@@ -27,11 +27,11 @@ export const Route = createFileRoute("/products/$category")({
   head: ({ loaderData }) => {
     if (!loaderData) {
       return {
-        meta: [{ title: "Category not found | Brand Bento" }, { name: "robots", content: "noindex" }],
+        meta: [{ title: "Category not found | See See Bloom" }, { name: "robots", content: "noindex" }],
       };
     }
     const { category } = loaderData;
-    const title = `${category.name} — Branded Merchandise | Brand Bento`;
+    const title = `${category.name} — Branded Merchandise | See See Bloom`;
     return {
       meta: [
         { title },
