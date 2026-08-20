@@ -21,11 +21,16 @@ import { Route as QuoteRouteImport } from './routes/quote'
 import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
+import { Route as JobTokenRouteImport } from './routes/job.$token'
+import { Route as PayTokenRouteImport } from './routes/pay.$token'
 import { Route as ProductsIndexRouteImport } from './routes/products.index'
 import { Route as ProductsCategoryRouteImport } from './routes/products.$category'
+import { Route as ProofTokenRouteImport } from './routes/proof.$token'
+import { Route as QTokenRouteImport } from './routes/q.$token'
 import { Route as DotlovableOauthConsentRouteImport } from './routes/[.]lovable.oauth.consent'
 import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
 import { Route as ApiPublicCatalogImageSplatRouteImport } from './routes/api/public/catalog-image.$'
+import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -88,6 +93,16 @@ const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const JobTokenRoute = JobTokenRouteImport.update({
+  id: '/job/$token',
+  path: '/job/$token',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PayTokenRoute = PayTokenRouteImport.update({
+  id: '/pay/$token',
+  path: '/pay/$token',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProductsIndexRoute = ProductsIndexRouteImport.update({
   id: '/products/',
   path: '/products/',
@@ -96,6 +111,16 @@ const ProductsIndexRoute = ProductsIndexRouteImport.update({
 const ProductsCategoryRoute = ProductsCategoryRouteImport.update({
   id: '/products/$category',
   path: '/products/$category',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProofTokenRoute = ProofTokenRouteImport.update({
+  id: '/proof/$token',
+  path: '/proof/$token',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const QTokenRoute = QTokenRouteImport.update({
+  id: '/q/$token',
+  path: '/q/$token',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DotlovableOauthConsentRoute = DotlovableOauthConsentRouteImport.update({
@@ -115,6 +140,12 @@ const ApiPublicCatalogImageSplatRoute =
     path: '/api/public/catalog-image/$',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiPublicPaymentsWebhookRoute =
+  ApiPublicPaymentsWebhookRouteImport.update({
+    id: '/api/public/payments/webhook',
+    path: '/api/public/payments/webhook',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -128,11 +159,16 @@ export interface FileRoutesByFullPath {
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/admin': typeof AuthenticatedAdminRoute
+  '/job/$token': typeof JobTokenRoute
+  '/pay/$token': typeof PayTokenRoute
   '/products/$category': typeof ProductsCategoryRoute
+  '/proof/$token': typeof ProofTokenRoute
+  '/q/$token': typeof QTokenRoute
   '/products/': typeof ProductsIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/api/public/catalog-image/$': typeof ApiPublicCatalogImageSplatRoute
+  '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -146,11 +182,16 @@ export interface FileRoutesByTo {
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/admin': typeof AuthenticatedAdminRoute
+  '/job/$token': typeof JobTokenRoute
+  '/pay/$token': typeof PayTokenRoute
   '/products/$category': typeof ProductsCategoryRoute
+  '/proof/$token': typeof ProofTokenRoute
+  '/q/$token': typeof QTokenRoute
   '/products': typeof ProductsIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/api/public/catalog-image/$': typeof ApiPublicCatalogImageSplatRoute
+  '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -166,11 +207,16 @@ export interface FileRoutesById {
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
+  '/job/$token': typeof JobTokenRoute
+  '/pay/$token': typeof PayTokenRoute
   '/products/$category': typeof ProductsCategoryRoute
+  '/proof/$token': typeof ProofTokenRoute
+  '/q/$token': typeof QTokenRoute
   '/products/': typeof ProductsIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/api/public/catalog-image/$': typeof ApiPublicCatalogImageSplatRoute
+  '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -186,11 +232,16 @@ export interface FileRouteTypes {
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
     | '/admin'
+    | '/job/$token'
+    | '/pay/$token'
     | '/products/$category'
+    | '/proof/$token'
+    | '/q/$token'
     | '/products/'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
     | '/api/public/catalog-image/$'
+    | '/api/public/payments/webhook'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -204,11 +255,16 @@ export interface FileRouteTypes {
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
     | '/admin'
+    | '/job/$token'
+    | '/pay/$token'
     | '/products/$category'
+    | '/proof/$token'
+    | '/q/$token'
     | '/products'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
     | '/api/public/catalog-image/$'
+    | '/api/public/payments/webhook'
   id:
     | '__root__'
     | '/'
@@ -223,11 +279,16 @@ export interface FileRouteTypes {
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
     | '/_authenticated/admin'
+    | '/job/$token'
+    | '/pay/$token'
     | '/products/$category'
+    | '/proof/$token'
+    | '/q/$token'
     | '/products/'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
     | '/api/public/catalog-image/$'
+    | '/api/public/payments/webhook'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -242,11 +303,16 @@ export interface RootRouteChildren {
   QuoteRoute: typeof QuoteRoute
   Char91DotmcpChar93ListToolsRoute: typeof Char91DotmcpChar93ListToolsRoute
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  JobTokenRoute: typeof JobTokenRoute
+  PayTokenRoute: typeof PayTokenRoute
   ProductsCategoryRoute: typeof ProductsCategoryRoute
+  ProofTokenRoute: typeof ProofTokenRoute
+  QTokenRoute: typeof QTokenRoute
   ProductsIndexRoute: typeof ProductsIndexRoute
   DotlovableOauthConsentRoute: typeof DotlovableOauthConsentRoute
   Char91DotmcpChar93InvokeToolToolRoute: typeof Char91DotmcpChar93InvokeToolToolRoute
   ApiPublicCatalogImageSplatRoute: typeof ApiPublicCatalogImageSplatRoute
+  ApiPublicPaymentsWebhookRoute: typeof ApiPublicPaymentsWebhookRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -335,6 +401,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/job/$token': {
+      id: '/job/$token'
+      path: '/job/$token'
+      fullPath: '/job/$token'
+      preLoaderRoute: typeof JobTokenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pay/$token': {
+      id: '/pay/$token'
+      path: '/pay/$token'
+      fullPath: '/pay/$token'
+      preLoaderRoute: typeof PayTokenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/products/': {
       id: '/products/'
       path: '/products'
@@ -347,6 +427,20 @@ declare module '@tanstack/react-router' {
       path: '/products/$category'
       fullPath: '/products/$category'
       preLoaderRoute: typeof ProductsCategoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/proof/$token': {
+      id: '/proof/$token'
+      path: '/proof/$token'
+      fullPath: '/proof/$token'
+      preLoaderRoute: typeof ProofTokenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/q/$token': {
+      id: '/q/$token'
+      path: '/q/$token'
+      fullPath: '/q/$token'
+      preLoaderRoute: typeof QTokenRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/.lovable/oauth/consent': {
@@ -368,6 +462,13 @@ declare module '@tanstack/react-router' {
       path: '/api/public/catalog-image/$'
       fullPath: '/api/public/catalog-image/$'
       preLoaderRoute: typeof ApiPublicCatalogImageSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/payments/webhook': {
+      id: '/api/public/payments/webhook'
+      path: '/api/public/payments/webhook'
+      fullPath: '/api/public/payments/webhook'
+      preLoaderRoute: typeof ApiPublicPaymentsWebhookRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -397,11 +498,16 @@ const rootRouteChildren: RootRouteChildren = {
   Char91DotmcpChar93ListToolsRoute: Char91DotmcpChar93ListToolsRoute,
   Char91DotwellKnownChar93OauthProtectedResourceRoute:
     Char91DotwellKnownChar93OauthProtectedResourceRoute,
+  JobTokenRoute: JobTokenRoute,
+  PayTokenRoute: PayTokenRoute,
   ProductsCategoryRoute: ProductsCategoryRoute,
+  ProofTokenRoute: ProofTokenRoute,
+  QTokenRoute: QTokenRoute,
   ProductsIndexRoute: ProductsIndexRoute,
   DotlovableOauthConsentRoute: DotlovableOauthConsentRoute,
   Char91DotmcpChar93InvokeToolToolRoute: Char91DotmcpChar93InvokeToolToolRoute,
   ApiPublicCatalogImageSplatRoute: ApiPublicCatalogImageSplatRoute,
+  ApiPublicPaymentsWebhookRoute: ApiPublicPaymentsWebhookRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
