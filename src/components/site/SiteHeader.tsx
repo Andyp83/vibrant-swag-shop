@@ -8,10 +8,7 @@ import { MotionToggle } from "@/components/site/MotionToggle";
 const nav = [
   { to: "/", label: "Home" },
   { to: "/products", label: "Products" },
-  { to: "/lookbook", label: "Lookbook" },
-  { to: "/colour-guide", label: "Colour guide" },
-  { to: "/impact-aware", label: "Impact Aware" },
-  { to: "/star-performers", label: "Star Performers" },
+  { to: "/catalogues", label: "Catalogues" },
   { to: "/decoration", label: "Decoration" },
   { to: "/quote", label: "Get a quote" },
 ] as const;
