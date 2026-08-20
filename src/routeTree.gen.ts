@@ -21,6 +21,7 @@ import { Route as QuoteRouteImport } from './routes/quote'
 import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
+import { Route as PayTokenRouteImport } from './routes/pay.$token'
 import { Route as ProductsIndexRouteImport } from './routes/products.index'
 import { Route as ProductsCategoryRouteImport } from './routes/products.$category'
 import { Route as ProofTokenRouteImport } from './routes/proof.$token'
@@ -91,6 +92,11 @@ const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const PayTokenRoute = PayTokenRouteImport.update({
+  id: '/pay/$token',
+  path: '/pay/$token',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProductsIndexRoute = ProductsIndexRouteImport.update({
   id: '/products/',
   path: '/products/',
@@ -147,6 +153,7 @@ export interface FileRoutesByFullPath {
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/admin': typeof AuthenticatedAdminRoute
+  '/pay/$token': typeof PayTokenRoute
   '/products/$category': typeof ProductsCategoryRoute
   '/proof/$token': typeof ProofTokenRoute
   '/q/$token': typeof QTokenRoute
@@ -168,6 +175,7 @@ export interface FileRoutesByTo {
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/admin': typeof AuthenticatedAdminRoute
+  '/pay/$token': typeof PayTokenRoute
   '/products/$category': typeof ProductsCategoryRoute
   '/proof/$token': typeof ProofTokenRoute
   '/q/$token': typeof QTokenRoute
@@ -191,6 +199,7 @@ export interface FileRoutesById {
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
+  '/pay/$token': typeof PayTokenRoute
   '/products/$category': typeof ProductsCategoryRoute
   '/proof/$token': typeof ProofTokenRoute
   '/q/$token': typeof QTokenRoute
@@ -214,6 +223,7 @@ export interface FileRouteTypes {
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
     | '/admin'
+    | '/pay/$token'
     | '/products/$category'
     | '/proof/$token'
     | '/q/$token'
@@ -235,6 +245,7 @@ export interface FileRouteTypes {
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
     | '/admin'
+    | '/pay/$token'
     | '/products/$category'
     | '/proof/$token'
     | '/q/$token'
@@ -257,6 +268,7 @@ export interface FileRouteTypes {
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
     | '/_authenticated/admin'
+    | '/pay/$token'
     | '/products/$category'
     | '/proof/$token'
     | '/q/$token'
@@ -279,6 +291,7 @@ export interface RootRouteChildren {
   QuoteRoute: typeof QuoteRoute
   Char91DotmcpChar93ListToolsRoute: typeof Char91DotmcpChar93ListToolsRoute
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  PayTokenRoute: typeof PayTokenRoute
   ProductsCategoryRoute: typeof ProductsCategoryRoute
   ProofTokenRoute: typeof ProofTokenRoute
   QTokenRoute: typeof QTokenRoute
@@ -375,6 +388,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/pay/$token': {
+      id: '/pay/$token'
+      path: '/pay/$token'
+      fullPath: '/pay/$token'
+      preLoaderRoute: typeof PayTokenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/products/': {
       id: '/products/'
       path: '/products'
@@ -458,6 +478,7 @@ const rootRouteChildren: RootRouteChildren = {
   Char91DotmcpChar93ListToolsRoute: Char91DotmcpChar93ListToolsRoute,
   Char91DotwellKnownChar93OauthProtectedResourceRoute:
     Char91DotwellKnownChar93OauthProtectedResourceRoute,
+  PayTokenRoute: PayTokenRoute,
   ProductsCategoryRoute: ProductsCategoryRoute,
   ProofTokenRoute: ProofTokenRoute,
   QTokenRoute: QTokenRoute,
