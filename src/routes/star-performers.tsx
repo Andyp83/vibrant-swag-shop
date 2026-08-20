@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 
-export const Route = createFileRoute("/star-perperformer")({
+export const Route = createFileRoute("/star-performers")({
   head: () => ({
     meta: [
       { title: "Star Performers — Edition Three | See See Bloom" },
