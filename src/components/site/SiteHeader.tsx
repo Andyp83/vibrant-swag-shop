@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Menu } from "lucide-react";
 import { useState } from "react";
-import brandMark from "@/assets/brand/see-see-bloom-mark.png";
+import brandLockup from "@/assets/brand/see-see-bloom-lockup-light.png";
 import { MotionToggle } from "@/components/site/MotionToggle";
 
 const nav = [
@@ -22,21 +22,16 @@ export function SiteHeader() {
     <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur">
       <div className="spectrum-bar h-1.5 w-full" />
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-4">
-        <Link to="/" className="flex items-center gap-2.5" onClick={() => setOpen(false)}>
+        <Link to="/" className="flex items-center" onClick={() => setOpen(false)}>
           <img
-            src={brandMark}
-            alt="See See Bloom logo"
-            width={40}
-            height={40}
-            className="size-10"
+            src={brandLockup}
+            alt="See See Bloom — branded merchandise for brands worth remembering"
+            width={1995}
+            height={400}
+            className="h-10 w-auto sm:h-12"
           />
-          <span className="flex flex-col">
-            <span className="display-type text-xl leading-none">See See Bloom</span>
-            <span className="hidden text-[0.6875rem] font-normal leading-tight text-muted-foreground sm:block">
-              Branded merchandise for brands worth remembering
-            </span>
-          </span>
         </Link>
+
 
         <nav className="hidden items-center gap-7 md:flex">
           {nav.slice(0, 5).map((item) => (

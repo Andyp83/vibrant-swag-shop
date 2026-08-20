@@ -1,6 +1,6 @@
 import { Link, useLoaderData } from "@tanstack/react-router";
 import type { CmsCategory } from "@/lib/catalog-query";
-import brandMark from "@/assets/brand/see-see-bloom-mark.png";
+import brandLockup from "@/assets/brand/see-see-bloom-lockup-light.png";
 
 export function SiteFooter() {
   const data = useLoaderData({ from: "__root__" }) as CmsCategory[] | undefined;
@@ -12,21 +12,18 @@ export function SiteFooter() {
       <div className="mx-auto grid max-w-6xl gap-10 px-5 py-14 sm:grid-cols-2 lg:grid-cols-4">
         <div>
           <img
-            src={brandMark}
-            alt="See See Bloom logo"
-            width={40}
-            height={40}
-            className="size-10"
+            src={brandLockup}
+            alt="See See Bloom — branded merchandise for brands worth remembering"
+            width={1995}
+            height={400}
+            className="h-12 w-auto"
           />
-          <p className="display-type mt-3 text-2xl leading-none">See See Bloom</p>
-          <p className="mt-1.5 text-xs text-muted-foreground">
-            Branded merchandise for brands worth remembering
-          </p>
-          <p className="mt-3 text-sm text-muted-foreground">
+          <p className="mt-4 text-sm text-muted-foreground">
             Branded merchandise for brands worth remembering. Sourced and decorated for teams that
             care how things look.
           </p>
         </div>
+
 
         <div>
           <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
