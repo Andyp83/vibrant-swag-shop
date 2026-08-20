@@ -18,7 +18,10 @@ export function SiteFooter() {
             height={40}
             className="size-10"
           />
-          <p className="display-type mt-3 text-lg">See See Bloom</p>
+          <p className="display-type mt-3 text-2xl leading-none">See See Bloom</p>
+          <p className="mt-1.5 text-xs text-muted-foreground">
+            Branded merchandise for brands worth remembering
+          </p>
           <p className="mt-3 text-sm text-muted-foreground">
             Branded merchandise for brands worth remembering. Sourced and decorated for teams that
             care how things look.
