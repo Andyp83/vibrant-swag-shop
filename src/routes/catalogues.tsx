@@ -70,7 +70,7 @@ export const Route = createFileRoute("/catalogues")({
 });
 
 function CataloguesPage() {
-  const [active, setActive] = useState(catalogues[0].id);
+  const [active, setActive] = useState<string>(catalogues[0]!.id);
 
   const jumpTo = (id: string) => {
     setActive(id);
