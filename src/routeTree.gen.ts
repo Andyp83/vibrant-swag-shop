@@ -20,7 +20,6 @@ import { Route as McpRouteImport } from './routes/mcp'
 import { Route as QuoteRouteImport } from './routes/quote'
 import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
-import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as JobTokenRouteImport } from './routes/job.$token'
 import { Route as PayTokenRouteImport } from './routes/pay.$token'
 import { Route as ProductsIndexRouteImport } from './routes/products.index'
@@ -29,6 +28,7 @@ import { Route as ProofTokenRouteImport } from './routes/proof.$token'
 import { Route as QTokenRouteImport } from './routes/q.$token'
 import { Route as DotlovableOauthConsentRouteImport } from './routes/[.]lovable.oauth.consent'
 import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
+import { Route as AuthenticatedAdminCatalogueRouteImport } from './routes/_authenticated/admin/catalogue'
 import { Route as ApiPublicCatalogImageSplatRouteImport } from './routes/api/public/catalog-image.$'
 import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
 
@@ -88,11 +88,6 @@ const Char91DotwellKnownChar93OauthProtectedResourceRoute =
     path: '/.well-known/oauth-protected-resource',
     getParentRoute: () => rootRouteImport,
   } as any)
-const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
-  id: '/admin',
-  path: '/admin',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
 const JobTokenRoute = JobTokenRouteImport.update({
   id: '/job/$token',
   path: '/job/$token',
@@ -134,6 +129,12 @@ const Char91DotmcpChar93InvokeToolToolRoute =
     path: '/.mcp/invoke-tool/$tool',
     getParentRoute: () => rootRouteImport,
   } as any)
+const AuthenticatedAdminCatalogueRoute =
+  AuthenticatedAdminCatalogueRouteImport.update({
+    id: '/admin/catalogue',
+    path: '/admin/catalogue',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const ApiPublicCatalogImageSplatRoute =
   ApiPublicCatalogImageSplatRouteImport.update({
     id: '/api/public/catalog-image/$',
@@ -158,7 +159,6 @@ export interface FileRoutesByFullPath {
   '/quote': typeof QuoteRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
-  '/admin': typeof AuthenticatedAdminRoute
   '/job/$token': typeof JobTokenRoute
   '/pay/$token': typeof PayTokenRoute
   '/products/$category': typeof ProductsCategoryRoute
@@ -167,6 +167,7 @@ export interface FileRoutesByFullPath {
   '/products/': typeof ProductsIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
+  '/admin/catalogue': typeof AuthenticatedAdminCatalogueRoute
   '/api/public/catalog-image/$': typeof ApiPublicCatalogImageSplatRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
@@ -181,7 +182,6 @@ export interface FileRoutesByTo {
   '/quote': typeof QuoteRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
-  '/admin': typeof AuthenticatedAdminRoute
   '/job/$token': typeof JobTokenRoute
   '/pay/$token': typeof PayTokenRoute
   '/products/$category': typeof ProductsCategoryRoute
@@ -190,6 +190,7 @@ export interface FileRoutesByTo {
   '/products': typeof ProductsIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
+  '/admin/catalogue': typeof AuthenticatedAdminCatalogueRoute
   '/api/public/catalog-image/$': typeof ApiPublicCatalogImageSplatRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
@@ -206,7 +207,6 @@ export interface FileRoutesById {
   '/quote': typeof QuoteRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
-  '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/job/$token': typeof JobTokenRoute
   '/pay/$token': typeof PayTokenRoute
   '/products/$category': typeof ProductsCategoryRoute
@@ -215,6 +215,7 @@ export interface FileRoutesById {
   '/products/': typeof ProductsIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
+  '/_authenticated/admin/catalogue': typeof AuthenticatedAdminCatalogueRoute
   '/api/public/catalog-image/$': typeof ApiPublicCatalogImageSplatRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
@@ -231,7 +232,6 @@ export interface FileRouteTypes {
     | '/quote'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
-    | '/admin'
     | '/job/$token'
     | '/pay/$token'
     | '/products/$category'
@@ -240,6 +240,7 @@ export interface FileRouteTypes {
     | '/products/'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
+    | '/admin/catalogue'
     | '/api/public/catalog-image/$'
     | '/api/public/payments/webhook'
   fileRoutesByTo: FileRoutesByTo
@@ -254,7 +255,6 @@ export interface FileRouteTypes {
     | '/quote'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
-    | '/admin'
     | '/job/$token'
     | '/pay/$token'
     | '/products/$category'
@@ -263,6 +263,7 @@ export interface FileRouteTypes {
     | '/products'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
+    | '/admin/catalogue'
     | '/api/public/catalog-image/$'
     | '/api/public/payments/webhook'
   id:
@@ -278,7 +279,6 @@ export interface FileRouteTypes {
     | '/quote'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
-    | '/_authenticated/admin'
     | '/job/$token'
     | '/pay/$token'
     | '/products/$category'
@@ -287,6 +287,7 @@ export interface FileRouteTypes {
     | '/products/'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
+    | '/_authenticated/admin/catalogue'
     | '/api/public/catalog-image/$'
     | '/api/public/payments/webhook'
   fileRoutesById: FileRoutesById
@@ -394,13 +395,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/admin': {
-      id: '/_authenticated/admin'
-      path: '/admin'
-      fullPath: '/admin'
-      preLoaderRoute: typeof AuthenticatedAdminRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
     '/job/$token': {
       id: '/job/$token'
       path: '/job/$token'
@@ -457,6 +451,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Char91DotmcpChar93InvokeToolToolRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/admin/catalogue': {
+      id: '/_authenticated/admin/catalogue'
+      path: '/admin/catalogue'
+      fullPath: '/admin/catalogue'
+      preLoaderRoute: typeof AuthenticatedAdminCatalogueRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/api/public/catalog-image/$': {
       id: '/api/public/catalog-image/$'
       path: '/api/public/catalog-image/$'
@@ -475,11 +476,11 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedRouteRouteChildren {
-  AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
+  AuthenticatedAdminCatalogueRoute: typeof AuthenticatedAdminCatalogueRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
-  AuthenticatedAdminRoute: AuthenticatedAdminRoute,
+  AuthenticatedAdminCatalogueRoute: AuthenticatedAdminCatalogueRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =

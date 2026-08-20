@@ -30,7 +30,7 @@ import {
   type CmsProduct,
 } from "@/lib/catalog.functions";
 
-export const Route = createFileRoute("/_authenticated/admin")({
+export const Route = createFileRoute("/_authenticated/admin/catalogue")({
   head: () => ({
     meta: [
       { title: "Catalogue Manager | See See Bloom" },
