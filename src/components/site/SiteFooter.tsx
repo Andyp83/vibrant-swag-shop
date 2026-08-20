@@ -1,6 +1,6 @@
 import { Link, useLoaderData } from "@tanstack/react-router";
 import type { CmsCategory } from "@/lib/catalog-query";
-import brandMark from "@/assets/brand/brand-bento-mark.png.asset.json";
+import brandMark from "@/assets/brand/see-see-bloom-mark.png";
 
 export function SiteFooter() {
   const data = useLoaderData({ from: "__root__" }) as CmsCategory[] | undefined;
@@ -12,16 +12,16 @@ export function SiteFooter() {
       <div className="mx-auto grid max-w-6xl gap-10 px-5 py-14 sm:grid-cols-2 lg:grid-cols-4">
         <div>
           <img
-            src={brandMark.url}
-            alt="Brand Bento logo"
+            src={brandMark}
+            alt="See See Bloom logo"
             width={40}
             height={40}
             className="size-10 rounded-md"
           />
-          <p className="display-type mt-3 text-lg">Brand Bento</p>
+          <p className="display-type mt-3 text-lg">See See Bloom</p>
           <p className="mt-3 text-sm text-muted-foreground">
-            Neatly curated. Beautifully branded. Merchandise and corporate gifts, sourced and
-            decorated for teams that care how things look.
+            Branded merchandise for brands worth remembering. Sourced and decorated for teams that
+            care how things look.
           </p>
         </div>
 
@@ -94,7 +94,7 @@ export function SiteFooter() {
           <p className="mt-4 text-sm text-muted-foreground">
             Mon–Fri, 8.30am–5pm
             <br />
-            hello@brandbento.example
+            hello@seesebloom.example
             <br />
             Artwork studio replies within one business day.
           </p>
@@ -103,7 +103,7 @@ export function SiteFooter() {
 
       <div className="border-t border-border px-5 py-6">
         <p className="mx-auto max-w-6xl text-xs text-muted-foreground">
-          © {new Date().getFullYear()} Brand Bento. Product imagery shown unbranded for illustration.
+          © {new Date().getFullYear()} See See Bloom. Product imagery shown unbranded for illustration.
         </p>
       </div>
     </footer>

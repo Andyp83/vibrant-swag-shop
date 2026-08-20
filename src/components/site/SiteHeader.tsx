@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Menu } from "lucide-react";
 import { useState } from "react";
-import brandMark from "@/assets/brand/brand-bento-mark.png.asset.json";
+import brandMark from "@/assets/brand/see-see-bloom-mark.png";
 import { MotionToggle } from "@/components/site/MotionToggle";
 
 const nav = [
@@ -24,13 +24,13 @@ export function SiteHeader() {
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-4">
         <Link to="/" className="flex items-center gap-2.5" onClick={() => setOpen(false)}>
           <img
-            src={brandMark.url}
-            alt="Brand Bento logo"
+            src={brandMark}
+            alt="See See Bloom logo"
             width={36}
             height={36}
             className="size-9 rounded-md"
           />
-          <span className="display-type text-lg leading-none">Brand Bento</span>
+          <span className="display-type text-lg leading-none">See See Bloom</span>
         </Link>
 
         <nav className="hidden items-center gap-7 md:flex">
