@@ -3,8 +3,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { borderAccentClass, decorations, softBgClass, spectrum, swatchClass } from "@/lib/catalog";
 import { catalogQueryOptions } from "@/lib/catalog-query";
-import { banners } from "@/lib/banners";
-import { BannerRow } from "@/components/site/BannerStrip";
+import { PlacementBanners } from "@/components/site/PlacementBanners";
 import { Reveal } from "@/components/site/Reveal";
 import { Marquee } from "@/components/site/Marquee";
 import { CountUp } from "@/components/site/CountUp";
@@ -165,9 +164,9 @@ function Home() {
       </div>
 
       <Reveal variant="blur">
-        <BannerRow
+        <PlacementBanners
+          placement="home"
           title="In the spotlight"
-          banners={[banners.aura, banners.camaro, banners.brandcraft]}
           className="mx-auto max-w-6xl px-5 pt-20"
         />
       </Reveal>

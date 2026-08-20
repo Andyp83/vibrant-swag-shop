@@ -2,9 +2,9 @@ import { createFileRoute, Link, notFound, useNavigate } from "@tanstack/react-ro
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { borderAccentClass, softBgClass, spectrum, swatchClass, textClass } from "@/lib/catalog";
 import { catalogQueryOptions, type CmsCategory } from "@/lib/catalog-query";
-import { categoryBanners } from "@/lib/banners";
+import { categoryPlacement } from "@/lib/banners";
 import { categoryVideos } from "@/lib/videos";
-import { BannerRow } from "@/components/site/BannerStrip";
+import { PlacementBanners } from "@/components/site/PlacementBanners";
 import { VideoStrip } from "@/components/site/VideoStrip";
 import { Reveal } from "@/components/site/Reveal";
 
@@ -139,9 +139,9 @@ function CategoryPage() {
         </div>
 
 
-        <BannerRow
+        <PlacementBanners
+          placement={categoryPlacement(category.slug)}
           title="Featured ranges"
-          banners={categoryBanners[category.slug] ?? []}
           className="mt-20"
         />
 

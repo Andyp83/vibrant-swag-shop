@@ -5,8 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import { artworkFaq, decorations, spectrum, swatchClass, textClass } from "@/lib/catalog";
 import { catalogQueryOptions } from "@/lib/catalog-query";
 import { decorationImages } from "@/lib/decoration-images";
-import { decorationBanners } from "@/lib/banners";
-import { BannerRow } from "@/components/site/BannerStrip";
+import { PlacementBanners } from "@/components/site/PlacementBanners";
 import {
   Accordion,
   AccordionContent,
@@ -386,7 +385,7 @@ function DecorationPage() {
         </ul>
       </section>
 
-      <BannerRow title="New branding technologies" banners={decorationBanners} className="mt-16" />
+      <PlacementBanners placement="decoration" title="New branding technologies" className="mt-16" />
 
 
       <section className="mt-20">
