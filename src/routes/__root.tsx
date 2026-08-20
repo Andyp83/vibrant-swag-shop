@@ -82,17 +82,17 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Brand Bento — Branded Merchandise & Corporate Gifts" },
+      { title: "See See Bloom — Branded Merchandise for Brands Worth Remembering" },
       {
         name: "description",
         content:
-          "Neatly curated. Beautifully branded. Bright promotional merchandise and corporate gifts, decorated in-house.",
+          "Branded merchandise for brands worth remembering. Bright promotional products and corporate gifts, decorated in-house.",
       },
-      { name: "author", content: "Brand Bento" },
-      { property: "og:title", content: "Brand Bento — Branded Merchandise & Corporate Gifts" },
+      { name: "author", content: "See See Bloom" },
+      { property: "og:title", content: "See See Bloom — Branded Merchandise for Brands Worth Remembering" },
       {
         property: "og:description",
-        content: "Neatly curated. Beautifully branded. Merchandise and corporate gifts.",
+        content: "Branded merchandise for brands worth remembering. Promotional products and corporate gifts.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -108,7 +108,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Archivo+Black&family=Work+Sans:wght@400;500;600;700&display=swap",
       },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "icon", href: "/favicon.png", type: "image/png" },
     ],
   }),
   shellComponent: RootShell,
