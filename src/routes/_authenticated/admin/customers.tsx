@@ -142,33 +142,38 @@ function CustomersPage() {
             <DialogTitle>{draft?.id ? "Edit customer" : "New customer"}</DialogTitle>
           </DialogHeader>
           <div className="space-y-4">
-            <Field label="Name">
+            <Field label="Name" htmlFor="customer-name">
               <Input
+                id="customer-name"
                 value={draft?.name ?? ""}
                 onChange={(event) => setDraft({ ...draft, name: event.target.value })}
               />
             </Field>
-            <Field label="Company">
+            <Field label="Company" htmlFor="customer-company">
               <Input
+                id="customer-company"
                 value={draft?.company ?? ""}
                 onChange={(event) => setDraft({ ...draft, company: event.target.value })}
               />
             </Field>
-            <Field label="Email">
+            <Field label="Email" htmlFor="customer-email">
               <Input
+                id="customer-email"
                 type="email"
                 value={draft?.email ?? ""}
                 onChange={(event) => setDraft({ ...draft, email: event.target.value })}
               />
             </Field>
-            <Field label="Phone">
+            <Field label="Phone" htmlFor="customer-phone">
               <Input
+                id="customer-phone"
                 value={draft?.phone ?? ""}
                 onChange={(event) => setDraft({ ...draft, phone: event.target.value })}
               />
             </Field>
-            <Field label="Notes">
+            <Field label="Notes" htmlFor="customer-notes">
               <Textarea
+                id="customer-notes"
                 rows={4}
                 value={draft?.notes ?? ""}
                 onChange={(event) => setDraft({ ...draft, notes: event.target.value })}
@@ -190,10 +195,18 @@ function CustomersPage() {
   );
 }
 
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
+function Field({
+  label,
+  htmlFor,
+  children,
+}: {
+  label: string;
+  htmlFor: string;
+  children: React.ReactNode;
+}) {
   return (
     <div className="space-y-2">
-      <Label>{label}</Label>
+      <Label htmlFor={htmlFor}>{label}</Label>
       {children}
     </div>
   );
