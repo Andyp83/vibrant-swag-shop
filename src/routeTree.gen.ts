@@ -23,6 +23,7 @@ import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } fr
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as ProductsIndexRouteImport } from './routes/products.index'
 import { Route as ProductsCategoryRouteImport } from './routes/products.$category'
+import { Route as ProofTokenRouteImport } from './routes/proof.$token'
 import { Route as QTokenRouteImport } from './routes/q.$token'
 import { Route as DotlovableOauthConsentRouteImport } from './routes/[.]lovable.oauth.consent'
 import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
@@ -100,6 +101,11 @@ const ProductsCategoryRoute = ProductsCategoryRouteImport.update({
   path: '/products/$category',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProofTokenRoute = ProofTokenRouteImport.update({
+  id: '/proof/$token',
+  path: '/proof/$token',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const QTokenRoute = QTokenRouteImport.update({
   id: '/q/$token',
   path: '/q/$token',
@@ -142,6 +148,7 @@ export interface FileRoutesByFullPath {
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/products/$category': typeof ProductsCategoryRoute
+  '/proof/$token': typeof ProofTokenRoute
   '/q/$token': typeof QTokenRoute
   '/products/': typeof ProductsIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
@@ -162,6 +169,7 @@ export interface FileRoutesByTo {
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/products/$category': typeof ProductsCategoryRoute
+  '/proof/$token': typeof ProofTokenRoute
   '/q/$token': typeof QTokenRoute
   '/products': typeof ProductsIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
@@ -184,6 +192,7 @@ export interface FileRoutesById {
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/products/$category': typeof ProductsCategoryRoute
+  '/proof/$token': typeof ProofTokenRoute
   '/q/$token': typeof QTokenRoute
   '/products/': typeof ProductsIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
@@ -206,6 +215,7 @@ export interface FileRouteTypes {
     | '/.well-known/oauth-protected-resource'
     | '/admin'
     | '/products/$category'
+    | '/proof/$token'
     | '/q/$token'
     | '/products/'
     | '/.lovable/oauth/consent'
@@ -226,6 +236,7 @@ export interface FileRouteTypes {
     | '/.well-known/oauth-protected-resource'
     | '/admin'
     | '/products/$category'
+    | '/proof/$token'
     | '/q/$token'
     | '/products'
     | '/.lovable/oauth/consent'
@@ -247,6 +258,7 @@ export interface FileRouteTypes {
     | '/.well-known/oauth-protected-resource'
     | '/_authenticated/admin'
     | '/products/$category'
+    | '/proof/$token'
     | '/q/$token'
     | '/products/'
     | '/.lovable/oauth/consent'
@@ -268,6 +280,7 @@ export interface RootRouteChildren {
   Char91DotmcpChar93ListToolsRoute: typeof Char91DotmcpChar93ListToolsRoute
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   ProductsCategoryRoute: typeof ProductsCategoryRoute
+  ProofTokenRoute: typeof ProofTokenRoute
   QTokenRoute: typeof QTokenRoute
   ProductsIndexRoute: typeof ProductsIndexRoute
   DotlovableOauthConsentRoute: typeof DotlovableOauthConsentRoute
@@ -376,6 +389,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductsCategoryRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/proof/$token': {
+      id: '/proof/$token'
+      path: '/proof/$token'
+      fullPath: '/proof/$token'
+      preLoaderRoute: typeof ProofTokenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/q/$token': {
       id: '/q/$token'
       path: '/q/$token'
@@ -439,6 +459,7 @@ const rootRouteChildren: RootRouteChildren = {
   Char91DotwellKnownChar93OauthProtectedResourceRoute:
     Char91DotwellKnownChar93OauthProtectedResourceRoute,
   ProductsCategoryRoute: ProductsCategoryRoute,
+  ProofTokenRoute: ProofTokenRoute,
   QTokenRoute: QTokenRoute,
   ProductsIndexRoute: ProductsIndexRoute,
   DotlovableOauthConsentRoute: DotlovableOauthConsentRoute,
