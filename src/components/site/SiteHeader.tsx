@@ -36,7 +36,7 @@ export function SiteHeader() {
 
 
         <nav className="hidden items-center gap-7 md:flex">
-          {nav.slice(0, 5).map((item) => (
+          {nav.slice(0, 6).map((item) => (
             <Link
               key={item.to}
               to={item.to}
