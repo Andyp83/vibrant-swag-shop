@@ -20,6 +20,7 @@ import { Route as McpRouteImport } from './routes/mcp'
 import { Route as QuoteRouteImport } from './routes/quote'
 import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
+import { Route as AuthenticatedAdminRouteRouteImport } from './routes/_authenticated/admin/route'
 import { Route as JobTokenRouteImport } from './routes/job.$token'
 import { Route as PayTokenRouteImport } from './routes/pay.$token'
 import { Route as ProductsIndexRouteImport } from './routes/products.index'
@@ -88,6 +89,11 @@ const Char91DotwellKnownChar93OauthProtectedResourceRoute =
     path: '/.well-known/oauth-protected-resource',
     getParentRoute: () => rootRouteImport,
   } as any)
+const AuthenticatedAdminRouteRoute = AuthenticatedAdminRouteRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const JobTokenRoute = JobTokenRouteImport.update({
   id: '/job/$token',
   path: '/job/$token',
@@ -131,9 +137,9 @@ const Char91DotmcpChar93InvokeToolToolRoute =
   } as any)
 const AuthenticatedAdminCatalogueRoute =
   AuthenticatedAdminCatalogueRouteImport.update({
-    id: '/admin/catalogue',
-    path: '/admin/catalogue',
-    getParentRoute: () => AuthenticatedRouteRoute,
+    id: '/catalogue',
+    path: '/catalogue',
+    getParentRoute: () => AuthenticatedAdminRouteRoute,
   } as any)
 const ApiPublicCatalogImageSplatRoute =
   ApiPublicCatalogImageSplatRouteImport.update({
@@ -157,6 +163,7 @@ export interface FileRoutesByFullPath {
   '/lookbook': typeof LookbookRoute
   '/mcp': typeof McpRoute
   '/quote': typeof QuoteRoute
+  '/admin': typeof AuthenticatedAdminRouteRouteWithChildren
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/job/$token': typeof JobTokenRoute
@@ -180,6 +187,7 @@ export interface FileRoutesByTo {
   '/lookbook': typeof LookbookRoute
   '/mcp': typeof McpRoute
   '/quote': typeof QuoteRoute
+  '/admin': typeof AuthenticatedAdminRouteRouteWithChildren
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/job/$token': typeof JobTokenRoute
@@ -205,6 +213,7 @@ export interface FileRoutesById {
   '/lookbook': typeof LookbookRoute
   '/mcp': typeof McpRoute
   '/quote': typeof QuoteRoute
+  '/_authenticated/admin': typeof AuthenticatedAdminRouteRouteWithChildren
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/job/$token': typeof JobTokenRoute
@@ -230,6 +239,7 @@ export interface FileRouteTypes {
     | '/lookbook'
     | '/mcp'
     | '/quote'
+    | '/admin'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
     | '/job/$token'
@@ -253,6 +263,7 @@ export interface FileRouteTypes {
     | '/lookbook'
     | '/mcp'
     | '/quote'
+    | '/admin'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
     | '/job/$token'
@@ -277,6 +288,7 @@ export interface FileRouteTypes {
     | '/lookbook'
     | '/mcp'
     | '/quote'
+    | '/_authenticated/admin'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
     | '/job/$token'
@@ -395,6 +407,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/admin': {
+      id: '/_authenticated/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthenticatedAdminRouteRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/job/$token': {
       id: '/job/$token'
       path: '/job/$token'
@@ -453,10 +472,10 @@ declare module '@tanstack/react-router' {
     }
     '/_authenticated/admin/catalogue': {
       id: '/_authenticated/admin/catalogue'
-      path: '/admin/catalogue'
+      path: '/catalogue'
       fullPath: '/admin/catalogue'
       preLoaderRoute: typeof AuthenticatedAdminCatalogueRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
+      parentRoute: typeof AuthenticatedAdminRouteRoute
     }
     '/api/public/catalog-image/$': {
       id: '/api/public/catalog-image/$'
@@ -475,12 +494,26 @@ declare module '@tanstack/react-router' {
   }
 }
 
-interface AuthenticatedRouteRouteChildren {
+interface AuthenticatedAdminRouteRouteChildren {
   AuthenticatedAdminCatalogueRoute: typeof AuthenticatedAdminCatalogueRoute
 }
 
+const AuthenticatedAdminRouteRouteChildren: AuthenticatedAdminRouteRouteChildren =
+  {
+    AuthenticatedAdminCatalogueRoute: AuthenticatedAdminCatalogueRoute,
+  }
+
+const AuthenticatedAdminRouteRouteWithChildren =
+  AuthenticatedAdminRouteRoute._addFileChildren(
+    AuthenticatedAdminRouteRouteChildren,
+  )
+
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAdminRouteRoute: typeof AuthenticatedAdminRouteRouteWithChildren
+}
+
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
-  AuthenticatedAdminCatalogueRoute: AuthenticatedAdminCatalogueRoute,
+  AuthenticatedAdminRouteRoute: AuthenticatedAdminRouteRouteWithChildren,
 }
 
 const AuthenticatedRouteRouteWithChildren =
