@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Menu } from "lucide-react";
 import { useState } from "react";
-import brandMark from "@/assets/brand/see-see-bloom-mark.png";
+import brandLockup from "@/assets/brand/see-see-bloom-lockup-light.png";
 import { MotionToggle } from "@/components/site/MotionToggle";
 
 const nav = [
