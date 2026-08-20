@@ -73,7 +73,7 @@ export function DecorationMenu() {
             </Link>
           </div>
 
-          <div className="mt-7 grid max-h-[60vh] gap-3 gap-y-8 overflow-y-auto pr-1 sm:grid-cols-3 lg:grid-cols-4">
+          <div className="mt-3 grid max-h-[60vh] gap-3 gap-y-8 overflow-y-auto px-1 pb-2 pt-8 sm:grid-cols-3 lg:grid-cols-4">
             {decorations.map((d) => (
               <Link
                 key={d.slug}
@@ -85,7 +85,7 @@ export function DecorationMenu() {
                 {decorationImages[d.slug]?.url && (
                   <span
                     aria-hidden="true"
-                    className="pointer-events-none absolute -right-2 -top-4 size-14 transition-transform duration-200 ease-out group-hover:scale-125 lg:size-16"
+                    className="pointer-events-none absolute -right-1 -top-3 size-14 origin-bottom-right transition-transform duration-200 ease-out group-hover:scale-110 lg:size-16"
                   >
                     <img
                       src={decorationImages[d.slug]!.url}
