@@ -1,6 +1,6 @@
 import { Link, useLoaderData } from "@tanstack/react-router";
 import type { CmsCategory } from "@/lib/catalog-query";
-import brandMark from "@/assets/brand/see-see-bloom-mark.png";
+import brandLockup from "@/assets/brand/see-see-bloom-lockup-light.png";
 
 export function SiteFooter() {
   const data = useLoaderData({ from: "__root__" }) as CmsCategory[] | undefined;
