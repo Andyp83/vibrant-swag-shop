@@ -30,6 +30,7 @@ import { Route as QTokenRouteImport } from './routes/q.$token'
 import { Route as DotlovableOauthConsentRouteImport } from './routes/[.]lovable.oauth.consent'
 import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin/index'
+import { Route as AuthenticatedAdminBannersRouteImport } from './routes/_authenticated/admin/banners'
 import { Route as AuthenticatedAdminCatalogueRouteImport } from './routes/_authenticated/admin/catalogue'
 import { Route as AuthenticatedAdminCustomersRouteImport } from './routes/_authenticated/admin/customers'
 import { Route as AuthenticatedAdminInvoicesRouteImport } from './routes/_authenticated/admin/invoices'
@@ -145,6 +146,12 @@ const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedAdminRouteRoute,
 } as any)
+const AuthenticatedAdminBannersRoute =
+  AuthenticatedAdminBannersRouteImport.update({
+    id: '/banners',
+    path: '/banners',
+    getParentRoute: () => AuthenticatedAdminRouteRoute,
+  } as any)
 const AuthenticatedAdminCatalogueRoute =
   AuthenticatedAdminCatalogueRouteImport.update({
     id: '/catalogue',
@@ -207,6 +214,7 @@ export interface FileRoutesByFullPath {
   '/products/': typeof ProductsIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
+  '/admin/banners': typeof AuthenticatedAdminBannersRoute
   '/admin/catalogue': typeof AuthenticatedAdminCatalogueRoute
   '/admin/customers': typeof AuthenticatedAdminCustomersRoute
   '/admin/invoices': typeof AuthenticatedAdminInvoicesRoute
@@ -235,6 +243,7 @@ export interface FileRoutesByTo {
   '/products': typeof ProductsIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
+  '/admin/banners': typeof AuthenticatedAdminBannersRoute
   '/admin/catalogue': typeof AuthenticatedAdminCatalogueRoute
   '/admin/customers': typeof AuthenticatedAdminCustomersRoute
   '/admin/invoices': typeof AuthenticatedAdminInvoicesRoute
@@ -266,6 +275,7 @@ export interface FileRoutesById {
   '/products/': typeof ProductsIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
+  '/_authenticated/admin/banners': typeof AuthenticatedAdminBannersRoute
   '/_authenticated/admin/catalogue': typeof AuthenticatedAdminCatalogueRoute
   '/_authenticated/admin/customers': typeof AuthenticatedAdminCustomersRoute
   '/_authenticated/admin/invoices': typeof AuthenticatedAdminInvoicesRoute
@@ -297,6 +307,7 @@ export interface FileRouteTypes {
     | '/products/'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
+    | '/admin/banners'
     | '/admin/catalogue'
     | '/admin/customers'
     | '/admin/invoices'
@@ -325,6 +336,7 @@ export interface FileRouteTypes {
     | '/products'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
+    | '/admin/banners'
     | '/admin/catalogue'
     | '/admin/customers'
     | '/admin/invoices'
@@ -355,6 +367,7 @@ export interface FileRouteTypes {
     | '/products/'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
+    | '/_authenticated/admin/banners'
     | '/_authenticated/admin/catalogue'
     | '/_authenticated/admin/customers'
     | '/_authenticated/admin/invoices'
@@ -538,6 +551,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
       parentRoute: typeof AuthenticatedAdminRouteRoute
     }
+    '/_authenticated/admin/banners': {
+      id: '/_authenticated/admin/banners'
+      path: '/banners'
+      fullPath: '/admin/banners'
+      preLoaderRoute: typeof AuthenticatedAdminBannersRouteImport
+      parentRoute: typeof AuthenticatedAdminRouteRoute
+    }
     '/_authenticated/admin/catalogue': {
       id: '/_authenticated/admin/catalogue'
       path: '/catalogue'
@@ -591,6 +611,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedAdminRouteRouteChildren {
+  AuthenticatedAdminBannersRoute: typeof AuthenticatedAdminBannersRoute
   AuthenticatedAdminCatalogueRoute: typeof AuthenticatedAdminCatalogueRoute
   AuthenticatedAdminCustomersRoute: typeof AuthenticatedAdminCustomersRoute
   AuthenticatedAdminInvoicesRoute: typeof AuthenticatedAdminInvoicesRoute
@@ -601,6 +622,7 @@ interface AuthenticatedAdminRouteRouteChildren {
 
 const AuthenticatedAdminRouteRouteChildren: AuthenticatedAdminRouteRouteChildren =
   {
+    AuthenticatedAdminBannersRoute: AuthenticatedAdminBannersRoute,
     AuthenticatedAdminCatalogueRoute: AuthenticatedAdminCatalogueRoute,
     AuthenticatedAdminCustomersRoute: AuthenticatedAdminCustomersRoute,
     AuthenticatedAdminInvoicesRoute: AuthenticatedAdminInvoicesRoute,
