@@ -7,10 +7,14 @@ import { decorationImages } from "@/lib/decoration-images";
 /** Desktop nav item that expands on hover into a grid of decoration methods. */
 export function DecorationMenu() {
   const [open, setOpen] = useState(false);
+  const [top, setTop] = useState(84);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const wrapRef = useRef<HTMLDivElement>(null);
 
   const show = () => {
     if (timer.current) clearTimeout(timer.current);
+    const header = wrapRef.current?.closest("header");
+    if (header) setTop(header.getBoundingClientRect().bottom);
     setOpen(true);
   };
   const hide = () => {
@@ -20,6 +24,7 @@ export function DecorationMenu() {
 
   return (
     <div
+      ref={wrapRef}
       className="relative"
       onMouseEnter={show}
       onMouseLeave={hide}
@@ -40,7 +45,8 @@ export function DecorationMenu() {
       </Link>
 
       <div
-        className={`fixed left-0 right-0 top-[var(--ssb-header-h,84px)] z-40 origin-top border-b border-border bg-background/98 shadow-xl backdrop-blur transition-all duration-200 ${
+        style={{ top }}
+        className={`fixed left-0 right-0 z-40 origin-top border-b border-border bg-background/98 shadow-xl backdrop-blur transition-all duration-200 ${
           open
             ? "pointer-events-auto translate-y-0 opacity-100"
             : "pointer-events-none -translate-y-2 opacity-0"
