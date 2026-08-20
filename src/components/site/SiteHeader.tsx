@@ -26,11 +26,16 @@ export function SiteHeader() {
           <img
             src={brandMark}
             alt="See See Bloom logo"
-            width={36}
-            height={36}
-            className="size-9"
+            width={40}
+            height={40}
+            className="size-10"
           />
-          <span className="display-type text-lg leading-none">See See Bloom</span>
+          <span className="flex flex-col">
+            <span className="display-type text-xl leading-none">See See Bloom</span>
+            <span className="hidden text-[0.6875rem] font-normal leading-tight text-muted-foreground sm:block">
+              Branded merchandise for brands worth remembering
+            </span>
+          </span>
         </Link>
 
         <nav className="hidden items-center gap-7 md:flex">
