@@ -26,7 +26,7 @@ export function SiteHeader() {
           <img
             src={brandLockup}
             alt="See See Bloom — branded merchandise for brands worth remembering"
-            width={1995}
+            width={1991}
             height={400}
             className="h-10 w-auto sm:h-12"
           />
