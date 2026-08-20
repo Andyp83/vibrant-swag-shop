@@ -10,11 +10,11 @@ import updateProductTool from "./tools/update-product";
 const projectRef = import.meta.env['VITE_SUPABASE_PROJECT_ID'] ?? "project-ref-unset";
 
 export default defineMcp({
-  name: "bright-brand-gifts",
-  title: "Bright Brand Gifts",
+  name: "see-see-bloom-catalogue",
+  title: "See See Bloom Catalogue",
   version: "0.1.0",
   instructions:
-    "Tools for the Brand Bento branded merchandise catalogue. Use `list_categories` and `list_products` to browse categories, MOQs and decoration methods, `update_product` to edit product details (admin only), and `list_quote_requests` to review incoming customer quote requests (admin only).",
+    "Tools for the See See Bloom branded merchandise catalogue. Use `list_categories` and `list_products` to browse categories, MOQs and decoration methods, `update_product` to edit product details (admin only), and `list_quote_requests` to review incoming customer quote requests (admin only).",
   auth: auth.oauth.issuer({
     issuer: `https://${projectRef}.supabase.co/auth/v1`,
     acceptedAudiences: "authenticated",

@@ -17,16 +17,16 @@ export const Route = createFileRoute("/auth")({
   },
   head: () => ({
     meta: [
-      { title: "Team Sign In | Brand Bento" },
+      { title: "Team Sign In | See See Bloom" },
       {
         name: "description",
         content:
-          "Sign in to the Brand Bento catalogue manager to update product categories, minimum order quantities, decoration tags and imagery.",
+          "Sign in to the See See Bloom catalogue manager to update product categories, minimum order quantities, decoration tags and imagery.",
       },
-      { property: "og:title", content: "Team Sign In | Brand Bento" },
+      { property: "og:title", content: "Team Sign In | See See Bloom" },
       {
         property: "og:description",
-        content: "Sign in to manage the Brand Bento product catalogue.",
+        content: "Sign in to manage the See See Bloom product catalogue.",
       },
       { name: "robots", content: "noindex" },
     ],

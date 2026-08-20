@@ -83,7 +83,7 @@ function Consent() {
       <div className="spectrum-bar h-1.5 w-full rounded-full" />
       <h1 className="display-type mt-8 text-3xl">Connect {clientName}</h1>
       <p className="mt-3 text-sm text-muted-foreground">
-        {clientName} is asking to use Brand Bento as you — browsing the catalogue and, if you are an
+        {clientName} is asking to use See See Bloom as you — browsing the catalogue and, if you are an
         admin, editing products and reading quote requests.
       </p>
       {error ? (

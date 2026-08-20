@@ -13,13 +13,13 @@ export const Route = createFileRoute("/")({
   loader: ({ context }) => context.queryClient.ensureQueryData(catalogQueryOptions()),
   head: () => ({
     meta: [
-      { title: "Brand Bento — Branded Merchandise & Corporate Gifts" },
+      { title: "See See Bloom — Branded Merchandise for Brands Worth Remembering" },
       {
         name: "description",
         content:
-          "Neatly curated, beautifully branded. Bright promotional merchandise and corporate gift kits, decorated in-house and quoted within one business day.",
+          "Branded merchandise for brands worth remembering. Bright promotional merchandise and corporate gift kits, decorated in-house and quoted within one business day.",
       },
-      { property: "og:title", content: "Brand Bento — Branded Merchandise & Corporate Gifts" },
+      { property: "og:title", content: "See See Bloom — Branded Merchandise for Brands Worth Remembering" },
       {
         property: "og:description",
         content:
@@ -105,8 +105,8 @@ function Home() {
             className="hero-rise mx-auto mt-7 max-w-xl text-lg text-primary-foreground/75"
             style={{ animationDelay: "560ms" }}
           >
-            Brand Bento sources, decorates and delivers promotional product in every colour of the
-            spectrum. Neatly curated. Beautifully branded.
+            See See Bloom sources, decorates and delivers promotional product in every colour of the
+            spectrum. Branded merchandise for brands worth remembering.
           </p>
 
           <div
