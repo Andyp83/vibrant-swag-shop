@@ -20,6 +20,7 @@ export const jobStages: JobStage[] = [
   "delivered",
 ];
 export const invoiceKinds = ["deposit", "final", "full"] as const;
+export const invoiceStatuses: InvoiceStatus[] = ["draft", "sent", "paid", "overdue", "void"];
 
 export const statusLabels: Record<string, string> = {
   new: "New",
