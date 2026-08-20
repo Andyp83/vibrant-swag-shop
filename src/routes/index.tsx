@@ -71,12 +71,23 @@ function Home() {
     <div>
       {/* ---------- Cinematic hero ---------- */}
       <section className="relative isolate overflow-hidden border-b border-border bg-ink text-primary-foreground">
+        {/* Product flat-lay behind the opening statement */}
+        <img
+          src={heroProductsAsset.url}
+          alt="Colourful branded merchandise flat-lay"
+          className="absolute inset-0 -z-30 size-full object-cover opacity-25"
+          fetchPriority="high"
+        />
         <div
-          className="spectrum-rays spectrum-rays-spin absolute left-1/2 top-1/2 -z-10 aspect-square w-[160vw] -translate-x-1/2 -translate-y-1/2 opacity-60 blur-[1px]"
+          className="absolute inset-0 -z-20 bg-ink/55"
           aria-hidden="true"
         />
         <div
-          className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,transparent_18%,var(--ink)_82%)]"
+          className="spectrum-rays spectrum-rays-spin absolute left-1/2 top-1/2 -z-10 aspect-square w-[160vw] -translate-x-1/2 -translate-y-1/2 opacity-30 blur-[1px]"
+          aria-hidden="true"
+        />
+        <div
+          className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,transparent_15%,var(--ink)_90%)]"
           aria-hidden="true"
         />
 
