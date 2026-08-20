@@ -645,6 +645,48 @@ export type Database = {
           },
         ]
       }
+      site_banners: {
+        Row: {
+          alt: string
+          created_at: string
+          cta: string | null
+          id: string
+          image_url: string
+          is_active: boolean
+          key: string
+          link_to: string | null
+          placements: string[]
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          alt?: string
+          created_at?: string
+          cta?: string | null
+          id?: string
+          image_url: string
+          is_active?: boolean
+          key: string
+          link_to?: string | null
+          placements?: string[]
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          alt?: string
+          created_at?: string
+          cta?: string | null
+          id?: string
+          image_url?: string
+          is_active?: boolean
+          key?: string
+          link_to?: string | null
+          placements?: string[]
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string

@@ -19,6 +19,8 @@ const tabs = [
   { to: "/admin/invoices", label: "Invoices" },
   { to: "/admin/customers", label: "Customers" },
   { to: "/admin/catalogue", label: "Catalogue" },
+  { to: "/admin/banners", label: "Banners" },
+
 ] as const;
 
 function AdminShell() {

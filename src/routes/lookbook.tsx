@@ -1,8 +1,7 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
-import { banners } from "@/lib/banners";
-import { BannerRow } from "@/components/site/BannerStrip";
+import { PlacementBanners } from "@/components/site/PlacementBanners";
 import { ProductFilters } from "@/components/site/ProductFilters";
 import { catalogQueryOptions } from "@/lib/catalog-query";
 import { spectrum, swatchClass } from "@/lib/catalog";
@@ -89,7 +88,7 @@ function LookbookPage() {
         Aware materials and minimum order quantity.
       </p>
 
-      <BannerRow banners={[banners.lookbookLwb]} className="mt-10" />
+      <PlacementBanners placement="lookbook" className="mt-10" />
 
       <div className="mt-10 overflow-hidden rounded-2xl border border-border bg-card">
         <div className="spectrum-bar h-1.5 w-full" />
