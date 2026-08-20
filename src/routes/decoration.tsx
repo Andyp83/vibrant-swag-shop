@@ -27,7 +27,7 @@ export const Route = createFileRoute("/decoration")({
 
   head: () => ({
     meta: [
-      { title: "Decoration Options — Print, Embroidery & Engraving | Brand Bento" },
+      { title: "Decoration Options — Print, Embroidery & Engraving | See See Bloom" },
       {
         name: "description",
         content:
@@ -35,7 +35,7 @@ export const Route = createFileRoute("/decoration")({
       },
       {
         property: "og:title",
-        content: "Decoration Options — Print, Embroidery & Engraving | Brand Bento",
+        content: "Decoration Options — Print, Embroidery & Engraving | See See Bloom",
       },
       {
         property: "og:description",

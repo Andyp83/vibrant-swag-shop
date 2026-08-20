@@ -4,13 +4,13 @@ import { ArrowRight } from "lucide-react";
 export const Route = createFileRoute("/colour-guide")({
   head: () => ({
     meta: [
-      { title: "Colour Guide — Product Colours & Finishes | Brand Bento" },
+      { title: "Colour Guide — Product Colours & Finishes | See See Bloom" },
       {
         name: "description",
         content:
-          "Browse the full Brand Bento colour guide flipbook: unbranded product colourways, finishes and swatches to help you match merchandise to your brand palette.",
+          "Browse the full See See Bloom colour guide flipbook: unbranded product colourways, finishes and swatches to help you match merchandise to your brand palette.",
       },
-      { property: "og:title", content: "Colour Guide — Product Colours & Finishes | Brand Bento" },
+      { property: "og:title", content: "Colour Guide — Product Colours & Finishes | See See Bloom" },
       {
         property: "og:description",
         content:
@@ -38,7 +38,7 @@ function ColourGuidePage() {
       <div className="mt-10 overflow-hidden rounded-2xl border border-border bg-card">
         <div className="spectrum-bar h-1.5 w-full" />
         <iframe
-          title="Brand Bento colour guide flipbook"
+          title="See See Bloom colour guide flipbook"
           allowFullScreen
           loading="lazy"
           className="block h-[500px] w-full border-none sm:h-[640px] lg:h-[760px]"

@@ -5,7 +5,7 @@ export default defineTool({
   name: "list_categories",
   title: "List catalogue categories",
   description:
-    "List every Brand Bento product category with its slug, tagline, description, accent colour and sort order.",
+    "List every See See Bloom product category with its slug, tagline, description, accent colour and sort order.",
   inputSchema: {},
   annotations: { readOnlyHint: true, idempotentHint: true, openWorldHint: false },
   handler: async (_input, ctx) => {

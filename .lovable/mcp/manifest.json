@@ -11,15 +11,15 @@
   },
   "mcp": {
     "server": {
-      "name": "bright-brand-gifts",
+      "name": "see-see-bloom-catalogue",
       "version": "0.1.0",
-      "title": "Bright Brand Gifts"
+      "title": "See See Bloom Catalogue"
     },
     "tools": [
       {
         "name": "list_categories",
         "title": "List catalogue categories",
-        "description": "List every Brand Bento product category with its slug, tagline, description, accent colour and sort order.",
+        "description": "List every See See Bloom product category with its slug, tagline, description, accent colour and sort order.",
         "annotations": {
           "readOnlyHint": true,
           "idempotentHint": true,

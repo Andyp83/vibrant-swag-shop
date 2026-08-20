@@ -6,13 +6,13 @@ import { BannerRow } from "@/components/site/BannerStrip";
 export const Route = createFileRoute("/impact-aware")({
   head: () => ({
     meta: [
-      { title: "Impact Aware | Brand Bento" },
+      { title: "Impact Aware | See See Bloom" },
       {
         name: "description",
         content:
-          "Explore Impact Aware Edition 2 from Brand Bento: sustainable branded merchandise and corporate gifts designed with environmental impact in mind.",
+          "Explore Impact Aware Edition 2 from See See Bloom: sustainable branded merchandise and corporate gifts designed with environmental impact in mind.",
       },
-      { property: "og:title", content: "Impact Aware | Brand Bento" },
+      { property: "og:title", content: "Impact Aware | See See Bloom" },
       {
         property: "og:description",
         content:
@@ -42,7 +42,7 @@ function ImpactAwarePage() {
       <div className="mt-10 overflow-hidden rounded-2xl border border-border bg-card">
         <div className="spectrum-bar h-1.5 w-full" />
         <iframe
-          title="Brand Bento Impact Aware Edition 2"
+          title="See See Bloom Impact Aware Edition 2"
           allowFullScreen
           loading="lazy"
           className="block h-[500px] w-full border-none sm:h-[640px] lg:h-[760px]"
