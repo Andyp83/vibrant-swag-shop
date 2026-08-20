@@ -18,6 +18,7 @@ import { Route as ImpactAwareRouteImport } from './routes/impact-aware'
 import { Route as LookbookRouteImport } from './routes/lookbook'
 import { Route as McpRouteImport } from './routes/mcp'
 import { Route as QuoteRouteImport } from './routes/quote'
+import { Route as StarPerformersRouteImport } from './routes/star-performers'
 import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
 import { Route as AuthenticatedAdminRouteRouteImport } from './routes/_authenticated/admin/route'
@@ -81,6 +82,11 @@ const McpRoute = McpRouteImport.update({
 const QuoteRoute = QuoteRouteImport.update({
   id: '/quote',
   path: '/quote',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StarPerformersRoute = StarPerformersRouteImport.update({
+  id: '/star-performers',
+  path: '/star-performers',
   getParentRoute: () => rootRouteImport,
 } as any)
 const Char91DotmcpChar93ListToolsRoute =
@@ -203,6 +209,7 @@ export interface FileRoutesByFullPath {
   '/lookbook': typeof LookbookRoute
   '/mcp': typeof McpRoute
   '/quote': typeof QuoteRoute
+  '/star-performers': typeof StarPerformersRoute
   '/admin': typeof AuthenticatedAdminRouteRouteWithChildren
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
@@ -233,6 +240,7 @@ export interface FileRoutesByTo {
   '/lookbook': typeof LookbookRoute
   '/mcp': typeof McpRoute
   '/quote': typeof QuoteRoute
+  '/star-performers': typeof StarPerformersRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/job/$token': typeof JobTokenRoute
@@ -264,6 +272,7 @@ export interface FileRoutesById {
   '/lookbook': typeof LookbookRoute
   '/mcp': typeof McpRoute
   '/quote': typeof QuoteRoute
+  '/star-performers': typeof StarPerformersRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRouteRouteWithChildren
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
@@ -296,6 +305,7 @@ export interface FileRouteTypes {
     | '/lookbook'
     | '/mcp'
     | '/quote'
+    | '/star-performers'
     | '/admin'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
@@ -326,6 +336,7 @@ export interface FileRouteTypes {
     | '/lookbook'
     | '/mcp'
     | '/quote'
+    | '/star-performers'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
     | '/job/$token'
@@ -356,6 +367,7 @@ export interface FileRouteTypes {
     | '/lookbook'
     | '/mcp'
     | '/quote'
+    | '/star-performers'
     | '/_authenticated/admin'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
@@ -388,6 +400,7 @@ export interface RootRouteChildren {
   LookbookRoute: typeof LookbookRoute
   McpRoute: typeof McpRoute
   QuoteRoute: typeof QuoteRoute
+  StarPerformersRoute: typeof StarPerformersRoute
   Char91DotmcpChar93ListToolsRoute: typeof Char91DotmcpChar93ListToolsRoute
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   JobTokenRoute: typeof JobTokenRoute
@@ -465,6 +478,13 @@ declare module '@tanstack/react-router' {
       path: '/quote'
       fullPath: '/quote'
       preLoaderRoute: typeof QuoteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/star-performers': {
+      id: '/star-performers'
+      path: '/star-performers'
+      fullPath: '/star-performers'
+      preLoaderRoute: typeof StarPerformersRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/.mcp/list-tools': {
@@ -657,6 +677,7 @@ const rootRouteChildren: RootRouteChildren = {
   LookbookRoute: LookbookRoute,
   McpRoute: McpRoute,
   QuoteRoute: QuoteRoute,
+  StarPerformersRoute: StarPerformersRoute,
   Char91DotmcpChar93ListToolsRoute: Char91DotmcpChar93ListToolsRoute,
   Char91DotwellKnownChar93OauthProtectedResourceRoute:
     Char91DotwellKnownChar93OauthProtectedResourceRoute,
