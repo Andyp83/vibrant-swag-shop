@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as CataloguesRouteImport } from './routes/catalogues'
 import { Route as ColourGuideRouteImport } from './routes/colour-guide'
 import { Route as DecorationRouteImport } from './routes/decoration'
 import { Route as ImpactAwareRouteImport } from './routes/impact-aware'
@@ -52,6 +53,11 @@ const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CataloguesRoute = CataloguesRouteImport.update({
+  id: '/catalogues',
+  path: '/catalogues',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ColourGuideRoute = ColourGuideRouteImport.update({
@@ -203,6 +209,7 @@ const ApiPublicPaymentsWebhookRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/catalogues': typeof CataloguesRoute
   '/colour-guide': typeof ColourGuideRoute
   '/decoration': typeof DecorationRoute
   '/impact-aware': typeof ImpactAwareRoute
@@ -234,6 +241,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/catalogues': typeof CataloguesRoute
   '/colour-guide': typeof ColourGuideRoute
   '/decoration': typeof DecorationRoute
   '/impact-aware': typeof ImpactAwareRoute
@@ -266,6 +274,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
+  '/catalogues': typeof CataloguesRoute
   '/colour-guide': typeof ColourGuideRoute
   '/decoration': typeof DecorationRoute
   '/impact-aware': typeof ImpactAwareRoute
@@ -299,6 +308,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/auth'
+    | '/catalogues'
     | '/colour-guide'
     | '/decoration'
     | '/impact-aware'
@@ -330,6 +340,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auth'
+    | '/catalogues'
     | '/colour-guide'
     | '/decoration'
     | '/impact-aware'
@@ -361,6 +372,7 @@ export interface FileRouteTypes {
     | '/'
     | '/_authenticated'
     | '/auth'
+    | '/catalogues'
     | '/colour-guide'
     | '/decoration'
     | '/impact-aware'
@@ -394,6 +406,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
+  CataloguesRoute: typeof CataloguesRoute
   ColourGuideRoute: typeof ColourGuideRoute
   DecorationRoute: typeof DecorationRoute
   ImpactAwareRoute: typeof ImpactAwareRoute
@@ -436,6 +449,13 @@ declare module '@tanstack/react-router' {
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/catalogues': {
+      id: '/catalogues'
+      path: '/catalogues'
+      fullPath: '/catalogues'
+      preLoaderRoute: typeof CataloguesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/colour-guide': {
@@ -671,6 +691,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
+  CataloguesRoute: CataloguesRoute,
   ColourGuideRoute: ColourGuideRoute,
   DecorationRoute: DecorationRoute,
   ImpactAwareRoute: ImpactAwareRoute,
