@@ -16,7 +16,7 @@ export function SiteFooter() {
             alt="See See Bloom logo"
             width={40}
             height={40}
-            className="size-10 rounded-md"
+            className="size-10"
           />
           <p className="display-type mt-3 text-lg">See See Bloom</p>
           <p className="mt-3 text-sm text-muted-foreground">
