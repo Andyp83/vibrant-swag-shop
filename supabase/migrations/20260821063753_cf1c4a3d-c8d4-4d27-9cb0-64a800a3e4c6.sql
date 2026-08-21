@@ -1,0 +1,1 @@
+update public.catalog_categories set image_url = '/__l5e/assets-v1/7da61d17-8c3c-493a-b87b-bc69d97c8082/cat-apparel-navy-pop.png' where slug = 'apparel';
