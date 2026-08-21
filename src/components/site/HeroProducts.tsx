@@ -1,13 +1,13 @@
-import bottleRed from "@/assets/hero/bottle-red.png.asset.json";
-import spinnerOrange from "@/assets/hero/spinner-orange.png.asset.json";
-import capYellow from "@/assets/hero/cap-yellow.png.asset.json";
-import notebookLime from "@/assets/hero/notebook-lime.png.asset.json";
-import torchGreen from "@/assets/hero/torch-green.png.asset.json";
-import giftboxTeal from "@/assets/hero/giftbox-teal.png.asset.json";
-import thongsBlue from "@/assets/hero/thongs-blue.png.asset.json";
-import winebagsViolet from "@/assets/hero/winebags-violet.png.asset.json";
-import lipbalmMagenta from "@/assets/hero/lipbalm-magenta.png.asset.json";
-import cardholderPink from "@/assets/hero/cardholder-pink.png.asset.json";
+import bottleRed from "@/assets/hero/bottle-red-cut.png.asset.json";
+import spinnerOrange from "@/assets/hero/spinner-orange-cut.png.asset.json";
+import capYellow from "@/assets/hero/cap-yellow-cut.png.asset.json";
+import notebookLime from "@/assets/hero/notebook-lime-cut.png.asset.json";
+import torchGreen from "@/assets/hero/torch-green-cut.png.asset.json";
+import giftboxTeal from "@/assets/hero/giftbox-teal-cut.png.asset.json";
+import thongsBlue from "@/assets/hero/thongs-blue-cut.png.asset.json";
+import winebagsViolet from "@/assets/hero/winebags-violet-cut.png.asset.json";
+import lipbalmMagenta from "@/assets/hero/lipbalm-magenta-cut.png.asset.json";
+import cardholderPink from "@/assets/hero/cardholder-pink-cut.png.asset.json";
 
 type Item = {
   src: string;
