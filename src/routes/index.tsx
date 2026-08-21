@@ -126,7 +126,21 @@ function Home() {
             </Link>
           </div>
 
-          <div className="relative mx-auto mt-16 size-24" aria-hidden="true">
+          <div
+            className="hero-rise mx-auto mt-14 w-full max-w-5xl px-4 sm:px-6"
+            style={{ animationDelay: "800ms" }}
+          >
+            <img
+              src={heroProducts.url}
+              alt="Bright branded merchandise including drink bottles, caps, bags, notebooks and gift sets"
+              loading="eager"
+              width={1600}
+              height={600}
+              className="w-full rounded-2xl object-contain brightness-110 saturate-[1.15] drop-shadow-[0_24px_60px_rgba(0,0,0,0.45)]"
+            />
+          </div>
+
+          <div className="relative mx-auto mt-12 size-24" aria-hidden="true">
             <span className="pulse-ring absolute inset-0 rounded-full border border-white/40" />
             <span
               className="pulse-ring absolute inset-0 rounded-full border border-white/40"
