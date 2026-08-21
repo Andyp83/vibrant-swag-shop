@@ -96,7 +96,7 @@ const items: Item[] = [
   {
     src: lipbalmMagenta.url,
     alt: "Magenta branded lip balm tube",
-    pos: "top-[36%] left-[8%] h-[20%] w-[9%]",
+    pos: "top-[26%] left-[3%] h-[18%] w-[8%]",
     rotate: "-20deg",
     glow: "drop-shadow-[0_18px_40px_rgba(217,70,239,0.45)]",
     delay: 1520,
@@ -105,7 +105,7 @@ const items: Item[] = [
   {
     src: cardholderPink.url,
     alt: "Pink branded silicone card holder",
-    pos: "bottom-[26%] left-[6%] h-[18%] w-[15%]",
+    pos: "bottom-[28%] left-[8%] h-[16%] w-[13%]",
     rotate: "-10deg",
     glow: "drop-shadow-[0_18px_40px_rgba(244,114,182,0.45)]",
     delay: 1680,
@@ -119,7 +119,7 @@ export function HeroProducts() {
     <div className="relative isolate mx-auto aspect-square w-full max-w-[38rem]">
       {/* Chromatic radiance backdrop */}
       <div
-        className="spectrum-rays spectrum-rays-spin absolute inset-[-14%] -z-10 opacity-45 blur-[70px]"
+        className="spectrum-rays spectrum-rays-spin absolute inset-[-14%] -z-10 opacity-55 blur-[45px]"
         aria-hidden="true"
       />
 
