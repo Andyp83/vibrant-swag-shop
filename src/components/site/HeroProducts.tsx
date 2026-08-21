@@ -24,8 +24,8 @@ const items: Item[] = [
   {
     src: bottleRed.url,
     alt: "Red branded vacuum insulated drink bottle",
-    pos: "top-[8%] left-[16%] w-[22%]",
-    rotate: "-12deg",
+    pos: "top-[4%] left-[20%] h-[27%] w-[20%]",
+    rotate: "-10deg",
     glow: "drop-shadow-[0_18px_40px_rgba(244,63,94,0.45)]",
     delay: 0,
     duration: "7.5s",
@@ -33,7 +33,7 @@ const items: Item[] = [
   {
     src: spinnerOrange.url,
     alt: "Orange branded fidget spinner",
-    pos: "top-[2%] right-[20%] w-[17%]",
+    pos: "top-[3%] right-[16%] h-[16%] w-[16%]",
     rotate: "10deg",
     glow: "drop-shadow-[0_18px_40px_rgba(249,115,22,0.45)]",
     delay: 320,
@@ -42,8 +42,8 @@ const items: Item[] = [
   {
     src: capYellow.url,
     alt: "Yellow branded baseball cap",
-    pos: "top-[30%] right-[1%] w-[24%]",
-    rotate: "16deg",
+    pos: "top-[29%] right-[2%] h-[16%] w-[20%]",
+    rotate: "12deg",
     glow: "drop-shadow-[0_18px_40px_rgba(250,204,21,0.45)]",
     delay: 520,
     duration: "9s",
@@ -51,7 +51,7 @@ const items: Item[] = [
   {
     src: notebookLime.url,
     alt: "Lime green branded notebook",
-    pos: "bottom-[36%] right-[-2%] w-[23%]",
+    pos: "top-[52%] right-[1%] h-[13%] w-[19%]",
     rotate: "-6deg",
     glow: "drop-shadow-[0_18px_40px_rgba(163,230,53,0.45)]",
     delay: 700,
@@ -60,8 +60,8 @@ const items: Item[] = [
   {
     src: torchGreen.url,
     alt: "Green branded metal torch",
-    pos: "bottom-[6%] right-[14%] w-[20%]",
-    rotate: "-38deg",
+    pos: "bottom-[9%] right-[12%] h-[14%] w-[19%]",
+    rotate: "-30deg",
     glow: "drop-shadow-[0_18px_40px_rgba(34,197,94,0.45)]",
     delay: 880,
     duration: "8.2s",
@@ -69,8 +69,8 @@ const items: Item[] = [
   {
     src: thongsBlue.url,
     alt: "Blue branded thongs",
-    pos: "bottom-[2%] left-[42%] w-[20%]",
-    rotate: "14deg",
+    pos: "bottom-[4%] left-[46%] h-[16%] w-[17%]",
+    rotate: "12deg",
     glow: "drop-shadow-[0_18px_40px_rgba(59,130,246,0.45)]",
     delay: 1040,
     duration: "9.4s",
@@ -78,8 +78,8 @@ const items: Item[] = [
   {
     src: giftboxTeal.url,
     alt: "Teal branded gift box with bottle and tumbler",
-    pos: "top-[58%] left-[19%] w-[26%]",
-    rotate: "4deg",
+    pos: "bottom-[7%] left-[21%] h-[21%] w-[22%]",
+    rotate: "3deg",
     glow: "drop-shadow-[0_18px_40px_rgba(45,212,191,0.45)]",
     delay: 1200,
     duration: "8.8s",
@@ -87,8 +87,8 @@ const items: Item[] = [
   {
     src: winebagsViolet.url,
     alt: "Branded paper wine bags with violet handles",
-    pos: "top-[22%] left-[43%] w-[22%]",
-    rotate: "5deg",
+    pos: "top-[26%] left-[45%] h-[17%] w-[18%]",
+    rotate: "4deg",
     glow: "drop-shadow-[0_18px_40px_rgba(139,92,246,0.45)]",
     delay: 1360,
     duration: "7.2s",
@@ -96,8 +96,8 @@ const items: Item[] = [
   {
     src: lipbalmMagenta.url,
     alt: "Magenta branded lip balm tube",
-    pos: "top-[43%] left-[2%] w-[12%]",
-    rotate: "-22deg",
+    pos: "top-[36%] left-[8%] h-[20%] w-[9%]",
+    rotate: "-20deg",
     glow: "drop-shadow-[0_18px_40px_rgba(217,70,239,0.45)]",
     delay: 1520,
     duration: "6.8s",
@@ -105,13 +105,14 @@ const items: Item[] = [
   {
     src: cardholderPink.url,
     alt: "Pink branded silicone card holder",
-    pos: "bottom-[18%] left-[6%] w-[22%]",
+    pos: "bottom-[26%] left-[6%] h-[18%] w-[15%]",
     rotate: "-10deg",
     glow: "drop-shadow-[0_18px_40px_rgba(244,114,182,0.45)]",
     delay: 1680,
     duration: "8s",
   },
 ];
+
 
 export function HeroProducts() {
   return (
