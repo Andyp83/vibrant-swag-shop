@@ -138,23 +138,11 @@ function Home() {
             </div>
           </div>
 
-          {/* Image side */}
-          <div className="relative min-h-[22rem] overflow-hidden sm:min-h-[26rem] lg:min-h-full">
-            <img
-              src={heroProductsAsset.url}
-              alt="Colourful branded merchandise flat-lay"
-              className="absolute inset-0 size-full object-cover brightness-110 saturate-[1.4] contrast-105"
-              fetchPriority="high"
-            />
-            <div
-              className="absolute inset-0 bg-gradient-to-r from-ink via-ink/40 to-transparent lg:via-ink/20"
-              aria-hidden="true"
-            />
-            <div
-              className="absolute inset-0 bg-gradient-to-t from-ink/60 via-transparent to-transparent lg:hidden"
-              aria-hidden="true"
-            />
+          {/* Product spectrum side */}
+          <div className="relative flex items-center justify-center px-5 pb-16 lg:pb-0 lg:pt-10">
+            <HeroProducts />
           </div>
+
         </div>
 
         <div className="spectrum-bar h-2 w-full" />
