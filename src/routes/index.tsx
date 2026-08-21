@@ -1,7 +1,6 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Sparkles } from "lucide-react";
-import { HeroProducts } from "@/components/site/HeroProducts";
 import { borderAccentClass, decorations, softBgClass, spectrum, swatchClass } from "@/lib/catalog";
 import { catalogQueryOptions } from "@/lib/catalog-query";
 import { PlacementBanners } from "@/components/site/PlacementBanners";
@@ -76,73 +75,64 @@ function Home() {
           aria-hidden="true"
         />
 
-        <div className="mx-auto grid max-w-7xl lg:grid-cols-[1fr_1.05fr]">
-          {/* Text side */}
-          <div className="relative z-10 flex flex-col justify-center px-5 pb-16 pt-24 text-center sm:pt-32 lg:pb-28 lg:pt-36 lg:text-left">
-            <p className="hero-rise">
-              <span className="inline-flex items-center gap-2 rounded-full border border-white/25 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.35em]">
-                <Sparkles className="size-3.5" aria-hidden="true" />
-                Branded merchandise · Corporate gifts
-              </span>
-            </p>
+        <div className="mx-auto max-w-4xl px-5 pb-20 pt-24 text-center sm:pt-32 lg:pb-28 lg:pt-36">
+          <p className="hero-rise">
+            <span className="inline-flex items-center gap-2 rounded-full border border-white/25 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.35em]">
+              <Sparkles className="size-3.5" aria-hidden="true" />
+              Branded merchandise · Corporate gifts
+            </span>
+          </p>
 
-            <h1 className="display-type mx-auto mt-8 max-w-4xl text-6xl leading-[0.88] sm:text-8xl lg:mx-0 lg:max-w-2xl">
-              {heroWords.map((w, i) => (
-                <span
-                  key={w}
-                  className="hero-word mr-[0.25em]"
-                  style={{ animationDelay: `${140 + i * 130}ms` }}
-                >
-                  {w}
-                </span>
-              ))}
-            </h1>
-
-            <p
-              className="hero-rise mx-auto mt-7 max-w-xl text-lg text-primary-foreground/75 lg:mx-0"
-              style={{ animationDelay: "560ms" }}
-            >
-              See See Bloom sources, decorates and delivers promotional product in every colour of the
-              spectrum. Branded merchandise for brands worth remembering.
-            </p>
-
-            <div
-              className="hero-rise mt-10 flex flex-wrap items-center justify-center gap-3 lg:justify-start"
-              style={{ animationDelay: "680ms" }}
-            >
-              <Link
-                to="/products"
-                className="sweep group inline-flex items-center gap-2 rounded-full bg-primary-foreground px-8 py-3.5 text-sm font-semibold text-ink transition-transform duration-300 hover:scale-[1.04]"
-              >
-                Browse products
-                <ArrowRight
-                  className="size-4 transition-transform duration-300 group-hover:translate-x-1"
-                  aria-hidden="true"
-                />
-              </Link>
-              <Link
-                to="/quote"
-                className="inline-flex items-center gap-2 rounded-full border border-white/30 px-8 py-3.5 text-sm font-semibold transition-colors duration-300 hover:bg-white/10"
-              >
-                Get a quote
-              </Link>
-            </div>
-
-            <div className="relative mx-auto mt-16 size-24 lg:mx-0" aria-hidden="true">
-              <span className="pulse-ring absolute inset-0 rounded-full border border-white/40" />
+          <h1 className="display-type mx-auto mt-8 max-w-4xl text-6xl leading-[0.88] sm:text-8xl">
+            {heroWords.map((w, i) => (
               <span
-                className="pulse-ring absolute inset-0 rounded-full border border-white/40"
-                style={{ animationDelay: "1.3s" }}
+                key={w}
+                className="hero-word mr-[0.25em]"
+                style={{ animationDelay: `${140 + i * 130}ms` }}
+              >
+                {w}
+              </span>
+            ))}
+          </h1>
+
+          <p
+            className="hero-rise mx-auto mt-7 max-w-xl text-lg text-primary-foreground/75"
+            style={{ animationDelay: "560ms" }}
+          >
+            See See Bloom sources, decorates and delivers promotional product in every colour of the
+            spectrum. Branded merchandise for brands worth remembering.
+          </p>
+
+          <div
+            className="hero-rise mt-10 flex flex-wrap items-center justify-center gap-3"
+            style={{ animationDelay: "680ms" }}
+          >
+            <Link
+              to="/products"
+              className="sweep group inline-flex items-center gap-2 rounded-full bg-primary-foreground px-8 py-3.5 text-sm font-semibold text-ink transition-transform duration-300 hover:scale-[1.04]"
+            >
+              Browse products
+              <ArrowRight
+                className="size-4 transition-transform duration-300 group-hover:translate-x-1"
+                aria-hidden="true"
               />
-              <span className="spectrum-bar absolute left-1/2 top-1/2 h-16 w-1 -translate-x-1/2 -translate-y-1/2 rounded-full" />
-            </div>
+            </Link>
+            <Link
+              to="/quote"
+              className="inline-flex items-center gap-2 rounded-full border border-white/30 px-8 py-3.5 text-sm font-semibold transition-colors duration-300 hover:bg-white/10"
+            >
+              Get a quote
+            </Link>
           </div>
 
-          {/* Product spectrum side */}
-          <div className="relative flex items-center justify-center px-5 pb-16 lg:pb-0 lg:pt-10">
-            <HeroProducts />
+          <div className="relative mx-auto mt-16 size-24" aria-hidden="true">
+            <span className="pulse-ring absolute inset-0 rounded-full border border-white/40" />
+            <span
+              className="pulse-ring absolute inset-0 rounded-full border border-white/40"
+              style={{ animationDelay: "1.3s" }}
+            />
+            <span className="spectrum-bar absolute left-1/2 top-1/2 h-16 w-1 -translate-x-1/2 -translate-y-1/2 rounded-full" />
           </div>
-
         </div>
 
         <div className="spectrum-bar h-2 w-full" />
