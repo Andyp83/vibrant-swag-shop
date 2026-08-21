@@ -71,84 +71,89 @@ function Home() {
     <div>
       {/* ---------- Cinematic hero ---------- */}
       <section className="relative isolate overflow-hidden border-b border-border bg-ink text-primary-foreground">
-        {/* Product flat-lay behind the opening statement */}
-        <img
-          src={heroProductsAsset.url}
-          alt="Colourful branded merchandise flat-lay"
-          className="absolute inset-0 -z-30 size-full object-cover opacity-25"
-          fetchPriority="high"
-        />
-        <div
-          className="absolute inset-0 -z-20 bg-ink/55"
-          aria-hidden="true"
-        />
         <div
           className="spectrum-rays spectrum-rays-spin absolute left-1/2 top-1/2 -z-10 aspect-square w-[160vw] -translate-x-1/2 -translate-y-1/2 opacity-30 blur-[1px]"
           aria-hidden="true"
         />
-        <div
-          className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,transparent_15%,var(--ink)_90%)]"
-          aria-hidden="true"
-        />
 
-        <div className="relative mx-auto max-w-6xl px-5 pb-28 pt-24 text-center sm:pt-32">
-          <p className="hero-rise">
-            <span className="inline-flex items-center gap-2 rounded-full border border-white/25 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.35em]">
-              <Sparkles className="size-3.5" aria-hidden="true" />
-              Branded merchandise · Corporate gifts
-            </span>
-          </p>
-
-
-          <h1 className="display-type mx-auto mt-8 max-w-4xl text-6xl leading-[0.88] sm:text-8xl">
-            {heroWords.map((w, i) => (
-              <span
-                key={w}
-                className="hero-word mr-[0.25em]"
-                style={{ animationDelay: `${140 + i * 130}ms` }}
-              >
-                {w}
+        <div className="mx-auto grid max-w-7xl lg:grid-cols-[1fr_1.05fr]">
+          {/* Text side */}
+          <div className="relative z-10 flex flex-col justify-center px-5 pb-16 pt-24 text-center sm:pt-32 lg:pb-28 lg:pt-36 lg:text-left">
+            <p className="hero-rise">
+              <span className="inline-flex items-center gap-2 rounded-full border border-white/25 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.35em]">
+                <Sparkles className="size-3.5" aria-hidden="true" />
+                Branded merchandise · Corporate gifts
               </span>
-            ))}
-          </h1>
+            </p>
 
-          <p
-            className="hero-rise mx-auto mt-7 max-w-xl text-lg text-primary-foreground/75"
-            style={{ animationDelay: "560ms" }}
-          >
-            See See Bloom sources, decorates and delivers promotional product in every colour of the
-            spectrum. Branded merchandise for brands worth remembering.
-          </p>
+            <h1 className="display-type mx-auto mt-8 max-w-4xl text-6xl leading-[0.88] sm:text-8xl lg:mx-0 lg:max-w-2xl">
+              {heroWords.map((w, i) => (
+                <span
+                  key={w}
+                  className="hero-word mr-[0.25em]"
+                  style={{ animationDelay: `${140 + i * 130}ms` }}
+                >
+                  {w}
+                </span>
+              ))}
+            </h1>
 
-          <div
-            className="hero-rise mt-10 flex flex-wrap items-center justify-center gap-3"
-            style={{ animationDelay: "680ms" }}
-          >
-            <Link
-              to="/products"
-              className="sweep group inline-flex items-center gap-2 rounded-full bg-primary-foreground px-8 py-3.5 text-sm font-semibold text-ink transition-transform duration-300 hover:scale-[1.04]"
+            <p
+              className="hero-rise mx-auto mt-7 max-w-xl text-lg text-primary-foreground/75 lg:mx-0"
+              style={{ animationDelay: "560ms" }}
             >
-              Browse products
-              <ArrowRight
-                className="size-4 transition-transform duration-300 group-hover:translate-x-1"
-                aria-hidden="true"
+              See See Bloom sources, decorates and delivers promotional product in every colour of the
+              spectrum. Branded merchandise for brands worth remembering.
+            </p>
+
+            <div
+              className="hero-rise mt-10 flex flex-wrap items-center justify-center gap-3 lg:justify-start"
+              style={{ animationDelay: "680ms" }}
+            >
+              <Link
+                to="/products"
+                className="sweep group inline-flex items-center gap-2 rounded-full bg-primary-foreground px-8 py-3.5 text-sm font-semibold text-ink transition-transform duration-300 hover:scale-[1.04]"
+              >
+                Browse products
+                <ArrowRight
+                  className="size-4 transition-transform duration-300 group-hover:translate-x-1"
+                  aria-hidden="true"
+                />
+              </Link>
+              <Link
+                to="/quote"
+                className="inline-flex items-center gap-2 rounded-full border border-white/30 px-8 py-3.5 text-sm font-semibold transition-colors duration-300 hover:bg-white/10"
+              >
+                Get a quote
+              </Link>
+            </div>
+
+            <div className="relative mx-auto mt-16 size-24 lg:mx-0" aria-hidden="true">
+              <span className="pulse-ring absolute inset-0 rounded-full border border-white/40" />
+              <span
+                className="pulse-ring absolute inset-0 rounded-full border border-white/40"
+                style={{ animationDelay: "1.3s" }}
               />
-            </Link>
-            <Link
-              to="/quote"
-              className="inline-flex items-center gap-2 rounded-full border border-white/30 px-8 py-3.5 text-sm font-semibold transition-colors duration-300 hover:bg-white/10"
-            >
-              Get a quote
-            </Link>
+              <span className="spectrum-bar absolute left-1/2 top-1/2 h-16 w-1 -translate-x-1/2 -translate-y-1/2 rounded-full" />
+            </div>
           </div>
 
-          <div className="relative mx-auto mt-16 size-24" aria-hidden="true">
-            <span className="pulse-ring absolute inset-0 rounded-full border border-white/40" />
-            <span
-              className="pulse-ring absolute inset-0 rounded-full border border-white/40"
-              style={{ animationDelay: "1.3s" }}
+          {/* Image side */}
+          <div className="relative min-h-[22rem] overflow-hidden sm:min-h-[26rem] lg:min-h-full">
+            <img
+              src={heroProductsAsset.url}
+              alt="Colourful branded merchandise flat-lay"
+              className="absolute inset-0 size-full object-cover brightness-110 saturate-[1.4] contrast-105"
+              fetchPriority="high"
             />
-            <span className="spectrum-bar absolute left-1/2 top-1/2 h-16 w-1 -translate-x-1/2 -translate-y-1/2 rounded-full" />
+            <div
+              className="absolute inset-0 bg-gradient-to-r from-ink via-ink/40 to-transparent lg:via-ink/20"
+              aria-hidden="true"
+            />
+            <div
+              className="absolute inset-0 bg-gradient-to-t from-ink/60 via-transparent to-transparent lg:hidden"
+              aria-hidden="true"
+            />
           </div>
         </div>
 
