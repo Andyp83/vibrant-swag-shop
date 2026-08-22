@@ -81,7 +81,7 @@ export const listCatalog = createServerFn({ method: "GET" }).handler(
     const [categoriesResult, productsResult] = await Promise.all([
       supabase
         .from("catalog_categories")
-        .select("id, slug, name, tagline, description, colour, image_url, sort_order")
+        .select("id, slug, name, tagline, description, colour, image_url, hero_image_url, sort_order")
         .order("sort_order", { ascending: true }),
       supabase
         .from("catalog_products")
