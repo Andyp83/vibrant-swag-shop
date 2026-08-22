@@ -23,6 +23,7 @@ export type CmsCategory = {
   description: string;
   colour: string;
   image_url: string;
+  hero_image_url: string | null;
   sort_order: number;
   products: CmsProduct[];
 };
@@ -39,6 +40,7 @@ const categorySchema = z.object({
   description: z.string().trim().max(1000).default(""),
   colour: z.string().trim().min(1),
   image_url: z.string().trim().max(2000).default(""),
+  hero_image_url: z.string().trim().max(2000).nullable().default(null),
   sort_order: z.number().int().min(0).max(999),
 });
 
