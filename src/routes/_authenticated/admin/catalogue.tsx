@@ -419,6 +419,7 @@ function CategoryDialog({
     description: draft.description ?? "",
     colour: coerceColour(draft.colour ?? "red"),
     image_url: draft.image_url ?? "",
+    hero_image_url: draft.hero_image_url ?? null,
     sort_order: draft.sort_order ?? 0,
   });
 
