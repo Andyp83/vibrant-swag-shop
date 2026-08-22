@@ -3,7 +3,7 @@ import { Menu } from "lucide-react";
 import { useState } from "react";
 import brandLockup from "@/assets/brand/see-see-bloom-lockup-light.png";
 import { DecorationMenu } from "@/components/site/DecorationMenu";
-import { MotionToggle } from "@/components/site/MotionToggle";
+
 
 const nav = [
   { to: "/", label: "Home" },
@@ -45,7 +45,6 @@ export function SiteHeader() {
             </Link>
           ))}
           <DecorationMenu />
-          <MotionToggle />
           <Link
             to="/quote"
             className="rounded-full bg-primary px-5 py-2 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90"
@@ -55,7 +54,6 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-2 md:hidden">
-          <MotionToggle />
           <button
             type="button"
             aria-label="Toggle navigation"
