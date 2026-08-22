@@ -128,7 +128,7 @@ function Home() {
           </div>
 
           <div
-            className="hero-rise relative mx-auto mt-10 w-full max-w-5xl sm:mt-14 sm:px-6"
+            className="hero-rise relative -mx-5 mt-10 w-[calc(100%+2.5rem)] max-w-none sm:mx-auto sm:mt-14 sm:w-full sm:max-w-5xl sm:px-6"
             style={{ animationDelay: "800ms" }}
           >
             <div className="hero-lineup-glow pointer-events-none absolute inset-0" aria-hidden="true" />
