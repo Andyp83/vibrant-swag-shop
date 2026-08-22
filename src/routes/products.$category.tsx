@@ -129,7 +129,7 @@ function CategoryPage() {
             className={`overflow-hidden rounded-2xl border-2 ${borderAccentClass[accent]}`}
           >
             <img
-              src={category.image_url}
+              src={category.hero_image_url ?? category.image_url}
               alt={`${category.name} branded merchandise examples`}
               width={1200}
               height={900}

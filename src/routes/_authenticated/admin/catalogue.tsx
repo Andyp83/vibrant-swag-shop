@@ -419,6 +419,7 @@ function CategoryDialog({
     description: draft.description ?? "",
     colour: coerceColour(draft.colour ?? "red"),
     image_url: draft.image_url ?? "",
+    hero_image_url: draft.hero_image_url ?? null,
     sort_order: draft.sort_order ?? 0,
   });
 
@@ -490,10 +491,17 @@ function CategoryDialog({
           </div>
 
           <ImageField
-            label="Category image"
+            label="Category image (homepage tile)"
             value={form.image_url || null}
             onChange={(value) => setForm({ ...form, image_url: value ?? "" })}
           />
+
+          <ImageField
+            label="Category page hero image"
+            value={form.hero_image_url}
+            onChange={(value) => setForm({ ...form, hero_image_url: value })}
+          />
+
 
           <div className="space-y-2">
             <Label htmlFor="cat-order">Display order</Label>
