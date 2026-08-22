@@ -3,7 +3,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { borderAccentClass, decorations, softBgClass, spectrum, swatchClass } from "@/lib/catalog";
 import { catalogQueryOptions } from "@/lib/catalog-query";
-import heroProducts from "@/assets/hero/hero-products-collage.png.asset.json";
+import heroProducts from "@/assets/hero/hero-products-cutout.png.asset.json";
 import { PlacementBanners } from "@/components/site/PlacementBanners";
 import { Reveal } from "@/components/site/Reveal";
 import { Marquee } from "@/components/site/Marquee";
@@ -134,9 +134,9 @@ function Home() {
               src={heroProducts.url}
               alt="Bright branded merchandise including drink bottles, caps, bags, notebooks and gift sets"
               loading="eager"
-              width={1600}
-              height={600}
-              className="w-full rounded-2xl object-contain brightness-110 saturate-[1.15] drop-shadow-[0_24px_60px_rgba(0,0,0,0.45)]"
+              width={1663}
+              height={610}
+              className="w-full object-contain saturate-[1.1] drop-shadow-[0_24px_60px_rgba(0,0,0,0.5)]"
             />
           </div>
 
