@@ -3,7 +3,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { borderAccentClass, decorations, softBgClass, spectrum, swatchClass } from "@/lib/catalog";
 import { catalogQueryOptions } from "@/lib/catalog-query";
-import heroProducts from "@/assets/hero/hero-lineup.png.asset.json";
+import heroProducts from "@/assets/hero/hero-lineup-1862.webp.asset.json";
+import heroProductsSmall from "@/assets/hero/hero-lineup-1400.webp.asset.json";
 import { PlacementBanners } from "@/components/site/PlacementBanners";
 import { Reveal } from "@/components/site/Reveal";
 import { Marquee } from "@/components/site/Marquee";
@@ -132,8 +133,12 @@ function Home() {
           >
             <img
               src={heroProducts.url}
+              srcSet={`${heroProductsSmall.url} 1400w, ${heroProducts.url} 1862w`}
+              sizes="(max-width: 640px) 100vw, 1024px"
               alt="Bright branded merchandise including drink bottles, caps, bags, notebooks and gift sets"
               loading="eager"
+              fetchPriority="high"
+              decoding="async"
               width={1862}
               height={683}
               className="w-full object-contain [filter:contrast(1.08)_saturate(1.15)_drop-shadow(0_10px_14px_rgba(0,0,0,0.55))_drop-shadow(0_30px_50px_rgba(0,0,0,0.45))]"
