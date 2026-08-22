@@ -142,7 +142,7 @@ function Home() {
               decoding="async"
               width={1862}
               height={683}
-              className="w-full object-contain [filter:contrast(1.08)_saturate(1.15)_drop-shadow(0_10px_14px_rgba(0,0,0,0.55))_drop-shadow(0_30px_50px_rgba(0,0,0,0.45))]"
+              className="hero-lineup relative w-full object-contain"
             />
 
           </div>
