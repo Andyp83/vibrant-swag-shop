@@ -491,10 +491,17 @@ function CategoryDialog({
           </div>
 
           <ImageField
-            label="Category image"
+            label="Category image (homepage tile)"
             value={form.image_url || null}
             onChange={(value) => setForm({ ...form, image_url: value ?? "" })}
           />
+
+          <ImageField
+            label="Category page hero image"
+            value={form.hero_image_url}
+            onChange={(value) => setForm({ ...form, hero_image_url: value })}
+          />
+
 
           <div className="space-y-2">
             <Label htmlFor="cat-order">Display order</Label>
