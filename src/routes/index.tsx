@@ -128,23 +128,22 @@ function Home() {
           </div>
 
           <div
-            className="hero-rise relative mx-auto mt-14 w-full max-w-5xl px-4 sm:px-6"
+            className="hero-rise relative mx-auto mt-10 w-full max-w-5xl sm:mt-14 sm:px-6"
             style={{ animationDelay: "800ms" }}
           >
             <div className="hero-lineup-glow pointer-events-none absolute inset-0" aria-hidden="true" />
             <img
               src={heroProducts.url}
               srcSet={`${heroProductsSmall.url} 1400w, ${heroProducts.url} 1862w`}
-              sizes="(max-width: 640px) 100vw, 1024px"
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 92vw, 1024px"
               alt="Bright branded merchandise including drink bottles, caps, bags, notebooks and gift sets"
               loading="eager"
               fetchPriority="high"
               decoding="async"
               width={1862}
               height={683}
-              className="hero-lineup relative w-full object-contain"
+              className="hero-lineup relative h-auto w-full max-w-full object-contain"
             />
-
           </div>
 
           <div className="relative mx-auto mt-12 size-24" aria-hidden="true">
