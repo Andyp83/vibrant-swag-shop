@@ -42,8 +42,28 @@ export const Route = createFileRoute("/products/$category")({
     };
   },
   notFoundComponent: CategoryNotFound,
+  errorComponent: CategoryLoadError,
   component: CategoryPage,
 });
+
+function CategoryLoadError() {
+  return (
+    <div className="mx-auto max-w-3xl px-5 py-24 text-center">
+      <h1 className="display-type text-3xl">We couldn't load this category</h1>
+      <p className="mt-4 text-muted-foreground">
+        The connection dropped while fetching the catalogue. Please try again.
+      </p>
+      <button
+        type="button"
+        onClick={() => window.location.reload()}
+        className="mt-6 inline-flex rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground"
+      >
+        Retry
+      </button>
+    </div>
+  );
+}
+
 
 function CategoryNotFound() {
   return (
