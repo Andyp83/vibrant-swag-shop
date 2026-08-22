@@ -128,9 +128,10 @@ function Home() {
           </div>
 
           <div
-            className="hero-rise mx-auto mt-14 w-full max-w-5xl px-4 sm:px-6"
+            className="hero-rise relative mx-auto mt-14 w-full max-w-5xl px-4 sm:px-6"
             style={{ animationDelay: "800ms" }}
           >
+            <div className="hero-lineup-glow pointer-events-none absolute inset-0" aria-hidden="true" />
             <img
               src={heroProducts.url}
               srcSet={`${heroProductsSmall.url} 1400w, ${heroProducts.url} 1862w`}
