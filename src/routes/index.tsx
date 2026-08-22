@@ -134,10 +134,11 @@ function Home() {
               src={heroProducts.url}
               alt="Bright branded merchandise including drink bottles, caps, bags, notebooks and gift sets"
               loading="eager"
-              width={1663}
-              height={610}
-              className="w-full object-contain saturate-[1.1] drop-shadow-[0_24px_60px_rgba(0,0,0,0.5)]"
+              width={1862}
+              height={683}
+              className="w-full object-contain contrast-[1.08] saturate-[1.15] [filter:drop-shadow(0_10px_14px_rgba(0,0,0,0.55))_drop-shadow(0_28px_48px_rgba(0,0,0,0.45))_contrast(1.08)_saturate(1.15)]"
             />
+
           </div>
 
           <div className="relative mx-auto mt-12 size-24" aria-hidden="true">
