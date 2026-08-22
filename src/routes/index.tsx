@@ -128,9 +128,10 @@ function Home() {
           </div>
 
           <div
-            className="hero-rise mx-auto mt-14 w-full max-w-5xl px-4 sm:px-6"
+            className="hero-rise relative mx-auto mt-14 w-full max-w-5xl px-4 sm:px-6"
             style={{ animationDelay: "800ms" }}
           >
+            <div className="hero-lineup-glow pointer-events-none absolute inset-0" aria-hidden="true" />
             <img
               src={heroProducts.url}
               srcSet={`${heroProductsSmall.url} 1400w, ${heroProducts.url} 1862w`}
@@ -141,7 +142,7 @@ function Home() {
               decoding="async"
               width={1862}
               height={683}
-              className="w-full object-contain [filter:contrast(1.08)_saturate(1.15)_drop-shadow(0_10px_14px_rgba(0,0,0,0.55))_drop-shadow(0_30px_50px_rgba(0,0,0,0.45))]"
+              className="hero-lineup relative w-full object-contain"
             />
 
           </div>
