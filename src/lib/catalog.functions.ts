@@ -106,27 +106,37 @@ export const listCatalog = createServerFn({ method: "GET" }).handler(
     const { getPublicSupabase } = await import("./supabase-public.server");
     const supabase = getPublicSupabase();
 
-    const [categoriesResult, productsResult] = await Promise.all([
+    const [categoriesResult, productsResult, subcategoriesResult] = await Promise.all([
       supabase
         .from("catalog_categories")
         .select("id, slug, name, tagline, description, colour, image_url, hero_image_url, sort_order")
         .order("sort_order", { ascending: true }),
       supabase
         .from("catalog_products")
-        .select("id, category_id, name, blurb, colours, moq, methods, image_url, sort_order")
+        .select(
+          "id, category_id, subcategory_id, name, blurb, colours, moq, methods, image_url, sort_order",
+        )
+        .order("sort_order", { ascending: true }),
+      supabase
+        .from("catalog_subcategories")
+        .select("id, category_id, slug, name, description, image_url, sort_order")
         .order("sort_order", { ascending: true }),
     ]);
 
     if (categoriesResult.error) throw new Error(categoriesResult.error.message);
     if (productsResult.error) throw new Error(productsResult.error.message);
+    if (subcategoriesResult.error) throw new Error(subcategoriesResult.error.message);
 
     const products = productsResult.data ?? [];
+    const subcategories = subcategoriesResult.data ?? [];
 
     return (categoriesResult.data ?? []).map((category) => ({
       ...category,
       products: products.filter((p) => p.category_id === category.id),
+      subcategories: subcategories.filter((s) => s.category_id === category.id),
     }));
   },
+
 );
 
 export const checkIsAdmin = createServerFn({ method: "GET" })
