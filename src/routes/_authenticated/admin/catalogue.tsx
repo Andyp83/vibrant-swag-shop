@@ -115,6 +115,27 @@ function AdminPage() {
     onError: (error: Error) => toast.error(error.message),
   });
 
+  const subcategoryMutation = useMutation({
+    mutationFn: (values: Record<string, unknown>) => saveSubcategoryFn({ data: values }),
+    onSuccess: () => {
+      toast.success("Sub-category saved");
+      setSubcategoryDraft(null);
+      invalidate();
+    },
+    onError: (error: Error) => toast.error(error.message),
+  });
+
+  const removeSubcategory = useMutation({
+    mutationFn: (id: string) => deleteSubcategoryFn({ data: { id } }),
+    onSuccess: () => {
+      toast.success("Sub-category removed");
+      invalidate();
+    },
+    onError: (error: Error) => toast.error(error.message),
+  });
+
+
+
   async function handleSignOut() {
     await queryClient.cancelQueries();
     queryClient.clear();
