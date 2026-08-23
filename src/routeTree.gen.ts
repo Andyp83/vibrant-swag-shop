@@ -38,6 +38,7 @@ import { Route as AuthenticatedAdminCustomersRouteImport } from './routes/_authe
 import { Route as AuthenticatedAdminInvoicesRouteImport } from './routes/_authenticated/admin/invoices'
 import { Route as AuthenticatedAdminJobsRouteImport } from './routes/_authenticated/admin/jobs'
 import { Route as AuthenticatedAdminQuotesRouteImport } from './routes/_authenticated/admin/quotes'
+import { Route as ProductsCategorySubcategoryRouteImport } from './routes/products.$category.$subcategory'
 import { Route as ApiPublicCatalogImageSplatRouteImport } from './routes/api/public/catalog-image.$'
 import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
 
@@ -193,6 +194,12 @@ const AuthenticatedAdminQuotesRoute =
     path: '/quotes',
     getParentRoute: () => AuthenticatedAdminRouteRoute,
   } as any)
+const ProductsCategorySubcategoryRoute =
+  ProductsCategorySubcategoryRouteImport.update({
+    id: '/$subcategory',
+    path: '/$subcategory',
+    getParentRoute: () => ProductsCategoryRoute,
+  } as any)
 const ApiPublicCatalogImageSplatRoute =
   ApiPublicCatalogImageSplatRouteImport.update({
     id: '/api/public/catalog-image/$',
@@ -222,7 +229,7 @@ export interface FileRoutesByFullPath {
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/job/$token': typeof JobTokenRoute
   '/pay/$token': typeof PayTokenRoute
-  '/products/$category': typeof ProductsCategoryRoute
+  '/products/$category': typeof ProductsCategoryRouteWithChildren
   '/proof/$token': typeof ProofTokenRoute
   '/q/$token': typeof QTokenRoute
   '/products/': typeof ProductsIndexRoute
@@ -234,6 +241,7 @@ export interface FileRoutesByFullPath {
   '/admin/invoices': typeof AuthenticatedAdminInvoicesRoute
   '/admin/jobs': typeof AuthenticatedAdminJobsRoute
   '/admin/quotes': typeof AuthenticatedAdminQuotesRoute
+  '/products/$category/$subcategory': typeof ProductsCategorySubcategoryRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/api/public/catalog-image/$': typeof ApiPublicCatalogImageSplatRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
@@ -253,7 +261,7 @@ export interface FileRoutesByTo {
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/job/$token': typeof JobTokenRoute
   '/pay/$token': typeof PayTokenRoute
-  '/products/$category': typeof ProductsCategoryRoute
+  '/products/$category': typeof ProductsCategoryRouteWithChildren
   '/proof/$token': typeof ProofTokenRoute
   '/q/$token': typeof QTokenRoute
   '/products': typeof ProductsIndexRoute
@@ -265,6 +273,7 @@ export interface FileRoutesByTo {
   '/admin/invoices': typeof AuthenticatedAdminInvoicesRoute
   '/admin/jobs': typeof AuthenticatedAdminJobsRoute
   '/admin/quotes': typeof AuthenticatedAdminQuotesRoute
+  '/products/$category/$subcategory': typeof ProductsCategorySubcategoryRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/api/public/catalog-image/$': typeof ApiPublicCatalogImageSplatRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
@@ -287,7 +296,7 @@ export interface FileRoutesById {
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/job/$token': typeof JobTokenRoute
   '/pay/$token': typeof PayTokenRoute
-  '/products/$category': typeof ProductsCategoryRoute
+  '/products/$category': typeof ProductsCategoryRouteWithChildren
   '/proof/$token': typeof ProofTokenRoute
   '/q/$token': typeof QTokenRoute
   '/products/': typeof ProductsIndexRoute
@@ -299,6 +308,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/invoices': typeof AuthenticatedAdminInvoicesRoute
   '/_authenticated/admin/jobs': typeof AuthenticatedAdminJobsRoute
   '/_authenticated/admin/quotes': typeof AuthenticatedAdminQuotesRoute
+  '/products/$category/$subcategory': typeof ProductsCategorySubcategoryRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/api/public/catalog-image/$': typeof ApiPublicCatalogImageSplatRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
@@ -333,6 +343,7 @@ export interface FileRouteTypes {
     | '/admin/invoices'
     | '/admin/jobs'
     | '/admin/quotes'
+    | '/products/$category/$subcategory'
     | '/admin/'
     | '/api/public/catalog-image/$'
     | '/api/public/payments/webhook'
@@ -364,6 +375,7 @@ export interface FileRouteTypes {
     | '/admin/invoices'
     | '/admin/jobs'
     | '/admin/quotes'
+    | '/products/$category/$subcategory'
     | '/admin'
     | '/api/public/catalog-image/$'
     | '/api/public/payments/webhook'
@@ -397,6 +409,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/invoices'
     | '/_authenticated/admin/jobs'
     | '/_authenticated/admin/quotes'
+    | '/products/$category/$subcategory'
     | '/_authenticated/admin/'
     | '/api/public/catalog-image/$'
     | '/api/public/payments/webhook'
@@ -418,7 +431,7 @@ export interface RootRouteChildren {
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   JobTokenRoute: typeof JobTokenRoute
   PayTokenRoute: typeof PayTokenRoute
-  ProductsCategoryRoute: typeof ProductsCategoryRoute
+  ProductsCategoryRoute: typeof ProductsCategoryRouteWithChildren
   ProofTokenRoute: typeof ProofTokenRoute
   QTokenRoute: typeof QTokenRoute
   ProductsIndexRoute: typeof ProductsIndexRoute
@@ -633,6 +646,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminQuotesRouteImport
       parentRoute: typeof AuthenticatedAdminRouteRoute
     }
+    '/products/$category/$subcategory': {
+      id: '/products/$category/$subcategory'
+      path: '/$subcategory'
+      fullPath: '/products/$category/$subcategory'
+      preLoaderRoute: typeof ProductsCategorySubcategoryRouteImport
+      parentRoute: typeof ProductsCategoryRoute
+    }
     '/api/public/catalog-image/$': {
       id: '/api/public/catalog-image/$'
       path: '/api/public/catalog-image/$'
@@ -687,6 +707,17 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
 const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
+interface ProductsCategoryRouteChildren {
+  ProductsCategorySubcategoryRoute: typeof ProductsCategorySubcategoryRoute
+}
+
+const ProductsCategoryRouteChildren: ProductsCategoryRouteChildren = {
+  ProductsCategorySubcategoryRoute: ProductsCategorySubcategoryRoute,
+}
+
+const ProductsCategoryRouteWithChildren =
+  ProductsCategoryRoute._addFileChildren(ProductsCategoryRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
@@ -704,7 +735,7 @@ const rootRouteChildren: RootRouteChildren = {
     Char91DotwellKnownChar93OauthProtectedResourceRoute,
   JobTokenRoute: JobTokenRoute,
   PayTokenRoute: PayTokenRoute,
-  ProductsCategoryRoute: ProductsCategoryRoute,
+  ProductsCategoryRoute: ProductsCategoryRouteWithChildren,
   ProofTokenRoute: ProofTokenRoute,
   QTokenRoute: QTokenRoute,
   ProductsIndexRoute: ProductsIndexRoute,
