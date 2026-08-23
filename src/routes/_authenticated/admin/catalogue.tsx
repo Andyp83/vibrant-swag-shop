@@ -878,11 +878,13 @@ function ProductDialog({
                 ...form,
                 id: draft.id,
                 category_id: draft.category_id,
+                subcategory_id: form.subcategory_id || null,
                 methods: form.methods
                   .split(",")
                   .map((m) => m.trim())
                   .filter(Boolean),
               })
+
             }
           >
             {saving ? "Saving…" : "Save product"}
