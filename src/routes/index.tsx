@@ -8,6 +8,12 @@ import heroProductsSmall from "@/assets/hero/hero-lineup-1400.webp.asset.json";
 import { PlacementBanners } from "@/components/site/PlacementBanners";
 import { Reveal } from "@/components/site/Reveal";
 import { Marquee } from "@/components/site/Marquee";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 export const Route = createFileRoute("/")({
   loader: ({ context }) => context.queryClient.ensureQueryData(catalogQueryOptions()),
@@ -52,6 +58,39 @@ const steps = [
     n: "04",
     title: "Packed and delivered",
     body: "Bulk to one address, or kitted and drop-shipped to individual doors.",
+  },
+];
+
+const faqs = [
+  {
+    question: "How long does a typical quote take?",
+    answer:
+      "Most quotes come back within one business day. Complex jobs — like multi-product gift packs or special decoration — can take a little longer, but we'll keep you posted.",
+  },
+  {
+    question: "What logo file do you need?",
+    answer:
+      "Vector files are best: EPS, AI or PDF with editable outlines. High-resolution PNG or JPEG works for some digital methods. Not sure? Upload what you have and we'll let you know if it's suitable.",
+  },
+  {
+    question: "Is there a minimum order quantity?",
+    answer:
+      "Minimums vary by product and decoration method. Screen-printed apparel often starts at 25–50 units, while promotional products can start lower. We'll flag any MOQ clearly in your quote.",
+  },
+  {
+    question: "Can you handle large bulk orders?",
+    answer:
+      "Yes. We regularly manage hundreds to tens of thousands of units, with staged production and delivery options. Bulk orders also unlock volume pricing once quantities are confirmed.",
+  },
+  {
+    question: "Can you ship to multiple addresses?",
+    answer:
+      "Absolutely. We can pack and drop-ship individual kits to staff or event locations, or deliver everything to one warehouse — whatever suits your project.",
+  },
+  {
+    question: "Will I see a proof before production?",
+    answer:
+      "Always. We send a digital proof showing logo size, position and colours for every item. Nothing goes to print until you approve it.",
   },
 ];
 
@@ -299,6 +338,30 @@ function Home() {
             ))}
           </div>
         </div>
+      </section>
+
+      {/* ---------- FAQ ---------- */}
+      <section className="mx-auto max-w-3xl px-5 py-24">
+        <Reveal className="text-center">
+          <h2 className="display-type text-4xl sm:text-5xl">Questions we get a lot</h2>
+          <p className="mx-auto mt-4 max-w-xl text-muted-foreground">
+            Quick answers about turnaround, logos and bulk orders.
+          </p>
+        </Reveal>
+        <Reveal delay={120} className="mt-12">
+          <Accordion type="single" collapsible className="w-full">
+            {faqs.map((faq, i) => (
+              <AccordionItem key={i} value={`item-${i}`}>
+                <AccordionTrigger className="text-base font-semibold">
+                  {faq.question}
+                </AccordionTrigger>
+                <AccordionContent className="text-muted-foreground">
+                  {faq.answer}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </Reveal>
       </section>
 
       {/* ---------- Closing CTA ---------- */}
