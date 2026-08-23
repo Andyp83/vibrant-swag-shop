@@ -218,3 +218,41 @@ export const deleteProduct = createServerFn({ method: "POST" })
     if (error) throw new Error(error.message);
     return { ok: true };
   });
+
+export const saveSubcategory = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input: unknown) => subcategorySchema.parse(input))
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context);
+    const { id, ...values } = data;
+
+    if (id) {
+      const { error } = await context.supabase
+        .from("catalog_subcategories")
+        .update(values)
+        .eq("id", id);
+      if (error) throw new Error(error.message);
+      return { id };
+    }
+
+    const { data: inserted, error } = await context.supabase
+      .from("catalog_subcategories")
+      .insert(values)
+      .select("id")
+      .single();
+    if (error) throw new Error(error.message);
+    return { id: inserted.id };
+  });
+
+export const deleteSubcategory = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input: unknown) => idSchema.parse(input))
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context);
+    const { error } = await context.supabase
+      .from("catalog_subcategories")
+      .delete()
+      .eq("id", data.id);
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });
