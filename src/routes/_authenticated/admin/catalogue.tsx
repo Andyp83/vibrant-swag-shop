@@ -24,11 +24,15 @@ import {
   checkIsAdmin,
   deleteCategory,
   deleteProduct,
+  deleteSubcategory,
   saveCategory,
   saveProduct,
+  saveSubcategory,
   type CmsCategory,
   type CmsProduct,
+  type CmsSubcategory,
 } from "@/lib/catalog.functions";
+
 
 export const Route = createFileRoute("/_authenticated/admin/catalogue")({
   head: () => ({
@@ -57,8 +61,9 @@ function AdminPage() {
   const adminQuery = useQuery({ queryKey: ["is-admin"], queryFn: () => isAdminFn({}) });
   const catalogQuery = useQuery(catalogQueryOptions());
 
-  const [categoryDraft, setCategoryDraft] = useState<Partial<CmsCategory> | null>(null);
+  const [subcategoryDraft, setSubcategoryDraft] = useState<Partial<CmsSubcategory> | null>(null);
   const [productDraft, setProductDraft] = useState<Partial<CmsProduct> | null>(null);
+
 
   const saveCategoryFn = useServerFn(saveCategory);
   const deleteCategoryFn = useServerFn(deleteCategory);
