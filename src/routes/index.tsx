@@ -55,12 +55,6 @@ const steps = [
   },
 ];
 
-const stats = [
-  { to: 1400, suffix: "+", label: "products across 8 categories" },
-  { to: 17, suffix: "", label: "colours on our flagship bottle" },
-  { to: 24, suffix: "hr", label: "typical quote turnaround" },
-  { to: 8, suffix: "", label: "in-house decoration methods" },
-];
 
 const heroWords = ["Merch", "worth", "keeping"];
 
