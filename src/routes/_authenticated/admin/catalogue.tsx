@@ -822,6 +822,23 @@ function ProductDialog({
           </div>
 
           <div className="space-y-2">
+            <Label htmlFor="prod-subcategory">Sub-category</Label>
+            <select
+              id="prod-subcategory"
+              className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm"
+              value={form.subcategory_id}
+              onChange={(e) => setForm({ ...form, subcategory_id: e.target.value })}
+            >
+              <option value="">Unassigned</option>
+              {subcategories.map((s) => (
+                <option key={s.id} value={s.id}>
+                  {s.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="space-y-2">
             <Label htmlFor="prod-methods">Decoration tags</Label>
             <Input
               id="prod-methods"
@@ -830,6 +847,7 @@ function ProductDialog({
               onChange={(e) => setForm({ ...form, methods: e.target.value })}
             />
           </div>
+
 
           <ImageField
             label="Product image (optional)"
