@@ -61,6 +61,39 @@ const steps = [
   },
 ];
 
+const faqs = [
+  {
+    question: "How long does a typical quote take?",
+    answer:
+      "Most quotes come back within one business day. Complex jobs — like multi-product gift packs or special decoration — can take a little longer, but we'll keep you posted.",
+  },
+  {
+    question: "What logo file do you need?",
+    answer:
+      "Vector files are best: EPS, AI or PDF with editable outlines. High-resolution PNG or JPEG works for some digital methods. Not sure? Upload what you have and we'll let you know if it's suitable.",
+  },
+  {
+    question: "Is there a minimum order quantity?",
+    answer:
+      "Minimums vary by product and decoration method. Screen-printed apparel often starts at 25–50 units, while promotional products can start lower. We'll flag any MOQ clearly in your quote.",
+  },
+  {
+    question: "Can you handle large bulk orders?",
+    answer:
+      "Yes. We regularly manage hundreds to tens of thousands of units, with staged production and delivery options. Bulk orders also unlock volume pricing once quantities are confirmed.",
+  },
+  {
+    question: "Can you ship to multiple addresses?",
+    answer:
+      "Absolutely. We can pack and drop-ship individual kits to staff or event locations, or deliver everything to one warehouse — whatever suits your project.",
+  },
+  {
+    question: "Will I see a proof before production?",
+    answer:
+      "Always. We send a digital proof showing logo size, position and colours for every item. Nothing goes to print until you approve it.",
+  },
+];
+
 
 const heroWords = ["Merch", "worth", "keeping"];
 
