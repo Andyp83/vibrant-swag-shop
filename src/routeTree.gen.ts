@@ -23,6 +23,7 @@ import { Route as StarPerformersRouteImport } from './routes/star-performers'
 import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
 import { Route as AuthenticatedAdminRouteRouteImport } from './routes/_authenticated/admin/route'
+import { Route as AuthenticatedPortalRouteImport } from './routes/_authenticated/portal'
 import { Route as JobTokenRouteImport } from './routes/job.$token'
 import { Route as PayTokenRouteImport } from './routes/pay.$token'
 import { Route as ProductsIndexRouteImport } from './routes/products.index'
@@ -111,6 +112,11 @@ const Char91DotwellKnownChar93OauthProtectedResourceRoute =
 const AuthenticatedAdminRouteRoute = AuthenticatedAdminRouteRouteImport.update({
   id: '/admin',
   path: '/admin',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedPortalRoute = AuthenticatedPortalRouteImport.update({
+  id: '/portal',
+  path: '/portal',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const JobTokenRoute = JobTokenRouteImport.update({
@@ -227,6 +233,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AuthenticatedAdminRouteRouteWithChildren
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/portal': typeof AuthenticatedPortalRoute
   '/job/$token': typeof JobTokenRoute
   '/pay/$token': typeof PayTokenRoute
   '/products/$category': typeof ProductsCategoryRouteWithChildren
@@ -259,6 +266,7 @@ export interface FileRoutesByTo {
   '/star-performers': typeof StarPerformersRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/portal': typeof AuthenticatedPortalRoute
   '/job/$token': typeof JobTokenRoute
   '/pay/$token': typeof PayTokenRoute
   '/products/$category': typeof ProductsCategoryRouteWithChildren
@@ -294,6 +302,7 @@ export interface FileRoutesById {
   '/_authenticated/admin': typeof AuthenticatedAdminRouteRouteWithChildren
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/_authenticated/portal': typeof AuthenticatedPortalRoute
   '/job/$token': typeof JobTokenRoute
   '/pay/$token': typeof PayTokenRoute
   '/products/$category': typeof ProductsCategoryRouteWithChildren
@@ -329,6 +338,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
+    | '/portal'
     | '/job/$token'
     | '/pay/$token'
     | '/products/$category'
@@ -361,6 +371,7 @@ export interface FileRouteTypes {
     | '/star-performers'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
+    | '/portal'
     | '/job/$token'
     | '/pay/$token'
     | '/products/$category'
@@ -395,6 +406,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
+    | '/_authenticated/portal'
     | '/job/$token'
     | '/pay/$token'
     | '/products/$category'
@@ -539,6 +551,13 @@ declare module '@tanstack/react-router' {
       path: '/admin'
       fullPath: '/admin'
       preLoaderRoute: typeof AuthenticatedAdminRouteRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/portal': {
+      id: '/_authenticated/portal'
+      path: '/portal'
+      fullPath: '/portal'
+      preLoaderRoute: typeof AuthenticatedPortalRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/job/$token': {
@@ -698,10 +717,12 @@ const AuthenticatedAdminRouteRouteWithChildren =
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAdminRouteRoute: typeof AuthenticatedAdminRouteRouteWithChildren
+  AuthenticatedPortalRoute: typeof AuthenticatedPortalRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAdminRouteRoute: AuthenticatedAdminRouteRouteWithChildren,
+  AuthenticatedPortalRoute: AuthenticatedPortalRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
