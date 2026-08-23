@@ -61,14 +61,17 @@ function AdminPage() {
   const adminQuery = useQuery({ queryKey: ["is-admin"], queryFn: () => isAdminFn({}) });
   const catalogQuery = useQuery(catalogQueryOptions());
 
+  const [categoryDraft, setCategoryDraft] = useState<Partial<CmsCategory> | null>(null);
   const [subcategoryDraft, setSubcategoryDraft] = useState<Partial<CmsSubcategory> | null>(null);
   const [productDraft, setProductDraft] = useState<Partial<CmsProduct> | null>(null);
 
-
   const saveCategoryFn = useServerFn(saveCategory);
   const deleteCategoryFn = useServerFn(deleteCategory);
+  const saveSubcategoryFn = useServerFn(saveSubcategory);
+  const deleteSubcategoryFn = useServerFn(deleteSubcategory);
   const saveProductFn = useServerFn(saveProduct);
   const deleteProductFn = useServerFn(deleteProduct);
+
 
   const invalidate = () => {
     void queryClient.invalidateQueries({ queryKey: ["catalog"] });
