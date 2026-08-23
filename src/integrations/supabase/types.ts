@@ -160,6 +160,51 @@ export type Database = {
           },
         ]
       }
+      customer_uploads: {
+        Row: {
+          created_at: string
+          customer_id: string
+          file_name: string
+          file_path: string
+          id: string
+          job_id: string | null
+          notes: string
+        }
+        Insert: {
+          created_at?: string
+          customer_id: string
+          file_name?: string
+          file_path: string
+          id?: string
+          job_id?: string | null
+          notes?: string
+        }
+        Update: {
+          created_at?: string
+          customer_id?: string
+          file_name?: string
+          file_path?: string
+          id?: string
+          job_id?: string | null
+          notes?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "customer_uploads_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "customers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "customer_uploads_job_id_fkey"
+            columns: ["job_id"]
+            isOneToOne: false
+            referencedRelation: "jobs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       customers: {
         Row: {
           company: string | null
@@ -461,6 +506,8 @@ export type Database = {
           response_note: string
           sent_at: string | null
           share_token: string
+          signed_at: string | null
+          signed_name: string
           status: Database["public"]["Enums"]["proof_status"]
           version: number
         }
@@ -474,6 +521,8 @@ export type Database = {
           response_note?: string
           sent_at?: string | null
           share_token?: string
+          signed_at?: string | null
+          signed_name?: string
           status?: Database["public"]["Enums"]["proof_status"]
           version?: number
         }
@@ -487,6 +536,8 @@ export type Database = {
           response_note?: string
           sent_at?: string | null
           share_token?: string
+          signed_at?: string | null
+          signed_name?: string
           status?: Database["public"]["Enums"]["proof_status"]
           version?: number
         }
