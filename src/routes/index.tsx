@@ -250,8 +250,9 @@ function Home() {
                 loading="lazy"
                 width={1200}
                 height={900}
-                className="absolute inset-0 size-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-110"
+                className="absolute inset-0 size-full object-cover object-center transition-transform duration-[1200ms] ease-out group-hover:scale-110"
               />
+
               <span
                 className={`absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/35 to-transparent`}
                 aria-hidden="true"
