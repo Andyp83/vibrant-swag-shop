@@ -52,16 +52,17 @@ function ProductsPage() {
               className={`lift group overflow-hidden rounded-2xl border-2 ${borderAccentClass[spectrum(c.colour)]} ${softBgClass[spectrum(c.colour)]}`}
             >
               <Link to="/products/$category" params={{ category: c.slug }} className="block">
-                <div className="aspect-[16/10] overflow-hidden">
+                <div className="aspect-[4/3] overflow-hidden">
                   <img
                     src={c.image_url}
                     alt={`${c.name} branded merchandise examples`}
                     loading="lazy"
                     width={1200}
                     height={900}
-                    className="size-full object-cover transition-transform duration-[1100ms] ease-out group-hover:scale-110"
+                    className="size-full object-cover object-center transition-transform duration-[1100ms] ease-out group-hover:scale-110"
                   />
                 </div>
+
                 <div className={`h-2 w-full ${swatchClass[spectrum(c.colour)]}`} />
                 <div className="p-6">
                   <h2 className="display-type text-xl">{c.name}</h2>
