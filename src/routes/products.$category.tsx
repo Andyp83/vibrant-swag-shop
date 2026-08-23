@@ -158,6 +158,35 @@ function CategoryPage() {
           </Reveal>
         </div>
 
+        {category.subcategories.length > 0 ? (
+          <section className="mt-20">
+            <h2 className="display-type text-2xl sm:text-3xl">Browse {category.name}</h2>
+            <p className="mt-3 max-w-2xl text-sm text-muted-foreground">
+              {category.subcategories.length} sub-ranges — pick one to see what's available and
+              request a quote.
+            </p>
+            <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {category.subcategories.map((s, i) => (
+                <Reveal key={s.id} delay={(i % 3) * 60} variant="up">
+                  <Link
+                    to="/products/$category/$subcategory"
+                    params={{ category: category.slug, subcategory: s.slug }}
+                    className={`lift group flex h-full items-center justify-between gap-3 rounded-xl border-2 bg-card px-5 py-4 ${borderAccentClass[accent]}`}
+                  >
+                    <span className="text-sm font-semibold">{s.name}</span>
+                    <ArrowRight
+                      className={`size-4 shrink-0 transition-transform duration-300 group-hover:translate-x-1 ${textClass[accent]}`}
+                      aria-hidden="true"
+                    />
+                  </Link>
+                </Reveal>
+              ))}
+            </div>
+          </section>
+        ) : null}
+
+
+
 
         <PlacementBanners
           placement={categoryPlacement(category.slug)}
