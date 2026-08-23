@@ -301,59 +301,6 @@ function Home() {
         </div>
       </section>
 
-      {/* ---------- Decoration ---------- */}
-      <section className="mx-auto max-w-6xl px-5 py-24">
-        <div className="grid gap-12 lg:grid-cols-[1fr_1.1fr] lg:items-center">
-          <Reveal variant="left">
-            <h2 className="display-type text-4xl sm:text-5xl">Eight ways to put your logo on it</h2>
-            <p className="mt-5 text-muted-foreground">
-              Screen print, embroidery, laser engraving, full-colour wraps and more. Each method has
-              its own colour limits, lead time and artwork requirements — we pick the one that suits
-              the product and the look you're after.
-            </p>
-            <Link
-              to="/decoration"
-              className="sweep group mt-7 inline-flex items-center gap-2 rounded-full bg-primary px-7 py-3.5 text-sm font-semibold text-primary-foreground transition-transform duration-300 hover:scale-[1.04]"
-            >
-              Compare decoration options
-              <ArrowRight
-                className="size-4 transition-transform duration-300 group-hover:translate-x-1"
-                aria-hidden="true"
-              />
-            </Link>
-          </Reveal>
-          <ul className="grid gap-3 sm:grid-cols-2">
-            {decorations.map((d, i) => (
-              <Reveal key={d.slug} delay={i * 60} variant="right" as="li">
-                <span className="lift flex items-center gap-3 rounded-lg border border-border bg-card px-4 py-3.5">
-                  <span
-                    className={`size-3 rounded-full ${swatchClass[d.colour]}`}
-                    aria-hidden="true"
-                  />
-                  <span className="text-sm font-medium">{d.name}</span>
-                </span>
-              </Reveal>
-            ))}
-          </ul>
-        </div>
-      </section>
-
-      {/* ---------- Stats ---------- */}
-      <section className="border-y border-border bg-secondary py-20">
-        <dl className="mx-auto grid max-w-6xl gap-8 px-5 sm:grid-cols-2 lg:grid-cols-4">
-          {stats.map((s, i) => (
-            <Reveal key={s.label} delay={i * 90} variant="scale">
-              <div>
-                <dt className="display-type text-5xl">
-                  <CountUp to={s.to} suffix={s.suffix} />
-                </dt>
-                <dd className="mt-2 text-sm text-muted-foreground">{s.label}</dd>
-              </div>
-            </Reveal>
-          ))}
-        </dl>
-      </section>
-
       {/* ---------- Closing CTA ---------- */}
       <section className="relative overflow-hidden bg-ink py-28 text-primary-foreground">
         <div
