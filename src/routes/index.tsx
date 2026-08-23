@@ -297,9 +297,10 @@ function Home() {
                     loading="lazy"
                     width={1200}
                     height={900}
-                    className="size-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-110"
+                    className="size-full object-cover object-center transition-transform duration-[900ms] ease-out group-hover:scale-110"
                   />
                 </div>
+
                 <div className={`h-1.5 w-full ${swatchClass[spectrum(c.colour)]}`} />
                 <div className="p-5">
                   <p className="display-type text-base">{c.name}</p>
