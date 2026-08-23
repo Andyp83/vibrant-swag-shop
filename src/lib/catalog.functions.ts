@@ -6,11 +6,22 @@ import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 export type CmsProduct = {
   id: string;
   category_id: string;
+  subcategory_id: string | null;
   name: string;
   blurb: string;
   colours: string;
   moq: string;
   methods: string[];
+  image_url: string | null;
+  sort_order: number;
+};
+
+export type CmsSubcategory = {
+  id: string;
+  category_id: string;
+  slug: string;
+  name: string;
+  description: string;
   image_url: string | null;
   sort_order: number;
 };
@@ -26,6 +37,7 @@ export type CmsCategory = {
   hero_image_url: string | null;
   sort_order: number;
   products: CmsProduct[];
+  subcategories: CmsSubcategory[];
 };
 
 const categorySchema = z.object({
@@ -44,9 +56,24 @@ const categorySchema = z.object({
   sort_order: z.number().int().min(0).max(999),
 });
 
+const subcategorySchema = z.object({
+  id: z.string().uuid().optional(),
+  category_id: z.string().uuid(),
+  slug: z
+    .string()
+    .trim()
+    .min(1, "Slug is required")
+    .regex(/^[a-z0-9-]+$/, "Use lowercase letters, numbers and dashes only"),
+  name: z.string().trim().min(1, "Name is required"),
+  description: z.string().trim().max(1000).default(""),
+  image_url: z.string().trim().max(2000).nullable().default(null),
+  sort_order: z.number().int().min(0).max(999),
+});
+
 const productSchema = z.object({
   id: z.string().uuid().optional(),
   category_id: z.string().uuid(),
+  subcategory_id: z.string().uuid().nullable().default(null),
   name: z.string().trim().min(1, "Name is required"),
   blurb: z.string().trim().max(600).default(""),
   colours: z.string().trim().max(200).default(""),
@@ -57,6 +84,7 @@ const productSchema = z.object({
 });
 
 const idSchema = z.object({ id: z.string().uuid() });
+
 
 async function assertAdmin(context: { supabase: unknown; userId: string }) {
   const supabase = context.supabase as {
