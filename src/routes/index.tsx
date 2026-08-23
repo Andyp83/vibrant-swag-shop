@@ -178,14 +178,6 @@ function Home() {
             />
           </div>
 
-          <div className="relative mx-auto mt-12 size-24" aria-hidden="true">
-            <span className="pulse-ring absolute inset-0 rounded-full border border-white/40" />
-            <span
-              className="pulse-ring absolute inset-0 rounded-full border border-white/40"
-              style={{ animationDelay: "1.3s" }}
-            />
-            <span className="spectrum-bar absolute left-1/2 top-1/2 h-16 w-1 -translate-x-1/2 -translate-y-1/2 rounded-full" />
-          </div>
         </div>
 
         <div className="spectrum-bar h-2 w-full" />
