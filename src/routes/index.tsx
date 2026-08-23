@@ -340,6 +340,30 @@ function Home() {
         </div>
       </section>
 
+      {/* ---------- FAQ ---------- */}
+      <section className="mx-auto max-w-3xl px-5 py-24">
+        <Reveal className="text-center">
+          <h2 className="display-type text-4xl sm:text-5xl">Questions we get a lot</h2>
+          <p className="mx-auto mt-4 max-w-xl text-muted-foreground">
+            Quick answers about turnaround, logos and bulk orders.
+          </p>
+        </Reveal>
+        <Reveal delay={120} className="mt-12">
+          <Accordion type="single" collapsible className="w-full">
+            {faqs.map((faq, i) => (
+              <AccordionItem key={i} value={`item-${i}`}>
+                <AccordionTrigger className="text-base font-semibold">
+                  {faq.question}
+                </AccordionTrigger>
+                <AccordionContent className="text-muted-foreground">
+                  {faq.answer}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </Reveal>
+      </section>
+
       {/* ---------- Closing CTA ---------- */}
       <section className="relative overflow-hidden bg-ink py-28 text-primary-foreground">
         <div
