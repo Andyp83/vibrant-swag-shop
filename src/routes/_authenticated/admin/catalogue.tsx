@@ -250,7 +250,62 @@ function AdminPage() {
                 </div>
               </div>
 
+              <div className="border-t border-border px-6 py-5">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
+                    Sub-categories ({category.subcategories.length})
+                  </h3>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() =>
+                      setSubcategoryDraft({
+                        category_id: category.id,
+                        slug: "",
+                        name: "",
+                        description: "",
+                        image_url: null,
+                        sort_order: category.subcategories.length + 1,
+                      })
+                    }
+                  >
+                    <Plus className="size-3.5" aria-hidden="true" /> Add sub-category
+                  </Button>
+                </div>
+                <ul className="mt-4 flex flex-wrap gap-2">
+                  {category.subcategories.map((sub) => (
+                    <li
+                      key={sub.id}
+                      className="flex items-center gap-1 rounded-full border border-border bg-card pl-3 text-xs font-medium"
+                    >
+                      {sub.name}
+                      <button
+                        type="button"
+                        aria-label={`Edit ${sub.name}`}
+                        className="p-1.5 text-muted-foreground hover:text-foreground"
+                        onClick={() => setSubcategoryDraft(sub)}
+                      >
+                        <Pencil className="size-3" aria-hidden="true" />
+                      </button>
+                      <button
+                        type="button"
+                        aria-label={`Delete ${sub.name}`}
+                        className="p-1.5 pr-2.5 text-muted-foreground hover:text-foreground"
+                        onClick={() => {
+                          if (window.confirm(`Delete “${sub.name}”?`)) {
+                            removeSubcategory.mutate(sub.id);
+                          }
+                        }}
+                      >
+                        <Trash2 className="size-3" aria-hidden="true" />
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
               <div className="border-t border-border bg-secondary/40 px-6 py-5">
+
                 <div className="flex items-center justify-between">
                   <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
                     Products ({category.products.length})
