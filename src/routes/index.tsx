@@ -189,16 +189,19 @@ function Home() {
           className="ticker-line text-sm sm:text-base"
           speed={42}
           items={[
-            "Screen print",
-            "Embroidery",
-            "Laser engraving",
-            "Full-colour wraps",
-            "Doming",
-            "Debossing",
-            "Digital UV",
-            "Pad print",
-            "24hr quotes",
-            "In-house decoration",
+            "Design services",
+            "Procurement",
+            "Branding",
+            "Visual merchandising",
+            "POS displays",
+            "24-hour quote turnaround",
+            "Web design",
+            "Client gifts",
+            "Staff welcome packs",
+            "Christmas hampers",
+            "Trade-show giveaways",
+            "Expo stand design",
+            "Kitting",
           ]}
         />
       </div>
