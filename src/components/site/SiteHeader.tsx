@@ -11,6 +11,7 @@ const nav = [
   { to: "/catalogues", label: "Catalogues" },
   { to: "/decoration", label: "Decoration" },
   { to: "/quote", label: "Get a quote" },
+  { to: "/portal", label: "Client login" },
 ] as const;
 
 
@@ -45,6 +46,12 @@ export function SiteHeader() {
             </Link>
           ))}
           <DecorationMenu />
+          <Link
+            to="/portal"
+            className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+          >
+            Client login
+          </Link>
           <Link
             to="/quote"
             className="rounded-full bg-primary px-5 py-2 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90"
