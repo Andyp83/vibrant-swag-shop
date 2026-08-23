@@ -146,16 +146,17 @@ function CategoryPage() {
           </Reveal>
           <Reveal
             variant="scale"
-            className={`overflow-hidden rounded-2xl border-2 ${borderAccentClass[accent]}`}
+            className={`aspect-[4/3] overflow-hidden rounded-2xl border-2 ${borderAccentClass[accent]}`}
           >
             <img
               src={category.hero_image_url ?? category.image_url}
               alt={`${category.name} branded merchandise examples`}
               width={1200}
               height={900}
-              className="ken-burns size-full object-cover"
+              className="ken-burns size-full object-cover object-center"
             />
           </Reveal>
+
         </div>
 
         {category.subcategories.length > 0 ? (
