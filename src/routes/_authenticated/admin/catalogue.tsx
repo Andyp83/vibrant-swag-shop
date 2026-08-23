@@ -316,6 +316,7 @@ function AdminPage() {
                     onClick={() =>
                       setProductDraft({
                         category_id: category.id,
+                        subcategory_id: null,
                         name: "",
                         blurb: "",
                         colours: "",
@@ -324,6 +325,7 @@ function AdminPage() {
                         image_url: null,
                         sort_order: category.products.length,
                       })
+
                     }
                   >
                     <Plus className="size-3.5" aria-hidden="true" /> Add product
@@ -340,8 +342,15 @@ function AdminPage() {
                         <p className="text-sm font-semibold">{product.name}</p>
                         <p className="text-xs text-muted-foreground">
                           {product.colours} · {product.moq}
+                          {product.subcategory_id
+                            ? ` · ${
+                                category.subcategories.find((s) => s.id === product.subcategory_id)
+                                  ?.name ?? ""
+                              }`
+                            : ""}
                         </p>
                       </div>
+
                       <ul className="flex flex-wrap gap-1.5">
                         {product.methods.map((m) => (
                           <li
@@ -386,14 +395,27 @@ function AdminPage() {
         />
       ) : null}
 
+      {subcategoryDraft ? (
+        <SubcategoryDialog
+          draft={subcategoryDraft}
+          saving={subcategoryMutation.isPending}
+          onCancel={() => setSubcategoryDraft(null)}
+          onSave={(values) => subcategoryMutation.mutate(values)}
+        />
+      ) : null}
+
       {productDraft ? (
         <ProductDialog
           draft={productDraft}
+          subcategories={
+            categories.find((c) => c.id === productDraft.category_id)?.subcategories ?? []
+          }
           saving={productMutation.isPending}
           onCancel={() => setProductDraft(null)}
           onSave={(values) => productMutation.mutate(values)}
         />
       ) : null}
+
     </div>
   );
 }
