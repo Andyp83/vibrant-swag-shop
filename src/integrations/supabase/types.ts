@@ -68,6 +68,7 @@ export type Database = {
           moq: string
           name: string
           sort_order: number
+          subcategory_id: string | null
           updated_at: string
         }
         Insert: {
@@ -81,6 +82,7 @@ export type Database = {
           moq?: string
           name: string
           sort_order?: number
+          subcategory_id?: string | null
           updated_at?: string
         }
         Update: {
@@ -94,6 +96,7 @@ export type Database = {
           moq?: string
           name?: string
           sort_order?: number
+          subcategory_id?: string | null
           updated_at?: string
         }
         Relationships: [
@@ -102,6 +105,13 @@ export type Database = {
             columns: ["category_id"]
             isOneToOne: false
             referencedRelation: "catalog_categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "catalog_products_subcategory_id_fkey"
+            columns: ["subcategory_id"]
+            isOneToOne: false
+            referencedRelation: "catalog_subcategories"
             referencedColumns: ["id"]
           },
         ]
