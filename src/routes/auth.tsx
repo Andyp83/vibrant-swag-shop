@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 import { supabase } from "@/integrations/supabase/client";
+import { checkIsAdmin } from "@/lib/catalog.functions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -17,16 +18,16 @@ export const Route = createFileRoute("/auth")({
   },
   head: () => ({
     meta: [
-      { title: "Team Sign In | See See Bloom" },
+      { title: "Sign In | See See Bloom" },
       {
         name: "description",
         content:
-          "Sign in to the See See Bloom catalogue manager to update product categories, minimum order quantities, decoration tags and imagery.",
+          "Sign in to your See See Bloom account to track quotes, sign off proofs, follow your order and pay invoices.",
       },
-      { property: "og:title", content: "Team Sign In | See See Bloom" },
+      { property: "og:title", content: "Sign In | See See Bloom" },
       {
         property: "og:description",
-        content: "Sign in to manage the See See Bloom product catalogue.",
+        content: "Track quotes, sign proofs and follow your order.",
       },
       { name: "robots", content: "noindex" },
     ],
@@ -50,7 +51,15 @@ function AuthPage() {
           window.location.replace(next);
           return;
         }
-        navigate({ to: "/admin", replace: true });
+        void (async () => {
+          let isAdmin = false;
+          try {
+            isAdmin = (await checkIsAdmin({})).isAdmin;
+          } catch {
+            isAdmin = false;
+          }
+          navigate({ to: isAdmin ? "/admin" : "/portal", replace: true });
+        })();
       }
     });
     return () => data.subscription.unsubscribe();
@@ -87,11 +96,11 @@ function AuthPage() {
 
   return (
     <div className="mx-auto max-w-md px-5 py-20">
-      <h1 className="display-type text-3xl">Catalogue manager</h1>
+      <h1 className="display-type text-3xl">Sign in</h1>
       <p className="mt-3 text-sm text-muted-foreground">
         {mode === "signin"
-          ? "Sign in to edit categories, MOQs, decoration tags and imagery."
-          : "Create the admin account. The first account created becomes the administrator."}
+          ? "Track your quotes, sign off proofs, follow your order and pay invoices."
+          : "Create your account with the email address you use with us and your quotes and orders will appear automatically."}
       </p>
 
       {checkEmail ? (
@@ -128,7 +137,7 @@ function AuthPage() {
             />
           </div>
           <Button type="submit" disabled={busy} className="w-full rounded-full">
-            {busy ? "Please wait…" : mode === "signin" ? "Sign in" : "Create admin account"}
+            {busy ? "Please wait…" : mode === "signin" ? "Sign in" : "Create account"}
           </Button>
         </form>
       )}
@@ -141,7 +150,7 @@ function AuthPage() {
         }}
         className="mt-6 text-sm font-medium underline underline-offset-4"
       >
-        {mode === "signin" ? "Need to create the admin account?" : "Already have an account? Sign in"}
+        {mode === "signin" ? "Need an account? Create one" : "Already have an account? Sign in"}
       </button>
     </div>
   );
