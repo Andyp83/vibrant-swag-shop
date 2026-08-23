@@ -637,13 +637,123 @@ function CategoryDialog({
   );
 }
 
-function ProductDialog({
+function SubcategoryDialog({
   draft,
   saving,
   onCancel,
   onSave,
 }: {
+  draft: Partial<CmsSubcategory>;
+  saving: boolean;
+  onCancel: () => void;
+  onSave: (values: Record<string, unknown>) => void;
+}) {
+  const [form, setForm] = useState({
+    slug: draft.slug ?? "",
+    name: draft.name ?? "",
+    description: draft.description ?? "",
+    image_url: draft.image_url ?? null,
+    sort_order: draft.sort_order ?? 0,
+  });
+
+  return (
+    <Dialog open onOpenChange={(open) => (open ? undefined : onCancel())}>
+      <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-lg">
+        <DialogHeader>
+          <DialogTitle>{draft.id ? "Edit sub-category" : "New sub-category"}</DialogTitle>
+          <DialogDescription>
+            The slug becomes the page address, e.g. /products/drinkware/{form.slug || "travel-mugs"}
+            .
+          </DialogDescription>
+        </DialogHeader>
+
+        <div className="space-y-4">
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div className="space-y-2">
+              <Label htmlFor="sub-name">Name</Label>
+              <Input
+                id="sub-name"
+                value={form.name}
+                onChange={(e) => {
+                  const name = e.target.value;
+                  setForm((prev) => ({
+                    ...prev,
+                    name,
+                    slug: draft.id ? prev.slug : slugify(name),
+                  }));
+                }}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="sub-slug">Slug</Label>
+              <Input
+                id="sub-slug"
+                value={form.slug}
+                onChange={(e) => setForm({ ...form, slug: e.target.value })}
+              />
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="sub-description">Description</Label>
+            <Textarea
+              id="sub-description"
+              rows={3}
+              value={form.description}
+              onChange={(e) => setForm({ ...form, description: e.target.value })}
+            />
+          </div>
+
+          <ImageField
+            label="Sub-category image (optional)"
+            value={form.image_url}
+            onChange={(value) => setForm({ ...form, image_url: value })}
+          />
+
+          <div className="space-y-2">
+            <Label htmlFor="sub-order">Display order</Label>
+            <Input
+              id="sub-order"
+              type="number"
+              min={0}
+              value={form.sort_order}
+              onChange={(e) => setForm({ ...form, sort_order: Number(e.target.value) })}
+            />
+          </div>
+        </div>
+
+        <DialogFooter>
+          <Button variant="outline" onClick={onCancel}>
+            Cancel
+          </Button>
+          <Button
+            disabled={saving}
+            onClick={() => onSave({ ...form, id: draft.id, category_id: draft.category_id })}
+          >
+            {saving ? "Saving…" : "Save sub-category"}
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+function slugify(value: string): string {
+  return value
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+function ProductDialog({
+  draft,
+  subcategories,
+  saving,
+  onCancel,
+  onSave,
+}: {
   draft: Partial<CmsProduct>;
+  subcategories: CmsSubcategory[];
   saving: boolean;
   onCancel: () => void;
   onSave: (values: Record<string, unknown>) => void;
@@ -655,8 +765,10 @@ function ProductDialog({
     moq: draft.moq ?? "",
     methods: (draft.methods ?? []).join(", "),
     image_url: draft.image_url ?? null,
+    subcategory_id: draft.subcategory_id ?? "",
     sort_order: draft.sort_order ?? 0,
   });
+
 
   return (
     <Dialog open onOpenChange={(open) => (open ? undefined : onCancel())}>
