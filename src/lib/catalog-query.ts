@@ -13,4 +13,4 @@ export const catalogQueryOptions = () =>
   });
 
 
-export type { CmsCategory };
+export type { CmsCategory, CmsSubcategory };
