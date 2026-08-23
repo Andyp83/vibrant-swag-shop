@@ -24,11 +24,15 @@ import {
   checkIsAdmin,
   deleteCategory,
   deleteProduct,
+  deleteSubcategory,
   saveCategory,
   saveProduct,
+  saveSubcategory,
   type CmsCategory,
   type CmsProduct,
+  type CmsSubcategory,
 } from "@/lib/catalog.functions";
+
 
 export const Route = createFileRoute("/_authenticated/admin/catalogue")({
   head: () => ({
@@ -58,12 +62,16 @@ function AdminPage() {
   const catalogQuery = useQuery(catalogQueryOptions());
 
   const [categoryDraft, setCategoryDraft] = useState<Partial<CmsCategory> | null>(null);
+  const [subcategoryDraft, setSubcategoryDraft] = useState<Partial<CmsSubcategory> | null>(null);
   const [productDraft, setProductDraft] = useState<Partial<CmsProduct> | null>(null);
 
   const saveCategoryFn = useServerFn(saveCategory);
   const deleteCategoryFn = useServerFn(deleteCategory);
+  const saveSubcategoryFn = useServerFn(saveSubcategory);
+  const deleteSubcategoryFn = useServerFn(deleteSubcategory);
   const saveProductFn = useServerFn(saveProduct);
   const deleteProductFn = useServerFn(deleteProduct);
+
 
   const invalidate = () => {
     void queryClient.invalidateQueries({ queryKey: ["catalog"] });
@@ -106,6 +114,27 @@ function AdminPage() {
     },
     onError: (error: Error) => toast.error(error.message),
   });
+
+  const subcategoryMutation = useMutation({
+    mutationFn: (values: Record<string, unknown>) => saveSubcategoryFn({ data: values }),
+    onSuccess: () => {
+      toast.success("Sub-category saved");
+      setSubcategoryDraft(null);
+      invalidate();
+    },
+    onError: (error: Error) => toast.error(error.message),
+  });
+
+  const removeSubcategory = useMutation({
+    mutationFn: (id: string) => deleteSubcategoryFn({ data: { id } }),
+    onSuccess: () => {
+      toast.success("Sub-category removed");
+      invalidate();
+    },
+    onError: (error: Error) => toast.error(error.message),
+  });
+
+
 
   async function handleSignOut() {
     await queryClient.cancelQueries();
@@ -221,7 +250,62 @@ function AdminPage() {
                 </div>
               </div>
 
+              <div className="border-t border-border px-6 py-5">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
+                    Sub-categories ({category.subcategories.length})
+                  </h3>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() =>
+                      setSubcategoryDraft({
+                        category_id: category.id,
+                        slug: "",
+                        name: "",
+                        description: "",
+                        image_url: null,
+                        sort_order: category.subcategories.length + 1,
+                      })
+                    }
+                  >
+                    <Plus className="size-3.5" aria-hidden="true" /> Add sub-category
+                  </Button>
+                </div>
+                <ul className="mt-4 flex flex-wrap gap-2">
+                  {category.subcategories.map((sub) => (
+                    <li
+                      key={sub.id}
+                      className="flex items-center gap-1 rounded-full border border-border bg-card pl-3 text-xs font-medium"
+                    >
+                      {sub.name}
+                      <button
+                        type="button"
+                        aria-label={`Edit ${sub.name}`}
+                        className="p-1.5 text-muted-foreground hover:text-foreground"
+                        onClick={() => setSubcategoryDraft(sub)}
+                      >
+                        <Pencil className="size-3" aria-hidden="true" />
+                      </button>
+                      <button
+                        type="button"
+                        aria-label={`Delete ${sub.name}`}
+                        className="p-1.5 pr-2.5 text-muted-foreground hover:text-foreground"
+                        onClick={() => {
+                          if (window.confirm(`Delete “${sub.name}”?`)) {
+                            removeSubcategory.mutate(sub.id);
+                          }
+                        }}
+                      >
+                        <Trash2 className="size-3" aria-hidden="true" />
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
               <div className="border-t border-border bg-secondary/40 px-6 py-5">
+
                 <div className="flex items-center justify-between">
                   <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
                     Products ({category.products.length})
@@ -232,6 +316,7 @@ function AdminPage() {
                     onClick={() =>
                       setProductDraft({
                         category_id: category.id,
+                        subcategory_id: null,
                         name: "",
                         blurb: "",
                         colours: "",
@@ -240,6 +325,7 @@ function AdminPage() {
                         image_url: null,
                         sort_order: category.products.length,
                       })
+
                     }
                   >
                     <Plus className="size-3.5" aria-hidden="true" /> Add product
@@ -256,8 +342,15 @@ function AdminPage() {
                         <p className="text-sm font-semibold">{product.name}</p>
                         <p className="text-xs text-muted-foreground">
                           {product.colours} · {product.moq}
+                          {product.subcategory_id
+                            ? ` · ${
+                                category.subcategories.find((s) => s.id === product.subcategory_id)
+                                  ?.name ?? ""
+                              }`
+                            : ""}
                         </p>
                       </div>
+
                       <ul className="flex flex-wrap gap-1.5">
                         {product.methods.map((m) => (
                           <li
@@ -302,14 +395,27 @@ function AdminPage() {
         />
       ) : null}
 
+      {subcategoryDraft ? (
+        <SubcategoryDialog
+          draft={subcategoryDraft}
+          saving={subcategoryMutation.isPending}
+          onCancel={() => setSubcategoryDraft(null)}
+          onSave={(values) => subcategoryMutation.mutate(values)}
+        />
+      ) : null}
+
       {productDraft ? (
         <ProductDialog
           draft={productDraft}
+          subcategories={
+            categories.find((c) => c.id === productDraft.category_id)?.subcategories ?? []
+          }
           saving={productMutation.isPending}
           onCancel={() => setProductDraft(null)}
           onSave={(values) => productMutation.mutate(values)}
         />
       ) : null}
+
     </div>
   );
 }
@@ -531,13 +637,123 @@ function CategoryDialog({
   );
 }
 
-function ProductDialog({
+function SubcategoryDialog({
   draft,
   saving,
   onCancel,
   onSave,
 }: {
+  draft: Partial<CmsSubcategory>;
+  saving: boolean;
+  onCancel: () => void;
+  onSave: (values: Record<string, unknown>) => void;
+}) {
+  const [form, setForm] = useState({
+    slug: draft.slug ?? "",
+    name: draft.name ?? "",
+    description: draft.description ?? "",
+    image_url: draft.image_url ?? null,
+    sort_order: draft.sort_order ?? 0,
+  });
+
+  return (
+    <Dialog open onOpenChange={(open) => (open ? undefined : onCancel())}>
+      <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-lg">
+        <DialogHeader>
+          <DialogTitle>{draft.id ? "Edit sub-category" : "New sub-category"}</DialogTitle>
+          <DialogDescription>
+            The slug becomes the page address, e.g. /products/drinkware/{form.slug || "travel-mugs"}
+            .
+          </DialogDescription>
+        </DialogHeader>
+
+        <div className="space-y-4">
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div className="space-y-2">
+              <Label htmlFor="sub-name">Name</Label>
+              <Input
+                id="sub-name"
+                value={form.name}
+                onChange={(e) => {
+                  const name = e.target.value;
+                  setForm((prev) => ({
+                    ...prev,
+                    name,
+                    slug: draft.id ? prev.slug : slugify(name),
+                  }));
+                }}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="sub-slug">Slug</Label>
+              <Input
+                id="sub-slug"
+                value={form.slug}
+                onChange={(e) => setForm({ ...form, slug: e.target.value })}
+              />
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="sub-description">Description</Label>
+            <Textarea
+              id="sub-description"
+              rows={3}
+              value={form.description}
+              onChange={(e) => setForm({ ...form, description: e.target.value })}
+            />
+          </div>
+
+          <ImageField
+            label="Sub-category image (optional)"
+            value={form.image_url}
+            onChange={(value) => setForm({ ...form, image_url: value })}
+          />
+
+          <div className="space-y-2">
+            <Label htmlFor="sub-order">Display order</Label>
+            <Input
+              id="sub-order"
+              type="number"
+              min={0}
+              value={form.sort_order}
+              onChange={(e) => setForm({ ...form, sort_order: Number(e.target.value) })}
+            />
+          </div>
+        </div>
+
+        <DialogFooter>
+          <Button variant="outline" onClick={onCancel}>
+            Cancel
+          </Button>
+          <Button
+            disabled={saving}
+            onClick={() => onSave({ ...form, id: draft.id, category_id: draft.category_id })}
+          >
+            {saving ? "Saving…" : "Save sub-category"}
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+function slugify(value: string): string {
+  return value
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+function ProductDialog({
+  draft,
+  subcategories,
+  saving,
+  onCancel,
+  onSave,
+}: {
   draft: Partial<CmsProduct>;
+  subcategories: CmsSubcategory[];
   saving: boolean;
   onCancel: () => void;
   onSave: (values: Record<string, unknown>) => void;
@@ -549,8 +765,10 @@ function ProductDialog({
     moq: draft.moq ?? "",
     methods: (draft.methods ?? []).join(", "),
     image_url: draft.image_url ?? null,
+    subcategory_id: draft.subcategory_id ?? "",
     sort_order: draft.sort_order ?? 0,
   });
+
 
   return (
     <Dialog open onOpenChange={(open) => (open ? undefined : onCancel())}>
@@ -604,6 +822,23 @@ function ProductDialog({
           </div>
 
           <div className="space-y-2">
+            <Label htmlFor="prod-subcategory">Sub-category</Label>
+            <select
+              id="prod-subcategory"
+              className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm"
+              value={form.subcategory_id}
+              onChange={(e) => setForm({ ...form, subcategory_id: e.target.value })}
+            >
+              <option value="">Unassigned</option>
+              {subcategories.map((s) => (
+                <option key={s.id} value={s.id}>
+                  {s.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="space-y-2">
             <Label htmlFor="prod-methods">Decoration tags</Label>
             <Input
               id="prod-methods"
@@ -612,6 +847,7 @@ function ProductDialog({
               onChange={(e) => setForm({ ...form, methods: e.target.value })}
             />
           </div>
+
 
           <ImageField
             label="Product image (optional)"
@@ -642,11 +878,13 @@ function ProductDialog({
                 ...form,
                 id: draft.id,
                 category_id: draft.category_id,
+                subcategory_id: form.subcategory_id || null,
                 methods: form.methods
                   .split(",")
                   .map((m) => m.trim())
                   .filter(Boolean),
               })
+
             }
           >
             {saving ? "Saving…" : "Save product"}

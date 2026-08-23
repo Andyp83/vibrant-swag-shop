@@ -67,7 +67,10 @@ function ProductsPage() {
                   <h2 className="display-type text-xl">{c.name}</h2>
                   <p className="mt-3 text-sm text-muted-foreground">{c.description}</p>
                   <p className="mt-5 inline-flex items-center gap-2 text-sm font-semibold">
-                    View {c.products.length} examples
+                    {c.products.length > 0
+                      ? `View ${c.products.length} examples`
+                      : `View ${c.subcategories.length} sub-ranges`}
+
                     <ArrowRight
                       className="size-4 transition-transform duration-300 group-hover:translate-x-1.5"
                       aria-hidden="true"

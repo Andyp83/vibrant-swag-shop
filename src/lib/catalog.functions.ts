@@ -6,11 +6,22 @@ import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 export type CmsProduct = {
   id: string;
   category_id: string;
+  subcategory_id: string | null;
   name: string;
   blurb: string;
   colours: string;
   moq: string;
   methods: string[];
+  image_url: string | null;
+  sort_order: number;
+};
+
+export type CmsSubcategory = {
+  id: string;
+  category_id: string;
+  slug: string;
+  name: string;
+  description: string;
   image_url: string | null;
   sort_order: number;
 };
@@ -26,6 +37,7 @@ export type CmsCategory = {
   hero_image_url: string | null;
   sort_order: number;
   products: CmsProduct[];
+  subcategories: CmsSubcategory[];
 };
 
 const categorySchema = z.object({
@@ -44,9 +56,24 @@ const categorySchema = z.object({
   sort_order: z.number().int().min(0).max(999),
 });
 
+const subcategorySchema = z.object({
+  id: z.string().uuid().optional(),
+  category_id: z.string().uuid(),
+  slug: z
+    .string()
+    .trim()
+    .min(1, "Slug is required")
+    .regex(/^[a-z0-9-]+$/, "Use lowercase letters, numbers and dashes only"),
+  name: z.string().trim().min(1, "Name is required"),
+  description: z.string().trim().max(1000).default(""),
+  image_url: z.string().trim().max(2000).nullable().default(null),
+  sort_order: z.number().int().min(0).max(999),
+});
+
 const productSchema = z.object({
   id: z.string().uuid().optional(),
   category_id: z.string().uuid(),
+  subcategory_id: z.string().uuid().nullable().default(null),
   name: z.string().trim().min(1, "Name is required"),
   blurb: z.string().trim().max(600).default(""),
   colours: z.string().trim().max(200).default(""),
@@ -57,6 +84,7 @@ const productSchema = z.object({
 });
 
 const idSchema = z.object({ id: z.string().uuid() });
+
 
 async function assertAdmin(context: { supabase: unknown; userId: string }) {
   const supabase = context.supabase as {
@@ -78,27 +106,37 @@ export const listCatalog = createServerFn({ method: "GET" }).handler(
     const { getPublicSupabase } = await import("./supabase-public.server");
     const supabase = getPublicSupabase();
 
-    const [categoriesResult, productsResult] = await Promise.all([
+    const [categoriesResult, productsResult, subcategoriesResult] = await Promise.all([
       supabase
         .from("catalog_categories")
         .select("id, slug, name, tagline, description, colour, image_url, hero_image_url, sort_order")
         .order("sort_order", { ascending: true }),
       supabase
         .from("catalog_products")
-        .select("id, category_id, name, blurb, colours, moq, methods, image_url, sort_order")
+        .select(
+          "id, category_id, subcategory_id, name, blurb, colours, moq, methods, image_url, sort_order",
+        )
+        .order("sort_order", { ascending: true }),
+      supabase
+        .from("catalog_subcategories")
+        .select("id, category_id, slug, name, description, image_url, sort_order")
         .order("sort_order", { ascending: true }),
     ]);
 
     if (categoriesResult.error) throw new Error(categoriesResult.error.message);
     if (productsResult.error) throw new Error(productsResult.error.message);
+    if (subcategoriesResult.error) throw new Error(subcategoriesResult.error.message);
 
     const products = productsResult.data ?? [];
+    const subcategories = subcategoriesResult.data ?? [];
 
     return (categoriesResult.data ?? []).map((category) => ({
       ...category,
       products: products.filter((p) => p.category_id === category.id),
+      subcategories: subcategories.filter((s) => s.category_id === category.id),
     }));
   },
+
 );
 
 export const checkIsAdmin = createServerFn({ method: "GET" })
@@ -177,6 +215,44 @@ export const deleteProduct = createServerFn({ method: "POST" })
   .handler(async ({ data, context }) => {
     await assertAdmin(context);
     const { error } = await context.supabase.from("catalog_products").delete().eq("id", data.id);
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });
+
+export const saveSubcategory = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input: unknown) => subcategorySchema.parse(input))
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context);
+    const { id, ...values } = data;
+
+    if (id) {
+      const { error } = await context.supabase
+        .from("catalog_subcategories")
+        .update(values)
+        .eq("id", id);
+      if (error) throw new Error(error.message);
+      return { id };
+    }
+
+    const { data: inserted, error } = await context.supabase
+      .from("catalog_subcategories")
+      .insert(values)
+      .select("id")
+      .single();
+    if (error) throw new Error(error.message);
+    return { id: inserted.id };
+  });
+
+export const deleteSubcategory = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input: unknown) => idSchema.parse(input))
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context);
+    const { error } = await context.supabase
+      .from("catalog_subcategories")
+      .delete()
+      .eq("id", data.id);
     if (error) throw new Error(error.message);
     return { ok: true };
   });

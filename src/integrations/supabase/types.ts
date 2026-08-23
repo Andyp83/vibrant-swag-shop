@@ -68,6 +68,7 @@ export type Database = {
           moq: string
           name: string
           sort_order: number
+          subcategory_id: string | null
           updated_at: string
         }
         Insert: {
@@ -81,6 +82,7 @@ export type Database = {
           moq?: string
           name: string
           sort_order?: number
+          subcategory_id?: string | null
           updated_at?: string
         }
         Update: {
@@ -94,11 +96,63 @@ export type Database = {
           moq?: string
           name?: string
           sort_order?: number
+          subcategory_id?: string | null
           updated_at?: string
         }
         Relationships: [
           {
             foreignKeyName: "catalog_products_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "catalog_categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "catalog_products_subcategory_id_fkey"
+            columns: ["subcategory_id"]
+            isOneToOne: false
+            referencedRelation: "catalog_subcategories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      catalog_subcategories: {
+        Row: {
+          category_id: string
+          created_at: string
+          description: string
+          id: string
+          image_url: string | null
+          name: string
+          slug: string
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          category_id: string
+          created_at?: string
+          description?: string
+          id?: string
+          image_url?: string | null
+          name: string
+          slug: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          category_id?: string
+          created_at?: string
+          description?: string
+          id?: string
+          image_url?: string | null
+          name?: string
+          slug?: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "catalog_subcategories_category_id_fkey"
             columns: ["category_id"]
             isOneToOne: false
             referencedRelation: "catalog_categories"
