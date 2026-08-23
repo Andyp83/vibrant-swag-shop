@@ -1,14 +1,13 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Sparkles } from "lucide-react";
-import { borderAccentClass, decorations, softBgClass, spectrum, swatchClass } from "@/lib/catalog";
+import { borderAccentClass, softBgClass, spectrum, swatchClass } from "@/lib/catalog";
 import { catalogQueryOptions } from "@/lib/catalog-query";
 import heroProducts from "@/assets/hero/hero-lineup-1862.webp.asset.json";
 import heroProductsSmall from "@/assets/hero/hero-lineup-1400.webp.asset.json";
 import { PlacementBanners } from "@/components/site/PlacementBanners";
 import { Reveal } from "@/components/site/Reveal";
 import { Marquee } from "@/components/site/Marquee";
-import { CountUp } from "@/components/site/CountUp";
 
 export const Route = createFileRoute("/")({
   loader: ({ context }) => context.queryClient.ensureQueryData(catalogQueryOptions()),
