@@ -603,6 +603,7 @@ export type Database = {
           admin_notes: string
           budget: string | null
           company: string | null
+          confirmation_sent_at: string | null
           created_at: string
           customer_id: string | null
           decoration: string | null
@@ -621,6 +622,7 @@ export type Database = {
           admin_notes?: string
           budget?: string | null
           company?: string | null
+          confirmation_sent_at?: string | null
           created_at?: string
           customer_id?: string | null
           decoration?: string | null
@@ -639,6 +641,7 @@ export type Database = {
           admin_notes?: string
           budget?: string | null
           company?: string | null
+          confirmation_sent_at?: string | null
           created_at?: string
           customer_id?: string | null
           decoration?: string | null
