@@ -70,7 +70,14 @@ const quoteSchema = z.object({
   deadline: z.string().trim().max(20).optional().or(z.literal("")),
   budget: z.string().trim().max(60).optional().or(z.literal("")),
   brief: z.string().trim().min(10, "Tell us a little more about the brief").max(2000),
+  password: z
+    .string()
+    .max(72)
+    .optional()
+    .or(z.literal(""))
+    .refine((v) => !v || v.length >= 8, "Password must be at least 8 characters"),
 });
+
 
 type FieldErrors = Partial<Record<keyof z.infer<typeof quoteSchema>, string>>;
 
@@ -88,6 +95,7 @@ function QuotePage() {
   const [errors, setErrors] = useState<FieldErrors>({});
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
+  const [accountCreated, setAccountCreated] = useState(false);
   const [method, setMethod] = useState(preselectedDecoration);
   const [lowRes, setLowRes] = useState<string[]>([]);
   const [artworkConfirmed, setArtworkConfirmed] = useState(false);
@@ -206,6 +214,23 @@ function QuotePage() {
       });
       if (error) throw error;
 
+      if (values.password) {
+        const { error: signUpError } = await supabase.auth.signUp({
+          email: values.email,
+          password: values.password,
+          options: { emailRedirectTo: `${window.location.origin}/auth` },
+        });
+        if (signUpError) {
+          toast.error(
+            signUpError.message.toLowerCase().includes("registered")
+              ? "Your brief is in. You already have an account — sign in from Client login."
+              : `Your brief is in, but we couldn't set up your account: ${signUpError.message}`,
+          );
+        } else {
+          setAccountCreated(true);
+        }
+      }
+
       setDone(true);
       setFiles([]);
     } catch (error) {
@@ -225,6 +250,14 @@ function QuotePage() {
           Thanks — your request and any artwork are with our studio. We'll come back with a curated
           shortlist and pricing, usually within one business day.
         </p>
+        {accountCreated && (
+          <p className="mt-4 text-sm text-muted-foreground">
+            We've also started your client portal account — check your inbox to confirm your email,
+            then sign in at <Link to="/auth" className="underline underline-offset-4">Client login</Link>{" "}
+            to track this quote, sign proofs and follow your order.
+          </p>
+        )}
+
         <div className="mt-8 flex flex-wrap justify-center gap-3">
           <Link
             to="/products"
@@ -264,7 +297,29 @@ function QuotePage() {
             <Field label="Company" name="company" error={errors.company} />
             <Field label="Phone" name="phone" type="tel" error={errors.phone} />
           </div>
+          <div className="space-y-2 border-t border-border pt-5">
+            <Label htmlFor="password">Create a client portal password</Label>
+            <Input
+              id="password"
+              name="password"
+              type="password"
+              autoComplete="new-password"
+              minLength={8}
+              placeholder="At least 8 characters"
+            />
+            <p className="text-xs text-muted-foreground">
+              Optional, but this is the only way to create an account. Set a password and we'll open
+              your portal so you can track this quote, sign proofs and follow your order. Already
+              have an account? Leave it blank and{" "}
+              <Link to="/auth" className="underline underline-offset-4">
+                sign in
+              </Link>
+              .
+            </p>
+            {errors.password && <p className="text-xs text-destructive">{errors.password}</p>}
+          </div>
         </fieldset>
+
 
         <fieldset className="space-y-5 rounded-2xl border border-border bg-card p-6">
           <legend className="display-type px-2 text-base">The project</legend>
