@@ -120,6 +120,48 @@ export async function notifyProofResponse(
   });
 
   if (!proof.job.customer?.email) return;
+
+  // Attach a signed-proof certificate so the customer keeps a record of what they approved.
+  let certificate: { filename: string; contentBase64: string } | undefined;
+  if (approved) {
+    try {
+      let artwork: { bytes: Uint8Array; contentType: string } | null = null;
+      const lower = (proof.file_path ?? "").toLowerCase();
+      if (/\.(png|jpe?g)$/.test(lower)) {
+        const { data: file } = await supabaseAdmin.storage.from("proofs").download(proof.file_path);
+        if (file) {
+          artwork = {
+            bytes: new Uint8Array(await file.arrayBuffer()),
+            contentType: lower.endsWith(".png") ? "image/png" : "image/jpeg",
+          };
+        }
+      }
+      const { renderProofCertificate } = await import("@/lib/backoffice/pdf.server");
+      const base64 = await renderProofCertificate({
+        jobNumber: proof.job.number,
+        jobTitle: proof.job.title,
+        version: proof.version,
+        status: proof.status,
+        notes: proof.notes,
+        responseNote: proof.response_note,
+        signedName: options.signedName || proof.signed_name,
+        signedAt: proof.signed_at,
+        customer: {
+          name: proof.job.customer.name,
+          company: proof.job.customer.company,
+          email: proof.job.customer.email,
+        },
+        artwork,
+      });
+      certificate = {
+        filename: `${proof.job.number}-proof-v${proof.version}.pdf`,
+        contentBase64: base64,
+      };
+    } catch (certError) {
+      console.error("Proof certificate build failed", certError);
+    }
+  }
+
   await sendEmail({
     to: proof.job.customer.email,
     subject: approved
