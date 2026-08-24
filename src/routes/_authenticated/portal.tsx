@@ -520,6 +520,25 @@ function PortalPage() {
                   <span className="rounded-full border px-3 py-1 text-xs">
                     {statusLabels[invoice.status] ?? invoice.status}
                   </span>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="rounded-full"
+                    disabled={busyDoc === invoice.id}
+                    onClick={() => void openDocument("invoice", invoice.id, "view")}
+                  >
+                    <FileText className="size-4" />
+                    {busyDoc === invoice.id ? "Preparing…" : "View invoice"}
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    className="rounded-full"
+                    disabled={busyDoc === invoice.id}
+                    onClick={() => void openDocument("invoice", invoice.id, "download")}
+                  >
+                    <Download className="size-4" /> PDF
+                  </Button>
                   {invoice.status !== "paid" && invoice.status !== "void" && (
                     <Button asChild size="sm" className="rounded-full">
                       <Link to="/pay/$token" params={{ token: invoice.share_token }}>
