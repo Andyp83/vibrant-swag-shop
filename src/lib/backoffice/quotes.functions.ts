@@ -62,11 +62,25 @@ export const updateRequest = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) => requestStatusSchema.parse(input))
   .handler(async ({ data, context }) => {
     await assertAdmin(context);
+    const { data: existing } = await context.supabase
+      .from("quote_requests")
+      .select("status")
+      .eq("id", data.id)
+      .maybeSingle();
     const { error } = await context.supabase
       .from("quote_requests")
       .update({ status: data.status, admin_notes: data.admin_notes })
       .eq("id", data.id);
     if (error) throw new Error(error.message);
+
+    if (existing?.status !== data.status) {
+      try {
+        const { notifyRequestStage } = await import("@/lib/backoffice/notify.server");
+        await notifyRequestStage(data.id, data.status);
+      } catch (notifyError) {
+        console.error("Stage notification failed", notifyError);
+      }
+    }
     return { ok: true };
   });
 
