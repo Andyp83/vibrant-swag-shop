@@ -70,7 +70,9 @@ export async function notifyProofResponse(
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
   const { data } = await supabaseAdmin
     .from("proofs")
-    .select("id, version, job:jobs(id, number, title, share_token, customer:customers(name, email, company))")
+    .select(
+      "id, version, status, notes, response_note, signed_name, signed_at, file_path, job:jobs(id, number, title, share_token, customer:customers(name, email, company))",
+    )
     .eq("id", proofId)
     .maybeSingle();
   if (!data) return;
