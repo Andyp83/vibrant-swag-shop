@@ -13,6 +13,9 @@ import { z } from "zod";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
+import { confirmQuoteRequest } from "@/lib/backoffice/quote-confirm.functions";
+
 import { decorations } from "@/lib/catalog";
 import { getArtworkSpec, fileExtension, isRaster } from "@/lib/artwork-specs";
 import { catalogQueryOptions } from "@/lib/catalog-query";
@@ -91,7 +94,9 @@ function QuotePage() {
       )?.name ?? "")
     : "";
   const categories = useQuery(catalogQueryOptions()).data ?? [];
+  const sendConfirmation = useServerFn(confirmQuoteRequest);
   const [files, setFiles] = useState<File[]>([]);
+
   const [errors, setErrors] = useState<FieldErrors>({});
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
@@ -199,7 +204,9 @@ function QuotePage() {
       }
 
       const values = parsed.data;
+      const requestId = crypto.randomUUID();
       const { error } = await supabase.from("quote_requests").insert({
+        id: requestId,
         name: values.fullName,
         email: values.email,
         company: values.company || null,
@@ -212,6 +219,7 @@ function QuotePage() {
         notes: values.brief,
         file_paths: paths,
       });
+
       if (error) throw error;
 
       if (values.password) {
@@ -231,8 +239,16 @@ function QuotePage() {
         }
       }
 
+      // Confirmation email with a secure link into the quote timeline.
+      try {
+        await sendConfirmation({ data: { requestId } });
+      } catch (emailError) {
+        console.error("Confirmation email failed", emailError);
+      }
+
       setDone(true);
       setFiles([]);
+
     } catch (error) {
       console.error("Quote submission failed", error);
       toast.error("Something went wrong sending your request. Please try again.");
@@ -248,8 +264,10 @@ function QuotePage() {
         <h1 className="display-type mt-6 text-4xl">Brief received</h1>
         <p className="mt-4 text-muted-foreground">
           Thanks — your request and any artwork are with our studio. We'll come back with a curated
-          shortlist and pricing, usually within one business day.
+          shortlist and pricing, usually within one business day. A confirmation email is on its way
+          with a secure link to your quote timeline.
         </p>
+
         {accountCreated && (
           <p className="mt-4 text-sm text-muted-foreground">
             We've also started your client portal account — check your inbox to confirm your email,
