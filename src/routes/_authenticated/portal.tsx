@@ -369,9 +369,21 @@ function PortalPage() {
                 {proof.notes && <p className="mt-3 text-sm">{proof.notes}</p>}
 
                 {proof.status === "approved" ? (
-                  <p className="mt-4 text-sm text-muted-foreground">
-                    Signed by {proof.signed_name || "you"} on {formatDate(proof.signed_at)}.
-                  </p>
+                  <div className="mt-4 flex flex-wrap items-center gap-3">
+                    <p className="text-sm text-muted-foreground">
+                      Signed by {proof.signed_name || "you"} on {formatDate(proof.signed_at)}.
+                    </p>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="rounded-full"
+                      disabled={busyDoc === proof.id}
+                      onClick={() => void openDocument("proof", proof.id, "download")}
+                    >
+                      <Download className="size-4" />
+                      {busyDoc === proof.id ? "Preparing…" : "Download signed proof (PDF)"}
+                    </Button>
+                  </div>
                 ) : (
                   <div className="mt-5 space-y-3 border-t border-border pt-5">
                     <div className="space-y-2">
