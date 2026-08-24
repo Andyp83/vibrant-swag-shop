@@ -70,7 +70,14 @@ const quoteSchema = z.object({
   deadline: z.string().trim().max(20).optional().or(z.literal("")),
   budget: z.string().trim().max(60).optional().or(z.literal("")),
   brief: z.string().trim().min(10, "Tell us a little more about the brief").max(2000),
+  password: z
+    .string()
+    .max(72)
+    .optional()
+    .or(z.literal(""))
+    .refine((v) => !v || v.length >= 8, "Password must be at least 8 characters"),
 });
+
 
 type FieldErrors = Partial<Record<keyof z.infer<typeof quoteSchema>, string>>;
 
