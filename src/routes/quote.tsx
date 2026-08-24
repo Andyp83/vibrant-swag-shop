@@ -199,19 +199,24 @@ function QuotePage() {
       }
 
       const values = parsed.data;
-      const { error } = await supabase.from("quote_requests").insert({
-        name: values.fullName,
-        email: values.email,
-        company: values.company || null,
-        phone: values.phone || null,
-        product_interest: values.productInterest || null,
-        decoration: values.decorationMethod || null,
-        quantity: values.quantity ? Number(values.quantity) : null,
-        required_by: values.deadline || null,
-        budget: values.budget || null,
-        notes: values.brief,
-        file_paths: paths,
-      });
+      const { data: inserted, error } = await supabase
+        .from("quote_requests")
+        .insert({
+          name: values.fullName,
+          email: values.email,
+          company: values.company || null,
+          phone: values.phone || null,
+          product_interest: values.productInterest || null,
+          decoration: values.decorationMethod || null,
+          quantity: values.quantity ? Number(values.quantity) : null,
+          required_by: values.deadline || null,
+          budget: values.budget || null,
+          notes: values.brief,
+          file_paths: paths,
+        })
+        .select("id")
+        .maybeSingle();
+
       if (error) throw error;
 
       if (values.password) {
