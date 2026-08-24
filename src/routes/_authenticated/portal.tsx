@@ -64,12 +64,47 @@ function PortalPage() {
   const sign = useServerFn(signProof);
   const beginUpload = useServerFn(startUpload);
   const completeUpload = useServerFn(finishUpload);
+  const fetchProofDoc = useServerFn(getProofDocument);
+  const fetchInvoiceDoc = useServerFn(getInvoiceDocument);
 
   const fileRef = useRef<HTMLInputElement>(null);
   const [uploadNotes, setUploadNotes] = useState("");
   const [uploadJob, setUploadJob] = useState("");
   const [signatures, setSignatures] = useState<Record<string, string>>({});
   const [notes, setNotes] = useState<Record<string, string>>({});
+  const [busyDoc, setBusyDoc] = useState<string | null>(null);
+
+  async function openDocument(
+    kind: "proof" | "invoice",
+    id: string,
+    action: "download" | "view",
+  ) {
+    setBusyDoc(id);
+    try {
+      const result = await (kind === "proof" ? fetchProofDoc : fetchInvoiceDoc)({ data: { id } });
+      if ("error" in result) {
+        toast.error(result.error);
+        return;
+      }
+      const binary = atob(result.base64);
+      const bytes = Uint8Array.from(binary, (c) => c.charCodeAt(0));
+      const url = URL.createObjectURL(new Blob([bytes], { type: "application/pdf" }));
+      if (action === "view") {
+        window.open(url, "_blank", "noopener");
+      } else {
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = result.fileName;
+        link.click();
+      }
+      setTimeout(() => URL.revokeObjectURL(url), 60_000);
+    } catch {
+      toast.error("We couldn't prepare that document. Please try again.");
+    } finally {
+      setBusyDoc(null);
+    }
+  }
+
 
   const portalQuery = useQuery({ queryKey: ["portal"], queryFn: () => fetchPortal({}) });
 
