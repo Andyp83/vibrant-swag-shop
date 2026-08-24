@@ -297,7 +297,29 @@ function QuotePage() {
             <Field label="Company" name="company" error={errors.company} />
             <Field label="Phone" name="phone" type="tel" error={errors.phone} />
           </div>
+          <div className="space-y-2 border-t border-border pt-5">
+            <Label htmlFor="password">Create a client portal password</Label>
+            <Input
+              id="password"
+              name="password"
+              type="password"
+              autoComplete="new-password"
+              minLength={8}
+              placeholder="At least 8 characters"
+            />
+            <p className="text-xs text-muted-foreground">
+              Optional, but this is the only way to create an account. Set a password and we'll open
+              your portal so you can track this quote, sign proofs and follow your order. Already
+              have an account? Leave it blank and{" "}
+              <Link to="/auth" className="underline underline-offset-4">
+                sign in
+              </Link>
+              .
+            </p>
+            {errors.password && <p className="text-xs text-destructive">{errors.password}</p>}
+          </div>
         </fieldset>
+
 
         <fieldset className="space-y-5 rounded-2xl border border-border bg-card p-6">
           <legend className="display-type px-2 text-base">The project</legend>
