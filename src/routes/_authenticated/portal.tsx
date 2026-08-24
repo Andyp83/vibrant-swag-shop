@@ -12,7 +12,15 @@ import { Textarea } from "@/components/ui/textarea";
 import { supabase } from "@/integrations/supabase/client";
 import { formatDate, formatMoney } from "@/lib/backoffice/format";
 import { jobStages, statusLabels } from "@/lib/backoffice/types";
-import { decideQuote, finishUpload, getPortal, signProof, startUpload } from "@/lib/portal/portal.functions";
+import {
+  decideQuote,
+  finishUpload,
+  getInvoiceDocument,
+  getPortal,
+  getProofDocument,
+  signProof,
+  startUpload,
+} from "@/lib/portal/portal.functions";
 
 export const Route = createFileRoute("/_authenticated/portal")({
   head: () => ({
