@@ -78,6 +78,73 @@ function AuthPage() {
     }
   }
 
+  async function handleReset(e: React.FormEvent) {
+    e.preventDefault();
+    setBusy(true);
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/reset-password`,
+      });
+      if (error) throw error;
+      setResetSent(true);
+      toast.success("Reset link sent — check your inbox.");
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Something went wrong");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  if (mode === "forgot") {
+    return (
+      <div className="mx-auto max-w-md px-5 py-20">
+        <h1 className="display-type text-3xl">Reset your password</h1>
+        <p className="mt-3 text-sm text-muted-foreground">
+          Enter the email on your account and we&rsquo;ll send you a secure link to set a new
+          password.
+        </p>
+
+        {resetSent ? (
+          <div className="mt-8 rounded-xl border border-border bg-card p-5 text-sm">
+            <p className="font-semibold">Check your email</p>
+            <p className="mt-2 text-muted-foreground">
+              If an account exists for {email}, a reset link is on its way. The link expires after a
+              short time — request another if it lapses.
+            </p>
+          </div>
+        ) : (
+          <form onSubmit={handleReset} className="mt-8 space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="reset-email">Email</Label>
+              <Input
+                id="reset-email"
+                type="email"
+                autoComplete="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+            <Button type="submit" disabled={busy} className="w-full rounded-full">
+              {busy ? "Sending…" : "Send reset link"}
+            </Button>
+          </form>
+        )}
+
+        <button
+          type="button"
+          className="mt-6 text-sm font-semibold underline underline-offset-4"
+          onClick={() => {
+            setMode("signin");
+            setResetSent(false);
+          }}
+        >
+          Back to sign in
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div className="mx-auto max-w-md px-5 py-20">
       <h1 className="display-type text-3xl">Sign in</h1>
@@ -98,7 +165,16 @@ function AuthPage() {
           />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="password">Password</Label>
+          <div className="flex items-center justify-between">
+            <Label htmlFor="password">Password</Label>
+            <button
+              type="button"
+              className="text-xs font-semibold text-muted-foreground underline underline-offset-4"
+              onClick={() => setMode("forgot")}
+            >
+              Forgot password?
+            </button>
+          </div>
           <Input
             id="password"
             type="password"
@@ -114,6 +190,7 @@ function AuthPage() {
       </form>
 
       <div className="mt-8 rounded-xl border border-border bg-card p-5">
+
         <p className="text-sm font-semibold">No account yet?</p>
         <p className="mt-2 text-sm text-muted-foreground">
           Accounts are created when you send us a brief. Submit a quote request and set a password
