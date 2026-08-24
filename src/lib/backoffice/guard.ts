@@ -34,6 +34,15 @@ export async function isAdminContext(context: unknown): Promise<boolean> {
 /** Throws unless the authenticated caller holds the admin role. */
 export async function assertAdmin(context: unknown): Promise<void> {
   if (!(await isAdminContext(context))) {
+    const ctx = context as AdminContext & { claims?: { email?: string } };
+    const { recordAuditEvent } = await import("@/lib/backoffice/audit.server");
+    await recordAuditEvent({
+      action: "admin_access_denied",
+      entityType: "admin_area",
+      actorUserId: ctx.userId ?? null,
+      actorEmail: ctx.claims?.email ?? null,
+      details: { reason: "caller does not hold the admin role" },
+    });
     throw new Error("Forbidden: admin access required");
   }
 }
