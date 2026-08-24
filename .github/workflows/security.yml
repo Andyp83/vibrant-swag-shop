@@ -24,7 +24,14 @@ jobs:
           bun-version: latest
       - run: bun install --frozen-lockfile
       - name: Audit dependencies (fail on high/critical)
-        run: bun audit --audit-level=high
+        run: |
+          # bun audit is preferred; fall back to npm's advisory database if
+          # the bun registry endpoint is unavailable.
+          bun audit --audit-level=high || {
+            echo "bun audit unavailable, falling back to npm audit"
+            npm install --package-lock-only --ignore-scripts --no-audit
+            npm audit --audit-level=high
+          }
 
   secrets-scan:
     name: Secret scan
