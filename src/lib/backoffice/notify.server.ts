@@ -241,3 +241,73 @@ export async function notifyRequestStage(requestId: string, status: RequestStage
     ),
   });
 }
+
+/** Emails the customer with the PDF and pay link as soon as an invoice becomes available. */
+export async function notifyInvoiceAvailable(invoiceId: string, options: { reminder?: boolean } = {}) {
+  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+  const { data } = await supabaseAdmin
+    .from("invoices")
+    .select("*, customer:customers(name, company, email)")
+    .eq("id", invoiceId)
+    .maybeSingle();
+  if (!data) return;
+
+  const invoice = data as unknown as {
+    id: string;
+    number: string;
+    kind: string;
+    description: string;
+    amount_cents: number;
+    currency: string;
+    due_date: string | null;
+    share_token: string;
+    customer: { name: string; company: string | null; email: string } | null;
+  };
+  if (!invoice.customer?.email) return;
+
+  const { renderQuoteDocument } = await import("@/lib/backoffice/pdf.server");
+  const pdf = await renderQuoteDocument({
+    kind: "Invoice",
+    number: invoice.number,
+    currency: invoice.currency,
+    issuedOn: new Date().toLocaleDateString("en-AU"),
+    dueLabel: "Due",
+    dueOn: invoice.due_date,
+    customer: {
+      name: invoice.customer.name,
+      company: invoice.customer.company,
+      email: invoice.customer.email,
+    },
+    lines: [
+      {
+        description: invoice.description || `${invoice.kind} payment`,
+        quantity: 1,
+        unit_price_cents: invoice.amount_cents,
+        amount_cents: invoice.amount_cents,
+      },
+    ],
+    total_cents: invoice.amount_cents,
+    terms: "Payment can be made securely online using the link in your email.",
+  });
+
+  const amount = `${invoice.currency} ${(invoice.amount_cents / 100).toFixed(2)}`;
+  await sendEmail({
+    to: invoice.customer.email,
+    subject: options.reminder
+      ? `Reminder: invoice ${invoice.number} is awaiting payment`
+      : `Invoice ${invoice.number} from See See Bloom`,
+    template: options.reminder ? "invoice_reminder" : "invoice_available",
+    relatedType: "invoice",
+    relatedId: invoice.id,
+    html: emailShell(
+      options.reminder ? `Friendly reminder — ${invoice.number}` : `Invoice ${invoice.number} is ready`,
+      `<p>Hi ${invoice.customer.name},</p><p>${
+        options.reminder ? "Just a nudge that this invoice is still open" : "Your invoice is ready"
+      }: <strong>${amount}</strong>${
+        invoice.due_date ? `, due ${invoice.due_date}` : ""
+      }. The PDF is attached and you can pay securely by card online, or view it any time in your portal.</p>`,
+      { label: "Pay online", url: `${siteOrigin()}/pay/${invoice.share_token}` },
+    ),
+    attachment: { filename: `${invoice.number}.pdf`, contentBase64: pdf },
+  });
+}
