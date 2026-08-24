@@ -266,10 +266,18 @@ function PortalPage() {
           </h1>
           <p className="mt-1 text-sm text-muted-foreground">{data.customer.email}</p>
         </div>
-        <Button variant="ghost" onClick={handleSignOut}>
-          <LogOut className="size-4" />
-          Sign out
-        </Button>
+        <div className="flex flex-wrap items-center gap-2">
+          <Button asChild variant="outline" size="sm" className="rounded-full">
+            <Link to="/email-preferences">
+              <Mail className="size-4" />
+              Email preferences
+            </Link>
+          </Button>
+          <Button variant="ghost" onClick={handleSignOut}>
+            <LogOut className="size-4" />
+            Sign out
+          </Button>
+        </div>
       </header>
 
       {/* Quotes */}
