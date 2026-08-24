@@ -35,17 +35,8 @@ const bannerSchema = z.object({
 const idSchema = z.object({ id: z.string().uuid() });
 
 async function assertAdmin(context: { supabase: unknown; userId: string }) {
-  const supabase = context.supabase as {
-    rpc: (
-      fn: string,
-      args: Record<string, unknown>,
-    ) => Promise<{ data: boolean | null; error: unknown }>;
-  };
-  const { data } = await supabase.rpc("has_role", {
-    _user_id: context.userId,
-    _role: "admin",
-  });
-  if (!data) throw new Error("Forbidden: admin access required");
+  const { assertAdmin: guard } = await import("./backoffice/guard");
+  await guard(context);
 }
 
 const columns = "id, key, image_url, alt, link_to, cta, placements, is_active, sort_order";

@@ -87,17 +87,8 @@ const idSchema = z.object({ id: z.string().uuid() });
 
 
 async function assertAdmin(context: { supabase: unknown; userId: string }) {
-  const supabase = context.supabase as {
-    rpc: (
-      fn: string,
-      args: Record<string, unknown>,
-    ) => Promise<{ data: boolean | null; error: unknown }>;
-  };
-  const { data } = await supabase.rpc("has_role", {
-    _user_id: context.userId,
-    _role: "admin",
-  });
-  if (!data) throw new Error("Forbidden: admin access required");
+  const { assertAdmin: guard } = await import("./backoffice/guard");
+  await guard(context);
 }
 
 /** Public: the whole catalogue, for the marketing site. */
@@ -142,11 +133,8 @@ export const listCatalog = createServerFn({ method: "GET" }).handler(
 export const checkIsAdmin = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
-    const { data } = await context.supabase.rpc("has_role", {
-      _user_id: context.userId,
-      _role: "admin",
-    });
-    return { isAdmin: Boolean(data), userId: context.userId };
+    const { isAdminContext } = await import("./backoffice/guard");
+    return { isAdmin: await isAdminContext(context), userId: context.userId };
   });
 
 export const saveCategory = createServerFn({ method: "POST" })
