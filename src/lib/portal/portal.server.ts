@@ -401,3 +401,38 @@ export async function buildInvoiceDocument(
   return { fileName: `${invoice.number}.pdf`, base64 };
 }
 
+
+export type PortalEmailPreferences = {
+  notifyProofSigned: boolean;
+  notifyInvoiceAvailable: boolean;
+};
+
+/** Reads a customer's email notification opt-ins. */
+export async function loadEmailPreferences(
+  customerId: string,
+): Promise<PortalEmailPreferences> {
+  const { data } = await supabaseAdmin
+    .from("customers")
+    .select("notify_proof_signed, notify_invoice_available")
+    .eq("id", customerId)
+    .maybeSingle();
+  return {
+    notifyProofSigned: data?.notify_proof_signed ?? true,
+    notifyInvoiceAvailable: data?.notify_invoice_available ?? true,
+  };
+}
+
+/** Saves a customer's email notification opt-ins. */
+export async function saveEmailPreferences(
+  customerId: string,
+  prefs: PortalEmailPreferences,
+): Promise<boolean> {
+  const { error } = await supabaseAdmin
+    .from("customers")
+    .update({
+      notify_proof_signed: prefs.notifyProofSigned,
+      notify_invoice_available: prefs.notifyInvoiceAvailable,
+    })
+    .eq("id", customerId);
+  return !error;
+}

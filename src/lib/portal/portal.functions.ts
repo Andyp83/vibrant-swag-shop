@@ -3,6 +3,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import {
   portalDocumentSchema,
+  portalPreferencesSchema,
   portalProofSignSchema,
   portalQuoteDecisionSchema,
   portalUploadRecordSchema,
@@ -125,4 +126,43 @@ export const getInvoiceDocument = createServerFn({ method: "POST" })
     if (!customer) return { error: "No account match" };
     const doc = await buildInvoiceDocument(customer, data.id);
     return doc ?? { error: "Invoice not found" };
+  });
+
+export type PortalPreferencesResult =
+  | { ok: true; notifyProofSigned: boolean; notifyInvoiceAvailable: boolean }
+  | { ok: false; error: string };
+
+export const getEmailPreferences = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }): Promise<PortalPreferencesResult> => {
+    const email = String((context.claims as { email?: string }).email ?? "");
+    const { isEmailVerified } = await import("@/lib/portal/verify.server");
+    if (!(await isEmailVerified(context.supabase))) {
+      return { ok: false, error: "Confirm your email address first." };
+    }
+    const { findCustomerByEmail, loadEmailPreferences } = await import(
+      "@/lib/portal/portal.server"
+    );
+    const customer = email ? await findCustomerByEmail(email) : null;
+    if (!customer) return { ok: false, error: "No account match" };
+    return { ok: true, ...(await loadEmailPreferences(customer.id)) };
+  });
+
+export const updateEmailPreferences = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input: unknown) => portalPreferencesSchema.parse(input))
+  .handler(async ({ data, context }): Promise<PortalPreferencesResult> => {
+    const email = String((context.claims as { email?: string }).email ?? "");
+    const { isEmailVerified } = await import("@/lib/portal/verify.server");
+    if (!(await isEmailVerified(context.supabase))) {
+      return { ok: false, error: "Confirm your email address first." };
+    }
+    const { findCustomerByEmail, saveEmailPreferences } = await import(
+      "@/lib/portal/portal.server"
+    );
+    const customer = email ? await findCustomerByEmail(email) : null;
+    if (!customer) return { ok: false, error: "No account match" };
+    const saved = await saveEmailPreferences(customer.id, data);
+    if (!saved) return { ok: false, error: "Could not save your preferences." };
+    return { ok: true, ...data };
   });
