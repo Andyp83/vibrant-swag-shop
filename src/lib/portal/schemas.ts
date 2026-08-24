@@ -2,6 +2,8 @@ import { z } from "zod";
 
 const uuid = z.string().uuid();
 
+export const portalDocumentSchema = z.object({ id: uuid });
+
 export const portalQuoteDecisionSchema = z.object({
   quoteId: uuid,
   decision: z.enum(["accept", "decline"]),

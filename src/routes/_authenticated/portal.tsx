@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
-import { Check, Loader2, LogOut, MessageSquare, Upload } from "lucide-react";
+import { Check, Download, FileText, Loader2, LogOut, MessageSquare, Upload } from "lucide-react";
 import { useRef, useState } from "react";
 import { toast } from "sonner";
 
@@ -12,7 +12,15 @@ import { Textarea } from "@/components/ui/textarea";
 import { supabase } from "@/integrations/supabase/client";
 import { formatDate, formatMoney } from "@/lib/backoffice/format";
 import { jobStages, statusLabels } from "@/lib/backoffice/types";
-import { decideQuote, finishUpload, getPortal, signProof, startUpload } from "@/lib/portal/portal.functions";
+import {
+  decideQuote,
+  finishUpload,
+  getInvoiceDocument,
+  getPortal,
+  getProofDocument,
+  signProof,
+  startUpload,
+} from "@/lib/portal/portal.functions";
 
 export const Route = createFileRoute("/_authenticated/portal")({
   head: () => ({
@@ -64,12 +72,47 @@ function PortalPage() {
   const sign = useServerFn(signProof);
   const beginUpload = useServerFn(startUpload);
   const completeUpload = useServerFn(finishUpload);
+  const fetchProofDoc = useServerFn(getProofDocument);
+  const fetchInvoiceDoc = useServerFn(getInvoiceDocument);
 
   const fileRef = useRef<HTMLInputElement>(null);
   const [uploadNotes, setUploadNotes] = useState("");
   const [uploadJob, setUploadJob] = useState("");
   const [signatures, setSignatures] = useState<Record<string, string>>({});
   const [notes, setNotes] = useState<Record<string, string>>({});
+  const [busyDoc, setBusyDoc] = useState<string | null>(null);
+
+  async function openDocument(
+    kind: "proof" | "invoice",
+    id: string,
+    action: "download" | "view",
+  ) {
+    setBusyDoc(id);
+    try {
+      const result = await (kind === "proof" ? fetchProofDoc : fetchInvoiceDoc)({ data: { id } });
+      if ("error" in result) {
+        toast.error(result.error);
+        return;
+      }
+      const binary = atob(result.base64);
+      const bytes = Uint8Array.from(binary, (c) => c.charCodeAt(0));
+      const url = URL.createObjectURL(new Blob([bytes], { type: "application/pdf" }));
+      if (action === "view") {
+        window.open(url, "_blank", "noopener");
+      } else {
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = result.fileName;
+        link.click();
+      }
+      setTimeout(() => URL.revokeObjectURL(url), 60_000);
+    } catch {
+      toast.error("We couldn't prepare that document. Please try again.");
+    } finally {
+      setBusyDoc(null);
+    }
+  }
+
 
   const portalQuery = useQuery({ queryKey: ["portal"], queryFn: () => fetchPortal({}) });
 
@@ -326,9 +369,21 @@ function PortalPage() {
                 {proof.notes && <p className="mt-3 text-sm">{proof.notes}</p>}
 
                 {proof.status === "approved" ? (
-                  <p className="mt-4 text-sm text-muted-foreground">
-                    Signed by {proof.signed_name || "you"} on {formatDate(proof.signed_at)}.
-                  </p>
+                  <div className="mt-4 flex flex-wrap items-center gap-3">
+                    <p className="text-sm text-muted-foreground">
+                      Signed by {proof.signed_name || "you"} on {formatDate(proof.signed_at)}.
+                    </p>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="rounded-full"
+                      disabled={busyDoc === proof.id}
+                      onClick={() => void openDocument("proof", proof.id, "download")}
+                    >
+                      <Download className="size-4" />
+                      {busyDoc === proof.id ? "Preparing…" : "Download signed proof (PDF)"}
+                    </Button>
+                  </div>
                 ) : (
                   <div className="mt-5 space-y-3 border-t border-border pt-5">
                     <div className="space-y-2">
@@ -465,6 +520,25 @@ function PortalPage() {
                   <span className="rounded-full border px-3 py-1 text-xs">
                     {statusLabels[invoice.status] ?? invoice.status}
                   </span>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="rounded-full"
+                    disabled={busyDoc === invoice.id}
+                    onClick={() => void openDocument("invoice", invoice.id, "view")}
+                  >
+                    <FileText className="size-4" />
+                    {busyDoc === invoice.id ? "Preparing…" : "View invoice"}
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    className="rounded-full"
+                    disabled={busyDoc === invoice.id}
+                    onClick={() => void openDocument("invoice", invoice.id, "download")}
+                  >
+                    <Download className="size-4" /> PDF
+                  </Button>
                   {invoice.status !== "paid" && invoice.status !== "void" && (
                     <Button asChild size="sm" className="rounded-full">
                       <Link to="/pay/$token" params={{ token: invoice.share_token }}>

@@ -291,3 +291,105 @@ export async function saveUpload(
   }
   return true;
 }
+
+/** Builds a signed-proof certificate PDF for one of the customer's own proofs. */
+export async function buildProofCertificate(
+  customer: PortalCustomer,
+  proofId: string,
+): Promise<{ fileName: string; base64: string } | null> {
+  const { data: proof } = await supabaseAdmin
+    .from("proofs")
+    .select(
+      "id, version, status, notes, response_note, signed_name, signed_at, file_path, jobs!inner(number, title, customer_id)",
+    )
+    .eq("id", proofId)
+    .eq("jobs.customer_id", customer.id)
+    .maybeSingle();
+  if (!proof) return null;
+
+  const row = proof as unknown as {
+    version: number;
+    status: string;
+    notes: string;
+    response_note: string;
+    signed_name: string;
+    signed_at: string | null;
+    file_path: string;
+    jobs: { number: string; title: string };
+  };
+
+  let artwork: { bytes: Uint8Array; contentType: string } | null = null;
+  const lower = row.file_path.toLowerCase();
+  if (/\.(png|jpe?g)$/.test(lower)) {
+    const { data: file } = await supabaseAdmin.storage.from("proofs").download(row.file_path);
+    if (file) {
+      artwork = {
+        bytes: new Uint8Array(await file.arrayBuffer()),
+        contentType: lower.endsWith(".png") ? "image/png" : "image/jpeg",
+      };
+    }
+  }
+
+  const { renderProofCertificate } = await import("@/lib/backoffice/pdf.server");
+  const base64 = await renderProofCertificate({
+    jobNumber: row.jobs.number,
+    jobTitle: row.jobs.title,
+    version: row.version,
+    status: row.status,
+    notes: row.notes,
+    responseNote: row.response_note,
+    signedName: row.signed_name,
+    signedAt: row.signed_at,
+    customer,
+    artwork,
+  });
+  return { fileName: `${row.jobs.number}-proof-v${row.version}.pdf`, base64 };
+}
+
+/** Builds an invoice PDF for one of the customer's own invoices. */
+export async function buildInvoiceDocument(
+  customer: PortalCustomer,
+  invoiceId: string,
+): Promise<{ fileName: string; base64: string } | null> {
+  const { data } = await supabaseAdmin
+    .from("invoices")
+    .select("id, number, kind, description, amount_cents, currency, due_date, created_at, status")
+    .eq("id", invoiceId)
+    .eq("customer_id", customer.id)
+    .neq("status", "draft")
+    .maybeSingle();
+  if (!data) return null;
+
+  const invoice = data as unknown as {
+    number: string;
+    kind: string;
+    description: string;
+    amount_cents: number;
+    currency: string;
+    due_date: string | null;
+    created_at: string;
+  };
+
+  const { renderQuoteDocument } = await import("@/lib/backoffice/pdf.server");
+  const base64 = await renderQuoteDocument({
+    kind: "Invoice",
+    number: invoice.number,
+    currency: invoice.currency,
+    issuedOn: new Date(invoice.created_at).toLocaleDateString("en-AU"),
+    dueLabel: "Due",
+    dueOn: invoice.due_date,
+    customer,
+    lines: [
+      {
+        description: invoice.description || `${invoice.kind} payment`,
+        quantity: 1,
+        unit_price_cents: invoice.amount_cents,
+        amount_cents: invoice.amount_cents,
+      },
+    ],
+    total_cents: invoice.amount_cents,
+    terms: "Payment can be made securely online from your client portal.",
+  });
+  return { fileName: `${invoice.number}.pdf`, base64 };
+}
+

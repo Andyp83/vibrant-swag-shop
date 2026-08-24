@@ -2,6 +2,7 @@ import { createServerFn } from "@tanstack/react-start";
 
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import {
+  portalDocumentSchema,
   portalProofSignSchema,
   portalQuoteDecisionSchema,
   portalUploadRecordSchema,
@@ -70,4 +71,34 @@ export const finishUpload = createServerFn({ method: "POST" })
     const customer = email ? await findCustomerByEmail(email) : null;
     if (!customer) return { ok: false };
     return { ok: await saveUpload(customer.id, data) };
+  });
+
+export type PortalDocument = { fileName: string; base64: string } | { error: string };
+
+export const getProofDocument = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input: unknown) => portalDocumentSchema.parse(input))
+  .handler(async ({ data, context }): Promise<PortalDocument> => {
+    const email = String((context.claims as { email?: string }).email ?? "");
+    const { findCustomerByEmail, buildProofCertificate } = await import(
+      "@/lib/portal/portal.server"
+    );
+    const customer = email ? await findCustomerByEmail(email) : null;
+    if (!customer) return { error: "No account match" };
+    const doc = await buildProofCertificate(customer, data.id);
+    return doc ?? { error: "Proof not found" };
+  });
+
+export const getInvoiceDocument = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input: unknown) => portalDocumentSchema.parse(input))
+  .handler(async ({ data, context }): Promise<PortalDocument> => {
+    const email = String((context.claims as { email?: string }).email ?? "");
+    const { findCustomerByEmail, buildInvoiceDocument } = await import(
+      "@/lib/portal/portal.server"
+    );
+    const customer = email ? await findCustomerByEmail(email) : null;
+    if (!customer) return { error: "No account match" };
+    const doc = await buildInvoiceDocument(customer, data.id);
+    return doc ?? { error: "Invoice not found" };
   });
