@@ -199,23 +199,21 @@ function QuotePage() {
       }
 
       const values = parsed.data;
-      const { data: inserted, error } = await supabase
-        .from("quote_requests")
-        .insert({
-          name: values.fullName,
-          email: values.email,
-          company: values.company || null,
-          phone: values.phone || null,
-          product_interest: values.productInterest || null,
-          decoration: values.decorationMethod || null,
-          quantity: values.quantity ? Number(values.quantity) : null,
-          required_by: values.deadline || null,
-          budget: values.budget || null,
-          notes: values.brief,
-          file_paths: paths,
-        })
-        .select("id")
-        .maybeSingle();
+      const requestId = crypto.randomUUID();
+      const { error } = await supabase.from("quote_requests").insert({
+        id: requestId,
+        name: values.fullName,
+        email: values.email,
+        company: values.company || null,
+        phone: values.phone || null,
+        product_interest: values.productInterest || null,
+        decoration: values.decorationMethod || null,
+        quantity: values.quantity ? Number(values.quantity) : null,
+        required_by: values.deadline || null,
+        budget: values.budget || null,
+        notes: values.brief,
+        file_paths: paths,
+      });
 
       if (error) throw error;
 
@@ -236,8 +234,16 @@ function QuotePage() {
         }
       }
 
+      // Confirmation email with a secure link into the quote timeline.
+      try {
+        await sendConfirmation({ data: { requestId } });
+      } catch (emailError) {
+        console.error("Confirmation email failed", emailError);
+      }
+
       setDone(true);
       setFiles([]);
+
     } catch (error) {
       console.error("Quote submission failed", error);
       toast.error("Something went wrong sending your request. Please try again.");
