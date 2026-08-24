@@ -49,6 +49,11 @@ export const setInvoiceStatus = createServerFn({ method: "POST" })
     await assertAdmin(context);
     const allowed = ["draft", "sent", "paid", "overdue", "void"];
     if (!allowed.includes(data.status)) throw new Error("Invalid status");
+    const { data: existing } = await context.supabase
+      .from("invoices")
+      .select("status")
+      .eq("id", data.id)
+      .maybeSingle();
     const { error } = await context.supabase
       .from("invoices")
       .update({
@@ -57,6 +62,16 @@ export const setInvoiceStatus = createServerFn({ method: "POST" })
       })
       .eq("id", data.id);
     if (error) throw new Error(error.message);
+
+    // An invoice leaving draft is "available" — send it to the customer automatically.
+    if (data.status === "sent" && existing?.status !== "sent") {
+      try {
+        const { notifyInvoiceAvailable } = await import("@/lib/backoffice/notify.server");
+        await notifyInvoiceAvailable(data.id);
+      } catch (notifyError) {
+        console.error("Invoice notification failed", notifyError);
+      }
+    }
     return { ok: true };
   });
 
