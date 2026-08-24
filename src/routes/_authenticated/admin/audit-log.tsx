@@ -81,7 +81,7 @@ function AuditLogPage() {
                     <pre className="max-w-[28rem] overflow-x-auto whitespace-pre-wrap break-words text-xs text-muted-foreground">
                       {JSON.stringify(
                         {
-                          ...(entry.details ?? {}),
+                          details: entry.details ?? {},
                           ...(entry.beforeState ? { before: entry.beforeState } : {}),
                           ...(entry.afterState ? { after: entry.afterState } : {}),
                         },
