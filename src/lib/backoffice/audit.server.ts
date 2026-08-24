@@ -1,4 +1,5 @@
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
+import type { Json } from "@/integrations/supabase/types";
 
 export type AuditEventInput = {
   action: string;
@@ -7,9 +8,9 @@ export type AuditEventInput = {
   entityLabel?: string | null;
   actorUserId?: string | null;
   actorEmail?: string | null;
-  beforeState?: unknown;
-  afterState?: unknown;
-  details?: Record<string, unknown>;
+  beforeState?: Json;
+  afterState?: Json;
+  details?: Record<string, Json>;
 };
 
 export type AuditEvent = {
@@ -21,9 +22,9 @@ export type AuditEvent = {
   entityType: string;
   entityId: string | null;
   entityLabel: string | null;
-  beforeState: unknown;
-  afterState: unknown;
-  details: Record<string, unknown>;
+  beforeState: Json;
+  afterState: Json;
+  details: Json;
 };
 
 /**
@@ -38,9 +39,9 @@ export async function recordAuditEvent(event: AuditEventInput): Promise<void> {
     entity_label: event.entityLabel ?? null,
     actor_user_id: event.actorUserId ?? null,
     actor_email: event.actorEmail ?? null,
-    before_state: (event.beforeState ?? null) as never,
-    after_state: (event.afterState ?? null) as never,
-    details: (event.details ?? {}) as never,
+    before_state: event.beforeState ?? null,
+    after_state: event.afterState ?? null,
+    details: (event.details ?? {}) as Json,
   });
   if (error) console.error("[audit] failed to record event", event.action, error.message);
 }
@@ -66,6 +67,6 @@ export async function listAuditEvents(limit = 200): Promise<AuditEvent[]> {
     entityLabel: row.entity_label,
     beforeState: row.before_state,
     afterState: row.after_state,
-    details: (row.details ?? {}) as Record<string, unknown>,
+    details: row.details ?? {},
   }));
 }
