@@ -181,6 +181,7 @@ export async function notifyProofResponse(
       }</p>`,
       { label: "Track this job", url: `${origin}/job/${proof.job.share_token}` },
     ),
+    ...(certificate ? { attachment: certificate } : {}),
   });
 }
 
