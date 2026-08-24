@@ -80,6 +80,12 @@ export async function notifyProofResponse(
   const proof = data as unknown as {
     id: string;
     version: number;
+    status: string;
+    notes: string;
+    response_note: string;
+    signed_name: string;
+    signed_at: string | null;
+    file_path: string;
     job: {
       id: string;
       number: string;
