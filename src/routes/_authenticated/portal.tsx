@@ -201,6 +201,40 @@ function PortalPage() {
 
   const data = portalQuery.data;
 
+  if (data && !data.verified) {
+    return (
+      <main className="mx-auto max-w-xl px-6 py-24 text-center">
+        <h1 className="display-type text-3xl">Confirm your email</h1>
+        <p className="mt-4 text-muted-foreground">
+          We've sent a confirmation link to <strong>{data.email}</strong>. Click it to unlock your
+          portal, then refresh this page.
+        </p>
+        <div className="mt-8 flex flex-wrap justify-center gap-3">
+          <Button
+            className="rounded-full"
+            onClick={async () => {
+              const { error } = await supabase.auth.resend({ type: "signup", email: data.email });
+              if (error) toast.error(error.message);
+              else toast.success("Confirmation email sent — check your inbox.");
+            }}
+          >
+            Resend confirmation email
+          </Button>
+          <Button
+            variant="outline"
+            className="rounded-full"
+            onClick={() => void portalQuery.refetch()}
+          >
+            I've confirmed
+          </Button>
+          <Button variant="ghost" className="rounded-full" onClick={handleSignOut}>
+            Sign out
+          </Button>
+        </div>
+      </main>
+    );
+  }
+
   if (!data || !data.linked) {
     return (
       <main className="mx-auto max-w-xl px-6 py-24 text-center">
@@ -220,6 +254,7 @@ function PortalPage() {
       </main>
     );
   }
+
 
   return (
     <main className="mx-auto max-w-5xl px-5 py-12">
