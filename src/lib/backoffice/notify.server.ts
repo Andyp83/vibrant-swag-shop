@@ -65,7 +65,7 @@ export async function notifyQuoteDecision(quoteId: string, decision: "accept" | 
 export async function notifyProofResponse(
   proofId: string,
   decision: "approve" | "changes",
-  options: { signedName?: string; note?: string } = {},
+  options: { signedName?: string | undefined; note?: string | undefined } = {},
 ) {
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
   const { data } = await supabaseAdmin
