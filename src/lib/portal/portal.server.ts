@@ -210,6 +210,8 @@ export async function recordQuoteDecision(
       .update({ status: decision === "accept" ? "won" : "lost" })
       .eq("id", data.request_id);
   }
+  const { notifyQuoteDecision } = await import("@/lib/backoffice/notify.server");
+  await notifyQuoteDecision(data.id as string, decision);
   return true;
 }
 
