@@ -213,6 +213,23 @@ function QuotePage() {
       });
       if (error) throw error;
 
+      if (values.password) {
+        const { error: signUpError } = await supabase.auth.signUp({
+          email: values.email,
+          password: values.password,
+          options: { emailRedirectTo: `${window.location.origin}/auth` },
+        });
+        if (signUpError) {
+          toast.error(
+            signUpError.message.toLowerCase().includes("registered")
+              ? "Your brief is in. You already have an account — sign in from Client login."
+              : `Your brief is in, but we couldn't set up your account: ${signUpError.message}`,
+          );
+        } else {
+          setAccountCreated(true);
+        }
+      }
+
       setDone(true);
       setFiles([]);
     } catch (error) {
@@ -232,6 +249,14 @@ function QuotePage() {
           Thanks — your request and any artwork are with our studio. We'll come back with a curated
           shortlist and pricing, usually within one business day.
         </p>
+        {accountCreated && (
+          <p className="mt-4 text-sm text-muted-foreground">
+            We've also started your client portal account — check your inbox to confirm your email,
+            then sign in at <Link to="/auth" className="underline underline-offset-4">Client login</Link>{" "}
+            to track this quote, sign proofs and follow your order.
+          </p>
+        )}
+
         <div className="mt-8 flex flex-wrap justify-center gap-3">
           <Link
             to="/products"
