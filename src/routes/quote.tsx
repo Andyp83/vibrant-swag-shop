@@ -264,8 +264,10 @@ function QuotePage() {
         <h1 className="display-type mt-6 text-4xl">Brief received</h1>
         <p className="mt-4 text-muted-foreground">
           Thanks — your request and any artwork are with our studio. We'll come back with a curated
-          shortlist and pricing, usually within one business day.
+          shortlist and pricing, usually within one business day. A confirmation email is on its way
+          with a secure link to your quote timeline.
         </p>
+
         {accountCreated && (
           <p className="mt-4 text-sm text-muted-foreground">
             We've also started your client portal account — check your inbox to confirm your email,
