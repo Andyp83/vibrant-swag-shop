@@ -19,6 +19,7 @@ import { Route as ImpactAwareRouteImport } from './routes/impact-aware'
 import { Route as LookbookRouteImport } from './routes/lookbook'
 import { Route as McpRouteImport } from './routes/mcp'
 import { Route as QuoteRouteImport } from './routes/quote'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as StarPerformersRouteImport } from './routes/star-performers'
 import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
@@ -90,6 +91,11 @@ const McpRoute = McpRouteImport.update({
 const QuoteRoute = QuoteRouteImport.update({
   id: '/quote',
   path: '/quote',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
 const StarPerformersRoute = StarPerformersRouteImport.update({
@@ -229,6 +235,7 @@ export interface FileRoutesByFullPath {
   '/lookbook': typeof LookbookRoute
   '/mcp': typeof McpRoute
   '/quote': typeof QuoteRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/star-performers': typeof StarPerformersRoute
   '/admin': typeof AuthenticatedAdminRouteRouteWithChildren
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
@@ -263,6 +270,7 @@ export interface FileRoutesByTo {
   '/lookbook': typeof LookbookRoute
   '/mcp': typeof McpRoute
   '/quote': typeof QuoteRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/star-performers': typeof StarPerformersRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
@@ -298,6 +306,7 @@ export interface FileRoutesById {
   '/lookbook': typeof LookbookRoute
   '/mcp': typeof McpRoute
   '/quote': typeof QuoteRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/star-performers': typeof StarPerformersRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRouteRouteWithChildren
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
@@ -334,6 +343,7 @@ export interface FileRouteTypes {
     | '/lookbook'
     | '/mcp'
     | '/quote'
+    | '/reset-password'
     | '/star-performers'
     | '/admin'
     | '/.mcp/list-tools'
@@ -368,6 +378,7 @@ export interface FileRouteTypes {
     | '/lookbook'
     | '/mcp'
     | '/quote'
+    | '/reset-password'
     | '/star-performers'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
@@ -402,6 +413,7 @@ export interface FileRouteTypes {
     | '/lookbook'
     | '/mcp'
     | '/quote'
+    | '/reset-password'
     | '/star-performers'
     | '/_authenticated/admin'
     | '/.mcp/list-tools'
@@ -438,6 +450,7 @@ export interface RootRouteChildren {
   LookbookRoute: typeof LookbookRoute
   McpRoute: typeof McpRoute
   QuoteRoute: typeof QuoteRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
   StarPerformersRoute: typeof StarPerformersRoute
   Char91DotmcpChar93ListToolsRoute: typeof Char91DotmcpChar93ListToolsRoute
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
@@ -523,6 +536,13 @@ declare module '@tanstack/react-router' {
       path: '/quote'
       fullPath: '/quote'
       preLoaderRoute: typeof QuoteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/star-performers': {
@@ -750,6 +770,7 @@ const rootRouteChildren: RootRouteChildren = {
   LookbookRoute: LookbookRoute,
   McpRoute: McpRoute,
   QuoteRoute: QuoteRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
   StarPerformersRoute: StarPerformersRoute,
   Char91DotmcpChar93ListToolsRoute: Char91DotmcpChar93ListToolsRoute,
   Char91DotwellKnownChar93OauthProtectedResourceRoute:
