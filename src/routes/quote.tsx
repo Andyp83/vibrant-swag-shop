@@ -94,7 +94,9 @@ function QuotePage() {
       )?.name ?? "")
     : "";
   const categories = useQuery(catalogQueryOptions()).data ?? [];
+  const sendConfirmation = useServerFn(confirmQuoteRequest);
   const [files, setFiles] = useState<File[]>([]);
+
   const [errors, setErrors] = useState<FieldErrors>({});
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
