@@ -70,7 +70,9 @@ export async function notifyProofResponse(
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
   const { data } = await supabaseAdmin
     .from("proofs")
-    .select("id, version, job:jobs(id, number, title, share_token, customer:customers(name, email, company))")
+    .select(
+      "id, version, status, notes, response_note, signed_name, signed_at, file_path, job:jobs(id, number, title, share_token, customer:customers(name, email, company))",
+    )
     .eq("id", proofId)
     .maybeSingle();
   if (!data) return;
@@ -78,6 +80,12 @@ export async function notifyProofResponse(
   const proof = data as unknown as {
     id: string;
     version: number;
+    status: string;
+    notes: string;
+    response_note: string;
+    signed_name: string;
+    signed_at: string | null;
+    file_path: string;
     job: {
       id: string;
       number: string;
@@ -112,6 +120,48 @@ export async function notifyProofResponse(
   });
 
   if (!proof.job.customer?.email) return;
+
+  // Attach a signed-proof certificate so the customer keeps a record of what they approved.
+  let certificate: { filename: string; contentBase64: string } | undefined;
+  if (approved) {
+    try {
+      let artwork: { bytes: Uint8Array; contentType: string } | null = null;
+      const lower = (proof.file_path ?? "").toLowerCase();
+      if (/\.(png|jpe?g)$/.test(lower)) {
+        const { data: file } = await supabaseAdmin.storage.from("proofs").download(proof.file_path);
+        if (file) {
+          artwork = {
+            bytes: new Uint8Array(await file.arrayBuffer()),
+            contentType: lower.endsWith(".png") ? "image/png" : "image/jpeg",
+          };
+        }
+      }
+      const { renderProofCertificate } = await import("@/lib/backoffice/pdf.server");
+      const base64 = await renderProofCertificate({
+        jobNumber: proof.job.number,
+        jobTitle: proof.job.title,
+        version: proof.version,
+        status: proof.status,
+        notes: proof.notes,
+        responseNote: proof.response_note,
+        signedName: options.signedName || proof.signed_name,
+        signedAt: proof.signed_at,
+        customer: {
+          name: proof.job.customer.name,
+          company: proof.job.customer.company,
+          email: proof.job.customer.email,
+        },
+        artwork,
+      });
+      certificate = {
+        filename: `${proof.job.number}-proof-v${proof.version}.pdf`,
+        contentBase64: base64,
+      };
+    } catch (certError) {
+      console.error("Proof certificate build failed", certError);
+    }
+  }
+
   await sendEmail({
     to: proof.job.customer.email,
     subject: approved
@@ -131,6 +181,7 @@ export async function notifyProofResponse(
       }</p>`,
       { label: "Track this job", url: `${origin}/job/${proof.job.share_token}` },
     ),
+    ...(certificate ? { attachment: certificate } : {}),
   });
 }
 
@@ -188,5 +239,75 @@ export async function notifyRequestStage(requestId: string, status: RequestStage
       }`,
       { label: "Open your portal", url: `${siteOrigin()}/portal` },
     ),
+  });
+}
+
+/** Emails the customer with the PDF and pay link as soon as an invoice becomes available. */
+export async function notifyInvoiceAvailable(invoiceId: string, options: { reminder?: boolean } = {}) {
+  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+  const { data } = await supabaseAdmin
+    .from("invoices")
+    .select("*, customer:customers(name, company, email)")
+    .eq("id", invoiceId)
+    .maybeSingle();
+  if (!data) return;
+
+  const invoice = data as unknown as {
+    id: string;
+    number: string;
+    kind: string;
+    description: string;
+    amount_cents: number;
+    currency: string;
+    due_date: string | null;
+    share_token: string;
+    customer: { name: string; company: string | null; email: string } | null;
+  };
+  if (!invoice.customer?.email) return;
+
+  const { renderQuoteDocument } = await import("@/lib/backoffice/pdf.server");
+  const pdf = await renderQuoteDocument({
+    kind: "Invoice",
+    number: invoice.number,
+    currency: invoice.currency,
+    issuedOn: new Date().toLocaleDateString("en-AU"),
+    dueLabel: "Due",
+    dueOn: invoice.due_date,
+    customer: {
+      name: invoice.customer.name,
+      company: invoice.customer.company,
+      email: invoice.customer.email,
+    },
+    lines: [
+      {
+        description: invoice.description || `${invoice.kind} payment`,
+        quantity: 1,
+        unit_price_cents: invoice.amount_cents,
+        amount_cents: invoice.amount_cents,
+      },
+    ],
+    total_cents: invoice.amount_cents,
+    terms: "Payment can be made securely online using the link in your email.",
+  });
+
+  const amount = `${invoice.currency} ${(invoice.amount_cents / 100).toFixed(2)}`;
+  await sendEmail({
+    to: invoice.customer.email,
+    subject: options.reminder
+      ? `Reminder: invoice ${invoice.number} is awaiting payment`
+      : `Invoice ${invoice.number} from See See Bloom`,
+    template: options.reminder ? "invoice_reminder" : "invoice_available",
+    relatedType: "invoice",
+    relatedId: invoice.id,
+    html: emailShell(
+      options.reminder ? `Friendly reminder — ${invoice.number}` : `Invoice ${invoice.number} is ready`,
+      `<p>Hi ${invoice.customer.name},</p><p>${
+        options.reminder ? "Just a nudge that this invoice is still open" : "Your invoice is ready"
+      }: <strong>${amount}</strong>${
+        invoice.due_date ? `, due ${invoice.due_date}` : ""
+      }. The PDF is attached and you can pay securely by card online, or view it any time in your portal.</p>`,
+      { label: "Pay online", url: `${siteOrigin()}/pay/${invoice.share_token}` },
+    ),
+    attachment: { filename: `${invoice.number}.pdf`, contentBase64: pdf },
   });
 }
