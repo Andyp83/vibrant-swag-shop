@@ -95,6 +95,7 @@ function QuotePage() {
   const [errors, setErrors] = useState<FieldErrors>({});
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
+  const [accountCreated, setAccountCreated] = useState(false);
   const [method, setMethod] = useState(preselectedDecoration);
   const [lowRes, setLowRes] = useState<string[]>([]);
   const [artworkConfirmed, setArtworkConfirmed] = useState(false);
