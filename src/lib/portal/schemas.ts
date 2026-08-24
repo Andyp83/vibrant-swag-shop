@@ -26,3 +26,8 @@ export const portalUploadRecordSchema = z.object({
   notes: z.string().trim().max(1000).default(""),
   jobId: uuid.nullable().default(null),
 });
+
+export const portalPreferencesSchema = z.object({
+  notifyProofSigned: z.boolean(),
+  notifyInvoiceAvailable: z.boolean(),
+});

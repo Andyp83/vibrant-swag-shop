@@ -213,6 +213,8 @@ export type Database = {
           id: string
           name: string
           notes: string
+          notify_invoice_available: boolean
+          notify_proof_signed: boolean
           phone: string | null
           updated_at: string
         }
@@ -223,6 +225,8 @@ export type Database = {
           id?: string
           name: string
           notes?: string
+          notify_invoice_available?: boolean
+          notify_proof_signed?: boolean
           phone?: string | null
           updated_at?: string
         }
@@ -233,6 +237,8 @@ export type Database = {
           id?: string
           name?: string
           notes?: string
+          notify_invoice_available?: boolean
+          notify_proof_signed?: boolean
           phone?: string | null
           updated_at?: string
         }

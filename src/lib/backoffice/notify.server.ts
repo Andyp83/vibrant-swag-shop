@@ -71,7 +71,7 @@ export async function notifyProofResponse(
   const { data } = await supabaseAdmin
     .from("proofs")
     .select(
-      "id, version, status, notes, response_note, signed_name, signed_at, file_path, job:jobs(id, number, title, share_token, customer:customers(name, email, company))",
+      "id, version, status, notes, response_note, signed_name, signed_at, file_path, job:jobs(id, number, title, share_token, customer:customers(name, email, company, notify_proof_signed))",
     )
     .eq("id", proofId)
     .maybeSingle();
@@ -91,7 +91,12 @@ export async function notifyProofResponse(
       number: string;
       title: string;
       share_token: string;
-      customer: { name: string; email: string; company: string | null } | null;
+      customer: {
+        name: string;
+        email: string;
+        company: string | null;
+        notify_proof_signed: boolean | null;
+      } | null;
     } | null;
   };
   if (!proof.job) return;
@@ -120,6 +125,8 @@ export async function notifyProofResponse(
   });
 
   if (!proof.job.customer?.email) return;
+  // Customers can opt out of proof-signed confirmations in their portal preferences.
+  if (approved && proof.job.customer.notify_proof_signed === false) return;
 
   // Attach a signed-proof certificate so the customer keeps a record of what they approved.
   let certificate: { filename: string; contentBase64: string } | undefined;
@@ -247,7 +254,7 @@ export async function notifyInvoiceAvailable(invoiceId: string, options: { remin
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
   const { data } = await supabaseAdmin
     .from("invoices")
-    .select("*, customer:customers(name, company, email)")
+    .select("*, customer:customers(name, company, email, notify_invoice_available)")
     .eq("id", invoiceId)
     .maybeSingle();
   if (!data) return;
@@ -261,9 +268,16 @@ export async function notifyInvoiceAvailable(invoiceId: string, options: { remin
     currency: string;
     due_date: string | null;
     share_token: string;
-    customer: { name: string; company: string | null; email: string } | null;
+    customer: {
+      name: string;
+      company: string | null;
+      email: string;
+      notify_invoice_available: boolean | null;
+    } | null;
   };
   if (!invoice.customer?.email) return;
+  // Respect the customer's invoice-email opt-out from their portal preferences.
+  if (invoice.customer.notify_invoice_available === false) return;
 
   const { renderQuoteDocument } = await import("@/lib/backoffice/pdf.server");
   const pdf = await renderQuoteDocument({

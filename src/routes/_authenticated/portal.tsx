@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
-import { Check, Download, FileText, Loader2, LogOut, MessageSquare, Upload } from "lucide-react";
+import { Check, Download, FileText, Loader2, LogOut, Mail, MessageSquare, Upload } from "lucide-react";
 import { useRef, useState } from "react";
 import { toast } from "sonner";
 
@@ -266,10 +266,18 @@ function PortalPage() {
           </h1>
           <p className="mt-1 text-sm text-muted-foreground">{data.customer.email}</p>
         </div>
-        <Button variant="ghost" onClick={handleSignOut}>
-          <LogOut className="size-4" />
-          Sign out
-        </Button>
+        <div className="flex flex-wrap items-center gap-2">
+          <Button asChild variant="outline" size="sm" className="rounded-full">
+            <Link to="/email-preferences">
+              <Mail className="size-4" />
+              Email preferences
+            </Link>
+          </Button>
+          <Button variant="ghost" onClick={handleSignOut}>
+            <LogOut className="size-4" />
+            Sign out
+          </Button>
+        </div>
       </header>
 
       {/* Quotes */}
