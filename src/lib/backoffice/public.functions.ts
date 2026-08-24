@@ -125,6 +125,9 @@ export const respondToQuote = createServerFn({ method: "POST" })
         .update({ status: data.decision === "accept" ? "won" : "lost" })
         .eq("id", quote.request_id);
     }
+
+    const { notifyQuoteDecision } = await import("@/lib/backoffice/notify.server");
+    await notifyQuoteDecision(quote.id as string, data.decision);
     return { ok: true };
   });
 
