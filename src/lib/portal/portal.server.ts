@@ -254,6 +254,12 @@ export async function recordProofSignature(
           input.note ? `: ${input.note}` : ""
         }`,
   });
+
+  const { notifyProofResponse } = await import("@/lib/backoffice/notify.server");
+  await notifyProofResponse(proof.id as string, input.decision, {
+    signedName: approved ? input.signedName : undefined,
+    note: input.note,
+  });
   return true;
 }
 
