@@ -98,7 +98,7 @@ export const setJobStage = createServerFn({ method: "POST" })
     return {
       id: uuid.parse(raw.id),
       stage: jobSchema.shape.stage.parse(raw.stage),
-      notify: Boolean(raw.notify),
+      notify: raw.notify === undefined ? true : Boolean(raw.notify),
     };
   })
   .handler(async ({ data, context }): Promise<{ sent: boolean; error?: string }> => {
