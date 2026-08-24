@@ -133,3 +133,60 @@ export async function notifyProofResponse(
     ),
   });
 }
+
+type RequestStage = "new" | "in_progress" | "quoted" | "won" | "lost";
+
+const REQUEST_STAGE_COPY: Record<RequestStage, { subject: string; heading: string; body: string } | null> = {
+  new: null,
+  in_progress: {
+    subject: "We're working on your quote",
+    heading: "Your brief is with our team",
+    body: "Thanks for your brief — one of our merch specialists is pricing it up now. We'll be in touch shortly with options, decoration methods and lead times.",
+  },
+  quoted: {
+    subject: "Your quote is ready",
+    heading: "Your quote is ready to review",
+    body: "We've prepared a quote for your brief. Sign in to your portal to review the pricing, decoration and timings, then accept online when you're happy.",
+  },
+  won: {
+    subject: "You're approved — your job is underway",
+    heading: "Your job is underway",
+    body: "Your quote is accepted and your job is now open. Next up we'll prepare artwork proofs for your sign-off, then move straight into production.",
+  },
+  lost: {
+    subject: "We've closed off your quote",
+    heading: "Quote closed",
+    body: "We've closed this brief off for now. If anything changes — quantities, timings or budget — just reply and we'll happily revise it.",
+  },
+};
+
+/** Emails the customer when their quote request moves to a new stage. */
+export async function notifyRequestStage(requestId: string, status: RequestStage) {
+  const copy = REQUEST_STAGE_COPY[status];
+  if (!copy) return;
+
+  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+  const { data } = await supabaseAdmin
+    .from("quote_requests")
+    .select("id, name, email, product_interest")
+    .eq("id", requestId)
+    .maybeSingle();
+  if (!data?.email) return;
+
+  const request = data as { id: string; name: string; email: string; product_interest: string | null };
+
+  await sendEmail({
+    to: request.email,
+    subject: `${copy.subject} — See See Bloom`,
+    template: `request_stage_${status}`,
+    relatedType: "quote_request",
+    relatedId: request.id,
+    html: emailShell(
+      copy.heading,
+      `<p>Hi ${request.name},</p><p>${copy.body}</p>${
+        request.product_interest ? `<p><strong>Brief:</strong> ${request.product_interest}</p>` : ""
+      }`,
+      { label: "Open your portal", url: `${siteOrigin()}/portal` },
+    ),
+  });
+}
