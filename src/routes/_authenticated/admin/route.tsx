@@ -20,6 +20,8 @@ const tabs = [
   { to: "/admin/customers", label: "Customers" },
   { to: "/admin/catalogue", label: "Catalogue" },
   { to: "/admin/banners", label: "Banners" },
+  { to: "/admin/audit-log", label: "Audit log" },
+
 
 ] as const;
 
