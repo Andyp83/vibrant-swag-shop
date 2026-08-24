@@ -210,6 +210,8 @@ export async function recordQuoteDecision(
       .update({ status: decision === "accept" ? "won" : "lost" })
       .eq("id", data.request_id);
   }
+  const { notifyQuoteDecision } = await import("@/lib/backoffice/notify.server");
+  await notifyQuoteDecision(data.id as string, decision);
   return true;
 }
 
@@ -251,6 +253,12 @@ export async function recordProofSignature(
       : `Customer requested changes on proof v${proof.version} via the client portal${
           input.note ? `: ${input.note}` : ""
         }`,
+  });
+
+  const { notifyProofResponse } = await import("@/lib/backoffice/notify.server");
+  await notifyProofResponse(proof.id as string, input.decision, {
+    signedName: approved ? input.signedName : undefined,
+    note: input.note,
   });
   return true;
 }

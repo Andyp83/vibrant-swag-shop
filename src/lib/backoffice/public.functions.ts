@@ -125,6 +125,9 @@ export const respondToQuote = createServerFn({ method: "POST" })
         .update({ status: data.decision === "accept" ? "won" : "lost" })
         .eq("id", quote.request_id);
     }
+
+    const { notifyQuoteDecision } = await import("@/lib/backoffice/notify.server");
+    await notifyQuoteDecision(quote.id as string, data.decision);
     return { ok: true };
   });
 
@@ -189,6 +192,9 @@ export const respondToProof = createServerFn({ method: "POST" })
         ? `Customer approved proof v${proof.version}`
         : `Customer requested changes on proof v${proof.version}${data.note ? `: ${data.note}` : ""}`,
     });
+
+    const { notifyProofResponse } = await import("@/lib/backoffice/notify.server");
+    await notifyProofResponse(proof.id as string, data.decision, { note: data.note });
     return { ok: true };
   });
 
