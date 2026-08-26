@@ -100,7 +100,9 @@ export function SiteFooter() {
             <br />
             Mon–Fri, 8.30am–5pm AEST
             <br />
-            hello@seeseebloom.com.au
+            <a href="mailto:contact@seeseebloom.com.au" className="hover:text-foreground">contact@seeseebloom.com.au</a>
+            <br />
+            <a href="tel:+61431567680" className="hover:text-foreground">0431 567 680</a>
             <br />
             Artwork studio replies within one business day.
             <br />

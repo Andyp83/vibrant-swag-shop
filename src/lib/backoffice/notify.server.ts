@@ -2,7 +2,7 @@ import { emailShell, sendEmail, siteOrigin } from "@/lib/backoffice/email.server
 
 /** Where internal alerts land — override with the ADMIN_EMAIL secret. */
 function adminEmail(): string {
-  return process.env["ADMIN_EMAIL"] ?? "andy@seeseebloom.com.au";
+  return process.env["ADMIN_EMAIL"] ?? "contact@seeseebloom.com.au";
 }
 
 /** Emails the studio and confirms to the customer when a quote is accepted or declined. */
