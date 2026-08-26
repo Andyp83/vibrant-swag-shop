@@ -347,6 +347,61 @@ function QuotePage() {
           </div>
         </fieldset>
 
+        {shortlist.length > 0 && (
+          <fieldset className="space-y-4 rounded-2xl border border-border bg-card p-6">
+            <legend className="display-type px-2 text-base">
+              Your shortlist ({shortlist.length})
+            </legend>
+            <p className="text-xs text-muted-foreground">
+              These favourites are included with your brief. Pick the decoration you'd prefer on
+              each one — you can fine-tune quantities on the{" "}
+              <Link to="/shortlist" className="underline underline-offset-4">
+                shortlist page
+              </Link>
+              .
+            </p>
+            <ul className="space-y-3">
+              {shortlist.map((item) => (
+                <li
+                  key={item.id}
+                  className="flex flex-wrap items-center gap-3 rounded-lg border border-border px-3 py-3"
+                >
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate text-sm font-semibold">{item.name}</p>
+                    <p className="text-xs text-muted-foreground">
+                      {item.categoryName}
+                      {item.quantity ? ` · qty ${item.quantity}` : ""}
+                    </p>
+                  </div>
+                  <select
+                    aria-label={`Favoured decoration for ${item.name}`}
+                    value={item.decoration}
+                    onChange={(e) => updateShortlisted(item.id, { decoration: e.target.value })}
+                    className="h-9 w-full rounded-md border border-input bg-background px-2 text-xs sm:w-56"
+                  >
+                    <option value="">Decoration — recommend one</option>
+                    {(item.methods.length > 0 ? item.methods : decorations.map((d) => d.name)).map(
+                      (m) => (
+                        <option key={m} value={m}>
+                          {m}
+                        </option>
+                      ),
+                    )}
+                  </select>
+                  <button
+                    type="button"
+                    onClick={() => removeShortlisted(item.id)}
+                    aria-label={`Remove ${item.name} from shortlist`}
+                    className="rounded-full p-1 text-muted-foreground hover:bg-accent"
+                  >
+                    <X className="size-4" aria-hidden="true" />
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </fieldset>
+        )}
+
 
         <fieldset className="space-y-5 rounded-2xl border border-border bg-card p-6">
           <legend className="display-type px-2 text-base">The project</legend>
