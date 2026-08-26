@@ -243,6 +243,8 @@ function Home() {
                 src={c.image_url}
                 alt={`${c.name} promotional products`}
                 loading="lazy"
+                decoding="async"
+                sizes="(max-width: 1024px) 50vw, 320px"
                 width={1200}
                 height={900}
                 className="absolute inset-0 size-full object-cover object-center transition-transform duration-[1200ms] ease-out group-hover:scale-110"
