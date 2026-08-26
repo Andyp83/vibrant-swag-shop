@@ -3,6 +3,7 @@ import { Menu } from "lucide-react";
 import { useState } from "react";
 import brandLockup from "@/assets/brand/see-see-bloom-lockup-light.png";
 import { DecorationMenu } from "@/components/site/DecorationMenu";
+import { ShortlistLink } from "@/components/site/ShortlistLink";
 
 
 const nav = [
@@ -46,6 +47,7 @@ export function SiteHeader() {
             </Link>
           ))}
           <DecorationMenu />
+          <ShortlistLink />
           <Link
             to="/portal"
             className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
@@ -86,6 +88,10 @@ export function SiteHeader() {
               {item.label}
             </Link>
           ))}
+          <ShortlistLink
+            onNavigate={() => setOpen(false)}
+            className="flex items-center gap-1.5 border-t border-border py-3 text-sm font-medium"
+          />
         </nav>
       )}
     </header>

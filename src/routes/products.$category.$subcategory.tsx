@@ -2,6 +2,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 
 import { Reveal } from "@/components/site/Reveal";
+import { FavoriteButton } from "@/components/site/FavoriteButton";
 import { borderAccentClass, softBgClass, spectrum, swatchClass, textClass } from "@/lib/catalog";
 import { catalogQueryOptions, type CmsCategory, type CmsSubcategory } from "@/lib/catalog-query";
 import type { CmsProduct } from "@/lib/catalog.functions";
@@ -128,17 +129,29 @@ function SubcategoryPage() {
                         <dd>{p.moq}</dd>
                       </div>
                     </dl>
-                    <Link
-                      to="/quote"
-                      search={{ product: p.name }}
-                      className="group mt-6 inline-flex items-center gap-1.5 text-sm font-semibold underline underline-offset-4"
-                    >
-                      Quote this item
-                      <ArrowRight
-                        className="size-3.5 transition-transform duration-300 group-hover:translate-x-1"
-                        aria-hidden="true"
+                    <div className="mt-6 flex flex-wrap items-center gap-3">
+                      <Link
+                        to="/quote"
+                        search={{ product: p.name }}
+                        className="group inline-flex items-center gap-1.5 text-sm font-semibold underline underline-offset-4"
+                      >
+                        Quote this item
+                        <ArrowRight
+                          className="size-3.5 transition-transform duration-300 group-hover:translate-x-1"
+                          aria-hidden="true"
+                        />
+                      </Link>
+                      <FavoriteButton
+                        item={{
+                          id: p.id,
+                          name: p.name,
+                          categoryName: `${category.name} — ${subcategory.name}`,
+                          categorySlug: category.slug,
+                          methods: p.methods,
+                          moq: p.moq,
+                        }}
                       />
-                    </Link>
+                    </div>
                   </article>
                 </Reveal>
               ))}

@@ -19,6 +19,7 @@ import { confirmQuoteRequest } from "@/lib/backoffice/quote-confirm.functions";
 import { decorations } from "@/lib/catalog";
 import { getArtworkSpec, fileExtension, isRaster } from "@/lib/artwork-specs";
 import { catalogQueryOptions } from "@/lib/catalog-query";
+import { useShortlist, shortlistSummary } from "@/lib/shortlist";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
@@ -26,12 +27,13 @@ import { Label } from "@/components/ui/label";
 export const Route = createFileRoute("/quote")({
   validateSearch: (
     search: Record<string, unknown>,
-  ): { product?: string; decoration?: string } => {
-    const out: { product?: string; decoration?: string } = {};
+  ): { product?: string; decoration?: string; shortlist?: boolean } => {
+    const out: { product?: string; decoration?: string; shortlist?: boolean } = {};
     if (typeof search["product"] === "string" && search["product"])
       out.product = search["product"] as string;
     if (typeof search["decoration"] === "string" && search["decoration"])
       out.decoration = search["decoration"] as string;
+    if (search["shortlist"] === true || search["shortlist"] === "true") out.shortlist = true;
     return out;
   },
   head: () => ({
@@ -95,6 +97,12 @@ function QuotePage() {
     : "";
   const categories = useQuery(catalogQueryOptions()).data ?? [];
   const sendConfirmation = useServerFn(confirmQuoteRequest);
+  const {
+    items: shortlist,
+    clear: clearShortlist,
+    remove: removeShortlisted,
+    update: updateShortlisted,
+  } = useShortlist();
   const [files, setFiles] = useState<File[]>([]);
 
   const [errors, setErrors] = useState<FieldErrors>({});
@@ -205,18 +213,24 @@ function QuotePage() {
 
       const values = parsed.data;
       const requestId = crypto.randomUUID();
+      const shortlistText =
+        shortlist.length > 0 ? `\n\nShortlisted items:\n${shortlistSummary(shortlist)}` : "";
+      const shortlistProducts = shortlist.map((item) => item.name).join(", ");
       const { error } = await supabase.from("quote_requests").insert({
         id: requestId,
         name: values.fullName,
         email: values.email,
         company: values.company || null,
         phone: values.phone || null,
-        product_interest: values.productInterest || null,
-        decoration: values.decorationMethod || null,
+        product_interest:
+          values.productInterest || (shortlistProducts ? shortlistProducts.slice(0, 200) : null),
+        decoration:
+          values.decorationMethod ||
+          (shortlist.find((item) => item.decoration)?.decoration ?? null),
         quantity: values.quantity ? Number(values.quantity) : null,
         required_by: values.deadline || null,
         budget: values.budget || null,
-        notes: values.brief,
+        notes: `${values.brief}${shortlistText}`,
         file_paths: paths,
       });
 
@@ -248,6 +262,7 @@ function QuotePage() {
 
       setDone(true);
       setFiles([]);
+      clearShortlist();
 
     } catch (error) {
       console.error("Quote submission failed", error);
@@ -337,6 +352,61 @@ function QuotePage() {
             {errors.password && <p className="text-xs text-destructive">{errors.password}</p>}
           </div>
         </fieldset>
+
+        {shortlist.length > 0 && (
+          <fieldset className="space-y-4 rounded-2xl border border-border bg-card p-6">
+            <legend className="display-type px-2 text-base">
+              Your shortlist ({shortlist.length})
+            </legend>
+            <p className="text-xs text-muted-foreground">
+              These favourites are included with your brief. Pick the decoration you'd prefer on
+              each one — you can fine-tune quantities on the{" "}
+              <Link to="/shortlist" className="underline underline-offset-4">
+                shortlist page
+              </Link>
+              .
+            </p>
+            <ul className="space-y-3">
+              {shortlist.map((item) => (
+                <li
+                  key={item.id}
+                  className="flex flex-wrap items-center gap-3 rounded-lg border border-border px-3 py-3"
+                >
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate text-sm font-semibold">{item.name}</p>
+                    <p className="text-xs text-muted-foreground">
+                      {item.categoryName}
+                      {item.quantity ? ` · qty ${item.quantity}` : ""}
+                    </p>
+                  </div>
+                  <select
+                    aria-label={`Favoured decoration for ${item.name}`}
+                    value={item.decoration}
+                    onChange={(e) => updateShortlisted(item.id, { decoration: e.target.value })}
+                    className="h-9 w-full rounded-md border border-input bg-background px-2 text-xs sm:w-56"
+                  >
+                    <option value="">Decoration — recommend one</option>
+                    {(item.methods.length > 0 ? item.methods : decorations.map((d) => d.name)).map(
+                      (m) => (
+                        <option key={m} value={m}>
+                          {m}
+                        </option>
+                      ),
+                    )}
+                  </select>
+                  <button
+                    type="button"
+                    onClick={() => removeShortlisted(item.id)}
+                    aria-label={`Remove ${item.name} from shortlist`}
+                    className="rounded-full p-1 text-muted-foreground hover:bg-accent"
+                  >
+                    <X className="size-4" aria-hidden="true" />
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </fieldset>
+        )}
 
 
         <fieldset className="space-y-5 rounded-2xl border border-border bg-card p-6">
