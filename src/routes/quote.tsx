@@ -207,18 +207,24 @@ function QuotePage() {
 
       const values = parsed.data;
       const requestId = crypto.randomUUID();
+      const shortlistText =
+        shortlist.length > 0 ? `\n\nShortlisted items:\n${shortlistSummary(shortlist)}` : "";
+      const shortlistProducts = shortlist.map((item) => item.name).join(", ");
       const { error } = await supabase.from("quote_requests").insert({
         id: requestId,
         name: values.fullName,
         email: values.email,
         company: values.company || null,
         phone: values.phone || null,
-        product_interest: values.productInterest || null,
-        decoration: values.decorationMethod || null,
+        product_interest:
+          values.productInterest || (shortlistProducts ? shortlistProducts.slice(0, 200) : null),
+        decoration:
+          values.decorationMethod ||
+          (shortlist.find((item) => item.decoration)?.decoration ?? null),
         quantity: values.quantity ? Number(values.quantity) : null,
         required_by: values.deadline || null,
         budget: values.budget || null,
-        notes: values.brief,
+        notes: `${values.brief}${shortlistText}`,
         file_paths: paths,
       });
 
