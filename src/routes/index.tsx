@@ -218,7 +218,7 @@ function Home() {
         />
       </Reveal>
 
-      {/* ---------- Colour-blocked category reel ---------- */}
+      {/* ---------- Colour-blocked branding category reel ---------- */}
       <section className="mx-auto max-w-6xl px-5 py-24">
         <Reveal className="flex flex-wrap items-end justify-between gap-4">
           <h2 className="display-type text-4xl sm:text-5xl">Branding by category</h2>
@@ -226,7 +226,7 @@ function Home() {
             to="/products"
             className="group inline-flex items-center gap-1.5 text-sm font-semibold underline underline-offset-4"
           >
-            See everything
+            See all branding categories
             <ArrowRight
               className="size-4 transition-transform duration-300 group-hover:translate-x-1"
               aria-hidden="true"
