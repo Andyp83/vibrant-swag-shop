@@ -2,6 +2,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 
 import { Reveal } from "@/components/site/Reveal";
+import { FavoriteButton } from "@/components/site/FavoriteButton";
 import { borderAccentClass, softBgClass, spectrum, swatchClass, textClass } from "@/lib/catalog";
 import { catalogQueryOptions, type CmsCategory, type CmsSubcategory } from "@/lib/catalog-query";
 import type { CmsProduct } from "@/lib/catalog.functions";
