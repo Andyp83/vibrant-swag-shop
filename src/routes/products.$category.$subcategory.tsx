@@ -27,11 +27,12 @@ export const Route = createFileRoute("/products/$category/$subcategory")({
         meta: [{ title: "Unavailable | See See Bloom" }, { name: "robots", content: "noindex" }],
       };
     }
-    const { category, subcategory } = loaderData;
+    const { category, subcategory, products } = loaderData;
     const title = `Branded ${subcategory.name} — ${category.name} | See See Bloom`;
     const description =
       subcategory.description ||
       `Custom branded ${subcategory.name.toLowerCase()} from our ${category.name.toLowerCase()} range — decorated with your logo, sourced to your budget and deadline.`;
+    const url = `https://seeseebloom.com.au/products/${category.slug}/${subcategory.slug}`;
     return {
       meta: [
         { title },
@@ -39,10 +40,54 @@ export const Route = createFileRoute("/products/$category/$subcategory")({
         { property: "og:title", content: title },
         { property: "og:description", content: description },
         { property: "og:type", content: "website" },
+        { property: "og:url", content: url },
         { name: "twitter:card", content: "summary_large_image" },
+      ],
+      links: [{ rel: "canonical", href: url }],
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "ItemList",
+            name: title,
+            description,
+            url,
+            numberOfItems: products.length,
+            itemListElement: products.map((product, index) => ({
+              "@type": "ListItem",
+              position: index + 1,
+              item: {
+                "@type": "Product",
+                name: product.name,
+                description: product.blurb || undefined,
+                category: `${category.name} / ${subcategory.name}`,
+                brand: { "@type": "Brand", name: "See See Bloom" },
+              },
+            })),
+          }),
+        },
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: "Products", item: "https://seeseebloom.com.au/products" },
+              {
+                "@type": "ListItem",
+                position: 2,
+                name: category.name,
+                item: `https://seeseebloom.com.au/products/${category.slug}`,
+              },
+              { "@type": "ListItem", position: 3, name: subcategory.name, item: url },
+            ],
+          }),
+        },
       ],
     };
   },
+
   notFoundComponent: SubcategoryNotFound,
   component: SubcategoryPage,
 });

@@ -33,15 +33,45 @@ export const Route = createFileRoute("/products/$category")({
     }
     const { category } = loaderData;
     const title = `${category.name} — Branded Merchandise | See See Bloom`;
+    const url = `https://seeseebloom.com.au/products/${category.slug}`;
     return {
       meta: [
         { title },
         { name: "description", content: category.description },
         { property: "og:title", content: title },
         { property: "og:description", content: category.description },
+        { property: "og:type", content: "website" },
+        { property: "og:url", content: url },
+        { name: "twitter:card", content: "summary_large_image" },
+      ],
+      links: [{ rel: "canonical", href: url }],
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "ItemList",
+            name: title,
+            description: category.description,
+            url,
+            numberOfItems: category.products.length,
+            itemListElement: category.products.map((product, index) => ({
+              "@type": "ListItem",
+              position: index + 1,
+              item: {
+                "@type": "Product",
+                name: product.name,
+                description: product.blurb || undefined,
+                category: category.name,
+                brand: { "@type": "Brand", name: "See See Bloom" },
+              },
+            })),
+          }),
+        },
       ],
     };
   },
+
   notFoundComponent: CategoryNotFound,
   errorComponent: CategoryLoadError,
   component: CategoryPage,

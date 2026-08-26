@@ -22,6 +22,7 @@ import { Route as ProcurementRouteImport } from './routes/procurement'
 import { Route as QuoteRouteImport } from './routes/quote'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as ShortlistRouteImport } from './routes/shortlist'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as StarPerformersRouteImport } from './routes/star-performers'
 import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
@@ -110,6 +111,11 @@ const ResetPasswordRoute = ResetPasswordRouteImport.update({
 const ShortlistRoute = ShortlistRouteImport.update({
   id: '/shortlist',
   path: '/shortlist',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const StarPerformersRoute = StarPerformersRouteImport.update({
@@ -264,6 +270,7 @@ export interface FileRoutesByFullPath {
   '/quote': typeof QuoteRoute
   '/reset-password': typeof ResetPasswordRoute
   '/shortlist': typeof ShortlistRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/star-performers': typeof StarPerformersRoute
   '/admin': typeof AuthenticatedAdminRouteRouteWithChildren
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
@@ -303,6 +310,7 @@ export interface FileRoutesByTo {
   '/quote': typeof QuoteRoute
   '/reset-password': typeof ResetPasswordRoute
   '/shortlist': typeof ShortlistRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/star-performers': typeof StarPerformersRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
@@ -343,6 +351,7 @@ export interface FileRoutesById {
   '/quote': typeof QuoteRoute
   '/reset-password': typeof ResetPasswordRoute
   '/shortlist': typeof ShortlistRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/star-performers': typeof StarPerformersRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRouteRouteWithChildren
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
@@ -384,6 +393,7 @@ export interface FileRouteTypes {
     | '/quote'
     | '/reset-password'
     | '/shortlist'
+    | '/sitemap.xml'
     | '/star-performers'
     | '/admin'
     | '/.mcp/list-tools'
@@ -423,6 +433,7 @@ export interface FileRouteTypes {
     | '/quote'
     | '/reset-password'
     | '/shortlist'
+    | '/sitemap.xml'
     | '/star-performers'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
@@ -462,6 +473,7 @@ export interface FileRouteTypes {
     | '/quote'
     | '/reset-password'
     | '/shortlist'
+    | '/sitemap.xml'
     | '/star-performers'
     | '/_authenticated/admin'
     | '/.mcp/list-tools'
@@ -503,6 +515,7 @@ export interface RootRouteChildren {
   QuoteRoute: typeof QuoteRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   ShortlistRoute: typeof ShortlistRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   StarPerformersRoute: typeof StarPerformersRoute
   Char91DotmcpChar93ListToolsRoute: typeof Char91DotmcpChar93ListToolsRoute
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
@@ -609,6 +622,13 @@ declare module '@tanstack/react-router' {
       path: '/shortlist'
       fullPath: '/shortlist'
       preLoaderRoute: typeof ShortlistRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/star-performers': {
@@ -857,6 +877,7 @@ const rootRouteChildren: RootRouteChildren = {
   QuoteRoute: QuoteRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   ShortlistRoute: ShortlistRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   StarPerformersRoute: StarPerformersRoute,
   Char91DotmcpChar93ListToolsRoute: Char91DotmcpChar93ListToolsRoute,
   Char91DotwellKnownChar93OauthProtectedResourceRoute:
