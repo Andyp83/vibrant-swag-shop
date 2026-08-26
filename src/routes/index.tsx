@@ -95,10 +95,14 @@ const faqs = [
 ];
 
 
+// Hampers & Gifting and Print sit outside the printed-merchandise spectrum
+const nonBrandingSlugs = ["hampers-gifting", "print"];
+
 const heroWords = ["Merch", "worth", "keeping"];
 
 function Home() {
-  const { data: categories } = useSuspenseQuery(catalogQueryOptions());
+  const { data: allCategories } = useSuspenseQuery(catalogQueryOptions());
+  const categories = allCategories.filter((c) => !nonBrandingSlugs.includes(c.slug));
 
   return (
     <div>
@@ -217,7 +221,7 @@ function Home() {
       {/* ---------- Colour-blocked category reel ---------- */}
       <section className="mx-auto max-w-6xl px-5 py-24">
         <Reveal className="flex flex-wrap items-end justify-between gap-4">
-          <h2 className="display-type text-4xl sm:text-5xl">Shop by category</h2>
+          <h2 className="display-type text-4xl sm:text-5xl">Branding by category</h2>
           <Link
             to="/products"
             className="group inline-flex items-center gap-1.5 text-sm font-semibold underline underline-offset-4"
