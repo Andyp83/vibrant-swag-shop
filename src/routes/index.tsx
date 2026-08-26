@@ -291,7 +291,9 @@ function Home() {
                   <img
                     src={c.image_url}
                     alt={`${c.name} promotional products`}
-                    loading="lazy"
+                    loading={i < 2 ? "eager" : "lazy"}
+                    decoding="async"
+                    sizes="(max-width: 640px) 100vw, 50vw"
                     width={1200}
                     height={900}
                     className="size-full object-cover object-center transition-transform duration-[900ms] ease-out group-hover:scale-110"
