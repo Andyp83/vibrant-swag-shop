@@ -26,12 +26,13 @@ import { Label } from "@/components/ui/label";
 export const Route = createFileRoute("/quote")({
   validateSearch: (
     search: Record<string, unknown>,
-  ): { product?: string; decoration?: string } => {
-    const out: { product?: string; decoration?: string } = {};
+  ): { product?: string; decoration?: string; shortlist?: boolean } => {
+    const out: { product?: string; decoration?: string; shortlist?: boolean } = {};
     if (typeof search["product"] === "string" && search["product"])
       out.product = search["product"] as string;
     if (typeof search["decoration"] === "string" && search["decoration"])
       out.decoration = search["decoration"] as string;
+    if (search["shortlist"] === true || search["shortlist"] === "true") out.shortlist = true;
     return out;
   },
   head: () => ({
