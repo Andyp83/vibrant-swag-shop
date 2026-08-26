@@ -56,7 +56,9 @@ function ProductsPage() {
                   <img
                     src={c.image_url}
                     alt={`${c.name} branded merchandise examples`}
-                    loading="lazy"
+                    loading={i < 2 ? "eager" : "lazy"}
+                    decoding="async"
+                    sizes="(max-width: 768px) 100vw, 50vw"
                     width={1200}
                     height={900}
                     className="size-full object-cover object-center transition-transform duration-[1100ms] ease-out group-hover:scale-110"
