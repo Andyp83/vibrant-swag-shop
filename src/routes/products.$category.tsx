@@ -7,6 +7,7 @@ import { categoryVideos } from "@/lib/videos";
 import { PlacementBanners } from "@/components/site/PlacementBanners";
 import { VideoStrip } from "@/components/site/VideoStrip";
 import { Reveal } from "@/components/site/Reveal";
+import { FavoriteButton } from "@/components/site/FavoriteButton";
 
 import { ProductFilters } from "@/components/site/ProductFilters";
 import {
