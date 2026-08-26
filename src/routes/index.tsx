@@ -1,10 +1,9 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { borderAccentClass, softBgClass, spectrum, swatchClass } from "@/lib/catalog";
 import { catalogQueryOptions } from "@/lib/catalog-query";
-import heroProducts from "@/assets/hero/hero-lineup-1862.webp.asset.json";
-import heroProductsSmall from "@/assets/hero/hero-lineup-1400.webp.asset.json";
+import { HeroCarousel } from "@/components/site/HeroCarousel";
 import { PlacementBanners } from "@/components/site/PlacementBanners";
 import { Reveal } from "@/components/site/Reveal";
 import { Marquee } from "@/components/site/Marquee";
@@ -97,95 +96,14 @@ const faqs = [
 
 // Hampers & Gifting and Print sit outside the printed-merchandise spectrum
 const nonBrandingSlugs = ["hampers-gifting", "print"];
-
-const heroWords = ["Merch", "worth", "keeping"];
-
 function Home() {
   const { data: allCategories } = useSuspenseQuery(catalogQueryOptions());
   const categories = allCategories.filter((c) => !nonBrandingSlugs.includes(c.slug));
 
   return (
     <div>
-      {/* ---------- Cinematic hero ---------- */}
-      <section className="relative isolate overflow-hidden border-b border-border bg-ink text-primary-foreground">
-        <div
-          className="spectrum-rays spectrum-rays-spin absolute left-1/2 top-1/2 -z-10 aspect-square w-[160vw] -translate-x-1/2 -translate-y-1/2 opacity-30 blur-[1px]"
-          aria-hidden="true"
-        />
-
-        <div className="mx-auto max-w-4xl px-5 pb-20 pt-24 text-center sm:pt-32 lg:pb-28 lg:pt-36">
-          <p className="hero-rise">
-            <span className="inline-flex items-center gap-2 rounded-full border border-white/25 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.35em]">
-              <Sparkles className="size-3.5" aria-hidden="true" />
-              Branded merchandise · Corporate gifts
-            </span>
-          </p>
-
-          <h1 className="display-type mx-auto mt-8 max-w-4xl text-6xl leading-[0.88] sm:text-8xl">
-            {heroWords.map((w, i) => (
-              <span
-                key={w}
-                className="hero-word mr-[0.25em]"
-                style={{ animationDelay: `${140 + i * 130}ms` }}
-              >
-                {w}
-              </span>
-            ))}
-          </h1>
-
-          <p
-            className="hero-rise mx-auto mt-7 max-w-xl text-lg text-primary-foreground/75"
-            style={{ animationDelay: "560ms" }}
-          >
-            See See Bloom sources, decorates and delivers promotional product in every colour of the
-            spectrum. Branded merchandise for brands worth remembering.
-          </p>
-
-          <div
-            className="hero-rise mt-10 flex flex-wrap items-center justify-center gap-3"
-            style={{ animationDelay: "680ms" }}
-          >
-            <Link
-              to="/products"
-              className="sweep group inline-flex items-center gap-2 rounded-full bg-primary-foreground px-8 py-3.5 text-sm font-semibold text-ink transition-transform duration-300 hover:scale-[1.04]"
-            >
-              Browse products
-              <ArrowRight
-                className="size-4 transition-transform duration-300 group-hover:translate-x-1"
-                aria-hidden="true"
-              />
-            </Link>
-            <Link
-              to="/quote"
-              className="inline-flex items-center gap-2 rounded-full border border-white/30 px-8 py-3.5 text-sm font-semibold transition-colors duration-300 hover:bg-white/10"
-            >
-              Get a quote
-            </Link>
-          </div>
-
-          <div
-            className="hero-rise relative -mx-3 mt-10 w-[calc(100%+1.5rem)] max-w-none sm:mx-auto sm:mt-14 sm:w-full sm:max-w-5xl sm:px-6"
-            style={{ animationDelay: "800ms" }}
-          >
-            <div className="hero-lineup-glow pointer-events-none absolute inset-0" aria-hidden="true" />
-            <img
-              src={heroProducts.url}
-              srcSet={`${heroProductsSmall.url} 1400w, ${heroProducts.url} 1862w`}
-              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 92vw, 1024px"
-              alt="Bright branded merchandise including drink bottles, caps, bags, notebooks and gift sets"
-              loading="eager"
-              fetchPriority="high"
-              decoding="async"
-              width={1862}
-              height={683}
-              className="hero-lineup relative h-auto w-full max-w-full object-contain"
-            />
-          </div>
-
-        </div>
-
-        <div className="spectrum-bar h-2 w-full" />
-      </section>
+      {/* ---------- Rotating hero: merch · print · gifting ---------- */}
+      <HeroCarousel />
 
       {/* ---------- Ticker ---------- */}
       <div className="border-b border-border bg-secondary py-4">
