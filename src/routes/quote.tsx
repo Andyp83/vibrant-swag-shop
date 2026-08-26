@@ -96,6 +96,7 @@ function QuotePage() {
     : "";
   const categories = useQuery(catalogQueryOptions()).data ?? [];
   const sendConfirmation = useServerFn(confirmQuoteRequest);
+  const { items: shortlist, clear: clearShortlist, remove: removeShortlisted } = useShortlist();
   const [files, setFiles] = useState<File[]>([]);
 
   const [errors, setErrors] = useState<FieldErrors>({});
