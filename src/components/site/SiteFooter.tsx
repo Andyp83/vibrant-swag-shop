@@ -96,18 +96,22 @@ export function SiteFooter() {
             Studio
           </p>
           <p className="mt-4 text-sm text-muted-foreground">
-            Mon–Fri, 8.30am–5pm
+            Melbourne, Australia
             <br />
-            hello@seesebloom.example
+            Mon–Fri, 8.30am–5pm AEST
+            <br />
+            hello@seeseebloom.com.au
             <br />
             Artwork studio replies within one business day.
+            <br />
+            Delivery Australia-wide.
           </p>
         </div>
       </div>
 
       <div className="border-t border-border px-5 py-6">
         <p className="mx-auto max-w-6xl text-xs text-muted-foreground">
-          © {new Date().getFullYear()} See See Bloom. Product imagery shown unbranded for illustration.
+          © {new Date().getFullYear()} See See Bloom · Australian owned and operated. All prices in Australian dollars (AUD) and exclude GST unless stated. Product imagery shown unbranded for illustration.
         </p>
       </div>
     </footer>
