@@ -138,7 +138,7 @@ export async function renderQuoteDocument(input: QuoteDocInput): Promise<string>
   if (input.setup_cents) totals.push(["Setup", input.setup_cents]);
   if (input.freight_cents) totals.push(["Freight", input.freight_cents]);
   if (input.discount_cents) totals.push(["Discount", -input.discount_cents]);
-  if (input.tax_cents) totals.push([`Tax (${input.tax_rate ?? 0}%)`, input.tax_cents]);
+  if (input.tax_cents) totals.push([`GST (${input.tax_rate ?? 0}%)`, input.tax_cents]);
   for (const [label, amount] of totals) {
     page.drawText(label, { x: 380, y, size: 10, font, color: muted });
     page.drawText(money(amount, input.currency), { x: 484, y, size: 10, font, color: ink });

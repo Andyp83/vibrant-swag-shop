@@ -113,7 +113,7 @@ function SharedQuotePage() {
         ) : null}
         {quote.tax_cents ? (
           <Row
-            label={`Tax (${quote.tax_rate}%)`}
+            label={`GST (${quote.tax_rate}%)`}
             value={formatMoney(quote.tax_cents, quote.currency)}
           />
         ) : null}

@@ -283,9 +283,9 @@ function ProcurementPage() {
             />
             <Field label="Needed by" name="deadline" type="date" error={errors.deadline} />
             <Field
-              label="Target price"
+              label="Target price (AUD)"
               name="budget"
-              placeholder="e.g. $8 per unit"
+              placeholder="e.g. A$8 per unit"
               error={errors.budget}
             />
             <Field

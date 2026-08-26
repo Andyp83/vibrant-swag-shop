@@ -552,7 +552,7 @@ function QuotesPage() {
                   onChange={(value) => setDraft({ ...draft, discount: value })}
                 />
                 <div className="space-y-2">
-                  <Label>Tax %</Label>
+                  <Label>GST %</Label>
                   <Input
                     value={draft.tax_rate}
                     onChange={(event) => setDraft({ ...draft, tax_rate: event.target.value })}
@@ -580,7 +580,7 @@ function QuotesPage() {
               {totals ? (
                 <div className="rounded-xl bg-muted/50 p-4 text-sm">
                   <p>Subtotal {formatMoney(totals.subtotal_cents, draft.currency)}</p>
-                  <p>Tax {formatMoney(totals.tax_cents, draft.currency)}</p>
+                  <p>GST {formatMoney(totals.tax_cents, draft.currency)}</p>
                   <p className="mt-1 text-lg font-semibold">
                     Total {formatMoney(totals.total_cents, draft.currency)}
                   </p>

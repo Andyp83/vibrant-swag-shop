@@ -460,9 +460,9 @@ function QuotePage() {
             />
             <Field label="Needed by" name="deadline" type="date" error={errors.deadline} />
             <Field
-              label="Budget guide"
+              label="Budget guide (AUD)"
               name="budget"
-              placeholder="e.g. £12 per pack"
+              placeholder="e.g. A$12 per pack"
               error={errors.budget}
             />
           </div>
