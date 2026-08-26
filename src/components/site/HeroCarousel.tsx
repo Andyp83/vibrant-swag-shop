@@ -23,7 +23,7 @@ type Slide = {
   bodyClass: string;
   primary: { to: string; label: string; className: string };
   secondary: { to: string; label: string; className: string };
-  image: { src: string; srcSet: string; sizes: string; width: number; height: number; alt: string };
+  image: { src: string; srcSet?: string; sizes: string; width: number; height: number; alt: string };
   imageClass: string;
   imageWrapClass: string;
   accent: string;
@@ -85,11 +85,10 @@ const slides: Slide[] = [
       className: "border border-ink/25 hover:bg-ink/5",
     },
     image: {
-      src: heroPrint.url,
-      srcSet: `${heroPrintSmall.url} 1000w, ${heroPrint.url} 1536w`,
+      src: heroPrint,
       sizes: "(max-width: 640px) 100vw, (max-width: 1024px) 92vw, 1024px",
       width: 1536,
-      height: 560,
+      height: 576,
       alt: "Printed brochures, business cards, posters, stickers, bags and colour swatches in cyan, magenta and yellow",
     },
     imageClass: "hero-lineup-light",
@@ -118,16 +117,14 @@ const slides: Slide[] = [
       className: "border border-white/25 hover:bg-white/10",
     },
     image: {
-      src: heroGifting.url,
-      srcSet: `${heroGiftingSmall.url} 1000w, ${heroGifting.url} 1536w`,
+      src: heroGifting,
       sizes: "(max-width: 640px) 100vw, (max-width: 1024px) 92vw, 1024px",
       width: 1536,
-      height: 560,
-      alt: "Corporate gift hampers, wine bag, candle, chocolates, keepsake box, leather notebook and welcome tote",
+      height: 576,
+      alt: "Corporate gift hampers, wine bag, candle, chocolates, keepsake box and leather notebook",
     },
     imageClass: "hero-lineup-warm",
-    imageWrapClass:
-      "overflow-hidden rounded-3xl bg-primary-foreground px-4 py-6 shadow-2xl sm:px-8 sm:py-8",
+    imageWrapClass: "",
     accent: "hero-accent-gift",
   },
 ];
