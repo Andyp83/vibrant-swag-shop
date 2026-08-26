@@ -46,6 +46,7 @@ export function SiteHeader() {
             </Link>
           ))}
           <DecorationMenu />
+          <ShortlistLink />
           <Link
             to="/portal"
             className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
