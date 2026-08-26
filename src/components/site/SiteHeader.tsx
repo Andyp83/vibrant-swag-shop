@@ -47,6 +47,14 @@ export function SiteHeader() {
               {item.label}
             </Link>
           ))}
+          <Link
+            to="/products/$category"
+            params={{ category: "hampers-gifting" }}
+            className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+            activeProps={{ className: "text-foreground" }}
+          >
+            Gifting
+          </Link>
           <DecorationMenu />
           <ShortlistLink />
           <Link
@@ -89,6 +97,14 @@ export function SiteHeader() {
               {item.label}
             </Link>
           ))}
+          <Link
+            to="/products/$category"
+            params={{ category: "hampers-gifting" }}
+            onClick={() => setOpen(false)}
+            className="block border-b border-border py-3 text-sm font-medium"
+          >
+            Gifting
+          </Link>
           <ShortlistLink
             onNavigate={() => setOpen(false)}
             className="flex items-center gap-1.5 border-t border-border py-3 text-sm font-medium"

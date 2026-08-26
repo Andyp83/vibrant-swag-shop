@@ -65,6 +65,15 @@ export function SiteFooter() {
               </Link>
             </li>
             <li>
+              <Link
+                to="/products/$category"
+                params={{ category: "hampers-gifting" }}
+                className="text-muted-foreground hover:text-foreground"
+              >
+                Hampers &amp; gifting
+              </Link>
+            </li>
+            <li>
               <Link to="/procurement" className="text-muted-foreground hover:text-foreground">
                 Custom sourcing
               </Link>
