@@ -27,6 +27,7 @@ type Slide = {
   secondary: { to: string; label: string; className: string };
   image: { src: string; srcSet: string; sizes: string; width: number; height: number; alt: string };
   imageClass: string;
+  imageWrapClass: string;
   accent: string;
 };
 
@@ -61,6 +62,7 @@ const slides: Slide[] = [
       alt: "Bright branded merchandise including drink bottles, caps, bags, notebooks and gift sets",
     },
     imageClass: "hero-lineup",
+    imageWrapClass: "",
     accent: "spectrum-bar",
   },
   {
@@ -93,6 +95,7 @@ const slides: Slide[] = [
       alt: "Printed brochures, business cards, posters, stickers, bags and colour swatches in cyan, magenta and yellow",
     },
     imageClass: "hero-lineup-light",
+    imageWrapClass: "",
     accent: "hero-accent-print",
   },
   {
@@ -125,6 +128,8 @@ const slides: Slide[] = [
       alt: "Corporate gift hampers, wine bag, candle, chocolates, keepsake box, leather notebook and welcome tote",
     },
     imageClass: "hero-lineup-warm",
+    imageWrapClass:
+      "overflow-hidden rounded-3xl bg-primary-foreground px-4 py-6 shadow-2xl sm:px-8 sm:py-8",
     accent: "hero-accent-gift",
   },
 ];
@@ -265,6 +270,7 @@ export function HeroCarousel() {
                     aria-hidden="true"
                   />
                 )}
+                <div className={slide.imageWrapClass}>
                 <img
                   src={slide.image.src}
                   srcSet={slide.image.srcSet}
@@ -277,6 +283,7 @@ export function HeroCarousel() {
                   height={slide.image.height}
                   className={`relative h-auto w-full max-w-full object-contain ${slide.imageClass}`}
                 />
+                </div>
               </div>
             </div>
           </div>

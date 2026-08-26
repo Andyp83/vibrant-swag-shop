@@ -519,7 +519,7 @@
   filter: saturate(1.08) contrast(1.06) brightness(1.02)
     drop-shadow(0 10px 18px color-mix(in oklab, var(--ink) 55%, transparent))
     drop-shadow(0 30px 48px color-mix(in oklab, var(--ink) 40%, transparent));
-  mix-blend-mode: screen;
+  mix-blend-mode: multiply;
 }
 
 @keyframes bb-word-in {
