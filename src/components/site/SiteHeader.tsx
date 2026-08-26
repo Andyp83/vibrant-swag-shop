@@ -88,6 +88,10 @@ export function SiteHeader() {
               {item.label}
             </Link>
           ))}
+          <ShortlistLink
+            onNavigate={() => setOpen(false)}
+            className="flex items-center gap-1.5 border-t border-border py-3 text-sm font-medium"
+          />
         </nav>
       )}
     </header>
