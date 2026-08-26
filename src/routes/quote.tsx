@@ -256,6 +256,7 @@ function QuotePage() {
 
       setDone(true);
       setFiles([]);
+      clearShortlist();
 
     } catch (error) {
       console.error("Quote submission failed", error);
