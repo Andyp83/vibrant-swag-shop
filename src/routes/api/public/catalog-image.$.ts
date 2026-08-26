@@ -21,7 +21,7 @@ export const Route = createFileRoute("/api/public/catalog-image/$")({
         return new Response(await data.arrayBuffer(), {
           headers: {
             "content-type": data.type || "application/octet-stream",
-            "cache-control": "public, max-age=300, s-maxage=86400",
+            "cache-control": "public, max-age=31536000, s-maxage=31536000, immutable",
           },
         });
       },
