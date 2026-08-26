@@ -96,9 +96,6 @@ const faqs = [
 
 // Hampers & Gifting and Print sit outside the printed-merchandise spectrum
 const nonBrandingSlugs = ["hampers-gifting", "print"];
-
-const heroWords = ["Merch", "worth", "keeping"];
-
 function Home() {
   const { data: allCategories } = useSuspenseQuery(catalogQueryOptions());
   const categories = allCategories.filter((c) => !nonBrandingSlugs.includes(c.slug));
