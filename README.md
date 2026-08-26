@@ -1,14 +1,18 @@
-# Welcome to your Lovable project
+# See See Bloom - Merch worth keeping
+
+Create a website specialising in branded merchandising and corporate gifts. Colour palette should be bright and colourful like in the image. Website should have examples of branded merchandise in different categories. A page of different decoration options. A way for clients to upload logos and designs, and an quote request form
 
 This project was built with [Lovable](https://lovable.dev).
 
+**Live app**: https://vibrant-swag-shop.lovable.app
+
 ## Build with Lovable
 
-Open your project in the [Lovable editor](https://lovable.dev) and keep building.
+Continue developing this project in the [Lovable editor](https://lovable.dev/projects/9e177bc1-ac79-43c5-b4d6-0cb7b2342cf8).
 
 - **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: connect the project to GitHub and every change made in Lovable is committed straight to your repository.
-- **Full ownership**: this code is yours. Push to your repository and your changes sync back into Lovable, ready for your next prompt.
+- **Stay in sync**: every change made in Lovable is committed straight to this repository.
+- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
 
 ## Development
 
@@ -20,10 +24,3 @@ cd <repository-name>
 npm i
 npm run dev
 ```
-
-## Built with
-
-- TanStack Start
-- TypeScript
-- React
-- Tailwind CSS
