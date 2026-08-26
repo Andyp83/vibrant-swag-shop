@@ -65,6 +65,11 @@ export function SiteFooter() {
               </Link>
             </li>
             <li>
+              <Link to="/procurement" className="text-muted-foreground hover:text-foreground">
+                Custom sourcing
+              </Link>
+            </li>
+            <li>
               <Link to="/catalogues" className="text-muted-foreground hover:text-foreground">
                 Catalogues
               </Link>
