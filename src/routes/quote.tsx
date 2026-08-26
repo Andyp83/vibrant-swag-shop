@@ -19,6 +19,7 @@ import { confirmQuoteRequest } from "@/lib/backoffice/quote-confirm.functions";
 import { decorations } from "@/lib/catalog";
 import { getArtworkSpec, fileExtension, isRaster } from "@/lib/artwork-specs";
 import { catalogQueryOptions } from "@/lib/catalog-query";
+import { useShortlist, shortlistSummary } from "@/lib/shortlist";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
@@ -96,7 +97,12 @@ function QuotePage() {
     : "";
   const categories = useQuery(catalogQueryOptions()).data ?? [];
   const sendConfirmation = useServerFn(confirmQuoteRequest);
-  const { items: shortlist, clear: clearShortlist, remove: removeShortlisted } = useShortlist();
+  const {
+    items: shortlist,
+    clear: clearShortlist,
+    remove: removeShortlisted,
+    update: updateShortlisted,
+  } = useShortlist();
   const [files, setFiles] = useState<File[]>([]);
 
   const [errors, setErrors] = useState<FieldErrors>({});
