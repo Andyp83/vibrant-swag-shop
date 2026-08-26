@@ -259,13 +259,12 @@ export function HeroCarousel() {
                 className="hero-rise relative -mx-3 mt-10 w-[calc(100%+1.5rem)] max-w-none sm:mx-auto sm:mt-12 sm:w-full sm:max-w-5xl sm:px-6"
                 style={{ animationDelay: "760ms" }}
               >
-                {slide.id === "merch" && (
+                {slide.id !== "print" && (
                   <div
                     className="hero-lineup-glow pointer-events-none absolute inset-0"
                     aria-hidden="true"
                   />
                 )}
-                <div className={slide.imageWrapClass}>
                 <img
                   src={slide.image.src}
                   srcSet={slide.image.srcSet}
@@ -278,7 +277,6 @@ export function HeroCarousel() {
                   height={slide.image.height}
                   className={`relative h-auto w-full max-w-full object-contain ${slide.imageClass}`}
                 />
-                </div>
               </div>
             </div>
           </div>
