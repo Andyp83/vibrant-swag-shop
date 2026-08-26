@@ -6,10 +6,8 @@ import type { LucideIcon } from "lucide-react";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import heroMerch from "@/assets/hero/hero-lineup-1862.webp.asset.json";
 import heroMerchSmall from "@/assets/hero/hero-lineup-1400.webp.asset.json";
-import heroPrint from "@/assets/hero/hero-print-1536.webp.asset.json";
-import heroPrintSmall from "@/assets/hero/hero-print-1000.webp.asset.json";
-import heroGifting from "@/assets/hero/hero-gifting-1536.webp.asset.json";
-import heroGiftingSmall from "@/assets/hero/hero-gifting-1000.webp.asset.json";
+import heroPrint from "@/assets/hero/hero-print-cut.png";
+import heroGifting from "@/assets/hero/hero-gifting-cut.png";
 
 type Slide = {
   id: string;
@@ -25,7 +23,7 @@ type Slide = {
   bodyClass: string;
   primary: { to: string; label: string; className: string };
   secondary: { to: string; label: string; className: string };
-  image: { src: string; srcSet: string; sizes: string; width: number; height: number; alt: string };
+  image: { src: string; srcSet?: string; sizes: string; width: number; height: number; alt: string };
   imageClass: string;
   imageWrapClass: string;
   accent: string;
@@ -87,11 +85,10 @@ const slides: Slide[] = [
       className: "border border-ink/25 hover:bg-ink/5",
     },
     image: {
-      src: heroPrint.url,
-      srcSet: `${heroPrintSmall.url} 1000w, ${heroPrint.url} 1536w`,
+      src: heroPrint,
       sizes: "(max-width: 640px) 100vw, (max-width: 1024px) 92vw, 1024px",
       width: 1536,
-      height: 560,
+      height: 576,
       alt: "Printed brochures, business cards, posters, stickers, bags and colour swatches in cyan, magenta and yellow",
     },
     imageClass: "hero-lineup-light",
@@ -120,16 +117,14 @@ const slides: Slide[] = [
       className: "border border-white/25 hover:bg-white/10",
     },
     image: {
-      src: heroGifting.url,
-      srcSet: `${heroGiftingSmall.url} 1000w, ${heroGifting.url} 1536w`,
+      src: heroGifting,
       sizes: "(max-width: 640px) 100vw, (max-width: 1024px) 92vw, 1024px",
       width: 1536,
-      height: 560,
-      alt: "Corporate gift hampers, wine bag, candle, chocolates, keepsake box, leather notebook and welcome tote",
+      height: 576,
+      alt: "Corporate gift hampers, wine bag, candle, chocolates, keepsake box and leather notebook",
     },
     imageClass: "hero-lineup-warm",
-    imageWrapClass:
-      "overflow-hidden rounded-3xl bg-primary-foreground px-4 py-6 shadow-2xl sm:px-8 sm:py-8",
+    imageWrapClass: "",
     accent: "hero-accent-gift",
   },
 ];
@@ -264,13 +259,12 @@ export function HeroCarousel() {
                 className="hero-rise relative -mx-3 mt-10 w-[calc(100%+1.5rem)] max-w-none sm:mx-auto sm:mt-12 sm:w-full sm:max-w-5xl sm:px-6"
                 style={{ animationDelay: "760ms" }}
               >
-                {slide.id === "merch" && (
+                {slide.id !== "print" && (
                   <div
                     className="hero-lineup-glow pointer-events-none absolute inset-0"
                     aria-hidden="true"
                   />
                 )}
-                <div className={slide.imageWrapClass}>
                 <img
                   src={slide.image.src}
                   srcSet={slide.image.srcSet}
@@ -283,7 +277,6 @@ export function HeroCarousel() {
                   height={slide.image.height}
                   className={`relative h-auto w-full max-w-full object-contain ${slide.imageClass}`}
                 />
-                </div>
               </div>
             </div>
           </div>
