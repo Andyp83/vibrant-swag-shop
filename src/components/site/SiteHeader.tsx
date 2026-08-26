@@ -3,6 +3,7 @@ import { Menu } from "lucide-react";
 import { useState } from "react";
 import brandLockup from "@/assets/brand/see-see-bloom-lockup-light.png";
 import { DecorationMenu } from "@/components/site/DecorationMenu";
+import { ShortlistLink } from "@/components/site/ShortlistLink";
 
 
 const nav = [
