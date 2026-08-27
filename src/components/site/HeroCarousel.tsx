@@ -4,8 +4,8 @@ import { ArrowRight, ChevronLeft, ChevronRight, Gift, Printer, Sparkles } from "
 import type { LucideIcon } from "lucide-react";
 
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
-import heroMerch from "@/assets/hero/hero-lineup-1862.webp.asset.json";
-import heroMerchSmall from "@/assets/hero/hero-lineup-1400.webp.asset.json";
+import heroMerch from "@/assets/hero/hero-lineup-1862.png";
+import heroMerchSmall from "@/assets/hero/hero-lineup-1400.png";
 import heroPrint from "@/assets/hero/hero-print-cut.png";
 import heroGifting from "@/assets/hero/hero-gifting-cut.png";
 
@@ -50,8 +50,8 @@ const slides: Slide[] = [
       className: "border border-white/30 hover:bg-white/10",
     },
     image: {
-      src: heroMerch.url,
-      srcSet: `${heroMerchSmall.url} 1400w, ${heroMerch.url} 1862w`,
+      src: heroMerch,
+      srcSet: `${heroMerchSmall} 1400w, ${heroMerch} 1862w`,
       sizes: "(max-width: 640px) 100vw, (max-width: 1024px) 92vw, 1024px",
       width: 1862,
       height: 683,
@@ -134,7 +134,7 @@ export const heroPreloadLinks = [
   {
     rel: "preload",
     as: "image",
-    href: heroMerch.url,
+    href: heroMerch,
     imageSrcSet: slides[0]!.image.srcSet,
     imageSizes: slides[0]!.image.sizes,
     fetchPriority: "high",
