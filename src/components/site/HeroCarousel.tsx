@@ -25,7 +25,6 @@ type Slide = {
   secondary: { to: string; label: string; className: string };
   image: { src: string; srcSet?: string; sizes: string; width: number; height: number; alt: string };
   imageClass: string;
-  imageWrapClass: string;
   accent: string;
 };
 
@@ -59,7 +58,6 @@ const slides: Slide[] = [
       alt: "Bright branded merchandise including drink bottles, caps, bags, notebooks and gift sets",
     },
     imageClass: "hero-lineup",
-    imageWrapClass: "",
     accent: "spectrum-bar",
   },
   {
@@ -91,7 +89,6 @@ const slides: Slide[] = [
       alt: "Printed brochures, business cards, posters, stickers, bags and colour swatches in cyan, magenta and yellow",
     },
     imageClass: "hero-lineup-light",
-    imageWrapClass: "",
     accent: "hero-accent-print",
   },
   {
@@ -123,7 +120,6 @@ const slides: Slide[] = [
       alt: "Corporate gift hampers, wine bag, candle, chocolates, keepsake box and leather notebook",
     },
     imageClass: "hero-lineup-warm",
-    imageWrapClass: "",
     accent: "hero-accent-gift",
   },
 ];
