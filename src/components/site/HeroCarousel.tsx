@@ -4,8 +4,8 @@ import { ArrowRight, ChevronLeft, ChevronRight, Gift, Printer, Sparkles } from "
 import type { LucideIcon } from "lucide-react";
 
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
-import heroMerch from "@/assets/hero/hero-lineup-1862.webp.asset.json";
-import heroMerchSmall from "@/assets/hero/hero-lineup-1400.webp.asset.json";
+import heroMerch from "@/assets/hero/hero-lineup-1862.png";
+import heroMerchSmall from "@/assets/hero/hero-lineup-1400.png";
 import heroPrint from "@/assets/hero/hero-print-cut.png";
 import heroGifting from "@/assets/hero/hero-gifting-cut.png";
 
