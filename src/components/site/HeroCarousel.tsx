@@ -25,7 +25,6 @@ type Slide = {
   secondary: { to: string; label: string; className: string };
   image: { src: string; srcSet?: string; sizes: string; width: number; height: number; alt: string };
   imageClass: string;
-  imageWrapClass: string;
   accent: string;
 };
 
@@ -59,7 +58,6 @@ const slides: Slide[] = [
       alt: "Bright branded merchandise including drink bottles, caps, bags, notebooks and gift sets",
     },
     imageClass: "hero-lineup",
-    imageWrapClass: "",
     accent: "spectrum-bar",
   },
   {
@@ -91,7 +89,6 @@ const slides: Slide[] = [
       alt: "Printed brochures, business cards, posters, stickers, bags and colour swatches in cyan, magenta and yellow",
     },
     imageClass: "hero-lineup-light",
-    imageWrapClass: "",
     accent: "hero-accent-print",
   },
   {
@@ -123,12 +120,29 @@ const slides: Slide[] = [
       alt: "Corporate gift hampers, wine bag, candle, chocolates, keepsake box and leather notebook",
     },
     imageClass: "hero-lineup-warm",
-    imageWrapClass: "",
     accent: "hero-accent-gift",
   },
 ];
 
 const INTERVAL = 7000;
+
+/**
+ * Head links for the homepage: preload the first (LCP) hero image at high
+ * priority and warm the other two slides so the rotation never fetches mid-tick.
+ */
+export const heroPreloadLinks = [
+  {
+    rel: "preload",
+    as: "image",
+    href: heroMerch.url,
+    imageSrcSet: slides[0]!.image.srcSet,
+    imageSizes: slides[0]!.image.sizes,
+    fetchPriority: "high",
+  },
+  { rel: "preload", as: "image", href: heroPrint, fetchPriority: "low" },
+  { rel: "preload", as: "image", href: heroGifting, fetchPriority: "low" },
+] as const;
+
 
 export function HeroCarousel() {
   const reduced = useReducedMotion();
@@ -278,13 +292,16 @@ export function HeroCarousel() {
                   srcSet={slide.image.srcSet}
                   sizes={slide.image.sizes}
                   alt={slide.image.alt}
-                  loading={i === 0 ? "eager" : "lazy"}
+                  // All three slides load up front (3 images, one of which is the
+                  // LCP) so ticking worlds never waits on a lazy fetch.
+                  loading="eager"
                   fetchPriority={i === 0 ? "high" : "low"}
                   decoding="async"
                   width={slide.image.width}
                   height={slide.image.height}
                   className={`relative h-auto w-full max-w-full object-contain ${slide.imageClass}`}
                 />
+
               </div>
             </div>
           </div>

@@ -3,7 +3,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import { borderAccentClass, softBgClass, spectrum, swatchClass } from "@/lib/catalog";
 import { catalogQueryOptions } from "@/lib/catalog-query";
-import { HeroCarousel } from "@/components/site/HeroCarousel";
+import { HeroCarousel, heroPreloadLinks } from "@/components/site/HeroCarousel";
 import { PlacementBanners } from "@/components/site/PlacementBanners";
 import { Reveal } from "@/components/site/Reveal";
 import { Marquee } from "@/components/site/Marquee";
@@ -33,6 +33,7 @@ export const Route = createFileRoute("/")({
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [...heroPreloadLinks],
   }),
   component: Home,
 });
