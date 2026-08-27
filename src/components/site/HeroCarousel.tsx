@@ -86,7 +86,7 @@ const slides: Slide[] = [
       sizes: "(max-width: 640px) 100vw, (max-width: 1024px) 92vw, 1024px",
       width: 1536,
       height: 576,
-      alt: "Printed brochures, business cards, posters, stickers, bags and colour swatches in cyan, magenta and yellow",
+      alt: "Printed business cards, flyers, posters, trifold brochures, presentation folders, vinyl banners and pull-up banners in cyan, magenta, yellow and black",
     },
     imageClass: "hero-lineup-light",
     accent: "hero-accent-print",
