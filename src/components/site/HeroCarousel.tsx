@@ -50,8 +50,8 @@ const slides: Slide[] = [
       className: "border border-white/30 hover:bg-white/10",
     },
     image: {
-      src: heroMerch.url,
-      srcSet: `${heroMerchSmall.url} 1400w, ${heroMerch.url} 1862w`,
+      src: heroMerch,
+      srcSet: `${heroMerchSmall} 1400w, ${heroMerch} 1862w`,
       sizes: "(max-width: 640px) 100vw, (max-width: 1024px) 92vw, 1024px",
       width: 1862,
       height: 683,
@@ -134,7 +134,7 @@ export const heroPreloadLinks = [
   {
     rel: "preload",
     as: "image",
-    href: heroMerch.url,
+    href: heroMerch,
     imageSrcSet: slides[0]!.image.srcSet,
     imageSizes: slides[0]!.image.sizes,
     fetchPriority: "high",
