@@ -173,12 +173,6 @@ export function HeroCarousel() {
         if (e.key === "ArrowLeft") go(index - 1);
       }}
     >
-      {/* Persistent spectrum rays: one continuous spin across every slide. */}
-      <div
-        className="hero-rays-layer spectrum-rays spectrum-rays-spin z-[2]"
-        aria-hidden="true"
-      />
-
       {slides.map((slide, i) => {
         const isActive = i === index;
         const Icon = slide.icon;
@@ -194,6 +188,12 @@ export function HeroCarousel() {
               isActive ? "hero-slide-active" : "hero-slide-idle"
             }`}
           >
+            {/* Rays are mounted on every slide from first paint, so the spin is
+                continuous and in sync as the hero ticks between worlds. */}
+            <div
+              className="hero-rays-layer spectrum-rays spectrum-rays-spin -z-10"
+              aria-hidden="true"
+            />
             {slide.backdrop ? (
               <div className={`-z-10 ${slide.backdrop}`} aria-hidden="true" />
             ) : null}

@@ -465,17 +465,18 @@
     mix-blend-mode 0s;
 }
 
-.hero-carousel[data-world="merch"] {
+.hero-world-merch {
   --hero-rays-opacity: 0.3;
   --hero-rays-blend: normal;
 }
 
-.hero-carousel[data-world="print"] {
+.hero-world-print,
+.hero-world-print .hero-rays-layer {
   --hero-rays-opacity: 0.28;
   --hero-rays-blend: multiply;
 }
 
-.hero-carousel[data-world="gifting"] {
+.hero-world-gift {
   --hero-rays-opacity: 0.4;
   --hero-rays-blend: screen;
 }
