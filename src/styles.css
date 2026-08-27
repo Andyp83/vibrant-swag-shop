@@ -470,8 +470,7 @@
   --hero-rays-blend: normal;
 }
 
-.hero-world-print,
-.hero-world-print .hero-rays-layer {
+.hero-world-print {
   --hero-rays-opacity: 0.28;
   --hero-rays-blend: multiply;
 }
