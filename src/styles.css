@@ -471,12 +471,12 @@
 }
 
 .hero-world-print {
-  --hero-rays-opacity: 0.28;
+  --hero-rays-opacity: 0.14;
   --hero-rays-blend: multiply;
 }
 
 .hero-world-gift {
-  --hero-rays-opacity: 0.4;
+  --hero-rays-opacity: 0.32;
   --hero-rays-blend: screen;
 }
 
