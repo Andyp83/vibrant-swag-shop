@@ -386,6 +386,7 @@
    and never muddies the text above it. */
 .hero-lineup {
   filter: saturate(1.18) contrast(1.12) brightness(1.04)
+    drop-shadow(0 0 0.6px color-mix(in oklab, var(--ink) 45%, transparent))
     drop-shadow(0 2px 3px color-mix(in oklab, var(--ink) 55%, transparent))
     drop-shadow(0 8px 12px color-mix(in oklab, var(--ink) 45%, transparent));
 }
