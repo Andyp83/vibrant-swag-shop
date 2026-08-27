@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Request Quote | Mini Merch</title>
+  <meta name="description" content="Request a branded merchandise quote.">
+  <link rel="stylesheet" href="/assets/styles.css">
+  
+</head>
+<body>
+  
+    <header class="topbar">
+      <a class="brand" href="/index.html">
+        <span class="brand-mark"></span>
+        <span>Mini Merch</span>
+      </a>
+      <nav aria-label="Primary">
+        <a href="/catalogue.html">Catalogue</a>
+        <a href="/quote.html">Request Quote</a>
+      </nav>
+    </header>
+    
+  
+    <main class="quote-page">
+      <h1>Request Quote</h1>
+      <form action="mailto:hello@example.com" method="post" enctype="text/plain">
+        <label>Name<input name="name" autocomplete="name"></label>
+        <label>Business or organisation<input name="business" autocomplete="organization"></label>
+        <label>Email<input name="email" type="email" autocomplete="email"></label>
+        <label>Phone<input name="phone" autocomplete="tel"></label>
+        <label>Product or PLU<input name="product" id="product"></label>
+        <label>Quantity<input name="quantity" inputmode="numeric"></label>
+        <label>Deadline<input name="deadline" type="date"></label>
+        <label>Notes<textarea name="notes" rows="5"></textarea></label>
+        <button type="submit">Send Quote Request</button>
+      </form>
+    </main>
+    <script>
+      const params = new URLSearchParams(location.search);
+      const product = params.get('product');
+      if (product) document.getElementById('product').value = product;
+    </script>
+    
+  
+</body>
+</html>
