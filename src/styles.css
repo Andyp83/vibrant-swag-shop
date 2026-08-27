@@ -447,8 +447,8 @@
   clip-path: inset(0 0 12% 0);
 }
 
-/* The spectrum rays live at carousel level so the spin never restarts and
-   carries through every colour world. */
+/* Spectrum rays sit in every slide and are mounted from first paint, so the
+   slow spin runs continuously and stays in sync across all three worlds. */
 .hero-rays-layer {
   position: absolute;
   left: 50%;
