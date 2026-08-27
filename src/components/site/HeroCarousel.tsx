@@ -130,6 +130,24 @@ const slides: Slide[] = [
 
 const INTERVAL = 7000;
 
+/**
+ * Head links for the homepage: preload the first (LCP) hero image at high
+ * priority and warm the other two slides so the rotation never fetches mid-tick.
+ */
+export const heroPreloadLinks = [
+  {
+    rel: "preload",
+    as: "image",
+    href: heroMerch.url,
+    imageSrcSet: slides[0]!.image.srcSet,
+    imageSizes: slides[0]!.image.sizes,
+    fetchPriority: "high",
+  },
+  { rel: "preload", as: "image", href: heroPrint, fetchPriority: "low" },
+  { rel: "preload", as: "image", href: heroGifting, fetchPriority: "low" },
+] as const;
+
+
 export function HeroCarousel() {
   const reduced = useReducedMotion();
   const [index, setIndex] = useState(0);
