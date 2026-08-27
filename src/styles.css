@@ -553,9 +553,12 @@
   );
 }
 
-/* Grounded product shadows for the light print world */
+/* Grounded product shadows for the light print world.
+   The first hairline drop-shadow acts as an outline so anti-aliased cutout
+   edges read as a clean silhouette instead of a halo. */
 .hero-lineup-light {
   filter: saturate(1.06) contrast(1.04)
+    drop-shadow(0 0 0.6px color-mix(in oklab, var(--ink) 42%, transparent))
     drop-shadow(0 2px 3px color-mix(in oklab, var(--ink) 30%, transparent))
     drop-shadow(0 12px 18px color-mix(in oklab, var(--ink) 30%, transparent))
     drop-shadow(0 34px 52px color-mix(in oklab, var(--ink) 20%, transparent));
@@ -563,10 +566,12 @@
 
 .hero-lineup-warm {
   filter: saturate(1.08) contrast(1.06) brightness(1.02)
+    drop-shadow(0 0 0.6px color-mix(in oklab, var(--paper) 30%, transparent))
     drop-shadow(0 3px 4px color-mix(in oklab, var(--ink) 70%, transparent))
     drop-shadow(0 14px 22px color-mix(in oklab, var(--ink) 60%, transparent))
     drop-shadow(0 38px 58px color-mix(in oklab, var(--ink) 45%, transparent));
 }
+
 
 
 @keyframes bb-word-in {
