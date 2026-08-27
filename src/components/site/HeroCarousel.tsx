@@ -278,13 +278,16 @@ export function HeroCarousel() {
                   srcSet={slide.image.srcSet}
                   sizes={slide.image.sizes}
                   alt={slide.image.alt}
-                  loading={i === 0 ? "eager" : "lazy"}
+                  // All three slides load up front (3 images, one of which is the
+                  // LCP) so ticking worlds never waits on a lazy fetch.
+                  loading="eager"
                   fetchPriority={i === 0 ? "high" : "low"}
                   decoding="async"
                   width={slide.image.width}
                   height={slide.image.height}
                   className={`relative h-auto w-full max-w-full object-contain ${slide.imageClass}`}
                 />
+
               </div>
             </div>
           </div>
