@@ -33,8 +33,7 @@ const slides: Slide[] = [
   {
     id: "merch",
     world: "hero-world-merch text-primary-foreground",
-    backdrop:
-      "spectrum-rays spectrum-rays-spin absolute left-1/2 top-1/2 aspect-square w-[160vw] -translate-x-1/2 -translate-y-1/2 opacity-30 blur-[1px]",
+    backdrop: "",
     icon: Sparkles,
     eyebrow: "Branded merchandise · Promotional product",
     badge: "border-white/25",
@@ -153,6 +152,7 @@ export function HeroCarousel() {
     <section
       aria-roledescription="carousel"
       aria-label="See See Bloom services"
+      data-world={slides[index]!.id}
       className="hero-carousel relative isolate overflow-hidden border-b border-border"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
@@ -173,6 +173,12 @@ export function HeroCarousel() {
         if (e.key === "ArrowLeft") go(index - 1);
       }}
     >
+      {/* Persistent spectrum rays: one continuous spin across every slide. */}
+      <div
+        className="hero-rays-layer spectrum-rays spectrum-rays-spin z-[2]"
+        aria-hidden="true"
+      />
+
       {slides.map((slide, i) => {
         const isActive = i === index;
         const Icon = slide.icon;
@@ -188,9 +194,11 @@ export function HeroCarousel() {
               isActive ? "hero-slide-active" : "hero-slide-idle"
             }`}
           >
-            <div className={`-z-10 ${slide.backdrop}`} aria-hidden="true" />
+            {slide.backdrop ? (
+              <div className={`-z-10 ${slide.backdrop}`} aria-hidden="true" />
+            ) : null}
 
-            <div className="mx-auto flex w-full max-w-4xl flex-col items-center px-5 pb-20 pt-24 text-center sm:pt-32 lg:pb-24 lg:pt-32">
+            <div className="relative z-[3] mx-auto flex w-full max-w-4xl flex-col items-center px-5 pb-20 pt-24 text-center sm:pt-32 lg:pb-24 lg:pt-32">
               <p className="hero-rise">
                 <span
                   className={`inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.35em] ${slide.badge}`}
