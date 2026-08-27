@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sticky Notes · Paper &amp; Cardboard</title>
+  <meta name="description" content="4 products in Business / Sticky Notes / Paper &amp; Cardboard.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Sticky Notes · Paper &amp; Cardboard</h1>
+        <p>4 products in Business / Sticky Notes / Paper &amp; Cardboard.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/business/sticky-notes/paper-and-cardboard/hard-cover-notes-and-flags/" data-name="hard cover notes and flags" data-plu="100926" data-material="paper-and-cardboard">
+      <img src="/assets/products/100926/100926-1-c63a669f.webp" alt="Hard Cover Notes and Flags" loading="lazy">
+      <div><h2>Hard Cover Notes and Flags</h2><p>PLU 100926</p><p>Paper &amp; Cardboard</p></div>
+    </a><a class="product-card" href="/catalogue/business/sticky-notes/paper-and-cardboard/comet-sticky-note-pad/" data-name="comet sticky note pad" data-plu="107078" data-material="paper-and-cardboard">
+      <img src="/assets/products/107078/107078-1-8c09181b.webp" alt="Comet Sticky Note Pad" loading="lazy">
+      <div><h2>Comet Sticky Note Pad</h2><p>PLU 107078</p><p>Paper &amp; Cardboard</p></div>
+    </a><a class="product-card" href="/catalogue/business/sticky-notes/paper-and-cardboard/jotz-sticky-note-pad/" data-name="jotz sticky note pad" data-plu="113602" data-material="paper-and-cardboard">
+      <img src="/assets/products/113602/113602-1-3509dafc.webp" alt="Jotz Sticky Note Pad" loading="lazy">
+      <div><h2>Jotz Sticky Note Pad</h2><p>PLU 113602</p><p>Paper &amp; Cardboard</p></div>
+    </a><a class="product-card" href="/catalogue/business/sticky-notes/paper-and-cardboard/bamboo-sticky-note-wallet/" data-name="bamboo sticky note wallet" data-plu="121728" data-material="paper-and-cardboard">
+      <img src="/assets/products/121728/121728-1-ffd22285.webp" alt="Bamboo Sticky Note Wallet" loading="lazy">
+      <div><h2>Bamboo Sticky Note Wallet</h2><p>PLU 121728</p><p>Paper &amp; Cardboard</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

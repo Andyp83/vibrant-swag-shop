@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Technology · Car USB Chargers</title>
+  <meta name="description" content="4 products split by material/style.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Technology · Car USB Chargers</h1>
+        <p>4 products split by material/style.</p>
+        <div class="section-pills"><a href="/catalogue/technology/car-usb-chargers/plastic/">Plastic <span>2</span></a><a href="/catalogue/technology/car-usb-chargers/glass/">Glass <span>1</span></a><a href="/catalogue/technology/car-usb-chargers/metal/">Metal <span>1</span></a></div>
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/technology/car-usb-chargers/plastic/mini-car-charger/" data-name="mini car charger" data-plu="107639" data-material="plastic">
+      <img src="/assets/products/107639/107639-2-8094cc3e.webp" alt="Mini Car Charger" loading="lazy">
+      <div><h2>Mini Car Charger</h2><p>PLU 107639</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/technology/car-usb-chargers/glass/swiss-peak-3-in-1-safety-charger/" data-name="swiss peak 3-in-1 safety charger" data-plu="118868" data-material="glass">
+      <img src="/assets/products/118868/118868-1-5f620265.webp" alt="Swiss Peak 3-in-1 Safety Charger" loading="lazy">
+      <div><h2>Swiss Peak 3-in-1 Safety Charger</h2><p>PLU 118868</p><p>Glass</p></div>
+    </a><a class="product-card" href="/catalogue/technology/car-usb-chargers/plastic/photon-car-charger/" data-name="photon car charger" data-plu="125552" data-material="plastic">
+      <img src="/assets/products/125552/125552-1-d4c24fe4.webp" alt="Photon Car Charger" loading="lazy">
+      <div><h2>Photon Car Charger</h2><p>PLU 125552</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/technology/car-usb-chargers/metal/gideon-safety-car-charger/" data-name="gideon safety car charger" data-plu="125553" data-material="metal">
+      <img src="/assets/products/125553/125553-1-0673c563.webp" alt="Gideon Safety Car Charger" loading="lazy">
+      <div><h2>Gideon Safety Car Charger</h2><p>PLU 125553</p><p>Metal</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

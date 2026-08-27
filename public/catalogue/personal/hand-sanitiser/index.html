@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Personal · Hand Sanitiser</title>
+  <meta name="description" content="7 products split by material/style.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Personal · Hand Sanitiser</h1>
+        <p>7 products split by material/style.</p>
+        <div class="section-pills"><a href="/catalogue/personal/hand-sanitiser/plastic/">Plastic <span>7</span></a></div>
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/personal/hand-sanitiser/plastic/hand-sanitiser-stick/" data-name="hand sanitiser stick" data-plu="127207" data-material="plastic">
+      <img src="/assets/products/127207/127207-1-ecfc809f.webp" alt="Hand Sanitiser Stick" loading="lazy">
+      <div><h2>Hand Sanitiser Stick</h2><p>PLU 127207</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/personal/hand-sanitiser/plastic/hand-sanitiser-card-1/" data-name="hand sanitiser card" data-plu="127209" data-material="plastic">
+      <img src="/assets/products/127209/127209-1-54f9f56d.webp" alt="Hand Sanitiser Card" loading="lazy">
+      <div><h2>Hand Sanitiser Card</h2><p>PLU 127209</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/personal/hand-sanitiser/plastic/carabiner-hand-sanitiser-30ml/" data-name="carabiner hand sanitiser 30ml" data-plu="127210" data-material="plastic">
+      <img src="/assets/products/127210/127210-1-dbb994aa.webp" alt="Carabiner Hand Sanitiser 30ml" loading="lazy">
+      <div><h2>Carabiner Hand Sanitiser 30ml</h2><p>PLU 127210</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/personal/hand-sanitiser/plastic/gel-hand-sanitiser-30ml-1/" data-name="gel hand sanitiser 30ml" data-plu="127211" data-material="plastic">
+      <img src="/assets/products/127211/127211-1-ce8cf08a.webp" alt="Gel Hand Sanitiser 30ml" loading="lazy">
+      <div><h2>Gel Hand Sanitiser 30ml</h2><p>PLU 127211</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/personal/hand-sanitiser/plastic/gel-hand-sanitiser-55ml-1/" data-name="gel hand sanitiser 55ml" data-plu="127212" data-material="plastic">
+      <img src="/assets/products/127212/127212-1-b2114038.webp" alt="Gel Hand Sanitiser 55ml" loading="lazy">
+      <div><h2>Gel Hand Sanitiser 55ml</h2><p>PLU 127212</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/personal/hand-sanitiser/plastic/hand-sanitiser-gel-60ml-1/" data-name="hand sanitiser gel 60ml" data-plu="127213" data-material="plastic">
+      <img src="/assets/products/127213/127213-1-e2894b95.webp" alt="Hand Sanitiser Gel 60ml" loading="lazy">
+      <div><h2>Hand Sanitiser Gel 60ml</h2><p>PLU 127213</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/personal/hand-sanitiser/plastic/carabiner-hand-sanitiser-55ml-1/" data-name="carabiner hand sanitiser 55ml" data-plu="127214" data-material="plastic">
+      <img src="/assets/products/127214/127214-1-63457462.webp" alt="Carabiner Hand Sanitiser 55ml" loading="lazy">
+      <div><h2>Carabiner Hand Sanitiser 55ml</h2><p>PLU 127214</p><p>Plastic</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

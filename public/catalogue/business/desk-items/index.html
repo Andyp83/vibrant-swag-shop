@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Business · Desk Items</title>
+  <meta name="description" content="9 products split by material/style.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Business · Desk Items</h1>
+        <p>9 products split by material/style.</p>
+        <div class="section-pills"><a href="/catalogue/business/desk-items/fabric-and-textile/">Fabric &amp; Textile <span>3</span></a><a href="/catalogue/business/desk-items/paper-and-cardboard/">Paper &amp; Cardboard <span>2</span></a><a href="/catalogue/business/desk-items/plastic/">Plastic <span>2</span></a><a href="/catalogue/business/desk-items/glass/">Glass <span>1</span></a><a href="/catalogue/business/desk-items/natural/">Natural <span>1</span></a></div>
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/business/desk-items/fabric-and-textile/precision-mouse-mat/" data-name="precision mouse mat" data-plu="105296" data-material="fabric-and-textile">
+      <img src="/assets/products/105296/105296-1-5222083a.webp" alt="Precision Mouse Mat" loading="lazy">
+      <div><h2>Precision Mouse Mat</h2><p>PLU 105296</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/business/desk-items/fabric-and-textile/4-in-1-mouse-mat/" data-name="4-in-1 mouse mat" data-plu="110542" data-material="fabric-and-textile">
+      <img src="/assets/products/110542/110542-1-cb0c358a.webp" alt="4-in-1 Mouse Mat" loading="lazy">
+      <div><h2>4-in-1 Mouse Mat</h2><p>PLU 110542</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/business/desk-items/paper-and-cardboard/a2-desk-planner-25-leaves/" data-name="a2 desk planner - 25 leaves" data-plu="111766" data-material="paper-and-cardboard">
+      <img src="/assets/products/111766/111766-1-7b0db020.webp" alt="A2 Desk Planner - 25 Leaves" loading="lazy">
+      <div><h2>A2 Desk Planner - 25 Leaves</h2><p>PLU 111766</p><p>Paper &amp; Cardboard</p></div>
+    </a><a class="product-card" href="/catalogue/business/desk-items/glass/travel-mouse-mat/" data-name="travel mouse mat" data-plu="112914" data-material="glass">
+      <img src="/assets/products/112914/112914-1-21cb3f78.webp" alt="Travel Mouse Mat" loading="lazy">
+      <div><h2>Travel Mouse Mat</h2><p>PLU 112914</p><p>Glass</p></div>
+    </a><a class="product-card" href="/catalogue/business/desk-items/paper-and-cardboard/a2-desk-planner-50-leaves/" data-name="a2 desk planner - 50 leaves" data-plu="115827" data-material="paper-and-cardboard">
+      <img src="/assets/products/115827/115827-1-f6cf7890.webp" alt="A2 Desk Planner - 50 Leaves" loading="lazy">
+      <div><h2>A2 Desk Planner - 50 Leaves</h2><p>PLU 115827</p><p>Paper &amp; Cardboard</p></div>
+    </a><a class="product-card" href="/catalogue/business/desk-items/fabric-and-textile/jumbo-desk-mat/" data-name="jumbo desk mat" data-plu="116471" data-material="fabric-and-textile">
+      
+      <div><h2>Jumbo Desk Mat</h2><p>PLU 116471</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/business/desk-items/natural/bamboo-calendar/" data-name="bamboo calendar" data-plu="121409" data-material="natural">
+      <img src="/assets/products/121409/121409-1-403d6ef9.webp" alt="Bamboo Calendar" loading="lazy">
+      <div><h2>Bamboo Calendar</h2><p>PLU 121409</p><p>Natural</p></div>
+    </a><a class="product-card" href="/catalogue/business/desk-items/plastic/natura-oaken-wireless-charger-desk-caddy/" data-name="natura oaken wireless charger desk caddy" data-plu="121839" data-material="plastic">
+      <img src="/assets/products/121839/121839-1-8b5cb183.webp" alt="NATURA Oaken Wireless Charger Desk Caddy" loading="lazy">
+      <div><h2>NATURA Oaken Wireless Charger Desk Caddy</h2><p>PLU 121839</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/business/desk-items/plastic/natura-bamboo-phone-stand-desk-caddy/" data-name="natura bamboo phone stand desk caddy" data-plu="127793" data-material="plastic">
+      <img src="/assets/products/127793/127793-1-357e9ea6.webp" alt="NATURA Bamboo Phone Stand Desk Caddy" loading="lazy">
+      <div><h2>NATURA Bamboo Phone Stand Desk Caddy</h2><p>PLU 127793</p><p>Plastic</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

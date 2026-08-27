@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Personal · Lip Balms</title>
+  <meta name="description" content="8 products split by material/style.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Personal · Lip Balms</h1>
+        <p>8 products split by material/style.</p>
+        <div class="section-pills"><a href="/catalogue/personal/lip-balms/plastic/">Plastic <span>5</span></a><a href="/catalogue/personal/lip-balms/metal/">Metal <span>1</span></a><a href="/catalogue/personal/lip-balms/natural/">Natural <span>1</span></a><a href="/catalogue/personal/lip-balms/paper-and-cardboard/">Paper &amp; Cardboard <span>1</span></a></div>
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/personal/lip-balms/plastic/lip-balm/" data-name="lip balm" data-plu="104945" data-material="plastic">
+      <img src="/assets/products/104945/104945-1-c3ed9c36.webp" alt="Lip Balm" loading="lazy">
+      <div><h2>Lip Balm</h2><p>PLU 104945</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/personal/lip-balms/plastic/prima-lip-balm-ball/" data-name="prima lip balm ball" data-plu="112389" data-material="plastic">
+      <img src="/assets/products/112389/112389-1-176a402c.webp" alt="Prima Lip Balm Ball" loading="lazy">
+      <div><h2>Prima Lip Balm Ball</h2><p>PLU 112389</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/personal/lip-balms/plastic/zena-lip-balm-ball/" data-name="zena lip balm ball" data-plu="112517" data-material="plastic">
+      <img src="/assets/products/112517/112517-1-e51ee23f.webp" alt="Zena Lip Balm Ball" loading="lazy">
+      <div><h2>Zena Lip Balm Ball</h2><p>PLU 112517</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/personal/lip-balms/plastic/classic-lip-balm/" data-name="classic lip balm" data-plu="116903" data-material="plastic">
+      <img src="/assets/products/116903/116903-1-d03ffc8c.webp" alt="Classic Lip Balm" loading="lazy">
+      <div><h2>Classic Lip Balm</h2><p>PLU 116903</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/personal/lip-balms/plastic/compact-mirror-and-lip-balm/" data-name="compact mirror and lip balm" data-plu="116905" data-material="plastic">
+      <img src="/assets/products/116905/116905-1-bbf97998.webp" alt="Compact Mirror and Lip Balm" loading="lazy">
+      <div><h2>Compact Mirror and Lip Balm</h2><p>PLU 116905</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/personal/lip-balms/paper-and-cardboard/kraft-lip-balm/" data-name="kraft lip balm" data-plu="121927" data-material="paper-and-cardboard">
+      <img src="/assets/products/121927/121927-1-8221acbe.webp" alt="Kraft Lip Balm" loading="lazy">
+      <div><h2>Kraft Lip Balm</h2><p>PLU 121927</p><p>Paper &amp; Cardboard</p></div>
+    </a><a class="product-card" href="/catalogue/personal/lip-balms/metal/lip-balm-tin/" data-name="lip balm tin" data-plu="121928" data-material="metal">
+      <img src="/assets/products/121928/121928-1-73c33320.webp" alt="Lip Balm Tin" loading="lazy">
+      <div><h2>Lip Balm Tin</h2><p>PLU 121928</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/personal/lip-balms/natural/bamboo-lip-balm/" data-name="bamboo lip balm" data-plu="122953" data-material="natural">
+      <img src="/assets/products/122953/122953-1-f18b0853.webp" alt="Bamboo Lip Balm" loading="lazy">
+      <div><h2>Bamboo Lip Balm</h2><p>PLU 122953</p><p>Natural</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

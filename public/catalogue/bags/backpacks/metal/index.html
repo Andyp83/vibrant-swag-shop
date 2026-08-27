@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Backpacks · Metal</title>
+  <meta name="description" content="6 products in Bags / Backpacks / Metal.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Backpacks · Metal</h1>
+        <p>6 products in Bags / Backpacks / Metal.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/bags/backpacks/metal/nirvana-backpack/" data-name="nirvana backpack" data-plu="113394" data-material="metal">
+      <img src="/assets/products/113394/113394-1-bef8c876.webp" alt="Nirvana Backpack" loading="lazy">
+      <div><h2>Nirvana Backpack</h2><p>PLU 113394</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/bags/backpacks/metal/selwyn-backpack/" data-name="selwyn backpack" data-plu="121427" data-material="metal">
+      <img src="/assets/products/121427/121427-1-2e8f8371.webp" alt="Selwyn Backpack" loading="lazy">
+      <div><h2>Selwyn Backpack</h2><p>PLU 121427</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/bags/backpacks/metal/bobby-bizz-anti-theft-backpack-briefcase/" data-name="bobby bizz anti-theft backpack briefcase" data-plu="125282" data-material="metal">
+      <img src="/assets/products/125282/125282-1-e1a1e2e7.webp" alt="Bobby Bizz Anti-theft Backpack Briefcase" loading="lazy">
+      <div><h2>Bobby Bizz Anti-theft Backpack Briefcase</h2><p>PLU 125282</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/bags/backpacks/metal/spice-waste2gear-roll-up-computer-backpack/" data-name="spice waste2gear roll up computer backpack" data-plu="126949" data-material="metal">
+      <img src="/assets/products/126949/126949-1-529a8a74.webp" alt="SPICE Waste2Gear Roll Up Computer Backpack" loading="lazy">
+      <div><h2>SPICE Waste2Gear Roll Up Computer Backpack</h2><p>PLU 126949</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/bags/backpacks/metal/spice-waste2gear-business-computer-backpack/" data-name="spice waste2gear business computer backpack" data-plu="126951" data-material="metal">
+      <img src="/assets/products/126951/126951-1-74f7c870.webp" alt="SPICE Waste2Gear Business Computer Backpack" loading="lazy">
+      <div><h2>SPICE Waste2Gear Business Computer Backpack</h2><p>PLU 126951</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/bags/backpacks/metal/archer-copenhagen-canvas-backpack/" data-name="archer copenhagen canvas backpack" data-plu="128382" data-material="metal">
+      <img src="/assets/products/128382/128382-1-7e8e3fb3.webp" alt="ARCHER Copenhagen Canvas Backpack" loading="lazy">
+      <div><h2>ARCHER Copenhagen Canvas Backpack</h2><p>PLU 128382</p><p>Metal</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

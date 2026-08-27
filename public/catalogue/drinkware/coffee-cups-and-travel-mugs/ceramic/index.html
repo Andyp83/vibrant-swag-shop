@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Coffee Cups &amp; Travel Mugs · Ceramic</title>
+  <meta name="description" content="4 products in Drinkware / Coffee Cups &amp; Travel Mugs / Ceramic.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Coffee Cups &amp; Travel Mugs · Ceramic</h1>
+        <p>4 products in Drinkware / Coffee Cups &amp; Travel Mugs / Ceramic.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/drinkware/coffee-cups-and-travel-mugs/ceramic/aztec-double-wall-coffee-cup-full-colour/" data-name="aztec double wall coffee cup - full colour" data-plu="115061" data-material="ceramic">
+      <img src="/assets/products/115061/115061-1-40ffe8c0.webp" alt="Aztec Double Wall Coffee Cup - Full Colour" loading="lazy">
+      <div><h2>Aztec Double Wall Coffee Cup - Full Colour</h2><p>PLU 115061</p><p>Ceramic</p></div>
+    </a><a class="product-card" href="/catalogue/drinkware/coffee-cups-and-travel-mugs/ceramic/aztec-double-wall-coffee-cup/" data-name="aztec double wall coffee cup" data-plu="115062" data-material="ceramic">
+      <img src="/assets/products/115062/115062-1-7d709255.webp" alt="Aztec Double Wall Coffee Cup" loading="lazy">
+      <div><h2>Aztec Double Wall Coffee Cup</h2><p>PLU 115062</p><p>Ceramic</p></div>
+    </a><a class="product-card" href="/catalogue/drinkware/coffee-cups-and-travel-mugs/ceramic/chalice-ceramic-coffee-cup/" data-name="chalice ceramic coffee cup" data-plu="121421" data-material="ceramic">
+      <img src="/assets/products/121421/121421-1-3ce16b7a.webp" alt="Chalice Ceramic Coffee Cup" loading="lazy">
+      <div><h2>Chalice Ceramic Coffee Cup</h2><p>PLU 121421</p><p>Ceramic</p></div>
+    </a><a class="product-card" href="/catalogue/drinkware/coffee-cups-and-travel-mugs/ceramic/cordia-ceramic-vacuum-cup/" data-name="cordia ceramic vacuum cup" data-plu="124823" data-material="ceramic">
+      <img src="/assets/products/124823/124823-1-34189295.webp" alt="Cordia Ceramic Vacuum Cup" loading="lazy">
+      <div><h2>Cordia Ceramic Vacuum Cup</h2><p>PLU 124823</p><p>Ceramic</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

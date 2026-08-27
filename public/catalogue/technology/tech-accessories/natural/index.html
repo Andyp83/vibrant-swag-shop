@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tech Accessories · Natural</title>
+  <meta name="description" content="2 products in Technology / Tech Accessories / Natural.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Tech Accessories · Natural</h1>
+        <p>2 products in Technology / Tech Accessories / Natural.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/technology/tech-accessories/natural/bamboo-phone-stand/" data-name="bamboo phone stand" data-plu="120241" data-material="natural">
+      <img src="/assets/products/120241/120241-1-e259f77d.webp" alt="Bamboo Phone Stand" loading="lazy">
+      <div><h2>Bamboo Phone Stand</h2><p>PLU 120241</p><p>Natural</p></div>
+    </a><a class="product-card" href="/catalogue/technology/tech-accessories/natural/bamboo-car-phone-holder/" data-name="bamboo car phone holder" data-plu="125312" data-material="natural">
+      <img src="/assets/products/125312/125312-1-bb3c370c.webp" alt="Bamboo Car Phone Holder" loading="lazy">
+      <div><h2>Bamboo Car Phone Holder</h2><p>PLU 125312</p><p>Natural</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tools · Plastic</title>
+  <meta name="description" content="6 products in Leisure / Tools / Plastic.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Tools · Plastic</h1>
+        <p>6 products in Leisure / Tools / Plastic.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/leisure/tools/plastic/ice-scraper/" data-name="ice scraper" data-plu="100642" data-material="plastic">
+      <img src="/assets/products/100642/100642-1-9150aa94.webp" alt="Ice Scraper" loading="lazy">
+      <div><h2>Ice Scraper</h2><p>PLU 100642</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/tools/plastic/vernier-caliper/" data-name="vernier caliper" data-plu="104642" data-material="plastic">
+      <img src="/assets/products/104642/104642-1-30ca2d97.webp" alt="Vernier Caliper" loading="lazy">
+      <div><h2>Vernier Caliper</h2><p>PLU 104642</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/tools/plastic/compact-ice-scraper/" data-name="compact ice scraper" data-plu="104889" data-material="plastic">
+      <img src="/assets/products/104889/104889-1-84851bf5.webp" alt="Compact Ice Scraper" loading="lazy">
+      <div><h2>Compact Ice Scraper</h2><p>PLU 104889</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/tools/plastic/mini-screwdriver-set/" data-name="mini screwdriver set" data-plu="112385" data-material="plastic">
+      <img src="/assets/products/112385/112385-1-b33b8c91.webp" alt="Mini Screwdriver Set" loading="lazy">
+      <div><h2>Mini Screwdriver Set</h2><p>PLU 112385</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/tools/plastic/navigator-torch/" data-name="navigator torch" data-plu="117638" data-material="plastic">
+      <img src="/assets/products/117638/117638-1-41a1a7a8.webp" alt="Navigator Torch" loading="lazy">
+      <div><h2>Navigator Torch</h2><p>PLU 117638</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/tools/plastic/dynamo-solar-torch/" data-name="dynamo solar torch" data-plu="125373" data-material="plastic">
+      <img src="/assets/products/125373/125373-1-a8d62336.webp" alt="Dynamo Solar Torch" loading="lazy">
+      <div><h2>Dynamo Solar Torch</h2><p>PLU 125373</p><p>Plastic</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

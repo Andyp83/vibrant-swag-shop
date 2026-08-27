@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Apparel Accessories · Fabric &amp; Textile</title>
+  <meta name="description" content="10 products in Apparel / Apparel Accessories / Fabric &amp; Textile.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Apparel Accessories · Fabric &amp; Textile</h1>
+        <p>10 products in Apparel / Apparel Accessories / Fabric &amp; Textile.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/apparel/apparel-accessories/fabric-and-textile/shoe-laces/" data-name="shoe laces" data-plu="110799" data-material="fabric-and-textile">
+      <img src="/assets/products/110799/110799-1-f99d2b23.webp" alt="Shoe Laces" loading="lazy">
+      <div><h2>Shoe Laces</h2><p>PLU 110799</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/apparel/apparel-accessories/fabric-and-textile/storm-rain-poncho/" data-name="storm rain poncho" data-plu="117015" data-material="fabric-and-textile">
+      <img src="/assets/products/117015/117015-1-204c1c1d.webp" alt="Storm Rain Poncho" loading="lazy">
+      <div><h2>Storm Rain Poncho</h2><p>PLU 117015</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/apparel/apparel-accessories/fabric-and-textile/rochester-waffle-bathrobe/" data-name="rochester waffle bathrobe" data-plu="121432" data-material="fabric-and-textile">
+      <img src="/assets/products/121432/121432-1-e885770f.webp" alt="Rochester Waffle Bathrobe" loading="lazy">
+      <div><h2>Rochester Waffle Bathrobe</h2><p>PLU 121432</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/apparel/apparel-accessories/fabric-and-textile/nimbus-blanket-hoodie/" data-name="nimbus blanket hoodie" data-plu="123697" data-material="fabric-and-textile">
+      <img src="/assets/products/123697/123697-1-4ef195c0.webp" alt="Nimbus Blanket Hoodie" loading="lazy">
+      <div><h2>Nimbus Blanket Hoodie</h2><p>PLU 123697</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/apparel/apparel-accessories/fabric-and-textile/cosmos-blanket-hoodie/" data-name="cosmos blanket hoodie" data-plu="124945" data-material="fabric-and-textile">
+      <img src="/assets/products/124945/124945-1-aba90807.webp" alt="Cosmos Blanket Hoodie" loading="lazy">
+      <div><h2>Cosmos Blanket Hoodie</h2><p>PLU 124945</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/apparel/apparel-accessories/fabric-and-textile/himalaya-tech-gloves/" data-name="himalaya tech gloves" data-plu="126401" data-material="fabric-and-textile">
+      <img src="/assets/products/126401/126401-1-072ce854.webp" alt="Himalaya Tech Gloves" loading="lazy">
+      <div><h2>Himalaya Tech Gloves</h2><p>PLU 126401</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/apparel/apparel-accessories/fabric-and-textile/full-colour-blanket-hoodie/" data-name="full colour blanket hoodie" data-plu="127224" data-material="fabric-and-textile">
+      <img src="/assets/products/127224/127224-1-44348423.webp" alt="Full Colour Blanket Hoodie" loading="lazy">
+      <div><h2>Full Colour Blanket Hoodie</h2><p>PLU 127224</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/apparel/apparel-accessories/fabric-and-textile/sitka-custom-knitted-scarf/" data-name="sitka custom knitted scarf" data-plu="129359" data-material="fabric-and-textile">
+      <img src="/assets/products/129359/129359-1-b93a40b2.webp" alt="Sitka Custom Knitted Scarf" loading="lazy">
+      <div><h2>Sitka Custom Knitted Scarf</h2><p>PLU 129359</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/apparel/apparel-accessories/fabric-and-textile/idaho-custom-knitted-gloves/" data-name="idaho custom knitted gloves" data-plu="129360" data-material="fabric-and-textile">
+      <img src="/assets/products/129360/129360-1-aab727b9.webp" alt="Idaho Custom Knitted Gloves" loading="lazy">
+      <div><h2>Idaho Custom Knitted Gloves</h2><p>PLU 129360</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/apparel/apparel-accessories/fabric-and-textile/custom-elastic-headband/" data-name="custom elastic headband" data-plu="129728" data-material="fabric-and-textile">
+      <img src="/assets/products/129728/129728-1-e74774d3.webp" alt="Custom Elastic Headband" loading="lazy">
+      <div><h2>Custom Elastic Headband</h2><p>PLU 129728</p><p>Fabric &amp; Textile</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

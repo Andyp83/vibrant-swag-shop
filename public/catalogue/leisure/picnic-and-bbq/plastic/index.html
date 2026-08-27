@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Picnic &amp; BBQ · Plastic</title>
+  <meta name="description" content="4 products in Leisure / Picnic &amp; BBQ / Plastic.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Picnic &amp; BBQ · Plastic</h1>
+        <p>4 products in Leisure / Picnic &amp; BBQ / Plastic.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/leisure/picnic-and-bbq/plastic/colorado-picnic-blanket/" data-name="colorado picnic blanket" data-plu="109067" data-material="plastic">
+      <img src="/assets/products/109067/109067-1-42cfd6ff.webp" alt="Colorado Picnic Blanket" loading="lazy">
+      <div><h2>Colorado Picnic Blanket</h2><p>PLU 109067</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/picnic-and-bbq/plastic/denver-picnic-blanket/" data-name="denver picnic blanket" data-plu="112559" data-material="plastic">
+      <img src="/assets/products/112559/112559-1-d59ce051.webp" alt="Denver Picnic Blanket" loading="lazy">
+      <div><h2>Denver Picnic Blanket</h2><p>PLU 112559</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/picnic-and-bbq/plastic/dakota-picnic-blanket/" data-name="dakota picnic blanket" data-plu="112565" data-material="plastic">
+      <img src="/assets/products/112565/112565-1-c6f38e04.webp" alt="Dakota Picnic Blanket" loading="lazy">
+      <div><h2>Dakota Picnic Blanket</h2><p>PLU 112565</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/picnic-and-bbq/plastic/alfresco-picnic-blanket/" data-name="alfresco picnic blanket" data-plu="112792" data-material="plastic">
+      <img src="/assets/products/112792/112792-1-de845d4b.webp" alt="Alfresco Picnic Blanket" loading="lazy">
+      <div><h2>Alfresco Picnic Blanket</h2><p>PLU 112792</p><p>Plastic</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

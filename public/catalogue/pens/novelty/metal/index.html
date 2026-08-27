@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Novelty · Metal</title>
+  <meta name="description" content="2 products in Pens / Novelty / Metal.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Novelty · Metal</h1>
+        <p>2 products in Pens / Novelty / Metal.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/pens/novelty/metal/concord-multi-function-pen/" data-name="concord multi-function pen" data-plu="112119" data-material="metal">
+      <img src="/assets/products/112119/112119-1-0cf32fe7.webp" alt="Concord Multi-Function Pen" loading="lazy">
+      <div><h2>Concord Multi-Function Pen</h2><p>PLU 112119</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/pens/novelty/metal/mop-topper-pen/" data-name="mop topper pen" data-plu="112977" data-material="metal">
+      <img src="/assets/products/112977/112977-1-1c40bc2a.webp" alt="Mop Topper Pen" loading="lazy">
+      <div><h2>Mop Topper Pen</h2><p>PLU 112977</p><p>Metal</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Drinkware · Flasks</title>
+  <meta name="description" content="6 products split by material/style.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Drinkware · Flasks</h1>
+        <p>6 products split by material/style.</p>
+        <div class="section-pills"><a href="/catalogue/drinkware/flasks/metal/">Metal <span>5</span></a><a href="/catalogue/drinkware/flasks/glass/">Glass <span>1</span></a></div>
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/drinkware/flasks/metal/750ml-vacuum-flask/" data-name="750ml vacuum flask" data-plu="100814" data-material="metal">
+      <img src="/assets/products/100814/100814-1-e25662c2.webp" alt="750ml Vacuum Flask" loading="lazy">
+      <div><h2>750ml Vacuum Flask</h2><p>PLU 100814</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/drinkware/flasks/metal/tennessee-hip-flask/" data-name="tennessee hip flask" data-plu="113323" data-material="metal">
+      <img src="/assets/products/113323/113323-1-847531b1.webp" alt="Tennessee Hip Flask" loading="lazy">
+      <div><h2>Tennessee Hip Flask</h2><p>PLU 113323</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/drinkware/flasks/metal/swiss-peak-elite-copper-vacuum-flask/" data-name="swiss peak elite copper vacuum flask" data-plu="116489" data-material="metal">
+      <img src="/assets/products/116489/116489-1-c48096ec.webp" alt="Swiss Peak Elite Copper Vacuum Flask" loading="lazy">
+      <div><h2>Swiss Peak Elite Copper Vacuum Flask</h2><p>PLU 116489</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/drinkware/flasks/glass/dalmore-hip-flask-gift-set/" data-name="dalmore hip flask gift set" data-plu="120421" data-material="glass">
+      <img src="/assets/products/120421/120421-1-c976244a.webp" alt="Dalmore Hip Flask Gift Set" loading="lazy">
+      <div><h2>Dalmore Hip Flask Gift Set</h2><p>PLU 120421</p><p>Glass</p></div>
+    </a><a class="product-card" href="/catalogue/drinkware/flasks/metal/mitre-vacuum-flask/" data-name="mitre vacuum flask" data-plu="121713" data-material="metal">
+      <img src="/assets/products/121713/121713-1-b4060a52.webp" alt="Mitre Vacuum Flask" loading="lazy">
+      <div><h2>Mitre Vacuum Flask</h2><p>PLU 121713</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/drinkware/flasks/metal/wayfarer-flask/" data-name="wayfarer flask" data-plu="121852" data-material="metal">
+      <img src="/assets/products/121852/121852-1-cfbbfebc.webp" alt="Wayfarer Flask" loading="lazy">
+      <div><h2>Wayfarer Flask</h2><p>PLU 121852</p><p>Metal</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

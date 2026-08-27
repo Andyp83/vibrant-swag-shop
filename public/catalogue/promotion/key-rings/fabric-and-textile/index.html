@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Key Rings · Fabric &amp; Textile</title>
+  <meta name="description" content="4 products in Promotion / Key Rings / Fabric &amp; Textile.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Key Rings · Fabric &amp; Textile</h1>
+        <p>4 products in Promotion / Key Rings / Fabric &amp; Textile.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/promotion/key-rings/fabric-and-textile/colour-max-key-ring/" data-name="colour max key ring" data-plu="118531" data-material="fabric-and-textile">
+      <img src="/assets/products/118531/118531-1-475a0f81.webp" alt="Colour Max Key Ring" loading="lazy">
+      <div><h2>Colour Max Key Ring</h2><p>PLU 118531</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/promotion/key-rings/fabric-and-textile/reflector-key-ring/" data-name="reflector key ring" data-plu="118534" data-material="fabric-and-textile">
+      <img src="/assets/products/118534/118534-1-b7f8229c.webp" alt="Reflector Key Ring" loading="lazy">
+      <div><h2>Reflector Key Ring</h2><p>PLU 118534</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/promotion/key-rings/fabric-and-textile/cricket-ball-key-ring/" data-name="cricket ball key ring" data-plu="121977" data-material="fabric-and-textile">
+      <img src="/assets/products/121977/121977-1-4542f458.webp" alt="Cricket Ball Key Ring" loading="lazy">
+      <div><h2>Cricket Ball Key Ring</h2><p>PLU 121977</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/promotion/key-rings/fabric-and-textile/rugby-ball-key-ring/" data-name="rugby ball key ring" data-plu="121978" data-material="fabric-and-textile">
+      <img src="/assets/products/121978/121978-1-4cb84e84.webp" alt="Rugby Ball Key Ring" loading="lazy">
+      <div><h2>Rugby Ball Key Ring</h2><p>PLU 121978</p><p>Fabric &amp; Textile</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

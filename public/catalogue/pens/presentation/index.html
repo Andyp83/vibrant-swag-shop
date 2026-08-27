@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pens · Presentation</title>
+  <meta name="description" content="7 products split by material/style.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Pens · Presentation</h1>
+        <p>7 products split by material/style.</p>
+        <div class="section-pills"><a href="/catalogue/pens/presentation/paper-and-cardboard/">Paper &amp; Cardboard <span>4</span></a><a href="/catalogue/pens/presentation/general/">General <span>1</span></a><a href="/catalogue/pens/presentation/leather-and-pu/">Leather &amp; PU <span>1</span></a><a href="/catalogue/pens/presentation/plastic/">Plastic <span>1</span></a></div>
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/pens/presentation/general/velvet-pen-sleeve/" data-name="velvet pen sleeve" data-plu="103851" data-material="general">
+      <img src="/assets/products/103851/103851-1-a97d67c2.webp" alt="Velvet Pen Sleeve" loading="lazy">
+      <div><h2>Velvet Pen Sleeve</h2><p>PLU 103851</p><p>General</p></div>
+    </a><a class="product-card" href="/catalogue/pens/presentation/plastic/rockford-pen-presentation-box/" data-name="rockford pen presentation box" data-plu="104540" data-material="plastic">
+      <img src="/assets/products/104540/104540-1-8a73343f.webp" alt="Rockford Pen Presentation Box" loading="lazy">
+      <div><h2>Rockford Pen Presentation Box</h2><p>PLU 104540</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/pens/presentation/paper-and-cardboard/wedge-gift-box/" data-name="wedge gift box" data-plu="104542" data-material="paper-and-cardboard">
+      <img src="/assets/products/104542/104542-1-a295f193.webp" alt="Wedge Gift Box" loading="lazy">
+      <div><h2>Wedge Gift Box</h2><p>PLU 104542</p><p>Paper &amp; Cardboard</p></div>
+    </a><a class="product-card" href="/catalogue/pens/presentation/paper-and-cardboard/monaco-gift-box/" data-name="monaco gift box" data-plu="108478" data-material="paper-and-cardboard">
+      <img src="/assets/products/108478/108478-1-c493962f.webp" alt="Monaco Gift Box" loading="lazy">
+      <div><h2>Monaco Gift Box</h2><p>PLU 108478</p><p>Paper &amp; Cardboard</p></div>
+    </a><a class="product-card" href="/catalogue/pens/presentation/paper-and-cardboard/monaco-kraft-gift-box/" data-name="monaco kraft gift box" data-plu="125660" data-material="paper-and-cardboard">
+      <img src="/assets/products/125660/125660-1-2b421257.webp" alt="Monaco Kraft Gift Box" loading="lazy">
+      <div><h2>Monaco Kraft Gift Box</h2><p>PLU 125660</p><p>Paper &amp; Cardboard</p></div>
+    </a><a class="product-card" href="/catalogue/pens/presentation/leather-and-pu/cyrus-pen-presentation-case/" data-name="cyrus pen presentation case" data-plu="126243" data-material="leather-and-pu">
+      <img src="/assets/products/126243/126243-1-f2cc383d.webp" alt="Cyrus Pen Presentation Case" loading="lazy">
+      <div><h2>Cyrus Pen Presentation Case</h2><p>PLU 126243</p><p>Leather &amp; PU</p></div>
+    </a><a class="product-card" href="/catalogue/pens/presentation/paper-and-cardboard/kraft-paper-pen-sleeve/" data-name="kraft paper pen sleeve" data-plu="129257" data-material="paper-and-cardboard">
+      <img src="/assets/products/129257/129257-1-076893cc.webp" alt="Kraft Paper Pen Sleeve" loading="lazy">
+      <div><h2>Kraft Paper Pen Sleeve</h2><p>PLU 129257</p><p>Paper &amp; Cardboard</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

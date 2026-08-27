@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Picnic &amp; BBQ · Glass</title>
+  <meta name="description" content="3 products in Leisure / Picnic &amp; BBQ / Glass.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Picnic &amp; BBQ · Glass</h1>
+        <p>3 products in Leisure / Picnic &amp; BBQ / Glass.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/leisure/picnic-and-bbq/glass/arcadia-picnic-backpack/" data-name="arcadia picnic backpack" data-plu="112790" data-material="glass">
+      <img src="/assets/products/112790/112790-1-a9872e6b.webp" alt="Arcadia Picnic Backpack" loading="lazy">
+      <div><h2>Arcadia Picnic Backpack</h2><p>PLU 112790</p><p>Glass</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/picnic-and-bbq/glass/hampton-picnic-bag/" data-name="hampton picnic bag" data-plu="112791" data-material="glass">
+      <img src="/assets/products/112791/112791-1-d8353d45.webp" alt="Hampton Picnic Bag" loading="lazy">
+      <div><h2>Hampton Picnic Bag</h2><p>PLU 112791</p><p>Glass</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/picnic-and-bbq/glass/montague-picnic-backpack/" data-name="montague picnic backpack" data-plu="128884" data-material="glass">
+      <img src="/assets/products/128884/128884-1-f75846d3.webp" alt="Montague Picnic Backpack" loading="lazy">
+      <div><h2>Montague Picnic Backpack</h2><p>PLU 128884</p><p>Glass</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

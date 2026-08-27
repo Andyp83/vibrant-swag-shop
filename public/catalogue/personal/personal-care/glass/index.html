@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Personal Care · Glass</title>
+  <meta name="description" content="7 products in Personal / Personal Care / Glass.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Personal Care · Glass</h1>
+        <p>7 products in Personal / Personal Care / Glass.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/personal/personal-care/glass/compact-mirror/" data-name="compact mirror" data-plu="100698" data-material="glass">
+      <img src="/assets/products/100698/100698-1-d2eaa869.webp" alt="Compact Mirror" loading="lazy">
+      <div><h2>Compact Mirror</h2><p>PLU 100698</p><p>Glass</p></div>
+    </a><a class="product-card" href="/catalogue/personal/personal-care/glass/essence-compact-mirror/" data-name="essence compact mirror" data-plu="120243" data-material="glass">
+      <img src="/assets/products/120243/120243-1-f5bb5ff8.webp" alt="Essence Compact Mirror" loading="lazy">
+      <div><h2>Essence Compact Mirror</h2><p>PLU 120243</p><p>Glass</p></div>
+    </a><a class="product-card" href="/catalogue/personal/personal-care/glass/cork-compact-mirror/" data-name="cork compact mirror" data-plu="121407" data-material="glass">
+      <img src="/assets/products/121407/121407-1-f2f82149.webp" alt="Cork Compact Mirror" loading="lazy">
+      <div><h2>Cork Compact Mirror</h2><p>PLU 121407</p><p>Glass</p></div>
+    </a><a class="product-card" href="/catalogue/personal/personal-care/glass/natura-bamboo-brush-and-mirror/" data-name="natura bamboo brush and mirror" data-plu="125992" data-material="glass">
+      <img src="/assets/products/125992/125992-1-fd1b3dce.webp" alt="NATURA Bamboo Brush and Mirror" loading="lazy">
+      <div><h2>NATURA Bamboo Brush and Mirror</h2><p>PLU 125992</p><p>Glass</p></div>
+    </a><a class="product-card" href="/catalogue/personal/personal-care/glass/radiance-compact-mirror/" data-name="radiance compact mirror" data-plu="129237" data-material="glass">
+      <img src="/assets/products/129237/129237-1-a8eb9c8b.webp" alt="Radiance Compact Mirror" loading="lazy">
+      <div><h2>Radiance Compact Mirror</h2><p>PLU 129237</p><p>Glass</p></div>
+    </a><a class="product-card" href="/catalogue/personal/personal-care/glass/ella-led-compact-mirror/" data-name="ella led compact mirror" data-plu="129240" data-material="glass">
+      <img src="/assets/products/129240/129240-1-5c51be77.webp" alt="Ella LED Compact Mirror" loading="lazy">
+      <div><h2>Ella LED Compact Mirror</h2><p>PLU 129240</p><p>Glass</p></div>
+    </a><a class="product-card" href="/catalogue/personal/personal-care/glass/compact-brush-with-mirror/" data-name="compact brush with mirror" data-plu="200210" data-material="glass">
+      <img src="/assets/products/200210/200210-1-ed511531.webp" alt="Compact Brush with Mirror" loading="lazy">
+      <div><h2>Compact Brush with Mirror</h2><p>PLU 200210</p><p>Glass</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mugs · Glass</title>
+  <meta name="description" content="4 products in Drinkware / Mugs / Glass.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Mugs · Glass</h1>
+        <p>4 products in Drinkware / Mugs / Glass.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/drinkware/mugs/glass/venetian-glass-coffee-mug/" data-name="venetian glass coffee mug" data-plu="105655" data-material="glass">
+      <img src="/assets/products/105655/105655-1-80b8f8e4.webp" alt="Venetian Glass Coffee Mug" loading="lazy">
+      <div><h2>Venetian Glass Coffee Mug</h2><p>PLU 105655</p><p>Glass</p></div>
+    </a><a class="product-card" href="/catalogue/drinkware/mugs/glass/munich-beer-mug/" data-name="munich beer mug" data-plu="105657" data-material="glass">
+      <img src="/assets/products/105657/105657-1-046c4823.webp" alt="Munich Beer Mug" loading="lazy">
+      <div><h2>Munich Beer Mug</h2><p>PLU 105657</p><p>Glass</p></div>
+    </a><a class="product-card" href="/catalogue/drinkware/mugs/glass/florence-glass-mug/" data-name="florence glass mug" data-plu="124214" data-material="glass">
+      <img src="/assets/products/124214/124214-1-2bc80f1c.webp" alt="Florence Glass Mug" loading="lazy">
+      <div><h2>Florence Glass Mug</h2><p>PLU 124214</p><p>Glass</p></div>
+    </a><a class="product-card" href="/catalogue/drinkware/mugs/glass/bodum-bistro-double-wall-mugs-set-of-2/" data-name="bodum bistro double wall mugs - set of 2" data-plu="133817" data-material="glass">
+      <img src="/assets/products/133817/133817-1-18e59267.webp" alt="Bodum Bistro Double Wall Mugs - Set of 2" loading="lazy">
+      <div><h2>Bodum Bistro Double Wall Mugs - Set of 2</h2><p>PLU 133817</p><p>Glass</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

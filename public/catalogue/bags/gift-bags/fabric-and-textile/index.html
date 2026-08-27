@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gift Bags · Fabric &amp; Textile</title>
+  <meta name="description" content="4 products in Bags / Gift Bags / Fabric &amp; Textile.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Gift Bags · Fabric &amp; Textile</h1>
+        <p>4 products in Bags / Gift Bags / Fabric &amp; Textile.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/bags/gift-bags/fabric-and-textile/cotton-gift-bag-medium/" data-name="cotton gift bag - medium" data-plu="111805" data-material="fabric-and-textile">
+      <img src="/assets/products/111805/111805-1-04a5de97.webp" alt="Cotton Gift Bag - Medium" loading="lazy">
+      <div><h2>Cotton Gift Bag - Medium</h2><p>PLU 111805</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/bags/gift-bags/fabric-and-textile/cotton-gift-bag-large/" data-name="cotton gift bag - large" data-plu="111806" data-material="fabric-and-textile">
+      <img src="/assets/products/111806/111806-1-f93881a9.webp" alt="Cotton Gift Bag - Large" loading="lazy">
+      <div><h2>Cotton Gift Bag - Large</h2><p>PLU 111806</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/bags/gift-bags/fabric-and-textile/chelsea-cotton-gift-bag/" data-name="chelsea cotton gift bag" data-plu="115761" data-material="fabric-and-textile">
+      <img src="/assets/products/115761/115761-1-6af30b12.webp" alt="Chelsea Cotton Gift Bag" loading="lazy">
+      <div><h2>Chelsea Cotton Gift Bag</h2><p>PLU 115761</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/bags/gift-bags/fabric-and-textile/cotton-gift-bag-small/" data-name="cotton gift bag - small" data-plu="200245" data-material="fabric-and-textile">
+      <img src="/assets/products/200245/200245-1-e0c6b995.webp" alt="Cotton Gift Bag - Small" loading="lazy">
+      <div><h2>Cotton Gift Bag - Small</h2><p>PLU 200245</p><p>Fabric &amp; Textile</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

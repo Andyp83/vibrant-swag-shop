@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Flash Drives · Natural</title>
+  <meta name="description" content="3 products in Technology / Flash Drives / Natural.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Flash Drives · Natural</h1>
+        <p>3 products in Technology / Flash Drives / Natural.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/technology/flash-drives/natural/bamboo-4gb-flash-drive/" data-name="bamboo 4gb flash drive" data-plu="106208" data-material="natural">
+      <img src="/assets/products/106208/106208-1-51da9d0b.webp" alt="Bamboo 4GB Flash Drive" loading="lazy">
+      <div><h2>Bamboo 4GB Flash Drive</h2><p>PLU 106208</p><p>Natural</p></div>
+    </a><a class="product-card" href="/catalogue/technology/flash-drives/natural/anco-4gb-flash-drive/" data-name="anco 4gb flash drive" data-plu="117041" data-material="natural">
+      <img src="/assets/products/117041/117041-1-b84c2cd7.webp" alt="Anco 4GB Flash Drive" loading="lazy">
+      <div><h2>Anco 4GB Flash Drive</h2><p>PLU 117041</p><p>Natural</p></div>
+    </a><a class="product-card" href="/catalogue/technology/flash-drives/natural/maple-8gb-flash-drive/" data-name="maple 8gb flash drive" data-plu="121401" data-material="natural">
+      <img src="/assets/products/121401/121401-1-f4ac4242.webp" alt="Maple 8GB Flash Drive" loading="lazy">
+      <div><h2>Maple 8GB Flash Drive</h2><p>PLU 121401</p><p>Natural</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

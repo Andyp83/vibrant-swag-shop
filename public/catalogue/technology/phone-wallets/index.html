@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Technology · Phone Wallets</title>
+  <meta name="description" content="9 products split by material/style.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Technology · Phone Wallets</h1>
+        <p>9 products split by material/style.</p>
+        <div class="section-pills"><a href="/catalogue/technology/phone-wallets/silicone/">Silicone <span>6</span></a><a href="/catalogue/technology/phone-wallets/general/">General <span>2</span></a><a href="/catalogue/technology/phone-wallets/plastic/">Plastic <span>1</span></a></div>
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/technology/phone-wallets/silicone/silicone-phone-wallet/" data-name="silicone phone wallet" data-plu="107627" data-material="silicone">
+      <img src="/assets/products/107627/107627-13-9aa87888.webp" alt="Silicone Phone Wallet" loading="lazy">
+      <div><h2>Silicone Phone Wallet</h2><p>PLU 107627</p><p>Silicone</p></div>
+    </a><a class="product-card" href="/catalogue/technology/phone-wallets/plastic/meteor-phone-wallet/" data-name="meteor phone wallet" data-plu="109084" data-material="plastic">
+      <img src="/assets/products/109084/109084-1-b17997fa.webp" alt="Meteor Phone Wallet" loading="lazy">
+      <div><h2>Meteor Phone Wallet</h2><p>PLU 109084</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/technology/phone-wallets/general/lycra-phone-wallet-full-colour/" data-name="lycra phone wallet - full colour" data-plu="110520" data-material="general">
+      <img src="/assets/products/110520/110520-1-d4e9e37d.webp" alt="Lycra Phone Wallet - Full Colour" loading="lazy">
+      <div><h2>Lycra Phone Wallet - Full Colour</h2><p>PLU 110520</p><p>General</p></div>
+    </a><a class="product-card" href="/catalogue/technology/phone-wallets/general/lycra-phone-wallet-heat-transfer/" data-name="lycra phone wallet - heat transfer" data-plu="111762" data-material="general">
+      <img src="/assets/products/111762/111762-1-76d740bc.webp" alt="Lycra Phone Wallet - Heat Transfer" loading="lazy">
+      <div><h2>Lycra Phone Wallet - Heat Transfer</h2><p>PLU 111762</p><p>General</p></div>
+    </a><a class="product-card" href="/catalogue/technology/phone-wallets/silicone/snap-phone-wallet-indent/" data-name="snap phone wallet - indent" data-plu="112923" data-material="silicone">
+      <img src="/assets/products/112923/112923-1-8afe4f62.webp" alt="Snap Phone Wallet - Indent" loading="lazy">
+      <div><h2>Snap Phone Wallet - Indent</h2><p>PLU 112923</p><p>Silicone</p></div>
+    </a><a class="product-card" href="/catalogue/technology/phone-wallets/silicone/silicone-phone-wallet-full-colour/" data-name="silicone phone wallet - full colour" data-plu="112924" data-material="silicone">
+      <img src="/assets/products/112924/112924-1-d7cc5707.webp" alt="Silicone Phone Wallet - Full Colour" loading="lazy">
+      <div><h2>Silicone Phone Wallet - Full Colour</h2><p>PLU 112924</p><p>Silicone</p></div>
+    </a><a class="product-card" href="/catalogue/technology/phone-wallets/silicone/silicone-phone-wallet-indent/" data-name="silicone phone wallet - indent" data-plu="112928" data-material="silicone">
+      <img src="/assets/products/112928/112928-1-24c92246.webp" alt="Silicone Phone Wallet - Indent" loading="lazy">
+      <div><h2>Silicone Phone Wallet - Indent</h2><p>PLU 112928</p><p>Silicone</p></div>
+    </a><a class="product-card" href="/catalogue/technology/phone-wallets/silicone/dual-silicone-phone-wallet/" data-name="dual silicone phone wallet" data-plu="118530" data-material="silicone">
+      <img src="/assets/products/118530/118530-1-639e9e98.webp" alt="Dual Silicone Phone Wallet" loading="lazy">
+      <div><h2>Dual Silicone Phone Wallet</h2><p>PLU 118530</p><p>Silicone</p></div>
+    </a><a class="product-card" href="/catalogue/technology/phone-wallets/silicone/dual-silicone-phone-wallet-full-colour/" data-name="dual silicone phone wallet - full colour" data-plu="118674" data-material="silicone">
+      <img src="/assets/products/118674/118674-1-e1b24316.webp" alt="Dual Silicone Phone Wallet - Full Colour" loading="lazy">
+      <div><h2>Dual Silicone Phone Wallet - Full Colour</h2><p>PLU 118674</p><p>Silicone</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

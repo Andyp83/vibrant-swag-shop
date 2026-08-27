@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Presentation · Paper &amp; Cardboard</title>
+  <meta name="description" content="4 products in Pens / Presentation / Paper &amp; Cardboard.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Presentation · Paper &amp; Cardboard</h1>
+        <p>4 products in Pens / Presentation / Paper &amp; Cardboard.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/pens/presentation/paper-and-cardboard/wedge-gift-box/" data-name="wedge gift box" data-plu="104542" data-material="paper-and-cardboard">
+      <img src="/assets/products/104542/104542-1-a295f193.webp" alt="Wedge Gift Box" loading="lazy">
+      <div><h2>Wedge Gift Box</h2><p>PLU 104542</p><p>Paper &amp; Cardboard</p></div>
+    </a><a class="product-card" href="/catalogue/pens/presentation/paper-and-cardboard/monaco-gift-box/" data-name="monaco gift box" data-plu="108478" data-material="paper-and-cardboard">
+      <img src="/assets/products/108478/108478-1-c493962f.webp" alt="Monaco Gift Box" loading="lazy">
+      <div><h2>Monaco Gift Box</h2><p>PLU 108478</p><p>Paper &amp; Cardboard</p></div>
+    </a><a class="product-card" href="/catalogue/pens/presentation/paper-and-cardboard/monaco-kraft-gift-box/" data-name="monaco kraft gift box" data-plu="125660" data-material="paper-and-cardboard">
+      <img src="/assets/products/125660/125660-1-2b421257.webp" alt="Monaco Kraft Gift Box" loading="lazy">
+      <div><h2>Monaco Kraft Gift Box</h2><p>PLU 125660</p><p>Paper &amp; Cardboard</p></div>
+    </a><a class="product-card" href="/catalogue/pens/presentation/paper-and-cardboard/kraft-paper-pen-sleeve/" data-name="kraft paper pen sleeve" data-plu="129257" data-material="paper-and-cardboard">
+      <img src="/assets/products/129257/129257-1-076893cc.webp" alt="Kraft Paper Pen Sleeve" loading="lazy">
+      <div><h2>Kraft Paper Pen Sleeve</h2><p>PLU 129257</p><p>Paper &amp; Cardboard</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

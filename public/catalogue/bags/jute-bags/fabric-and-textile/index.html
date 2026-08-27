@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Jute Bags · Fabric &amp; Textile</title>
+  <meta name="description" content="7 products in Bags / Jute Bags / Fabric &amp; Textile.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Jute Bags · Fabric &amp; Textile</h1>
+        <p>7 products in Bags / Jute Bags / Fabric &amp; Textile.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/bags/jute-bags/fabric-and-textile/jute-gift-bag-small/" data-name="jute gift bag - small" data-plu="109068" data-material="fabric-and-textile">
+      <img src="/assets/products/109068/109068-1-41e68cb0.webp" alt="Jute Gift Bag - Small" loading="lazy">
+      <div><h2>Jute Gift Bag - Small</h2><p>PLU 109068</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/bags/jute-bags/fabric-and-textile/jute-gift-bag-medium/" data-name="jute gift bag - medium" data-plu="109069" data-material="fabric-and-textile">
+      <img src="/assets/products/109069/109069-1-5cd7a9d8.webp" alt="Jute Gift Bag - Medium" loading="lazy">
+      <div><h2>Jute Gift Bag - Medium</h2><p>PLU 109069</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/bags/jute-bags/fabric-and-textile/jute-gift-bag-large/" data-name="jute gift bag - large" data-plu="109070" data-material="fabric-and-textile">
+      <img src="/assets/products/109070/109070-1-eb81f7ca.webp" alt="Jute Gift Bag - Large" loading="lazy">
+      <div><h2>Jute Gift Bag - Large</h2><p>PLU 109070</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/bags/jute-bags/fabric-and-textile/jute-drawstring-backpack/" data-name="jute drawstring backpack" data-plu="109073" data-material="fabric-and-textile">
+      <img src="/assets/products/109073/109073-1-d10dd4b1.webp" alt="Jute Drawstring Backpack" loading="lazy">
+      <div><h2>Jute Drawstring Backpack</h2><p>PLU 109073</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/bags/jute-bags/fabric-and-textile/jute-net-produce-bag/" data-name="jute net produce bag" data-plu="114984" data-material="fabric-and-textile">
+      <img src="/assets/products/114984/114984-1-59cacd58.webp" alt="Jute Net Produce Bag" loading="lazy">
+      <div><h2>Jute Net Produce Bag</h2><p>PLU 114984</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/bags/jute-bags/fabric-and-textile/jute-wine-drawstring-bag/" data-name="jute wine drawstring bag" data-plu="122387" data-material="fabric-and-textile">
+      <img src="/assets/products/122387/122387-1-62e473eb.webp" alt="Jute Wine Drawstring Bag" loading="lazy">
+      <div><h2>Jute Wine Drawstring Bag</h2><p>PLU 122387</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/bags/jute-bags/fabric-and-textile/jute-wine-drawstring-bag-sale/" data-name="jute wine drawstring bag - sale" data-plu="129164" data-material="fabric-and-textile">
+      <img src="/assets/products/129164/129164-1-846e2630.webp" alt="Jute Wine Drawstring Bag - Sale" loading="lazy">
+      <div><h2>Jute Wine Drawstring Bag - Sale</h2><p>PLU 129164</p><p>Fabric &amp; Textile</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

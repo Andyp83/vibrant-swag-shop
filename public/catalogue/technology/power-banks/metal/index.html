@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Power Banks · Metal</title>
+  <meta name="description" content="6 products in Technology / Power Banks / Metal.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Power Banks · Metal</h1>
+        <p>6 products in Technology / Power Banks / Metal.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/technology/power-banks/metal/dalek-power-bank/" data-name="dalek power bank" data-plu="115519" data-material="metal">
+      <img src="/assets/products/115519/115519-1-291ecf4b.webp" alt="Dalek Power Bank" loading="lazy">
+      <div><h2>Dalek Power Bank</h2><p>PLU 115519</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/technology/power-banks/metal/megatron-power-bank/" data-name="megatron power bank" data-plu="115541" data-material="metal">
+      <img src="/assets/products/115541/115541-1-a9723220.webp" alt="Megatron Power Bank" loading="lazy">
+      <div><h2>Megatron Power Bank</h2><p>PLU 115541</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/technology/power-banks/metal/zion-power-bank/" data-name="zion power bank" data-plu="115629" data-material="metal">
+      <img src="/assets/products/115629/115629-1-d9947ec1.webp" alt="Zion Power Bank" loading="lazy">
+      <div><h2>Zion Power Bank</h2><p>PLU 115629</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/technology/power-banks/metal/dash-18w-pd-power-bank-1/" data-name="dash 18w pd power bank" data-plu="124862" data-material="metal">
+      <img src="/assets/products/124862/124862-1-f712ef28.webp" alt="Dash 18W PD Power Bank" loading="lazy">
+      <div><h2>Dash 18W PD Power Bank</h2><p>PLU 124862</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/technology/power-banks/metal/bolt-225w-qc-power-bank/" data-name="bolt 22.5w qc power bank" data-plu="124864" data-material="metal">
+      <img src="/assets/products/124864/124864-1-ac4d7a53.webp" alt="Bolt 22.5W QC Power Bank" loading="lazy">
+      <div><h2>Bolt 22.5W QC Power Bank</h2><p>PLU 124864</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/technology/power-banks/metal/lucent-power-bank/" data-name="lucent power bank" data-plu="200312" data-material="metal">
+      <img src="/assets/products/200312/200312-1-a4feb16c.webp" alt="Lucent Power Bank" loading="lazy">
+      <div><h2>Lucent Power Bank</h2><p>PLU 200312</p><p>Metal</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

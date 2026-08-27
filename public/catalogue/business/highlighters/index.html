@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Business · Highlighters</title>
+  <meta name="description" content="7 products split by material/style.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Business · Highlighters</h1>
+        <p>7 products split by material/style.</p>
+        <div class="section-pills"><a href="/catalogue/business/highlighters/plastic/">Plastic <span>6</span></a><a href="/catalogue/business/highlighters/paper-and-cardboard/">Paper &amp; Cardboard <span>1</span></a></div>
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/business/highlighters/plastic/wax-highlighter/" data-name="wax highlighter" data-plu="107079" data-material="plastic">
+      <img src="/assets/products/107079/107079-1-9e1ce3a8.webp" alt="Wax Highlighter" loading="lazy">
+      <div><h2>Wax Highlighter</h2><p>PLU 107079</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/business/highlighters/plastic/flower-highlighter/" data-name="flower highlighter" data-plu="108516" data-material="plastic">
+      <img src="/assets/products/108516/108516-1-fc6047c0.webp" alt="Flower Highlighter" loading="lazy">
+      <div><h2>Flower Highlighter</h2><p>PLU 108516</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/business/highlighters/plastic/handy-highlighter/" data-name="handy highlighter" data-plu="111941" data-material="plastic">
+      <img src="/assets/products/111941/111941-1-10db8ab1.webp" alt="Handy Highlighter" loading="lazy">
+      <div><h2>Handy Highlighter</h2><p>PLU 111941</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/business/highlighters/plastic/trimark-highlighter/" data-name="trimark highlighter" data-plu="111942" data-material="plastic">
+      <img src="/assets/products/111942/111942-1-c73269f9.webp" alt="Trimark Highlighter" loading="lazy">
+      <div><h2>Trimark Highlighter</h2><p>PLU 111942</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/business/highlighters/plastic/vivo-highlighter-set/" data-name="vivo highlighter set" data-plu="111943" data-material="plastic">
+      <img src="/assets/products/111943/111943-1-530b24ef.webp" alt="Vivo Highlighter Set" loading="lazy">
+      <div><h2>Vivo Highlighter Set</h2><p>PLU 111943</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/business/highlighters/paper-and-cardboard/highlighter-pencil-pack/" data-name="highlighter pencil pack" data-plu="117336" data-material="paper-and-cardboard">
+      <img src="/assets/products/117336/117336-1-17c7f231.webp" alt="Highlighter Pencil Pack" loading="lazy">
+      <div><h2>Highlighter Pencil Pack</h2><p>PLU 117336</p><p>Paper &amp; Cardboard</p></div>
+    </a><a class="product-card" href="/catalogue/business/highlighters/plastic/choice-highlighter/" data-name="choice highlighter" data-plu="121803" data-material="plastic">
+      <img src="/assets/products/121803/121803-1-f82d238d.webp" alt="Choice Highlighter" loading="lazy">
+      <div><h2>Choice Highlighter</h2><p>PLU 121803</p><p>Plastic</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

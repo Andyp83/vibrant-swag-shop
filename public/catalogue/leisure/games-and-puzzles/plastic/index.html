@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Games &amp; Puzzles · Plastic</title>
+  <meta name="description" content="6 products in Leisure / Games &amp; Puzzles / Plastic.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Games &amp; Puzzles · Plastic</h1>
+        <p>6 products in Leisure / Games &amp; Puzzles / Plastic.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/leisure/games-and-puzzles/plastic/puzzle/" data-name="puzzle" data-plu="100555" data-material="plastic">
+      <img src="/assets/products/100555/100555-1-ad18ff6a.webp" alt="Puzzle" loading="lazy">
+      <div><h2>Puzzle</h2><p>PLU 100555</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/games-and-puzzles/plastic/yoyo/" data-name="yoyo" data-plu="106227" data-material="plastic">
+      <img src="/assets/products/106227/106227-1-1c75de72.webp" alt="Yoyo" loading="lazy">
+      <div><h2>Yoyo</h2><p>PLU 106227</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/games-and-puzzles/plastic/four-in-a-row-game/" data-name="four in a row game" data-plu="120516" data-material="plastic">
+      <img src="/assets/products/120516/120516-1-4b18cc0f.webp" alt="Four in a Row Game" loading="lazy">
+      <div><h2>Four in a Row Game</h2><p>PLU 120516</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/games-and-puzzles/plastic/paddle-ball-game/" data-name="paddle ball game" data-plu="120846" data-material="plastic">
+      <img src="/assets/products/120846/120846-1-4487786c.webp" alt="Paddle Ball Game" loading="lazy">
+      <div><h2>Paddle Ball Game</h2><p>PLU 120846</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/games-and-puzzles/plastic/portable-table-tennis-set/" data-name="portable table tennis set" data-plu="123075" data-material="plastic">
+      <img src="/assets/products/123075/123075-1-b2e49697.webp" alt="Portable Table Tennis Set" loading="lazy">
+      <div><h2>Portable Table Tennis Set</h2><p>PLU 123075</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/games-and-puzzles/plastic/custom-puzzle-cube/" data-name="custom puzzle cube" data-plu="125065" data-material="plastic">
+      <img src="/assets/products/125065/125065-1-547fe0b0.webp" alt="Custom Puzzle Cube" loading="lazy">
+      <div><h2>Custom Puzzle Cube</h2><p>PLU 125065</p><p>Plastic</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

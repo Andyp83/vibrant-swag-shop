@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Note Pads · Paper &amp; Cardboard</title>
+  <meta name="description" content="4 products in Business / Note Pads / Paper &amp; Cardboard.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Note Pads · Paper &amp; Cardboard</h1>
+        <p>4 products in Business / Note Pads / Paper &amp; Cardboard.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/business/note-pads/paper-and-cardboard/kraft-note-pad-medium/" data-name="kraft note pad - medium" data-plu="100895" data-material="paper-and-cardboard">
+      <img src="/assets/products/100895/100895-1-767508f2.webp" alt="Kraft Note Pad - Medium" loading="lazy">
+      <div><h2>Kraft Note Pad - Medium</h2><p>PLU 100895</p><p>Paper &amp; Cardboard</p></div>
+    </a><a class="product-card" href="/catalogue/business/note-pads/paper-and-cardboard/kraft-note-pad-small/" data-name="kraft note pad - small" data-plu="100897" data-material="paper-and-cardboard">
+      <img src="/assets/products/100897/100897-1-dd10c3b8.webp" alt="Kraft Note Pad - Small" loading="lazy">
+      <div><h2>Kraft Note Pad - Small</h2><p>PLU 100897</p><p>Paper &amp; Cardboard</p></div>
+    </a><a class="product-card" href="/catalogue/business/note-pads/paper-and-cardboard/creative-sketch-set/" data-name="creative sketch set" data-plu="113246" data-material="paper-and-cardboard">
+      <img src="/assets/products/113246/113246-1-4555a16a.webp" alt="Creative Sketch Set" loading="lazy">
+      <div><h2>Creative Sketch Set</h2><p>PLU 113246</p><p>Paper &amp; Cardboard</p></div>
+    </a><a class="product-card" href="/catalogue/business/note-pads/paper-and-cardboard/scribe-full-colour-note-pad-medium/" data-name="scribe full colour note pad - medium" data-plu="118179" data-material="paper-and-cardboard">
+      
+      <div><h2>Scribe Full Colour Note Pad - Medium</h2><p>PLU 118179</p><p>Paper &amp; Cardboard</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Headwear Accessories · Fabric &amp; Textile</title>
+  <meta name="description" content="5 products in Headwear / Headwear Accessories / Fabric &amp; Textile.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Headwear Accessories · Fabric &amp; Textile</h1>
+        <p>5 products in Headwear / Headwear Accessories / Fabric &amp; Textile.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/headwear/headwear-accessories/fabric-and-textile/triangle-bandana/" data-name="triangle bandana" data-plu="112890" data-material="fabric-and-textile">
+      <img src="/assets/products/112890/112890-1-59a31727.webp" alt="Triangle Bandana" loading="lazy">
+      <div><h2>Triangle Bandana</h2><p>PLU 112890</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/headwear/headwear-accessories/fabric-and-textile/hair-scrunchie/" data-name="hair scrunchie" data-plu="117437" data-material="fabric-and-textile">
+      <img src="/assets/products/117437/117437-1-7cb08fc5.webp" alt="Hair Scrunchie" loading="lazy">
+      <div><h2>Hair Scrunchie</h2><p>PLU 117437</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/headwear/headwear-accessories/fabric-and-textile/hair-scrunchie-set-of-2/" data-name="hair scrunchie - set of 2" data-plu="117675" data-material="fabric-and-textile">
+      <img src="/assets/products/117675/117675-1-3812c83e.webp" alt="Hair Scrunchie - Set of 2" loading="lazy">
+      <div><h2>Hair Scrunchie - Set of 2</h2><p>PLU 117675</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/headwear/headwear-accessories/fabric-and-textile/denali-scarf/" data-name="denali scarf" data-plu="122383" data-material="fabric-and-textile">
+      <img src="/assets/products/122383/122383-1-d4a927c7.webp" alt="Denali Scarf" loading="lazy">
+      <div><h2>Denali Scarf</h2><p>PLU 122383</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/headwear/headwear-accessories/fabric-and-textile/custom-lightweight-scarf/" data-name="custom lightweight scarf" data-plu="129729" data-material="fabric-and-textile">
+      <img src="/assets/products/129729/129729-1-9db09c25.webp" alt="Custom Lightweight Scarf" loading="lazy">
+      <div><h2>Custom Lightweight Scarf</h2><p>PLU 129729</p><p>Fabric &amp; Textile</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

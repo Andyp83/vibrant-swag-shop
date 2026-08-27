@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Face Masks · Fabric &amp; Textile</title>
+  <meta name="description" content="5 products in Personal / Face Masks / Fabric &amp; Textile.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Face Masks · Fabric &amp; Textile</h1>
+        <p>5 products in Personal / Face Masks / Fabric &amp; Textile.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/personal/face-masks/fabric-and-textile/reusable-cotton-face-mask-premium-indent/" data-name="reusable cotton face mask premium - indent" data-plu="121013" data-material="fabric-and-textile">
+      <img src="/assets/products/121013/121013-1-ae7899c0.webp" alt="Reusable Cotton Face Mask Premium - Indent" loading="lazy">
+      <div><h2>Reusable Cotton Face Mask Premium - Indent</h2><p>PLU 121013</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/personal/face-masks/fabric-and-textile/full-colour-reusable-face-mask-premium-indent/" data-name="full colour reusable face mask premium - indent" data-plu="121014" data-material="fabric-and-textile">
+      <img src="/assets/products/121014/121014-1-6f4e4e5a.webp" alt="Full Colour Reusable Face Mask Premium - Indent" loading="lazy">
+      <div><h2>Full Colour Reusable Face Mask Premium - Indent</h2><p>PLU 121014</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/personal/face-masks/fabric-and-textile/custom-face-mask/" data-name="custom face mask" data-plu="121173" data-material="fabric-and-textile">
+      <img src="/assets/products/121173/121173-1-1af81ef9.webp" alt="Custom Face Mask" loading="lazy">
+      <div><h2>Custom Face Mask</h2><p>PLU 121173</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/personal/face-masks/fabric-and-textile/luxe-face-mask/" data-name="luxe face mask" data-plu="121850" data-material="fabric-and-textile">
+      <img src="/assets/products/121850/121850-1-209c443f.webp" alt="Luxe Face Mask" loading="lazy">
+      <div><h2>Luxe Face Mask</h2><p>PLU 121850</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/personal/face-masks/fabric-and-textile/linen-face-mask/" data-name="linen face mask" data-plu="121996" data-material="fabric-and-textile">
+      <img src="/assets/products/121996/121996-1-43db4633.webp" alt="Linen Face Mask" loading="lazy">
+      <div><h2>Linen Face Mask</h2><p>PLU 121996</p><p>Fabric &amp; Textile</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

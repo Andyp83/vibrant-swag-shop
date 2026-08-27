@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Power Banks · Plastic</title>
+  <meta name="description" content="10 products in Technology / Power Banks / Plastic.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Power Banks · Plastic</h1>
+        <p>10 products in Technology / Power Banks / Plastic.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/technology/power-banks/plastic/kronos-wireless-power-bank/" data-name="kronos wireless power bank" data-plu="115539" data-material="plastic">
+      <img src="/assets/products/115539/115539-1-07cc933d.webp" alt="Kronos Wireless Power Bank" loading="lazy">
+      <div><h2>Kronos Wireless Power Bank</h2><p>PLU 115539</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/technology/power-banks/plastic/tesla-power-bank/" data-name="tesla power bank" data-plu="115594" data-material="plastic">
+      <img src="/assets/products/115594/115594-1-e415d4fe.webp" alt="Tesla Power Bank" loading="lazy">
+      <div><h2>Tesla Power Bank</h2><p>PLU 115594</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/technology/power-banks/plastic/odyssey-wireless-charging-power-bank-1/" data-name="odyssey wireless charging power bank" data-plu="116666" data-material="plastic">
+      <img src="/assets/products/116666/116666-1-09f469d1.webp" alt="Odyssey Wireless Charging Power Bank" loading="lazy">
+      <div><h2>Odyssey Wireless Charging Power Bank</h2><p>PLU 116666</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/technology/power-banks/plastic/exodus-power-bank/" data-name="exodus power bank" data-plu="116670" data-material="plastic">
+      <img src="/assets/products/116670/116670-1-86680ee3.webp" alt="Exodus Power Bank" loading="lazy">
+      <div><h2>Exodus Power Bank</h2><p>PLU 116670</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/technology/power-banks/plastic/vortex-power-bank/" data-name="vortex power bank" data-plu="117034" data-material="plastic">
+      <img src="/assets/products/117034/117034-1-2603a664.webp" alt="Vortex Power Bank" loading="lazy">
+      <div><h2>Vortex Power Bank</h2><p>PLU 117034</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/technology/power-banks/plastic/jarvis-5k-wireless-charging-power-bank-1/" data-name="jarvis 5k wireless charging power bank" data-plu="117138" data-material="plastic">
+      <img src="/assets/products/117138/117138-1-c70fb8ea.webp" alt="Jarvis 5k Wireless Charging Power Bank" loading="lazy">
+      <div><h2>Jarvis 5k Wireless Charging Power Bank</h2><p>PLU 117138</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/technology/power-banks/plastic/alias-power-bank/" data-name="alias power bank" data-plu="122268" data-material="plastic">
+      <img src="/assets/products/122268/122268-1-77dca998.webp" alt="Alias Power Bank" loading="lazy">
+      <div><h2>Alias Power Bank</h2><p>PLU 122268</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/technology/power-banks/plastic/faraday-power-bank/" data-name="faraday power bank" data-plu="124776" data-material="plastic">
+      <img src="/assets/products/124776/124776-1-1752b413.webp" alt="Faraday Power Bank" loading="lazy">
+      <div><h2>Faraday Power Bank</h2><p>PLU 124776</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/technology/power-banks/plastic/jarvis-10k-wireless-charging-power-bank-1/" data-name="jarvis 10k wireless charging power bank" data-plu="200309" data-material="plastic">
+      <img src="/assets/products/200309/200309-1-ed70b0a0.webp" alt="Jarvis 10k Wireless Charging Power Bank" loading="lazy">
+      <div><h2>Jarvis 10k Wireless Charging Power Bank</h2><p>PLU 200309</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/technology/power-banks/plastic/triode-10k-wireless-charging-station/" data-name="triode 10k wireless charging station" data-plu="200321" data-material="plastic">
+      <img src="/assets/products/200321/200321-1-32ac4201.webp" alt="Triode 10k Wireless Charging Station" loading="lazy">
+      <div><h2>Triode 10k Wireless Charging Station</h2><p>PLU 200321</p><p>Plastic</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

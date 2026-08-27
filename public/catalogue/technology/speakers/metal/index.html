@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Speakers · Metal</title>
+  <meta name="description" content="4 products in Technology / Speakers / Metal.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Speakers · Metal</h1>
+        <p>4 products in Technology / Speakers / Metal.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/technology/speakers/metal/swiss-peak-bass-speaker/" data-name="swiss peak bass speaker" data-plu="120860" data-material="metal">
+      <img src="/assets/products/120860/120860-1-3383ef18.webp" alt="Swiss Peak Bass Speaker" loading="lazy">
+      <div><h2>Swiss Peak Bass Speaker</h2><p>PLU 120860</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/technology/speakers/metal/spectrum-bluetooth-speaker/" data-name="spectrum bluetooth speaker" data-plu="123579" data-material="metal">
+      <img src="/assets/products/123579/123579-1-68b84dbb.webp" alt="Spectrum Bluetooth Speaker" loading="lazy">
+      <div><h2>Spectrum Bluetooth Speaker</h2><p>PLU 123579</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/technology/speakers/metal/swiss-peak-10w-bass-speaker/" data-name="swiss peak 10w bass speaker" data-plu="134192" data-material="metal">
+      <img src="/assets/products/134192/134192-1-f8b9d5c4.webp" alt="Swiss Peak 10W Bass Speaker" loading="lazy">
+      <div><h2>Swiss Peak 10W Bass Speaker</h2><p>PLU 134192</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/technology/speakers/metal/oracle-bluetooth-speaker/" data-name="oracle bluetooth speaker" data-plu="200305" data-material="metal">
+      <img src="/assets/products/200305/200305-1-9238f008.webp" alt="Oracle Bluetooth Speaker" loading="lazy">
+      <div><h2>Oracle Bluetooth Speaker</h2><p>PLU 200305</p><p>Metal</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

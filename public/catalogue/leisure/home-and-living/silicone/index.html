@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Home &amp; Living · Silicone</title>
+  <meta name="description" content="7 products in Leisure / Home &amp; Living / Silicone.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Home &amp; Living · Silicone</h1>
+        <p>7 products in Leisure / Home &amp; Living / Silicone.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/leisure/home-and-living/silicone/pop-ice-block-mould/" data-name="pop ice block mould" data-plu="115032" data-material="silicone">
+      <img src="/assets/products/115032/115032-0-ade1d7a2.webp" alt="Pop Ice Block Mould" loading="lazy">
+      <div><h2>Pop Ice Block Mould</h2><p>PLU 115032</p><p>Silicone</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/home-and-living/silicone/silicone-jar-opener/" data-name="silicone jar opener" data-plu="118120" data-material="silicone">
+      <img src="/assets/products/118120/118120-1-43a7d2ce.webp" alt="Silicone Jar Opener" loading="lazy">
+      <div><h2>Silicone Jar Opener</h2><p>PLU 118120</p><p>Silicone</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/home-and-living/silicone/silicone-reusable-storage-pouch/" data-name="silicone reusable storage pouch" data-plu="118122" data-material="silicone">
+      <img src="/assets/products/118122/118122-1-a32fcf0b.webp" alt="Silicone Reusable Storage Pouch" loading="lazy">
+      <div><h2>Silicone Reusable Storage Pouch</h2><p>PLU 118122</p><p>Silicone</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/home-and-living/silicone/microwave-popcorn-popper/" data-name="microwave popcorn popper" data-plu="120339" data-material="silicone">
+      <img src="/assets/products/120339/120339-1-7f4d2bc9.webp" alt="Microwave Popcorn Popper" loading="lazy">
+      <div><h2>Microwave Popcorn Popper</h2><p>PLU 120339</p><p>Silicone</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/home-and-living/silicone/kids-suction-bowl-set/" data-name="kids suction bowl set" data-plu="124805" data-material="silicone">
+      <img src="/assets/products/124805/124805-1-87ca4ff2.webp" alt="Kids Suction Bowl Set" loading="lazy">
+      <div><h2>Kids Suction Bowl Set</h2><p>PLU 124805</p><p>Silicone</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/home-and-living/silicone/kids-plate-set/" data-name="kids plate set" data-plu="124806" data-material="silicone">
+      <img src="/assets/products/124806/124806-1-3816b7cf.webp" alt="Kids Plate Set" loading="lazy">
+      <div><h2>Kids Plate Set</h2><p>PLU 124806</p><p>Silicone</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/home-and-living/silicone/kids-sipper-cup/" data-name="kids sipper cup" data-plu="124809" data-material="silicone">
+      <img src="/assets/products/124809/124809-1-6432c718.webp" alt="Kids Sipper Cup" loading="lazy">
+      <div><h2>Kids Sipper Cup</h2><p>PLU 124809</p><p>Silicone</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

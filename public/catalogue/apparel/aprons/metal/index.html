@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Aprons · Metal</title>
+  <meta name="description" content="3 products in Apparel / Aprons / Metal.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Aprons · Metal</h1>
+        <p>3 products in Apparel / Aprons / Metal.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/apparel/aprons/metal/carolina-denim-bib-apron/" data-name="carolina denim bib apron" data-plu="113593" data-material="metal">
+      <img src="/assets/products/113593/113593-1-30dd47c6.webp" alt="Carolina Denim Bib Apron" loading="lazy">
+      <div><h2>Carolina Denim Bib Apron</h2><p>PLU 113593</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/apparel/aprons/metal/keepsake-canvas-apron/" data-name="keepsake canvas apron" data-plu="128805" data-material="metal">
+      <img src="/assets/products/128805/128805-1-76366c79.webp" alt="Keepsake Canvas Apron" loading="lazy">
+      <div><h2>Keepsake Canvas Apron</h2><p>PLU 128805</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/apparel/aprons/metal/keepsake-canvas-apron-oven-mit-set/" data-name="keepsake canvas apron &amp; oven mit set" data-plu="133819" data-material="metal">
+      <img src="/assets/products/133819/133819-1-1a7f0097.webp" alt="Keepsake Canvas Apron &amp; Oven Mit Set" loading="lazy">
+      <div><h2>Keepsake Canvas Apron &amp; Oven Mit Set</h2><p>PLU 133819</p><p>Metal</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

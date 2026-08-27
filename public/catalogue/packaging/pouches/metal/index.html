@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pouches · Metal</title>
+  <meta name="description" content="7 products in Packaging / Pouches / Metal.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Pouches · Metal</h1>
+        <p>7 products in Packaging / Pouches / Metal.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/packaging/pouches/metal/foil-stand-up-pouch-extra-small/" data-name="foil stand up pouch - extra small" data-plu="127988" data-material="metal">
+      <img src="/assets/products/127988/127988-1-fe94168b.webp" alt="Foil Stand Up Pouch - Extra Small" loading="lazy">
+      <div><h2>Foil Stand Up Pouch - Extra Small</h2><p>PLU 127988</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/packaging/pouches/metal/foil-stand-up-pouch-small/" data-name="foil stand up pouch - small" data-plu="127989" data-material="metal">
+      <img src="/assets/products/127989/127989-1-7ab3529b.webp" alt="Foil Stand Up Pouch - Small" loading="lazy">
+      <div><h2>Foil Stand Up Pouch - Small</h2><p>PLU 127989</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/packaging/pouches/metal/foil-stand-up-pouch-medium/" data-name="foil stand up pouch - medium" data-plu="127990" data-material="metal">
+      <img src="/assets/products/127990/127990-1-d597de56.webp" alt="Foil Stand Up Pouch - Medium" loading="lazy">
+      <div><h2>Foil Stand Up Pouch - Medium</h2><p>PLU 127990</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/packaging/pouches/metal/foil-stand-up-pouch-large/" data-name="foil stand up pouch - large" data-plu="127991" data-material="metal">
+      <img src="/assets/products/127991/127991-1-18b1ba8b.webp" alt="Foil Stand Up Pouch - Large" loading="lazy">
+      <div><h2>Foil Stand Up Pouch - Large</h2><p>PLU 127991</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/packaging/pouches/metal/foil-stand-up-pouch-extra-large/" data-name="foil stand up pouch - extra large" data-plu="127992" data-material="metal">
+      <img src="/assets/products/127992/127992-1-5d3610cb.webp" alt="Foil Stand Up Pouch - Extra Large" loading="lazy">
+      <div><h2>Foil Stand Up Pouch - Extra Large</h2><p>PLU 127992</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/packaging/pouches/metal/foil-flat-bottom-pouch-small/" data-name="foil flat bottom pouch - small" data-plu="127993" data-material="metal">
+      <img src="/assets/products/127993/127993-1-61cbcb8a.webp" alt="Foil Flat Bottom Pouch - Small" loading="lazy">
+      <div><h2>Foil Flat Bottom Pouch - Small</h2><p>PLU 127993</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/packaging/pouches/metal/foil-flat-bottom-pouch-large/" data-name="foil flat bottom pouch - large" data-plu="127994" data-material="metal">
+      <img src="/assets/products/127994/127994-1-a41043c5.webp" alt="Foil Flat Bottom Pouch - Large" loading="lazy">
+      <div><h2>Foil Flat Bottom Pouch - Large</h2><p>PLU 127994</p><p>Metal</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

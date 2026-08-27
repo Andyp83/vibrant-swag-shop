@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wireless Chargers · Fabric &amp; Textile</title>
+  <meta name="description" content="3 products in Technology / Wireless Chargers / Fabric &amp; Textile.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Wireless Chargers · Fabric &amp; Textile</h1>
+        <p>3 products in Technology / Wireless Chargers / Fabric &amp; Textile.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/technology/wireless-chargers/fabric-and-textile/davros-wireless-charging-mouse-mat/" data-name="davros wireless charging mouse mat" data-plu="116032" data-material="fabric-and-textile">
+      <img src="/assets/products/116032/116032-1-a0ac05e4.webp" alt="Davros Wireless Charging Mouse Mat" loading="lazy">
+      <div><h2>Davros Wireless Charging Mouse Mat</h2><p>PLU 116032</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/technology/wireless-chargers/fabric-and-textile/hadron-wireless-charger-fabric/" data-name="hadron wireless charger - fabric" data-plu="116331" data-material="fabric-and-textile">
+      <img src="/assets/products/116331/116331-1-083c5235.webp" alt="Hadron Wireless Charger - Fabric" loading="lazy">
+      <div><h2>Hadron Wireless Charger - Fabric</h2><p>PLU 116331</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/technology/wireless-chargers/fabric-and-textile/greystone-wireless-charging-mouse-mat/" data-name="greystone wireless charging mouse mat" data-plu="116768" data-material="fabric-and-textile">
+      <img src="/assets/products/116768/116768-1-4f90aaa9.webp" alt="Greystone Wireless Charging Mouse Mat" loading="lazy">
+      <div><h2>Greystone Wireless Charging Mouse Mat</h2><p>PLU 116768</p><p>Fabric &amp; Textile</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

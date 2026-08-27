@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sport · General</title>
+  <meta name="description" content="9 products in Leisure / Sport / General.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Sport · General</h1>
+        <p>9 products in Leisure / Sport / General.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/leisure/sport/general/rugby-ball-pro/" data-name="rugby ball pro" data-plu="117241" data-material="general">
+      <img src="/assets/products/117241/117241-1-7f0d6c87.webp" alt="Rugby Ball Pro" loading="lazy">
+      <div><h2>Rugby Ball Pro</h2><p>PLU 117241</p><p>General</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/sport/general/rugby-ball-junior-pro/" data-name="rugby ball junior pro" data-plu="117242" data-material="general">
+      <img src="/assets/products/117242/117242-1-dc30c1df.webp" alt="Rugby Ball Junior Pro" loading="lazy">
+      <div><h2>Rugby Ball Junior Pro</h2><p>PLU 117242</p><p>General</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/sport/general/rugby-ball-promo/" data-name="rugby ball promo" data-plu="117243" data-material="general">
+      <img src="/assets/products/117243/117243-1-35298cb1.webp" alt="Rugby Ball Promo" loading="lazy">
+      <div><h2>Rugby Ball Promo</h2><p>PLU 117243</p><p>General</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/sport/general/rugby-ball-mini/" data-name="rugby ball mini" data-plu="117244" data-material="general">
+      <img src="/assets/products/117244/117244-1-12fc66b5.webp" alt="Rugby Ball Mini" loading="lazy">
+      <div><h2>Rugby Ball Mini</h2><p>PLU 117244</p><p>General</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/sport/general/rugby-league-ball-pro/" data-name="rugby league ball pro" data-plu="117245" data-material="general">
+      <img src="/assets/products/117245/117245-1-be56c288.webp" alt="Rugby League Ball Pro" loading="lazy">
+      <div><h2>Rugby League Ball Pro</h2><p>PLU 117245</p><p>General</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/sport/general/rugby-league-ball-promo/" data-name="rugby league ball promo" data-plu="117246" data-material="general">
+      <img src="/assets/products/117246/117246-1-0212ee98.webp" alt="Rugby League Ball Promo" loading="lazy">
+      <div><h2>Rugby League Ball Promo</h2><p>PLU 117246</p><p>General</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/sport/general/afl-ball-pro/" data-name="afl ball pro" data-plu="117248" data-material="general">
+      <img src="/assets/products/117248/117248-1-886ca6c5.webp" alt="AFL Ball Pro" loading="lazy">
+      <div><h2>AFL Ball Pro</h2><p>PLU 117248</p><p>General</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/sport/general/touch-rugby-ball-pro/" data-name="touch rugby ball pro" data-plu="117254" data-material="general">
+      <img src="/assets/products/117254/117254-1-4b607b82.webp" alt="Touch Rugby Ball Pro" loading="lazy">
+      <div><h2>Touch Rugby Ball Pro</h2><p>PLU 117254</p><p>General</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/sport/general/netball-pro/" data-name="netball pro" data-plu="117255" data-material="general">
+      <img src="/assets/products/117255/117255-1-41d8fc5a.webp" alt="Netball Pro" loading="lazy">
+      <div><h2>Netball Pro</h2><p>PLU 117255</p><p>General</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

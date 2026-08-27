@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Black Refill · Metal</title>
+  <meta name="description" content="6 products in Pens / Black Refill / Metal.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Black Refill · Metal</h1>
+        <p>6 products in Pens / Black Refill / Metal.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/pens/black-refill/metal/supreme-wood-pen/" data-name="supreme wood pen" data-plu="114975" data-material="metal">
+      <img src="/assets/products/114975/114975-1-538c8371.webp" alt="Supreme Wood Pen" loading="lazy">
+      <div><h2>Supreme Wood Pen</h2><p>PLU 114975</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/pens/black-refill/metal/infinity-inkless-pen/" data-name="infinity inkless pen" data-plu="121416" data-material="metal">
+      <img src="/assets/products/121416/121416-1-a3a2e4ff.webp" alt="Infinity Inkless Pen" loading="lazy">
+      <div><h2>Infinity Inkless Pen</h2><p>PLU 121416</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/pens/black-refill/metal/spice-noclip-bamboo-pen/" data-name="spice noclip bamboo pen" data-plu="126886" data-material="metal">
+      <img src="/assets/products/126886/126886-1-86b4b423.webp" alt="SPICE Noclip Bamboo Pen" loading="lazy">
+      <div><h2>SPICE Noclip Bamboo Pen</h2><p>PLU 126886</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/pens/black-refill/metal/unwind-bamboo-spinner-pen/" data-name="unwind bamboo spinner pen" data-plu="129397" data-material="metal">
+      <img src="/assets/products/129397/129397-1-7d032b43.webp" alt="Unwind Bamboo Spinner Pen" loading="lazy">
+      <div><h2>Unwind Bamboo Spinner Pen</h2><p>PLU 129397</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/pens/black-refill/metal/lancer-bamboo-pen/" data-name="lancer bamboo pen" data-plu="200274" data-material="metal">
+      <img src="/assets/products/200274/200274-1-5d7e8c6b.webp" alt="Lancer Bamboo Pen" loading="lazy">
+      <div><h2>Lancer Bamboo Pen</h2><p>PLU 200274</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/pens/black-refill/metal/lancer-bamboo-stylus-pen/" data-name="lancer bamboo stylus pen" data-plu="200275" data-material="metal">
+      <img src="/assets/products/200275/200275-1-6e42250a.webp" alt="Lancer Bamboo Stylus Pen" loading="lazy">
+      <div><h2>Lancer Bamboo Stylus Pen</h2><p>PLU 200275</p><p>Metal</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

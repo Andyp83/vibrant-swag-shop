@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Paper Bags · Plastic</title>
+  <meta name="description" content="10 products in Bags / Paper Bags / Plastic.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Paper Bags · Plastic</h1>
+        <p>10 products in Bags / Paper Bags / Plastic.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/bags/paper-bags/plastic/laminated-carry-bag-small/" data-name="laminated carry bag - small" data-plu="108511" data-material="plastic">
+      <img src="/assets/products/108511/108511-1-331faf7b.webp" alt="Laminated Carry Bag - Small" loading="lazy">
+      <div><h2>Laminated Carry Bag - Small</h2><p>PLU 108511</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/bags/paper-bags/plastic/laminated-carry-bag-medium/" data-name="laminated carry bag - medium" data-plu="108512" data-material="plastic">
+      <img src="/assets/products/108512/108512-1-78aed12c.webp" alt="Laminated Carry Bag - Medium" loading="lazy">
+      <div><h2>Laminated Carry Bag - Medium</h2><p>PLU 108512</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/bags/paper-bags/plastic/laminated-carry-bag-large/" data-name="laminated carry bag - large" data-plu="108513" data-material="plastic">
+      <img src="/assets/products/108513/108513-1-9c5361a6.webp" alt="Laminated Carry Bag - Large" loading="lazy">
+      <div><h2>Laminated Carry Bag - Large</h2><p>PLU 108513</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/bags/paper-bags/plastic/laminated-carry-bag-extra-large/" data-name="laminated carry bag - extra large" data-plu="108514" data-material="plastic">
+      <img src="/assets/products/108514/108514-1-11663249.webp" alt="Laminated Carry Bag - Extra Large" loading="lazy">
+      <div><h2>Laminated Carry Bag - Extra Large</h2><p>PLU 108514</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/bags/paper-bags/plastic/laminated-wine-bag/" data-name="laminated wine bag" data-plu="108515" data-material="plastic">
+      <img src="/assets/products/108515/108515-1-c3ac3aee.webp" alt="Laminated Wine Bag" loading="lazy">
+      <div><h2>Laminated Wine Bag</h2><p>PLU 108515</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/bags/paper-bags/plastic/small-laminated-paper-carry-bag-full-colour/" data-name="small laminated paper carry bag - full colour" data-plu="116934" data-material="plastic">
+      <img src="/assets/products/116934/116934-1-51c57fa3.webp" alt="Small Laminated Paper Carry Bag - Full Colour" loading="lazy">
+      <div><h2>Small Laminated Paper Carry Bag - Full Colour</h2><p>PLU 116934</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/bags/paper-bags/plastic/medium-laminated-paper-carry-bag-full-colour/" data-name="medium laminated paper carry bag - full colour" data-plu="116936" data-material="plastic">
+      <img src="/assets/products/116936/116936-1-ad5fcaba.webp" alt="Medium Laminated Paper Carry Bag - Full Colour" loading="lazy">
+      <div><h2>Medium Laminated Paper Carry Bag - Full Colour</h2><p>PLU 116936</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/bags/paper-bags/plastic/extra-large-laminated-paper-carry-bag-full-colour/" data-name="extra large laminated paper carry bag - full colour" data-plu="116938" data-material="plastic">
+      <img src="/assets/products/116938/116938-1-3ff36e01.webp" alt="Extra Large Laminated Paper Carry Bag - Full Colour" loading="lazy">
+      <div><h2>Extra Large Laminated Paper Carry Bag - Full Colour</h2><p>PLU 116938</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/bags/paper-bags/plastic/laminated-paper-wine-bag-full-colour/" data-name="laminated paper wine bag - full colour" data-plu="116940" data-material="plastic">
+      <img src="/assets/products/116940/116940-1-54b5c3a8.webp" alt="Laminated Paper Wine Bag - Full Colour" loading="lazy">
+      <div><h2>Laminated Paper Wine Bag - Full Colour</h2><p>PLU 116940</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/bags/paper-bags/plastic/large-laminated-paper-carry-bag-full-colour/" data-name="large laminated paper carry bag - full colour" data-plu="116941" data-material="plastic">
+      <img src="/assets/products/116941/116941-1-b74c96a4.webp" alt="Large Laminated Paper Carry Bag - Full Colour" loading="lazy">
+      <div><h2>Large Laminated Paper Carry Bag - Full Colour</h2><p>PLU 116941</p><p>Plastic</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

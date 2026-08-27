@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sleeves &amp; Cases · General</title>
+  <meta name="description" content="4 products in Technology / Sleeves &amp; Cases / General.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Sleeves &amp; Cases · General</h1>
+        <p>4 products in Technology / Sleeves &amp; Cases / General.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/technology/sleeves-and-cases/general/carry-case-mini/" data-name="carry case - mini" data-plu="108432" data-material="general">
+      <img src="/assets/products/108432/108432-1-490eb463.webp" alt="Carry Case - Mini" loading="lazy">
+      <div><h2>Carry Case - Mini</h2><p>PLU 108432</p><p>General</p></div>
+    </a><a class="product-card" href="/catalogue/technology/sleeves-and-cases/general/carry-case-large/" data-name="carry case - large" data-plu="108479" data-material="general">
+      <img src="/assets/products/108479/108479-1-3d74d529.webp" alt="Carry Case - Large" loading="lazy">
+      <div><h2>Carry Case - Large</h2><p>PLU 108479</p><p>General</p></div>
+    </a><a class="product-card" href="/catalogue/technology/sleeves-and-cases/general/eye-spy-webcam-cover/" data-name="eye-spy webcam cover" data-plu="115015" data-material="general">
+      <img src="/assets/products/115015/115015-1-d26048de.webp" alt="Eye-Spy Webcam Cover" loading="lazy">
+      <div><h2>Eye-Spy Webcam Cover</h2><p>PLU 115015</p><p>General</p></div>
+    </a><a class="product-card" href="/catalogue/technology/sleeves-and-cases/general/carry-case-extra-large/" data-name="carry case - extra large" data-plu="115358" data-material="general">
+      <img src="/assets/products/115358/115358-1-baa199b3.webp" alt="Carry Case - Extra Large" loading="lazy">
+      <div><h2>Carry Case - Extra Large</h2><p>PLU 115358</p><p>General</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

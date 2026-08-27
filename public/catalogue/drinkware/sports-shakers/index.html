@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Drinkware · Sports Shakers</title>
+  <meta name="description" content="3 products split by material/style.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Drinkware · Sports Shakers</h1>
+        <p>3 products split by material/style.</p>
+        <div class="section-pills"><a href="/catalogue/drinkware/sports-shakers/metal/">Metal <span>3</span></a></div>
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/drinkware/sports-shakers/metal/atlas-shaker-600ml/" data-name="atlas shaker - 600ml" data-plu="112228" data-material="metal">
+      <img src="/assets/products/112228/112228-1-4d5dc078.webp" alt="Atlas Shaker - 600ml" loading="lazy">
+      <div><h2>Atlas Shaker - 600ml</h2><p>PLU 112228</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/drinkware/sports-shakers/metal/atlas-shaker-400ml/" data-name="atlas shaker - 400ml" data-plu="113111" data-material="metal">
+      <img src="/assets/products/113111/113111-1-02fbabee.webp" alt="Atlas Shaker - 400ml" loading="lazy">
+      <div><h2>Atlas Shaker - 400ml</h2><p>PLU 113111</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/drinkware/sports-shakers/metal/trojan-metal-shaker/" data-name="trojan metal shaker" data-plu="115852" data-material="metal">
+      <img src="/assets/products/115852/115852-1-2f46fb5b.webp" alt="Trojan Metal Shaker" loading="lazy">
+      <div><h2>Trojan Metal Shaker</h2><p>PLU 115852</p><p>Metal</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

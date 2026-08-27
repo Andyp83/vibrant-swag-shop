@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Apparel Accessories · Leather &amp; PU</title>
+  <meta name="description" content="3 products in Apparel / Apparel Accessories / Leather &amp; PU.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Apparel Accessories · Leather &amp; PU</h1>
+        <p>3 products in Apparel / Apparel Accessories / Leather &amp; PU.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/apparel/apparel-accessories/leather-and-pu/swiss-peak-anti-skimming-wallet/" data-name="swiss peak anti-skimming wallet" data-plu="120862" data-material="leather-and-pu">
+      <img src="/assets/products/120862/120862-1-e646f7e0.webp" alt="Swiss Peak Anti-Skimming Wallet" loading="lazy">
+      <div><h2>Swiss Peak Anti-Skimming Wallet</h2><p>PLU 120862</p><p>Leather &amp; PU</p></div>
+    </a><a class="product-card" href="/catalogue/apparel/apparel-accessories/leather-and-pu/pierre-cardin-leather-wallet/" data-name="pierre cardin leather wallet" data-plu="121121" data-material="leather-and-pu">
+      <img src="/assets/products/121121/121121-1-b00d9018.webp" alt="Pierre Cardin Leather Wallet" loading="lazy">
+      <div><h2>Pierre Cardin Leather Wallet</h2><p>PLU 121121</p><p>Leather &amp; PU</p></div>
+    </a><a class="product-card" href="/catalogue/apparel/apparel-accessories/leather-and-pu/pierre-cardin-leather-passport-wallet/" data-name="pierre cardin leather passport wallet" data-plu="121122" data-material="leather-and-pu">
+      <img src="/assets/products/121122/121122-1-e50be83b.webp" alt="Pierre Cardin Leather Passport Wallet" loading="lazy">
+      <div><h2>Pierre Cardin Leather Passport Wallet</h2><p>PLU 121122</p><p>Leather &amp; PU</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

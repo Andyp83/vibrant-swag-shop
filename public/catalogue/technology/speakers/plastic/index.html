@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Speakers · Plastic</title>
+  <meta name="description" content="7 products in Technology / Speakers / Plastic.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Speakers · Plastic</h1>
+        <p>7 products in Technology / Speakers / Plastic.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/technology/speakers/plastic/swiss-peak-4-in-1-speaker/" data-name="swiss peak 4-in-1 speaker" data-plu="112163" data-material="plastic">
+      <img src="/assets/products/112163/112163-1-36525e3d.webp" alt="Swiss Peak 4-in-1 Speaker" loading="lazy">
+      <div><h2>Swiss Peak 4-in-1 Speaker</h2><p>PLU 112163</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/technology/speakers/plastic/auris-bluetooth-speaker/" data-name="auris bluetooth speaker" data-plu="121420" data-material="plastic">
+      <img src="/assets/products/121420/121420-1-da8b72bd.webp" alt="Auris Bluetooth Speaker" loading="lazy">
+      <div><h2>Auris Bluetooth Speaker</h2><p>PLU 121420</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/technology/speakers/plastic/odin-outdoor-bluetooth-speaker/" data-name="odin outdoor bluetooth speaker" data-plu="121665" data-material="plastic">
+      <img src="/assets/products/121665/121665-1-ab6adbea.webp" alt="Odin Outdoor Bluetooth Speaker" loading="lazy">
+      <div><h2>Odin Outdoor Bluetooth Speaker</h2><p>PLU 121665</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/technology/speakers/plastic/loki-outdoor-bluetooth-speaker/" data-name="loki outdoor bluetooth speaker" data-plu="121666" data-material="plastic">
+      <img src="/assets/products/121666/121666-1-135c6996.webp" alt="Loki Outdoor Bluetooth Speaker" loading="lazy">
+      <div><h2>Loki Outdoor Bluetooth Speaker</h2><p>PLU 121666</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/technology/speakers/plastic/natura-oaken-speaker-wireless-charger/" data-name="natura oaken speaker wireless charger" data-plu="121838" data-material="plastic">
+      <img src="/assets/products/121838/121838-1-7e8746e0.webp" alt="NATURA Oaken Speaker Wireless Charger" loading="lazy">
+      <div><h2>NATURA Oaken Speaker Wireless Charger</h2><p>PLU 121838</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/technology/speakers/plastic/beatcore-bluetooth-speaker/" data-name="beatcore bluetooth speaker" data-plu="125539" data-material="plastic">
+      <img src="/assets/products/125539/125539-1-a87fe15f.webp" alt="Beatcore Bluetooth Speaker" loading="lazy">
+      <div><h2>Beatcore Bluetooth Speaker</h2><p>PLU 125539</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/technology/speakers/plastic/bamboo-bluetooth-speaker/" data-name="bamboo bluetooth speaker" data-plu="126248" data-material="plastic">
+      <img src="/assets/products/126248/126248-1-96d23740.webp" alt="Bamboo Bluetooth Speaker" loading="lazy">
+      <div><h2>Bamboo Bluetooth Speaker</h2><p>PLU 126248</p><p>Plastic</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

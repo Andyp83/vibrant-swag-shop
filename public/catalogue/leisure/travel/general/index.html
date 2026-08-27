@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Travel · General</title>
+  <meta name="description" content="2 products in Leisure / Travel / General.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Travel · General</h1>
+        <p>2 products in Leisure / Travel / General.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/leisure/travel/general/full-colour-luggage-strap/" data-name="full colour luggage strap" data-plu="108051" data-material="general">
+      <img src="/assets/products/108051/108051-1-84f41d4b.webp" alt="Full Colour Luggage Strap" loading="lazy">
+      <div><h2>Full Colour Luggage Strap</h2><p>PLU 108051</p><p>General</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/travel/general/vinyl-travel-wallet/" data-name="vinyl travel wallet" data-plu="120237" data-material="general">
+      <img src="/assets/products/120237/120237-1-ee00e18a.webp" alt="Vinyl Travel Wallet" loading="lazy">
+      <div><h2>Vinyl Travel Wallet</h2><p>PLU 120237</p><p>General</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

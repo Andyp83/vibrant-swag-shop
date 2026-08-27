@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bags · Crossbody &amp; Belt Bags</title>
+  <meta name="description" content="9 products split by material/style.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Bags · Crossbody &amp; Belt Bags</h1>
+        <p>9 products split by material/style.</p>
+        <div class="section-pills"><a href="/catalogue/bags/crossbody-and-belt-bags/fabric-and-textile/">Fabric &amp; Textile <span>7</span></a><a href="/catalogue/bags/crossbody-and-belt-bags/metal/">Metal <span>1</span></a><a href="/catalogue/bags/crossbody-and-belt-bags/plastic/">Plastic <span>1</span></a></div>
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/bags/crossbody-and-belt-bags/fabric-and-textile/byron-belt-bag/" data-name="byron belt bag" data-plu="117804" data-material="fabric-and-textile">
+      <img src="/assets/products/117804/117804-1-a272e0f6.webp" alt="Byron Belt Bag" loading="lazy">
+      <div><h2>Byron Belt Bag</h2><p>PLU 117804</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/bags/crossbody-and-belt-bags/fabric-and-textile/urban-belt-bag/" data-name="urban belt bag" data-plu="120259" data-material="fabric-and-textile">
+      <img src="/assets/products/120259/120259-1-320964f2.webp" alt="Urban Belt Bag" loading="lazy">
+      <div><h2>Urban Belt Bag</h2><p>PLU 120259</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/bags/crossbody-and-belt-bags/plastic/bobby-sling/" data-name="bobby sling" data-plu="120266" data-material="plastic">
+      <img src="/assets/products/120266/120266-1-bb925f43.webp" alt="Bobby Sling" loading="lazy">
+      <div><h2>Bobby Sling</h2><p>PLU 120266</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/bags/crossbody-and-belt-bags/fabric-and-textile/glastonbury-belt-bag-full-colour/" data-name="glastonbury belt bag - full colour" data-plu="124648" data-material="fabric-and-textile">
+      <img src="/assets/products/124648/124648-1-8cc19ee5.webp" alt="Glastonbury Belt Bag - Full Colour" loading="lazy">
+      <div><h2>Glastonbury Belt Bag - Full Colour</h2><p>PLU 124648</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/bags/crossbody-and-belt-bags/metal/spice-waste2gear-sling-bag/" data-name="spice waste2gear sling bag" data-plu="126952" data-material="metal">
+      <img src="/assets/products/126952/126952-1-6618ddb8.webp" alt="SPICE Waste2Gear Sling Bag" loading="lazy">
+      <div><h2>SPICE Waste2Gear Sling Bag</h2><p>PLU 126952</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/bags/crossbody-and-belt-bags/fabric-and-textile/rollink-mini-bag-go/" data-name="rollink mini bag go" data-plu="127623" data-material="fabric-and-textile">
+      <img src="/assets/products/127623/127623-1-e6f4e5f0.webp" alt="Rollink Mini Bag Go" loading="lazy">
+      <div><h2>Rollink Mini Bag Go</h2><p>PLU 127623</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/bags/crossbody-and-belt-bags/fabric-and-textile/rollink-mini-bag-tour/" data-name="rollink mini bag tour" data-plu="127624" data-material="fabric-and-textile">
+      <img src="/assets/products/127624/127624-1-60217dbd.webp" alt="Rollink Mini Bag Tour" loading="lazy">
+      <div><h2>Rollink Mini Bag Tour</h2><p>PLU 127624</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/bags/crossbody-and-belt-bags/fabric-and-textile/reign-bottle-bag/" data-name="reign bottle bag" data-plu="129092" data-material="fabric-and-textile">
+      <img src="/assets/products/129092/129092-1-018ff920.webp" alt="Reign Bottle Bag" loading="lazy">
+      <div><h2>Reign Bottle Bag</h2><p>PLU 129092</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/bags/crossbody-and-belt-bags/fabric-and-textile/selene-moon-bag/" data-name="selene moon bag" data-plu="129690" data-material="fabric-and-textile">
+      <img src="/assets/products/129690/129690-1-debc43e3.webp" alt="Selene Moon Bag" loading="lazy">
+      <div><h2>Selene Moon Bag</h2><p>PLU 129690</p><p>Fabric &amp; Textile</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

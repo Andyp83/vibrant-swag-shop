@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lotions &amp; Sunscreens · Plastic</title>
+  <meta name="description" content="5 products in Personal / Lotions &amp; Sunscreens / Plastic.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Lotions &amp; Sunscreens · Plastic</h1>
+        <p>5 products in Personal / Lotions &amp; Sunscreens / Plastic.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/personal/lotions-and-sunscreens/plastic/duo-lip-balm/" data-name="duo lip balm" data-plu="100879" data-material="plastic">
+      <img src="/assets/products/100879/100879-1-d97fb13b.webp" alt="Duo Lip Balm" loading="lazy">
+      <div><h2>Duo Lip Balm</h2><p>PLU 100879</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/personal/lotions-and-sunscreens/plastic/zinc-stick/" data-name="zinc stick" data-plu="107105" data-material="plastic">
+      <img src="/assets/products/107105/107105-1-518730b2.webp" alt="Zinc Stick" loading="lazy">
+      <div><h2>Zinc Stick</h2><p>PLU 107105</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/personal/lotions-and-sunscreens/plastic/trends-everyday-spf-50-sunscreen-30ml/" data-name="trends everyday spf 50+ sunscreen 30ml" data-plu="118660" data-material="plastic">
+      <img src="/assets/products/118660/118660-1-45f79681.webp" alt="TRENDS Everyday SPF 50+ Sunscreen 30ml" loading="lazy">
+      <div><h2>TRENDS Everyday SPF 50+ Sunscreen 30ml</h2><p>PLU 118660</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/personal/lotions-and-sunscreens/plastic/trends-everyday-spf-50-sunscreen-50ml/" data-name="trends everyday spf 50+ sunscreen 50ml" data-plu="118661" data-material="plastic">
+      <img src="/assets/products/118661/118661-1-7e45d0d5.webp" alt="TRENDS Everyday SPF 50+ Sunscreen 50ml" loading="lazy">
+      <div><h2>TRENDS Everyday SPF 50+ Sunscreen 50ml</h2><p>PLU 118661</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/personal/lotions-and-sunscreens/plastic/trends-everyday-spf-50-carabiner-sunscreen-50ml/" data-name="trends everyday spf 50+ carabiner sunscreen 50ml" data-plu="118662" data-material="plastic">
+      <img src="/assets/products/118662/118662-1-6cd9084e.webp" alt="TRENDS Everyday SPF 50+ Carabiner Sunscreen 50ml" loading="lazy">
+      <div><h2>TRENDS Everyday SPF 50+ Carabiner Sunscreen 50ml</h2><p>PLU 118662</p><p>Plastic</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

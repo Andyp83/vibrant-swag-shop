@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Home &amp; Living · General</title>
+  <meta name="description" content="4 products in Leisure / Home &amp; Living / General.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Home &amp; Living · General</h1>
+        <p>4 products in Leisure / Home &amp; Living / General.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/leisure/home-and-living/general/car-sunshade-set/" data-name="car sunshade set" data-plu="112891" data-material="general">
+      <img src="/assets/products/112891/112891-1-38af1616.webp" alt="Car Sunshade Set" loading="lazy">
+      <div><h2>Car Sunshade Set</h2><p>PLU 112891</p><p>General</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/home-and-living/general/expandable-sponge/" data-name="expandable sponge" data-plu="123106" data-material="general">
+      <img src="/assets/products/123106/123106-1-14edcd6e.webp" alt="Expandable Sponge" loading="lazy">
+      <div><h2>Expandable Sponge</h2><p>PLU 123106</p><p>General</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/home-and-living/general/keepsake-herb-planter/" data-name="keepsake herb planter" data-plu="126961" data-material="general">
+      <img src="/assets/products/126961/126961-1-fc9c6694.webp" alt="Keepsake Herb Planter" loading="lazy">
+      <div><h2>Keepsake Herb Planter</h2><p>PLU 126961</p><p>General</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/home-and-living/general/keepsake-chopping-board/" data-name="keepsake chopping board" data-plu="129454" data-material="general">
+      <img src="/assets/products/129454/129454-1-d984c296.webp" alt="Keepsake Chopping Board" loading="lazy">
+      <div><h2>Keepsake Chopping Board</h2><p>PLU 129454</p><p>General</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

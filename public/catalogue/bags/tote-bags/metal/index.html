@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tote Bags · Metal</title>
+  <meta name="description" content="6 products in Bags / Tote Bags / Metal.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Tote Bags · Metal</h1>
+        <p>6 products in Bags / Tote Bags / Metal.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/bags/tote-bags/metal/orca-cooler-bag/" data-name="orca cooler bag" data-plu="112575" data-material="metal">
+      <img src="/assets/products/112575/112575-1-152894d8.webp" alt="Orca Cooler Bag" loading="lazy">
+      <div><h2>Orca Cooler Bag</h2><p>PLU 112575</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/bags/tote-bags/metal/amsterdam-canvas-tote-bag/" data-name="amsterdam canvas tote bag" data-plu="120845" data-material="metal">
+      <img src="/assets/products/120845/120845-1-0dc9eb65.webp" alt="Amsterdam Canvas Tote Bag" loading="lazy">
+      <div><h2>Amsterdam Canvas Tote Bag</h2><p>PLU 120845</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/bags/tote-bags/metal/iconic-shopping-cooler-tote/" data-name="iconic shopping cooler tote" data-plu="129236" data-material="metal">
+      <img src="/assets/products/129236/129236-1-980e614b.webp" alt="Iconic Shopping Cooler Tote" loading="lazy">
+      <div><h2>Iconic Shopping Cooler Tote</h2><p>PLU 129236</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/bags/tote-bags/metal/emporium-cotton-cooler-tote/" data-name="emporium cotton cooler tote" data-plu="129247" data-material="metal">
+      <img src="/assets/products/129247/129247-1-f4204491.webp" alt="Emporium Cotton Cooler Tote" loading="lazy">
+      <div><h2>Emporium Cotton Cooler Tote</h2><p>PLU 129247</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/bags/tote-bags/metal/waldorf-cotton-cooler-tote/" data-name="waldorf cotton cooler tote" data-plu="129248" data-material="metal">
+      <img src="/assets/products/129248/129248-1-4c9171a8.webp" alt="Waldorf Cotton Cooler Tote" loading="lazy">
+      <div><h2>Waldorf Cotton Cooler Tote</h2><p>PLU 129248</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/bags/tote-bags/metal/callahan-cooler-bag/" data-name="callahan cooler bag" data-plu="129435" data-material="metal">
+      <img src="/assets/products/129435/129435-1-6e7ddfa2.webp" alt="Callahan Cooler Bag" loading="lazy">
+      <div><h2>Callahan Cooler Bag</h2><p>PLU 129435</p><p>Metal</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

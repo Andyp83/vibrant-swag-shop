@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cups &amp; Tumblers · Metal</title>
+  <meta name="description" content="6 products in Drinkware / Cups &amp; Tumblers / Metal.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Cups &amp; Tumblers · Metal</h1>
+        <p>6 products in Drinkware / Cups &amp; Tumblers / Metal.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/drinkware/cups-and-tumblers/metal/bendigo-enamel-tumbler/" data-name="bendigo enamel tumbler" data-plu="117803" data-material="metal">
+      <img src="/assets/products/117803/117803-1-8e769ffd.webp" alt="Bendigo Enamel Tumbler" loading="lazy">
+      <div><h2>Bendigo Enamel Tumbler</h2><p>PLU 117803</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/drinkware/cups-and-tumblers/metal/swiss-peak-duo-cup-vacuum-flask/" data-name="swiss peak duo cup vacuum flask" data-plu="120863" data-material="metal">
+      <img src="/assets/products/120863/120863-1-a4171246.webp" alt="Swiss Peak Duo Cup Vacuum Flask" loading="lazy">
+      <div><h2>Swiss Peak Duo Cup Vacuum Flask</h2><p>PLU 120863</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/drinkware/cups-and-tumblers/metal/campster-tumbler/" data-name="campster tumbler" data-plu="124812" data-material="metal">
+      <img src="/assets/products/124812/124812-1-38ea304c.webp" alt="Campster Tumbler" loading="lazy">
+      <div><h2>Campster Tumbler</h2><p>PLU 124812</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/drinkware/cups-and-tumblers/metal/burano-colour-changing-cup/" data-name="burano colour changing cup" data-plu="127325" data-material="metal">
+      <img src="/assets/products/127325/127325-1-9e3582d8.webp" alt="Burano Colour Changing Cup" loading="lazy">
+      <div><h2>Burano Colour Changing Cup</h2><p>PLU 127325</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/drinkware/cups-and-tumblers/metal/chameleon-colour-changing-cup/" data-name="chameleon colour changing cup" data-plu="127584" data-material="metal">
+      <img src="/assets/products/127584/127584-1-858e4d75.webp" alt="Chameleon Colour Changing Cup" loading="lazy">
+      <div><h2>Chameleon Colour Changing Cup</h2><p>PLU 127584</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/drinkware/cups-and-tumblers/metal/frontier-stackable-cups-set-of-2/" data-name="frontier stackable cups - set of 2" data-plu="128883" data-material="metal">
+      <img src="/assets/products/128883/128883-1-1567e6ee.webp" alt="Frontier Stackable Cups - Set of 2" loading="lazy">
+      <div><h2>Frontier Stackable Cups - Set of 2</h2><p>PLU 128883</p><p>Metal</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

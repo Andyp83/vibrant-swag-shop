@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Aprons · Fabric &amp; Textile</title>
+  <meta name="description" content="8 products in Apparel / Aprons / Fabric &amp; Textile.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Aprons · Fabric &amp; Textile</h1>
+        <p>8 products in Apparel / Aprons / Fabric &amp; Textile.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/apparel/aprons/fabric-and-textile/ritz-bib-apron/" data-name="ritz bib apron" data-plu="111802" data-material="fabric-and-textile">
+      <img src="/assets/products/111802/111802-1-3d63bba6.webp" alt="Ritz Bib Apron" loading="lazy">
+      <div><h2>Ritz Bib Apron</h2><p>PLU 111802</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/apparel/aprons/fabric-and-textile/savoy-bib-apron/" data-name="savoy bib apron" data-plu="111803" data-material="fabric-and-textile">
+      <img src="/assets/products/111803/111803-1-19debbde.webp" alt="Savoy Bib Apron" loading="lazy">
+      <div><h2>Savoy Bib Apron</h2><p>PLU 111803</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/apparel/aprons/fabric-and-textile/westbury-waist-apron/" data-name="westbury waist apron" data-plu="111809" data-material="fabric-and-textile">
+      <img src="/assets/products/111809/111809-1-6b98c342.webp" alt="Westbury Waist Apron" loading="lazy">
+      <div><h2>Westbury Waist Apron</h2><p>PLU 111809</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/apparel/aprons/fabric-and-textile/renzo-full-colour-bib-apron/" data-name="renzo full colour bib apron" data-plu="115762" data-material="fabric-and-textile">
+      <img src="/assets/products/115762/115762-1-112471e0.webp" alt="Renzo Full Colour Bib Apron" loading="lazy">
+      <div><h2>Renzo Full Colour Bib Apron</h2><p>PLU 115762</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/apparel/aprons/fabric-and-textile/carolina-denim-waist-apron/" data-name="carolina denim waist apron" data-plu="120047" data-material="fabric-and-textile">
+      <img src="/assets/products/120047/120047-1-1c103607.webp" alt="Carolina Denim Waist Apron" loading="lazy">
+      <div><h2>Carolina Denim Waist Apron</h2><p>PLU 120047</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/apparel/aprons/fabric-and-textile/pepper-full-length-waist-apron/" data-name="pepper full length waist apron" data-plu="120048" data-material="fabric-and-textile">
+      <img src="/assets/products/120048/120048-1-946440a5.webp" alt="Pepper Full Length Waist Apron" loading="lazy">
+      <div><h2>Pepper Full Length Waist Apron</h2><p>PLU 120048</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/apparel/aprons/fabric-and-textile/dali-youth-apron/" data-name="dali youth apron" data-plu="125567" data-material="fabric-and-textile">
+      <img src="/assets/products/125567/125567-1-3504a871.webp" alt="Dali Youth Apron" loading="lazy">
+      <div><h2>Dali Youth Apron</h2><p>PLU 125567</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/apparel/aprons/fabric-and-textile/pepper-full-length-waist-apron-sale/" data-name="pepper full length waist apron - sale" data-plu="129174" data-material="fabric-and-textile">
+      <img src="/assets/products/129174/129174-1-e55a5fca.webp" alt="Pepper Full Length Waist Apron - Sale" loading="lazy">
+      <div><h2>Pepper Full Length Waist Apron - Sale</h2><p>PLU 129174</p><p>Fabric &amp; Textile</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

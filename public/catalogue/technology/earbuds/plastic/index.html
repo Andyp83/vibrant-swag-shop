@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Earbuds · Plastic</title>
+  <meta name="description" content="8 products in Technology / Earbuds / Plastic.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Earbuds · Plastic</h1>
+        <p>8 products in Technology / Earbuds / Plastic.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/technology/earbuds/plastic/helio-earbuds/" data-name="helio earbuds" data-plu="106932" data-material="plastic">
+      <img src="/assets/products/106932/106932-1-4c8ae927.webp" alt="Helio Earbuds" loading="lazy">
+      <div><h2>Helio Earbuds</h2><p>PLU 106932</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/technology/earbuds/plastic/mondo-earbuds/" data-name="mondo earbuds" data-plu="108489" data-material="plastic">
+      <img src="/assets/products/108489/108489-1-f708e411.webp" alt="Mondo Earbuds" loading="lazy">
+      <div><h2>Mondo Earbuds</h2><p>PLU 108489</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/technology/earbuds/plastic/tycho-bluetooth-earbuds/" data-name="tycho bluetooth earbuds" data-plu="112830" data-material="plastic">
+      <img src="/assets/products/112830/112830-1-74304637.webp" alt="Tycho Bluetooth Earbuds" loading="lazy">
+      <div><h2>Tycho Bluetooth Earbuds</h2><p>PLU 112830</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/technology/earbuds/plastic/tempo-bluetooth-earbuds/" data-name="tempo bluetooth earbuds" data-plu="116449" data-material="plastic">
+      <img src="/assets/products/116449/116449-1-476f6d4b.webp" alt="Tempo Bluetooth Earbuds" loading="lazy">
+      <div><h2>Tempo Bluetooth Earbuds</h2><p>PLU 116449</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/technology/earbuds/plastic/rhythm-bluetooth-earbuds/" data-name="rhythm bluetooth earbuds" data-plu="124164" data-material="plastic">
+      <img src="/assets/products/124164/124164-1-bfac6c67.webp" alt="Rhythm Bluetooth Earbuds" loading="lazy">
+      <div><h2>Rhythm Bluetooth Earbuds</h2><p>PLU 124164</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/technology/earbuds/plastic/skullcandy-mod-tws-earbuds/" data-name="skullcandy mod tws earbuds" data-plu="124418" data-material="plastic">
+      <img src="/assets/products/124418/124418-1-da3528ee.webp" alt="Skullcandy Mod TWS Earbuds" loading="lazy">
+      <div><h2>Skullcandy Mod TWS Earbuds</h2><p>PLU 124418</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/technology/earbuds/plastic/swiss-peak-anc-tws-earbuds/" data-name="swiss peak anc tws earbuds" data-plu="125277" data-material="plastic">
+      <img src="/assets/products/125277/125277-1-84efbe56.webp" alt="Swiss Peak ANC TWS Earbuds" loading="lazy">
+      <div><h2>Swiss Peak ANC TWS Earbuds</h2><p>PLU 125277</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/technology/earbuds/plastic/swiss-peak-tws-earbuds-20/" data-name="swiss peak tws earbuds 2.0" data-plu="125278" data-material="plastic">
+      <img src="/assets/products/125278/125278-1-eb1b9ad4.webp" alt="Swiss Peak TWS Earbuds 2.0" loading="lazy">
+      <div><h2>Swiss Peak TWS Earbuds 2.0</h2><p>PLU 125278</p><p>Plastic</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

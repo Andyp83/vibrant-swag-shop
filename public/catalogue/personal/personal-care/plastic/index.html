@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Personal Care · Plastic</title>
+  <meta name="description" content="7 products in Personal / Personal Care / Plastic.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Personal Care · Plastic</h1>
+        <p>7 products in Personal / Personal Care / Plastic.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/personal/personal-care/plastic/promo-tissues/" data-name="promo tissues" data-plu="102159" data-material="plastic">
+      <img src="/assets/products/102159/102159-1-73d829da.webp" alt="Promo Tissues" loading="lazy">
+      <div><h2>Promo Tissues</h2><p>PLU 102159</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/personal/personal-care/plastic/nail-file/" data-name="nail file" data-plu="102174" data-material="plastic">
+      <img src="/assets/products/102174/102174-1-cfdb1d6b.webp" alt="Nail File" loading="lazy">
+      <div><h2>Nail File</h2><p>PLU 102174</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/personal/personal-care/plastic/swivel-nail-care-kit/" data-name="swivel nail care kit" data-plu="104633" data-material="plastic">
+      <img src="/assets/products/104633/104633-1-0c250c55.webp" alt="Swivel Nail Care Kit" loading="lazy">
+      <div><h2>Swivel Nail Care Kit</h2><p>PLU 104633</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/personal/personal-care/plastic/bamboo-toothbrush/" data-name="bamboo toothbrush" data-plu="116264" data-material="plastic">
+      <img src="/assets/products/116264/116264-1-a31c8c5b.webp" alt="Bamboo Toothbrush" loading="lazy">
+      <div><h2>Bamboo Toothbrush</h2><p>PLU 116264</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/personal/personal-care/plastic/star-massager/" data-name="star massager" data-plu="116810" data-material="plastic">
+      <img src="/assets/products/116810/116810-1-7a136932.webp" alt="Star Massager" loading="lazy">
+      <div><h2>Star Massager</h2><p>PLU 116810</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/personal/personal-care/plastic/hair-detangler/" data-name="hair detangler" data-plu="126683" data-material="plastic">
+      <img src="/assets/products/126683/126683-1-d8754d19.webp" alt="Hair Detangler" loading="lazy">
+      <div><h2>Hair Detangler</h2><p>PLU 126683</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/personal/personal-care/plastic/hand-soap-travel-case-round/" data-name="hand soap travel case - round" data-plu="200331" data-material="plastic">
+      <img src="/assets/products/200331/200331-1-38dd0781.webp" alt="Hand Soap Travel Case - Round" loading="lazy">
+      <div><h2>Hand Soap Travel Case - Round</h2><p>PLU 200331</p><p>Plastic</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

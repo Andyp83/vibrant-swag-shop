@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Stationery · Metal</title>
+  <meta name="description" content="9 products in Business / Stationery / Metal.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Stationery · Metal</h1>
+        <p>9 products in Business / Stationery / Metal.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/business/stationery/metal/pronto-magnetic-clip/" data-name="pronto magnetic clip" data-plu="100538" data-material="metal">
+      <img src="/assets/products/100538/100538-1-b0d2eb8e.webp" alt="Pronto Magnetic Clip" loading="lazy">
+      <div><h2>Pronto Magnetic Clip</h2><p>PLU 100538</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/business/stationery/metal/house-magnetic-clip/" data-name="house magnetic clip" data-plu="100542" data-material="metal">
+      <img src="/assets/products/100542/100542-1-1414161f.webp" alt="House Magnetic Clip" loading="lazy">
+      <div><h2>House Magnetic Clip</h2><p>PLU 100542</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/business/stationery/metal/metal-ruler-30cm/" data-name="metal ruler - 30cm" data-plu="100739" data-material="metal">
+      <img src="/assets/products/100739/100739-1-068c6a3a.webp" alt="Metal Ruler - 30cm" loading="lazy">
+      <div><h2>Metal Ruler - 30cm</h2><p>PLU 100739</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/business/stationery/metal/pencil-sharpener/" data-name="pencil sharpener" data-plu="105622" data-material="metal">
+      <img src="/assets/products/105622/105622-1-32e7c5f8.webp" alt="Pencil Sharpener" loading="lazy">
+      <div><h2>Pencil Sharpener</h2><p>PLU 105622</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/business/stationery/metal/coloured-pencil-tube/" data-name="coloured pencil tube" data-plu="109029" data-material="metal">
+      <img src="/assets/products/109029/109029-1-7d8e2cc2.webp" alt="Coloured Pencil Tube" loading="lazy">
+      <div><h2>Coloured Pencil Tube</h2><p>PLU 109029</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/business/stationery/metal/pencil-sharpener-with-eraser/" data-name="pencil sharpener with eraser" data-plu="121802" data-material="metal">
+      <img src="/assets/products/121802/121802-1-1e5e77cb.webp" alt="Pencil Sharpener with Eraser" loading="lazy">
+      <div><h2>Pencil Sharpener with Eraser</h2><p>PLU 121802</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/business/stationery/metal/bamboo-business-card-stand/" data-name="bamboo business card stand" data-plu="126738" data-material="metal">
+      <img src="/assets/products/126738/126738-1-082cacc8.webp" alt="Bamboo Business Card Stand" loading="lazy">
+      <div><h2>Bamboo Business Card Stand</h2><p>PLU 126738</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/business/stationery/metal/bamboo-clip/" data-name="bamboo clip" data-plu="126876" data-material="metal">
+      <img src="/assets/products/126876/126876-1-839a334e.webp" alt="Bamboo Clip" loading="lazy">
+      <div><h2>Bamboo Clip</h2><p>PLU 126876</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/business/stationery/metal/carpenters-pencil-sharpener/" data-name="carpenters pencil sharpener" data-plu="127719" data-material="metal">
+      <img src="/assets/products/127719/127719-1-c7e01a22.webp" alt="Carpenters Pencil Sharpener" loading="lazy">
+      <div><h2>Carpenters Pencil Sharpener</h2><p>PLU 127719</p><p>Metal</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wireless Chargers · Paper &amp; Cardboard</title>
+  <meta name="description" content="7 products in Technology / Wireless Chargers / Paper &amp; Cardboard.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Wireless Chargers · Paper &amp; Cardboard</h1>
+        <p>7 products in Technology / Wireless Chargers / Paper &amp; Cardboard.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/technology/wireless-chargers/paper-and-cardboard/hadron-wireless-charger/" data-name="hadron wireless charger" data-plu="114201" data-material="paper-and-cardboard">
+      <img src="/assets/products/114201/114201-1-04da5bce.webp" alt="Hadron Wireless Charger" loading="lazy">
+      <div><h2>Hadron Wireless Charger</h2><p>PLU 114201</p><p>Paper &amp; Cardboard</p></div>
+    </a><a class="product-card" href="/catalogue/technology/wireless-chargers/paper-and-cardboard/bamboo-wireless-charging-stand/" data-name="bamboo wireless charging stand" data-plu="118495" data-material="paper-and-cardboard">
+      <img src="/assets/products/118495/118495-1-2ee969f0.webp" alt="Bamboo Wireless Charging Stand" loading="lazy">
+      <div><h2>Bamboo Wireless Charging Stand</h2><p>PLU 118495</p><p>Paper &amp; Cardboard</p></div>
+    </a><a class="product-card" href="/catalogue/technology/wireless-chargers/paper-and-cardboard/vita-bamboo-wireless-charger-round/" data-name="vita bamboo wireless charger - round" data-plu="120613" data-material="paper-and-cardboard">
+      <img src="/assets/products/120613/120613-1-4ab54646.webp" alt="Vita Bamboo Wireless Charger - Round" loading="lazy">
+      <div><h2>Vita Bamboo Wireless Charger - Round</h2><p>PLU 120613</p><p>Paper &amp; Cardboard</p></div>
+    </a><a class="product-card" href="/catalogue/technology/wireless-chargers/paper-and-cardboard/vita-bamboo-wireless-charger-square/" data-name="vita bamboo wireless charger - square" data-plu="120614" data-material="paper-and-cardboard">
+      <img src="/assets/products/120614/120614-1-8f4dd1f6.webp" alt="Vita Bamboo Wireless Charger - Square" loading="lazy">
+      <div><h2>Vita Bamboo Wireless Charger - Square</h2><p>PLU 120614</p><p>Paper &amp; Cardboard</p></div>
+    </a><a class="product-card" href="/catalogue/technology/wireless-chargers/paper-and-cardboard/magnetic-wireless-fast-charger/" data-name="magnetic wireless fast charger" data-plu="121394" data-material="paper-and-cardboard">
+      <img src="/assets/products/121394/121394-1-75e53e44.webp" alt="Magnetic Wireless Fast Charger" loading="lazy">
+      <div><h2>Magnetic Wireless Fast Charger</h2><p>PLU 121394</p><p>Paper &amp; Cardboard</p></div>
+    </a><a class="product-card" href="/catalogue/technology/wireless-chargers/paper-and-cardboard/bamboo-wireless-charging-clock/" data-name="bamboo wireless charging clock" data-plu="121419" data-material="paper-and-cardboard">
+      <img src="/assets/products/121419/121419-1-bea70cd8.webp" alt="Bamboo Wireless Charging Clock" loading="lazy">
+      <div><h2>Bamboo Wireless Charging Clock</h2><p>PLU 121419</p><p>Paper &amp; Cardboard</p></div>
+    </a><a class="product-card" href="/catalogue/technology/wireless-chargers/paper-and-cardboard/natura-bamboo-wireless-fast-charging-hub/" data-name="natura bamboo wireless fast charging hub" data-plu="126409" data-material="paper-and-cardboard">
+      <img src="/assets/products/126409/126409-1-92389d8d.webp" alt="NATURA Bamboo Wireless Fast Charging Hub" loading="lazy">
+      <div><h2>NATURA Bamboo Wireless Fast Charging Hub</h2><p>PLU 126409</p><p>Paper &amp; Cardboard</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

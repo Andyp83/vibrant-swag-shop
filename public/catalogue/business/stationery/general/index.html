@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Stationery · General</title>
+  <meta name="description" content="5 products in Business / Stationery / General.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Stationery · General</h1>
+        <p>5 products in Business / Stationery / General.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/business/stationery/general/hb-pencil/" data-name="hb pencil" data-plu="100428" data-material="general">
+      <img src="/assets/products/100428/100428-1-a543d9c0.webp" alt="HB Pencil" loading="lazy">
+      <div><h2>HB Pencil</h2><p>PLU 100428</p><p>General</p></div>
+    </a><a class="product-card" href="/catalogue/business/stationery/general/hb-mini-pencil/" data-name="hb mini pencil" data-plu="100437" data-material="general">
+      <img src="/assets/products/100437/100437-0-3e722f44.webp" alt="HB Mini Pencil" loading="lazy">
+      <div><h2>HB Mini Pencil</h2><p>PLU 100437</p><p>General</p></div>
+    </a><a class="product-card" href="/catalogue/business/stationery/general/magic-flags/" data-name="magic flags" data-plu="107076" data-material="general">
+      <img src="/assets/products/107076/107076-1-4690d3ba.webp" alt="Magic Flags" loading="lazy">
+      <div><h2>Magic Flags</h2><p>PLU 107076</p><p>General</p></div>
+    </a><a class="product-card" href="/catalogue/business/stationery/general/cameo-pocket-pad/" data-name="cameo pocket pad" data-plu="107077" data-material="general">
+      <img src="/assets/products/107077/107077-1-24120740.webp" alt="Cameo Pocket Pad" loading="lazy">
+      <div><h2>Cameo Pocket Pad</h2><p>PLU 107077</p><p>General</p></div>
+    </a><a class="product-card" href="/catalogue/business/stationery/general/classic-clipboard/" data-name="classic clipboard" data-plu="123714" data-material="general">
+      <img src="/assets/products/123714/123714-1-3d333205.webp" alt="Classic Clipboard" loading="lazy">
+      <div><h2>Classic Clipboard</h2><p>PLU 123714</p><p>General</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

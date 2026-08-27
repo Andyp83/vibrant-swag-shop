@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Personal · First Aid</title>
+  <meta name="description" content="3 products split by material/style.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Personal · First Aid</h1>
+        <p>3 products split by material/style.</p>
+        <div class="section-pills"><a href="/catalogue/personal/first-aid/plastic/">Plastic <span>3</span></a></div>
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/personal/first-aid/plastic/pill-box/" data-name="pill box" data-plu="100638" data-material="plastic">
+      <img src="/assets/products/100638/100638-1-55b14d7b.webp" alt="Pill Box" loading="lazy">
+      <div><h2>Pill Box</h2><p>PLU 100638</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/personal/first-aid/plastic/medication-organiser/" data-name="medication organiser" data-plu="104630" data-material="plastic">
+      <img src="/assets/products/104630/104630-1-60bffd68.webp" alt="Medication Organiser" loading="lazy">
+      <div><h2>Medication Organiser</h2><p>PLU 104630</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/personal/first-aid/plastic/bandage-box/" data-name="bandage box" data-plu="106267" data-material="plastic">
+      <img src="/assets/products/106267/106267-1-c28bff5f.webp" alt="Bandage Box" loading="lazy">
+      <div><h2>Bandage Box</h2><p>PLU 106267</p><p>Plastic</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

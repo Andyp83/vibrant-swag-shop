@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Drink Bottles · Paper &amp; Cardboard</title>
+  <meta name="description" content="3 products in Drinkware / Drink Bottles / Paper &amp; Cardboard.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Drink Bottles · Paper &amp; Cardboard</h1>
+        <p>3 products in Drinkware / Drink Bottles / Paper &amp; Cardboard.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/drinkware/drink-bottles/paper-and-cardboard/drink-bottle-gift-tube-large/" data-name="drink bottle gift tube - large" data-plu="116388" data-material="paper-and-cardboard">
+      <img src="/assets/products/116388/116388-1-a6d6004e.webp" alt="Drink Bottle Gift Tube - Large" loading="lazy">
+      <div><h2>Drink Bottle Gift Tube - Large</h2><p>PLU 116388</p><p>Paper &amp; Cardboard</p></div>
+    </a><a class="product-card" href="/catalogue/drinkware/drink-bottles/paper-and-cardboard/drink-bottle-gift-tube-small/" data-name="drink bottle gift tube - small" data-plu="116389" data-material="paper-and-cardboard">
+      <img src="/assets/products/116389/116389-1-0d7d5510.webp" alt="Drink Bottle Gift Tube - Small" loading="lazy">
+      <div><h2>Drink Bottle Gift Tube - Small</h2><p>PLU 116389</p><p>Paper &amp; Cardboard</p></div>
+    </a><a class="product-card" href="/catalogue/drinkware/drink-bottles/paper-and-cardboard/wine-bottle-gift-tube/" data-name="wine bottle gift tube" data-plu="125311" data-material="paper-and-cardboard">
+      <img src="/assets/products/125311/125311-1-006acba9.webp" alt="Wine Bottle Gift Tube" loading="lazy">
+      <div><h2>Wine Bottle Gift Tube</h2><p>PLU 125311</p><p>Paper &amp; Cardboard</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Satchel Bags · Fabric &amp; Textile</title>
+  <meta name="description" content="7 products in Bags / Satchel Bags / Fabric &amp; Textile.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Satchel Bags · Fabric &amp; Textile</h1>
+        <p>7 products in Bags / Satchel Bags / Fabric &amp; Textile.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/bags/satchel-bags/fabric-and-textile/soho-messenger-bag/" data-name="soho messenger bag" data-plu="107660" data-material="fabric-and-textile">
+      <img src="/assets/products/107660/107660-1-51a3dc9d.webp" alt="Soho Messenger Bag" loading="lazy">
+      <div><h2>Soho Messenger Bag</h2><p>PLU 107660</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/bags/satchel-bags/fabric-and-textile/academy-messenger-bag/" data-name="academy messenger bag" data-plu="108064" data-material="fabric-and-textile">
+      <img src="/assets/products/108064/108064-1-fb90870f.webp" alt="Academy Messenger Bag" loading="lazy">
+      <div><h2>Academy Messenger Bag</h2><p>PLU 108064</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/bags/satchel-bags/fabric-and-textile/herald-business-satchel/" data-name="herald business satchel" data-plu="111457" data-material="fabric-and-textile">
+      <img src="/assets/products/111457/111457-1-19deb689.webp" alt="Herald Business Satchel" loading="lazy">
+      <div><h2>Herald Business Satchel</h2><p>PLU 111457</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/bags/satchel-bags/fabric-and-textile/centrix-conference-satchel/" data-name="centrix conference satchel" data-plu="113138" data-material="fabric-and-textile">
+      <img src="/assets/products/113138/113138-1-c1445a97.webp" alt="Centrix Conference Satchel" loading="lazy">
+      <div><h2>Centrix Conference Satchel</h2><p>PLU 113138</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/bags/satchel-bags/fabric-and-textile/austin-travel-bag/" data-name="austin travel bag" data-plu="117805" data-material="fabric-and-textile">
+      <img src="/assets/products/117805/117805-1-6d065cd0.webp" alt="Austin Travel Bag" loading="lazy">
+      <div><h2>Austin Travel Bag</h2><p>PLU 117805</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/bags/satchel-bags/fabric-and-textile/soho-messenger-bag-sale/" data-name="soho messenger bag - sale" data-plu="127166" data-material="fabric-and-textile">
+      <img src="/assets/products/127166/127166-1-867be000.webp" alt="Soho Messenger Bag - Sale" loading="lazy">
+      <div><h2>Soho Messenger Bag - Sale</h2><p>PLU 127166</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/bags/satchel-bags/fabric-and-textile/embassy-satchel/" data-name="embassy satchel" data-plu="127916" data-material="fabric-and-textile">
+      <img src="/assets/products/127916/127916-1-b24b62f0.webp" alt="Embassy Satchel" loading="lazy">
+      <div><h2>Embassy Satchel</h2><p>PLU 127916</p><p>Fabric &amp; Textile</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sport Bags · Fabric &amp; Textile</title>
+  <meta name="description" content="4 products in Bags / Sport Bags / Fabric &amp; Textile.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Sport Bags · Fabric &amp; Textile</h1>
+        <p>4 products in Bags / Sport Bags / Fabric &amp; Textile.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/bags/sport-bags/fabric-and-textile/nevis-dry-bag-5l/" data-name="nevis dry bag - 5l" data-plu="112979" data-material="fabric-and-textile">
+      <img src="/assets/products/112979/112979-1-fd46fa63.webp" alt="Nevis Dry Bag - 5L" loading="lazy">
+      <div><h2>Nevis Dry Bag - 5L</h2><p>PLU 112979</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/bags/sport-bags/fabric-and-textile/nevis-dry-bag-10l/" data-name="nevis dry bag - 10l" data-plu="114083" data-material="fabric-and-textile">
+      <img src="/assets/products/114083/114083-1-5654909a.webp" alt="Nevis Dry Bag - 10L" loading="lazy">
+      <div><h2>Nevis Dry Bag - 10L</h2><p>PLU 114083</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/bags/sport-bags/fabric-and-textile/nautica-dry-bag-5l/" data-name="nautica dry bag - 5l" data-plu="117636" data-material="fabric-and-textile">
+      <img src="/assets/products/117636/117636-1-6cd4686d.webp" alt="Nautica Dry Bag - 5L" loading="lazy">
+      <div><h2>Nautica Dry Bag - 5L</h2><p>PLU 117636</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/bags/sport-bags/fabric-and-textile/nautica-dry-bag-10l/" data-name="nautica dry bag - 10l" data-plu="117637" data-material="fabric-and-textile">
+      <img src="/assets/products/117637/117637-1-c0e6137d.webp" alt="Nautica Dry Bag - 10L" loading="lazy">
+      <div><h2>Nautica Dry Bag - 10L</h2><p>PLU 117637</p><p>Fabric &amp; Textile</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bottle Openers · Natural</title>
+  <meta name="description" content="4 products in Promotion / Bottle Openers / Natural.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Bottle Openers · Natural</h1>
+        <p>4 products in Promotion / Bottle Openers / Natural.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/promotion/bottle-openers/natural/bamboo-bottle-opener-coaster-set-of-2-round/" data-name="bamboo bottle opener coaster - set of 2 - round" data-plu="125550" data-material="natural">
+      <img src="/assets/products/125550/125550-1-c863cb07.webp" alt="Bamboo Bottle Opener Coaster - Set of 2 - Round" loading="lazy">
+      <div><h2>Bamboo Bottle Opener Coaster - Set of 2 - Round</h2><p>PLU 125550</p><p>Natural</p></div>
+    </a><a class="product-card" href="/catalogue/promotion/bottle-openers/natural/bamboo-bottle-opener-coaster-set-of-2-square/" data-name="bamboo bottle opener coaster - set of 2 - square" data-plu="125551" data-material="natural">
+      <img src="/assets/products/125551/125551-1-a35a9a11.webp" alt="Bamboo Bottle Opener Coaster - Set of 2 - Square" loading="lazy">
+      <div><h2>Bamboo Bottle Opener Coaster - Set of 2 - Square</h2><p>PLU 125551</p><p>Natural</p></div>
+    </a><a class="product-card" href="/catalogue/promotion/bottle-openers/natural/bamboo-bottle-opener-coaster-round/" data-name="bamboo bottle opener coaster - round" data-plu="125938" data-material="natural">
+      <img src="/assets/products/125938/125938-1-ad2e5e95.webp" alt="Bamboo Bottle Opener Coaster - Round" loading="lazy">
+      <div><h2>Bamboo Bottle Opener Coaster - Round</h2><p>PLU 125938</p><p>Natural</p></div>
+    </a><a class="product-card" href="/catalogue/promotion/bottle-openers/natural/bamboo-bottle-opener-coaster-square/" data-name="bamboo bottle opener coaster - square" data-plu="125939" data-material="natural">
+      <img src="/assets/products/125939/125939-1-f0a58e61.webp" alt="Bamboo Bottle Opener Coaster - Square" loading="lazy">
+      <div><h2>Bamboo Bottle Opener Coaster - Square</h2><p>PLU 125939</p><p>Natural</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Portfolios · Paper &amp; Cardboard</title>
+  <meta name="description" content="7 products in Business / Portfolios / Paper &amp; Cardboard.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Portfolios · Paper &amp; Cardboard</h1>
+        <p>7 products in Business / Portfolios / Paper &amp; Cardboard.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/business/portfolios/paper-and-cardboard/swiss-peak-heritage-a4-portfolio-with-zipper/" data-name="swiss peak heritage a4 portfolio with zipper" data-plu="118873" data-material="paper-and-cardboard">
+      <img src="/assets/products/118873/118873-1-9a667d41.webp" alt="Swiss Peak Heritage A4 Portfolio with Zipper" loading="lazy">
+      <div><h2>Swiss Peak Heritage A4 Portfolio with Zipper</h2><p>PLU 118873</p><p>Paper &amp; Cardboard</p></div>
+    </a><a class="product-card" href="/catalogue/business/portfolios/paper-and-cardboard/swiss-peak-heritage-a5-portfolio-with-zipper/" data-name="swiss peak heritage a5 portfolio with zipper" data-plu="118874" data-material="paper-and-cardboard">
+      <img src="/assets/products/118874/118874-1-f89152b6.webp" alt="Swiss Peak Heritage A5 Portfolio with Zipper" loading="lazy">
+      <div><h2>Swiss Peak Heritage A5 Portfolio with Zipper</h2><p>PLU 118874</p><p>Paper &amp; Cardboard</p></div>
+    </a><a class="product-card" href="/catalogue/business/portfolios/paper-and-cardboard/pierre-cardin-valence-portfolio/" data-name="pierre cardin valence portfolio" data-plu="120580" data-material="paper-and-cardboard">
+      <img src="/assets/products/120580/120580-1-251c2426.webp" alt="Pierre Cardin Valence Portfolio" loading="lazy">
+      <div><h2>Pierre Cardin Valence Portfolio</h2><p>PLU 120580</p><p>Paper &amp; Cardboard</p></div>
+    </a><a class="product-card" href="/catalogue/business/portfolios/paper-and-cardboard/sakura-cork-portfolio-a5/" data-name="sakura cork portfolio - a5" data-plu="121405" data-material="paper-and-cardboard">
+      <img src="/assets/products/121405/121405-1-37545e3c.webp" alt="Sakura Cork Portfolio - A5" loading="lazy">
+      <div><h2>Sakura Cork Portfolio - A5</h2><p>PLU 121405</p><p>Paper &amp; Cardboard</p></div>
+    </a><a class="product-card" href="/catalogue/business/portfolios/paper-and-cardboard/nirvana-portfolio/" data-name="nirvana portfolio" data-plu="122407" data-material="paper-and-cardboard">
+      <img src="/assets/products/122407/122407-1-8291b2b5.webp" alt="Nirvana Portfolio" loading="lazy">
+      <div><h2>Nirvana Portfolio</h2><p>PLU 122407</p><p>Paper &amp; Cardboard</p></div>
+    </a><a class="product-card" href="/catalogue/business/portfolios/paper-and-cardboard/lancaster-portfolio/" data-name="lancaster portfolio" data-plu="122409" data-material="paper-and-cardboard">
+      <img src="/assets/products/122409/122409-1-ac69d358.webp" alt="Lancaster Portfolio" loading="lazy">
+      <div><h2>Lancaster Portfolio</h2><p>PLU 122409</p><p>Paper &amp; Cardboard</p></div>
+    </a><a class="product-card" href="/catalogue/business/portfolios/paper-and-cardboard/hartford-portfolio/" data-name="hartford portfolio" data-plu="123252" data-material="paper-and-cardboard">
+      <img src="/assets/products/123252/123252-1-3d0ae1f3.webp" alt="Hartford Portfolio" loading="lazy">
+      <div><h2>Hartford Portfolio</h2><p>PLU 123252</p><p>Paper &amp; Cardboard</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

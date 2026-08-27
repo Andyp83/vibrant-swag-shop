@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Home &amp; Living · Ceramic</title>
+  <meta name="description" content="7 products in Leisure / Home &amp; Living / Ceramic.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Home &amp; Living · Ceramic</h1>
+        <p>7 products in Leisure / Home &amp; Living / Ceramic.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/leisure/home-and-living/ceramic/planter-with-bamboo-base/" data-name="planter with bamboo base" data-plu="120901" data-material="ceramic">
+      <img src="/assets/products/120901/120901-1-509b91dc.webp" alt="Planter with Bamboo Base" loading="lazy">
+      <div><h2>Planter with Bamboo Base</h2><p>PLU 120901</p><p>Ceramic</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/home-and-living/ceramic/natura-bamboo-pepper-mill/" data-name="natura bamboo pepper mill" data-plu="122272" data-material="ceramic">
+      <img src="/assets/products/122272/122272-1-f288844e.webp" alt="NATURA Bamboo Pepper Mill" loading="lazy">
+      <div><h2>NATURA Bamboo Pepper Mill</h2><p>PLU 122272</p><p>Ceramic</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/home-and-living/ceramic/keepsake-coaster-set/" data-name="keepsake coaster set" data-plu="122315" data-material="ceramic">
+      <img src="/assets/products/122315/122315-1-23e5e6f0.webp" alt="Keepsake Coaster Set" loading="lazy">
+      <div><h2>Keepsake Coaster Set</h2><p>PLU 122315</p><p>Ceramic</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/home-and-living/ceramic/natura-candle-with-bamboo-lid/" data-name="natura candle with bamboo lid" data-plu="125317" data-material="ceramic">
+      <img src="/assets/products/125317/125317-1-a0fe44f2.webp" alt="NATURA Candle with Bamboo Lid" loading="lazy">
+      <div><h2>NATURA Candle with Bamboo Lid</h2><p>PLU 125317</p><p>Ceramic</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/home-and-living/ceramic/mini-fondue-set/" data-name="mini fondue set" data-plu="126524" data-material="ceramic">
+      <img src="/assets/products/126524/126524-1-b7748199.webp" alt="Mini Fondue Set" loading="lazy">
+      <div><h2>Mini Fondue Set</h2><p>PLU 126524</p><p>Ceramic</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/home-and-living/ceramic/keepsake-noir-salt-and-pepper-grinders/" data-name="keepsake noir salt and pepper grinders" data-plu="127829" data-material="ceramic">
+      <img src="/assets/products/127829/127829-1-453e9c41.webp" alt="Keepsake Noir Salt and Pepper Grinders" loading="lazy">
+      <div><h2>Keepsake Noir Salt and Pepper Grinders</h2><p>PLU 127829</p><p>Ceramic</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/home-and-living/ceramic/keepsake-sushi-set/" data-name="keepsake sushi set" data-plu="133627" data-material="ceramic">
+      <img src="/assets/products/133627/133627-1-e2e8f0c1.webp" alt="Keepsake Sushi Set" loading="lazy">
+      <div><h2>Keepsake Sushi Set</h2><p>PLU 133627</p><p>Ceramic</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

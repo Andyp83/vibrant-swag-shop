@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Key Rings · Leather &amp; PU</title>
+  <meta name="description" content="5 products in Promotion / Key Rings / Leather &amp; PU.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Key Rings · Leather &amp; PU</h1>
+        <p>5 products in Promotion / Key Rings / Leather &amp; PU.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/promotion/key-rings/leather-and-pu/ashton-key-ring/" data-name="ashton key ring" data-plu="116580" data-material="leather-and-pu">
+      <img src="/assets/products/116580/116580-1-0d5433e1.webp" alt="Ashton Key Ring" loading="lazy">
+      <div><h2>Ashton Key Ring</h2><p>PLU 116580</p><p>Leather &amp; PU</p></div>
+    </a><a class="product-card" href="/catalogue/promotion/key-rings/leather-and-pu/prince-leather-key-ring-rectangle/" data-name="prince leather key ring - rectangle" data-plu="116757" data-material="leather-and-pu">
+      <img src="/assets/products/116757/116757-1-090f14ee.webp" alt="Prince Leather Key Ring - Rectangle" loading="lazy">
+      <div><h2>Prince Leather Key Ring - Rectangle</h2><p>PLU 116757</p><p>Leather &amp; PU</p></div>
+    </a><a class="product-card" href="/catalogue/promotion/key-rings/leather-and-pu/prince-leather-key-ring-square/" data-name="prince leather key ring - square" data-plu="116758" data-material="leather-and-pu">
+      <img src="/assets/products/116758/116758-1-5fe883a2.webp" alt="Prince Leather Key Ring - Square" loading="lazy">
+      <div><h2>Prince Leather Key Ring - Square</h2><p>PLU 116758</p><p>Leather &amp; PU</p></div>
+    </a><a class="product-card" href="/catalogue/promotion/key-rings/leather-and-pu/prince-leather-key-ring-round/" data-name="prince leather key ring - round" data-plu="116759" data-material="leather-and-pu">
+      <img src="/assets/products/116759/116759-1-15c17730.webp" alt="Prince Leather Key Ring - Round" loading="lazy">
+      <div><h2>Prince Leather Key Ring - Round</h2><p>PLU 116759</p><p>Leather &amp; PU</p></div>
+    </a><a class="product-card" href="/catalogue/promotion/key-rings/leather-and-pu/dash-key-ring-pouch/" data-name="dash key ring pouch" data-plu="123037" data-material="leather-and-pu">
+      <img src="/assets/products/123037/123037-1-0b35c946.webp" alt="Dash Key Ring Pouch" loading="lazy">
+      <div><h2>Dash Key Ring Pouch</h2><p>PLU 123037</p><p>Leather &amp; PU</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

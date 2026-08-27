@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Black Refill · Plastic</title>
+  <meta name="description" content="5 products in Pens / Black Refill / Plastic.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Black Refill · Plastic</h1>
+        <p>5 products in Pens / Black Refill / Plastic.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/pens/black-refill/plastic/panama-bamboo-pen/" data-name="panama bamboo pen" data-plu="116261" data-material="plastic">
+      <img src="/assets/products/116261/116261-1-7a7079d4.webp" alt="Panama Bamboo Pen" loading="lazy">
+      <div><h2>Panama Bamboo Pen</h2><p>PLU 116261</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/pens/black-refill/plastic/vistro-bamboo-pen/" data-name="vistro bamboo pen" data-plu="116262" data-material="plastic">
+      <img src="/assets/products/116262/116262-1-560158ab.webp" alt="Vistro Bamboo Pen" loading="lazy">
+      <div><h2>Vistro Bamboo Pen</h2><p>PLU 116262</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/pens/black-refill/plastic/serano-bamboo-pen/" data-name="serano bamboo pen" data-plu="116263" data-material="plastic">
+      <img src="/assets/products/116263/116263-1-04c080d6.webp" alt="Serano Bamboo Pen" loading="lazy">
+      <div><h2>Serano Bamboo Pen</h2><p>PLU 116263</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/pens/black-refill/plastic/ancona-bamboo-pen/" data-name="ancona bamboo pen" data-plu="116650" data-material="plastic">
+      <img src="/assets/products/116650/116650-1-feed61d2.webp" alt="Ancona Bamboo Pen" loading="lazy">
+      <div><h2>Ancona Bamboo Pen</h2><p>PLU 116650</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/pens/black-refill/plastic/bamboo-twist-pen/" data-name="bamboo twist pen" data-plu="116651" data-material="plastic">
+      <img src="/assets/products/116651/116651-1-c51b61da.webp" alt="Bamboo Twist Pen" loading="lazy">
+      <div><h2>Bamboo Twist Pen</h2><p>PLU 116651</p><p>Plastic</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

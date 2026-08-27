@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>General · Plastic</title>
+  <meta name="description" content="8 products in Collections / General / Plastic.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>General · Plastic</h1>
+        <p>8 products in Collections / General / Plastic.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/collections/general/plastic/lamb-plush-toy/" data-name="lamb plush toy" data-plu="117004" data-material="plastic">
+      <img src="/assets/products/117004/117004-1-30c0cb12.webp" alt="Lamb Plush Toy" loading="lazy">
+      <div><h2>Lamb Plush Toy</h2><p>PLU 117004</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/collections/general/plastic/koala-plush-toy/" data-name="koala plush toy" data-plu="117005" data-material="plastic">
+      <img src="/assets/products/117005/117005-1-6212ace5.webp" alt="Koala Plush Toy" loading="lazy">
+      <div><h2>Koala Plush Toy</h2><p>PLU 117005</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/collections/general/plastic/kiwi-plush-toy/" data-name="kiwi plush toy" data-plu="117006" data-material="plastic">
+      <img src="/assets/products/117006/117006-1-0f195c99.webp" alt="Kiwi Plush Toy" loading="lazy">
+      <div><h2>Kiwi Plush Toy</h2><p>PLU 117006</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/collections/general/plastic/kangaroo-plush-toy/" data-name="kangaroo plush toy" data-plu="117007" data-material="plastic">
+      <img src="/assets/products/117007/117007-1-de47deb3.webp" alt="Kangaroo Plush Toy" loading="lazy">
+      <div><h2>Kangaroo Plush Toy</h2><p>PLU 117007</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/collections/general/plastic/crocodile-plush-toy/" data-name="crocodile plush toy" data-plu="117008" data-material="plastic">
+      <img src="/assets/products/117008/117008-1-be856032.webp" alt="Crocodile Plush Toy" loading="lazy">
+      <div><h2>Crocodile Plush Toy</h2><p>PLU 117008</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/collections/general/plastic/rabbit-plush-toy/" data-name="rabbit plush toy" data-plu="120188" data-material="plastic">
+      <img src="/assets/products/120188/120188-1-d77e8fd8.webp" alt="Rabbit Plush Toy" loading="lazy">
+      <div><h2>Rabbit Plush Toy</h2><p>PLU 120188</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/collections/general/plastic/zebra-plush-toy/" data-name="zebra plush toy" data-plu="120189" data-material="plastic">
+      <img src="/assets/products/120189/120189-1-8492f654.webp" alt="Zebra Plush Toy" loading="lazy">
+      <div><h2>Zebra Plush Toy</h2><p>PLU 120189</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/collections/general/plastic/frog-plush-toy/" data-name="frog plush toy" data-plu="120192" data-material="plastic">
+      <img src="/assets/products/120192/120192-1-4dddf28d.webp" alt="Frog Plush Toy" loading="lazy">
+      <div><h2>Frog Plush Toy</h2><p>PLU 120192</p><p>Plastic</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

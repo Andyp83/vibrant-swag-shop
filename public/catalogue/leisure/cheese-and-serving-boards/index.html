@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Leisure · Cheese &amp; Serving Boards</title>
+  <meta name="description" content="2 products split by material/style.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Leisure · Cheese &amp; Serving Boards</h1>
+        <p>2 products split by material/style.</p>
+        <div class="section-pills"><a href="/catalogue/leisure/cheese-and-serving-boards/natural/">Natural <span>1</span></a><a href="/catalogue/leisure/cheese-and-serving-boards/paper-and-cardboard/">Paper &amp; Cardboard <span>1</span></a></div>
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/leisure/cheese-and-serving-boards/paper-and-cardboard/natura-kensington-cheese-board-round/" data-name="natura kensington cheese board - round" data-plu="110803" data-material="paper-and-cardboard">
+      <img src="/assets/products/110803/110803-1-d73ed418.webp" alt="NATURA Kensington Cheese Board - Round" loading="lazy">
+      <div><h2>NATURA Kensington Cheese Board - Round</h2><p>PLU 110803</p><p>Paper &amp; Cardboard</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/cheese-and-serving-boards/natural/slate-cheese-board/" data-name="slate cheese board" data-plu="115959" data-material="natural">
+      <img src="/assets/products/115959/115959-1-53579d81.webp" alt="Slate Cheese Board" loading="lazy">
+      <div><h2>Slate Cheese Board</h2><p>PLU 115959</p><p>Natural</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

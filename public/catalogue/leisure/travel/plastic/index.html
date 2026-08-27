@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Travel · Plastic</title>
+  <meta name="description" content="7 products in Leisure / Travel / Plastic.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Travel · Plastic</h1>
+        <p>7 products in Leisure / Travel / Plastic.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/leisure/travel/plastic/trekka-luggage-tag/" data-name="trekka luggage tag" data-plu="104749" data-material="plastic">
+      <img src="/assets/products/104749/104749-1-b06310b2.webp" alt="Trekka Luggage Tag" loading="lazy">
+      <div><h2>Trekka Luggage Tag</h2><p>PLU 104749</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/travel/plastic/airline-carry-on-bag/" data-name="airline carry on bag" data-plu="104756" data-material="plastic">
+      <img src="/assets/products/104756/104756-1-a78d8956.webp" alt="Airline Carry on Bag" loading="lazy">
+      <div><h2>Airline Carry on Bag</h2><p>PLU 104756</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/travel/plastic/westin-luggage-tag/" data-name="westin luggage tag" data-plu="107961" data-material="plastic">
+      <img src="/assets/products/107961/107961-1-9dbb858c.webp" alt="Westin Luggage Tag" loading="lazy">
+      <div><h2>Westin Luggage Tag</h2><p>PLU 107961</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/travel/plastic/pvc-luggage-tag/" data-name="pvc luggage tag" data-plu="110553" data-material="plastic">
+      <img src="/assets/products/110553/110553-1-30940dea.webp" alt="PVC Luggage Tag" loading="lazy">
+      <div><h2>PVC Luggage Tag</h2><p>PLU 110553</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/travel/plastic/foam-earplugs-with-case/" data-name="foam earplugs with case" data-plu="116683" data-material="plastic">
+      <img src="/assets/products/116683/116683-1-886df911.webp" alt="Foam Earplugs with Case" loading="lazy">
+      <div><h2>Foam Earplugs with Case</h2><p>PLU 116683</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/travel/plastic/travel-bottle-set/" data-name="travel bottle set" data-plu="126681" data-material="plastic">
+      <img src="/assets/products/126681/126681-1-52c314eb.webp" alt="Travel Bottle Set" loading="lazy">
+      <div><h2>Travel Bottle Set</h2><p>PLU 126681</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/travel/plastic/travel-luggage-scale/" data-name="travel luggage scale" data-plu="129215" data-material="plastic">
+      <img src="/assets/products/129215/129215-1-c9f431d5.webp" alt="Travel Luggage Scale" loading="lazy">
+      <div><h2>Travel Luggage Scale</h2><p>PLU 129215</p><p>Plastic</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

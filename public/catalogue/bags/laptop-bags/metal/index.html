@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Laptop Bags · Metal</title>
+  <meta name="description" content="3 products in Bags / Laptop Bags / Metal.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Laptop Bags · Metal</h1>
+        <p>3 products in Bags / Laptop Bags / Metal.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/bags/laptop-bags/metal/spencer-device-sleeve-large/" data-name="spencer device sleeve - large" data-plu="123558" data-material="metal">
+      <img src="/assets/products/123558/123558-1-739ae30b.webp" alt="Spencer Device Sleeve - Large" loading="lazy">
+      <div><h2>Spencer Device Sleeve - Large</h2><p>PLU 123558</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/bags/laptop-bags/metal/spencer-device-sleeve-small/" data-name="spencer device sleeve - small" data-plu="123559" data-material="metal">
+      <img src="/assets/products/123559/123559-1-41114e8f.webp" alt="Spencer Device Sleeve - Small" loading="lazy">
+      <div><h2>Spencer Device Sleeve - Small</h2><p>PLU 123559</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/bags/laptop-bags/metal/spice-waste2gear-computer-bag/" data-name="spice waste2gear computer bag" data-plu="126950" data-material="metal">
+      <img src="/assets/products/126950/126950-1-7782d3b6.webp" alt="SPICE Waste2Gear Computer Bag" loading="lazy">
+      <div><h2>SPICE Waste2Gear Computer Bag</h2><p>PLU 126950</p><p>Metal</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

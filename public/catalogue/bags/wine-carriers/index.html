@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bags · Wine Carriers</title>
+  <meta name="description" content="3 products split by material/style.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Bags · Wine Carriers</h1>
+        <p>3 products split by material/style.</p>
+        <div class="section-pills"><a href="/catalogue/bags/wine-carriers/fabric-and-textile/">Fabric &amp; Textile <span>1</span></a><a href="/catalogue/bags/wine-carriers/leather-and-pu/">Leather &amp; PU <span>1</span></a><a href="/catalogue/bags/wine-carriers/plastic/">Plastic <span>1</span></a></div>
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/bags/wine-carriers/leather-and-pu/gibbston-wine-carrier/" data-name="gibbston wine carrier" data-plu="107683" data-material="leather-and-pu">
+      <img src="/assets/products/107683/107683-1-9655512a.webp" alt="Gibbston Wine Carrier" loading="lazy">
+      <div><h2>Gibbston Wine Carrier</h2><p>PLU 107683</p><p>Leather &amp; PU</p></div>
+    </a><a class="product-card" href="/catalogue/bags/wine-carriers/fabric-and-textile/reef-wine-cooler-bag/" data-name="reef wine cooler bag" data-plu="119416" data-material="fabric-and-textile">
+      <img src="/assets/products/119416/119416-1-bb91d915.webp" alt="Reef Wine Cooler Bag" loading="lazy">
+      <div><h2>Reef Wine Cooler Bag</h2><p>PLU 119416</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/bags/wine-carriers/plastic/seville-bottle-sling-bag/" data-name="seville bottle sling bag" data-plu="123074" data-material="plastic">
+      <img src="/assets/products/123074/123074-1-f200d838.webp" alt="Seville Bottle Sling Bag" loading="lazy">
+      <div><h2>Seville Bottle Sling Bag</h2><p>PLU 123074</p><p>Plastic</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

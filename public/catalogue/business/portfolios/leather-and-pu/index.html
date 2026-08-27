@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Portfolios · Leather &amp; PU</title>
+  <meta name="description" content="3 products in Business / Portfolios / Leather &amp; PU.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Portfolios · Leather &amp; PU</h1>
+        <p>3 products in Business / Portfolios / Leather &amp; PU.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/business/portfolios/leather-and-pu/leeds-portfolio/" data-name="leeds portfolio" data-plu="100828" data-material="leather-and-pu">
+      <img src="/assets/products/100828/100828-1-68b04301.webp" alt="Leeds Portfolio" loading="lazy">
+      <div><h2>Leeds Portfolio</h2><p>PLU 100828</p><p>Leather &amp; PU</p></div>
+    </a><a class="product-card" href="/catalogue/business/portfolios/leather-and-pu/inverness-portfolio-with-calculator/" data-name="inverness portfolio with calculator" data-plu="100830" data-material="leather-and-pu">
+      <img src="/assets/products/100830/100830-1-d4e8a9d3.webp" alt="Inverness Portfolio with Calculator" loading="lazy">
+      <div><h2>Inverness Portfolio with Calculator</h2><p>PLU 100830</p><p>Leather &amp; PU</p></div>
+    </a><a class="product-card" href="/catalogue/business/portfolios/leather-and-pu/bradford-zip-portfolio/" data-name="bradford zip portfolio" data-plu="102172" data-material="leather-and-pu">
+      <img src="/assets/products/102172/102172-1-aa4ef235.webp" alt="Bradford Zip Portfolio" loading="lazy">
+      <div><h2>Bradford Zip Portfolio</h2><p>PLU 102172</p><p>Leather &amp; PU</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

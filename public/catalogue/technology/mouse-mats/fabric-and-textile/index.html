@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mouse Mats · Fabric &amp; Textile</title>
+  <meta name="description" content="3 products in Technology / Mouse Mats / Fabric &amp; Textile.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Mouse Mats · Fabric &amp; Textile</h1>
+        <p>3 products in Technology / Mouse Mats / Fabric &amp; Textile.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/technology/mouse-mats/fabric-and-textile/slimline-mouse-mat/" data-name="slimline mouse mat" data-plu="121843" data-material="fabric-and-textile">
+      <img src="/assets/products/121843/121843-1-425fb944.webp" alt="Slimline Mouse Mat" loading="lazy">
+      <div><h2>Slimline Mouse Mat</h2><p>PLU 121843</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/technology/mouse-mats/fabric-and-textile/desk-mat/" data-name="desk mat" data-plu="121844" data-material="fabric-and-textile">
+      <img src="/assets/products/121844/121844-1-8f5bb3fa.webp" alt="Desk Mat" loading="lazy">
+      <div><h2>Desk Mat</h2><p>PLU 121844</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/technology/mouse-mats/fabric-and-textile/custom-mouse-mat/" data-name="custom mouse mat" data-plu="124940" data-material="fabric-and-textile">
+      <img src="/assets/products/124940/124940-1-1d70718d.webp" alt="Custom Mouse Mat" loading="lazy">
+      <div><h2>Custom Mouse Mat</h2><p>PLU 124940</p><p>Fabric &amp; Textile</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

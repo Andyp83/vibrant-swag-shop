@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Duffle Bags · Plastic</title>
+  <meta name="description" content="4 products in Bags / Duffle Bags / Plastic.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Duffle Bags · Plastic</h1>
+        <p>4 products in Bags / Duffle Bags / Plastic.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/bags/duffle-bags/plastic/horizon-duffle-bag/" data-name="horizon duffle bag" data-plu="107665" data-material="plastic">
+      <img src="/assets/products/107665/107665-1-0488efc7.webp" alt="Horizon Duffle Bag" loading="lazy">
+      <div><h2>Horizon Duffle Bag</h2><p>PLU 107665</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/bags/duffle-bags/plastic/champion-duffle-bag/" data-name="champion duffle bag" data-plu="109077" data-material="plastic">
+      <img src="/assets/products/109077/109077-1-70e59a5c.webp" alt="Champion Duffle Bag" loading="lazy">
+      <div><h2>Champion Duffle Bag</h2><p>PLU 109077</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/bags/duffle-bags/plastic/aquinas-20l-duffle-bag/" data-name="aquinas 20l duffle bag" data-plu="121426" data-material="plastic">
+      <img src="/assets/products/121426/121426-1-b31f9668.webp" alt="Aquinas 20L Duffle Bag" loading="lazy">
+      <div><h2>Aquinas 20L Duffle Bag</h2><p>PLU 121426</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/bags/duffle-bags/plastic/oceana-recycled-duffle-bag/" data-name="oceana recycled duffle bag" data-plu="129352" data-material="plastic">
+      <img src="/assets/products/129352/129352-1-45ce95ee.webp" alt="Oceana Recycled Duffle Bag" loading="lazy">
+      <div><h2>Oceana Recycled Duffle Bag</h2><p>PLU 129352</p><p>Plastic</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

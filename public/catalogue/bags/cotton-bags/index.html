@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bags · Cotton Bags</title>
+  <meta name="description" content="6 products split by material/style.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Bags · Cotton Bags</h1>
+        <p>6 products split by material/style.</p>
+        <div class="section-pills"><a href="/catalogue/bags/cotton-bags/fabric-and-textile/">Fabric &amp; Textile <span>5</span></a><a href="/catalogue/bags/cotton-bags/plastic/">Plastic <span>1</span></a></div>
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/bags/cotton-bags/plastic/trento-cosmetic-bag/" data-name="trento cosmetic bag" data-plu="112908" data-material="plastic">
+      <img src="/assets/products/112908/112908-1-61389ee5.webp" alt="Trento Cosmetic Bag" loading="lazy">
+      <div><h2>Trento Cosmetic Bag</h2><p>PLU 112908</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/bags/cotton-bags/fabric-and-textile/milano-toiletry-bag/" data-name="milano toiletry bag" data-plu="112911" data-material="fabric-and-textile">
+      <img src="/assets/products/112911/112911-1-896ccf2a.webp" alt="Milano Toiletry Bag" loading="lazy">
+      <div><h2>Milano Toiletry Bag</h2><p>PLU 112911</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/bags/cotton-bags/fabric-and-textile/florence-toiletry-bag/" data-name="florence toiletry bag" data-plu="112917" data-material="fabric-and-textile">
+      <img src="/assets/products/112917/112917-1-b2d885f4.webp" alt="Florence Toiletry Bag" loading="lazy">
+      <div><h2>Florence Toiletry Bag</h2><p>PLU 112917</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/bags/cotton-bags/fabric-and-textile/eve-cosmetic-bag-small/" data-name="eve cosmetic bag - small" data-plu="114180" data-material="fabric-and-textile">
+      <img src="/assets/products/114180/114180-1-af79cf9f.webp" alt="Eve Cosmetic Bag - Small" loading="lazy">
+      <div><h2>Eve Cosmetic Bag - Small</h2><p>PLU 114180</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/bags/cotton-bags/fabric-and-textile/eve-cosmetic-bag-medium/" data-name="eve cosmetic bag - medium" data-plu="114181" data-material="fabric-and-textile">
+      <img src="/assets/products/114181/114181-1-69667c87.webp" alt="Eve Cosmetic Bag - Medium" loading="lazy">
+      <div><h2>Eve Cosmetic Bag - Medium</h2><p>PLU 114181</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/bags/cotton-bags/fabric-and-textile/eve-cosmetic-bag-large/" data-name="eve cosmetic bag - large" data-plu="114182" data-material="fabric-and-textile">
+      <img src="/assets/products/114182/114182-1-2362e7c4.webp" alt="Eve Cosmetic Bag - Large" loading="lazy">
+      <div><h2>Eve Cosmetic Bag - Large</h2><p>PLU 114182</p><p>Fabric &amp; Textile</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

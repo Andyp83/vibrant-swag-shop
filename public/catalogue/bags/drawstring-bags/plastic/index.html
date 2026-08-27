@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Drawstring Bags · Plastic</title>
+  <meta name="description" content="7 products in Bags / Drawstring Bags / Plastic.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Drawstring Bags · Plastic</h1>
+        <p>7 products in Bags / Drawstring Bags / Plastic.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/bags/drawstring-bags/plastic/tampa-drawstring-backpack/" data-name="tampa drawstring backpack" data-plu="109882" data-material="plastic">
+      <img src="/assets/products/109882/109882-1-0282fd5d.webp" alt="Tampa Drawstring Backpack" loading="lazy">
+      <div><h2>Tampa Drawstring Backpack</h2><p>PLU 109882</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/bags/drawstring-bags/plastic/drawstring-gift-bag-small/" data-name="drawstring gift bag - small" data-plu="118216" data-material="plastic">
+      <img src="/assets/products/118216/118216-1-74c7e380.webp" alt="Drawstring Gift Bag - Small" loading="lazy">
+      <div><h2>Drawstring Gift Bag - Small</h2><p>PLU 118216</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/bags/drawstring-bags/plastic/drawstring-gift-bag-medium/" data-name="drawstring gift bag - medium" data-plu="118217" data-material="plastic">
+      <img src="/assets/products/118217/118217-1-547c54ef.webp" alt="Drawstring Gift Bag - Medium" loading="lazy">
+      <div><h2>Drawstring Gift Bag - Medium</h2><p>PLU 118217</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/bags/drawstring-bags/plastic/drawstring-gift-bag-large/" data-name="drawstring gift bag - large" data-plu="118218" data-material="plastic">
+      <img src="/assets/products/118218/118218-1-32265174.webp" alt="Drawstring Gift Bag - Large" loading="lazy">
+      <div><h2>Drawstring Gift Bag - Large</h2><p>PLU 118218</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/bags/drawstring-bags/plastic/satin-gift-bag-small/" data-name="satin gift bag - small" data-plu="129436" data-material="plastic">
+      <img src="/assets/products/129436/129436-1-7ef127a7.webp" alt="Satin Gift Bag - Small" loading="lazy">
+      <div><h2>Satin Gift Bag - Small</h2><p>PLU 129436</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/bags/drawstring-bags/plastic/satin-gift-bag-medium/" data-name="satin gift bag - medium" data-plu="129437" data-material="plastic">
+      <img src="/assets/products/129437/129437-1-11a87c3f.webp" alt="Satin Gift Bag - Medium" loading="lazy">
+      <div><h2>Satin Gift Bag - Medium</h2><p>PLU 129437</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/bags/drawstring-bags/plastic/satin-gift-bag-large/" data-name="satin gift bag - large" data-plu="129438" data-material="plastic">
+      <img src="/assets/products/129438/129438-1-49192326.webp" alt="Satin Gift Bag - Large" loading="lazy">
+      <div><h2>Satin Gift Bag - Large</h2><p>PLU 129438</p><p>Plastic</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

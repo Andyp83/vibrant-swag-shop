@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Golf · General</title>
+  <meta name="description" content="8 products in Leisure / Golf / General.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Golf · General</h1>
+        <p>8 products in Leisure / Golf / General.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/leisure/golf/general/pgf-optima-golf-ball/" data-name="pgf optima golf ball" data-plu="106761" data-material="general">
+      <img src="/assets/products/106761/106761-1-5bdb0d9c.webp" alt="PGF Optima Golf Ball" loading="lazy">
+      <div><h2>PGF Optima Golf Ball</h2><p>PLU 106761</p><p>General</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/golf/general/titleist-pro-v1-golf-ball/" data-name="titleist pro v1 golf ball" data-plu="118392" data-material="general">
+      <img src="/assets/products/118392/118392-1-727cf2ce.webp" alt="Titleist Pro V1 Golf Ball" loading="lazy">
+      <div><h2>Titleist Pro V1 Golf Ball</h2><p>PLU 118392</p><p>General</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/golf/general/titleist-pro-v1x-golf-ball/" data-name="titleist pro v1x golf ball" data-plu="118393" data-material="general">
+      <img src="/assets/products/118393/118393-1-49f90be2.webp" alt="Titleist Pro V1X Golf Ball" loading="lazy">
+      <div><h2>Titleist Pro V1X Golf Ball</h2><p>PLU 118393</p><p>General</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/golf/general/titleist-avx-golf-ball/" data-name="titleist avx golf ball" data-plu="118394" data-material="general">
+      <img src="/assets/products/118394/118394-1-23dcad60.webp" alt="Titleist AVX Golf Ball" loading="lazy">
+      <div><h2>Titleist AVX Golf Ball</h2><p>PLU 118394</p><p>General</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/golf/general/titleist-tour-soft-golf-ball/" data-name="titleist tour soft golf ball" data-plu="118395" data-material="general">
+      <img src="/assets/products/118395/118395-1-58ae2e53.webp" alt="Titleist Tour Soft Golf Ball" loading="lazy">
+      <div><h2>Titleist Tour Soft Golf Ball</h2><p>PLU 118395</p><p>General</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/golf/general/titleist-velocity-golf-ball/" data-name="titleist velocity golf ball" data-plu="118396" data-material="general">
+      <img src="/assets/products/118396/118396-1-5ad7cf0a.webp" alt="Titleist Velocity Golf Ball" loading="lazy">
+      <div><h2>Titleist Velocity Golf Ball</h2><p>PLU 118396</p><p>General</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/golf/general/titleist-trufeel-golf-ball/" data-name="titleist trufeel golf ball" data-plu="118397" data-material="general">
+      <img src="/assets/products/118397/118397-1-d37379b3.webp" alt="Titleist TruFeel Golf Ball" loading="lazy">
+      <div><h2>Titleist TruFeel Golf Ball</h2><p>PLU 118397</p><p>General</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/golf/general/pinnacle-distance-golf-ball/" data-name="pinnacle distance golf ball" data-plu="125559" data-material="general">
+      <img src="/assets/products/125559/125559-1-ec3b3518.webp" alt="Pinnacle Distance Golf Ball" loading="lazy">
+      <div><h2>Pinnacle Distance Golf Ball</h2><p>PLU 125559</p><p>General</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

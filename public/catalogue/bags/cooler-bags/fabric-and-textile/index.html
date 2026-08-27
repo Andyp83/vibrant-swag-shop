@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cooler Bags · Fabric &amp; Textile</title>
+  <meta name="description" content="6 products in Bags / Cooler Bags / Fabric &amp; Textile.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Cooler Bags · Fabric &amp; Textile</h1>
+        <p>6 products in Bags / Cooler Bags / Fabric &amp; Textile.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/bags/cooler-bags/fabric-and-textile/neoprene-wine-cooler-bag/" data-name="neoprene wine cooler bag" data-plu="106332" data-material="fabric-and-textile">
+      <img src="/assets/products/106332/106332-1-9ca41dbb.webp" alt="Neoprene Wine Cooler Bag" loading="lazy">
+      <div><h2>Neoprene Wine Cooler Bag</h2><p>PLU 106332</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/bags/cooler-bags/fabric-and-textile/neoprene-wine-cooler-bag-full-colour/" data-name="neoprene wine cooler bag - full colour" data-plu="110498" data-material="fabric-and-textile">
+      <img src="/assets/products/110498/110498-1-895e97ac.webp" alt="Neoprene Wine Cooler Bag - Full Colour" loading="lazy">
+      <div><h2>Neoprene Wine Cooler Bag - Full Colour</h2><p>PLU 110498</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/bags/cooler-bags/fabric-and-textile/neoprene-double-wine-cooler-bag-full-colour/" data-name="neoprene double wine cooler bag - full colour" data-plu="110499" data-material="fabric-and-textile">
+      <img src="/assets/products/110499/110499-1-136e2847.webp" alt="Neoprene Double Wine Cooler Bag - Full Colour" loading="lazy">
+      <div><h2>Neoprene Double Wine Cooler Bag - Full Colour</h2><p>PLU 110499</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/bags/cooler-bags/fabric-and-textile/neoprene-stubby-cooler-bag/" data-name="neoprene stubby cooler bag" data-plu="120144" data-material="fabric-and-textile">
+      <img src="/assets/products/120144/120144-1-fb1dc50f.webp" alt="Neoprene Stubby Cooler Bag" loading="lazy">
+      <div><h2>Neoprene Stubby Cooler Bag</h2><p>PLU 120144</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/bags/cooler-bags/fabric-and-textile/naples-lunch-bag/" data-name="naples lunch bag" data-plu="123145" data-material="fabric-and-textile">
+      <img src="/assets/products/123145/123145-1-f5a2984e.webp" alt="Naples Lunch Bag" loading="lazy">
+      <div><h2>Naples Lunch Bag</h2><p>PLU 123145</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/bags/cooler-bags/fabric-and-textile/sonoma-wine-bottle-cooler/" data-name="sonoma wine bottle cooler" data-plu="126234" data-material="fabric-and-textile">
+      <img src="/assets/products/126234/126234-1-98eb1c30.webp" alt="Sonoma Wine Bottle Cooler" loading="lazy">
+      <div><h2>Sonoma Wine Bottle Cooler</h2><p>PLU 126234</p><p>Fabric &amp; Textile</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

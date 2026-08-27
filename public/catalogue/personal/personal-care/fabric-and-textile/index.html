@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Personal Care · Fabric &amp; Textile</title>
+  <meta name="description" content="6 products in Personal / Personal Care / Fabric &amp; Textile.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Personal Care · Fabric &amp; Textile</h1>
+        <p>6 products in Personal / Personal Care / Fabric &amp; Textile.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/personal/personal-care/fabric-and-textile/inti-travel-set/" data-name="inti travel set" data-plu="120669" data-material="fabric-and-textile">
+      <img src="/assets/products/120669/120669-1-47e3b24f.webp" alt="Inti Travel Set" loading="lazy">
+      <div><h2>Inti Travel Set</h2><p>PLU 120669</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/personal/personal-care/fabric-and-textile/reusable-3-ply-cotton-face-mask-indent/" data-name="reusable 3-ply cotton face mask - indent" data-plu="120840" data-material="fabric-and-textile">
+      <img src="/assets/products/120840/120840-1-552ab456.webp" alt="Reusable 3-ply Cotton Face Mask - Indent" loading="lazy">
+      <div><h2>Reusable 3-ply Cotton Face Mask - Indent</h2><p>PLU 120840</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/personal/personal-care/fabric-and-textile/full-colour-3-ply-reusable-face-mask-indent/" data-name="full colour 3-ply reusable face mask - indent" data-plu="120841" data-material="fabric-and-textile">
+      <img src="/assets/products/120841/120841-1-99eb6559.webp" alt="Full Colour 3-Ply Reusable Face Mask - Indent" loading="lazy">
+      <div><h2>Full Colour 3-Ply Reusable Face Mask - Indent</h2><p>PLU 120841</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/personal/personal-care/fabric-and-textile/wooden-body-brush/" data-name="wooden body brush" data-plu="121408" data-material="fabric-and-textile">
+      <img src="/assets/products/121408/121408-1-bf8590f1.webp" alt="Wooden Body Brush" loading="lazy">
+      <div><h2>Wooden Body Brush</h2><p>PLU 121408</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/personal/personal-care/fabric-and-textile/reusable-face-mask-full-colour-small/" data-name="reusable face mask full colour - small" data-plu="200328" data-material="fabric-and-textile">
+      <img src="/assets/products/200328/200328-1-8fd78f02.webp" alt="Reusable Face Mask Full Colour - Small" loading="lazy">
+      <div><h2>Reusable Face Mask Full Colour - Small</h2><p>PLU 200328</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/personal/personal-care/fabric-and-textile/reusable-face-mask-full-colour-large/" data-name="reusable face mask full colour - large" data-plu="200329" data-material="fabric-and-textile">
+      <img src="/assets/products/200329/200329-1-5892b344.webp" alt="Reusable Face Mask Full Colour - Large" loading="lazy">
+      <div><h2>Reusable Face Mask Full Colour - Large</h2><p>PLU 200329</p><p>Fabric &amp; Textile</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

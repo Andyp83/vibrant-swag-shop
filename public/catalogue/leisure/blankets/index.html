@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Leisure · Blankets</title>
+  <meta name="description" content="8 products split by material/style.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Leisure · Blankets</h1>
+        <p>8 products split by material/style.</p>
+        <div class="section-pills"><a href="/catalogue/leisure/blankets/fabric-and-textile/">Fabric &amp; Textile <span>6</span></a><a href="/catalogue/leisure/blankets/metal/">Metal <span>1</span></a><a href="/catalogue/leisure/blankets/plastic/">Plastic <span>1</span></a></div>
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/leisure/blankets/fabric-and-textile/glasgow-fleece-blanket-in-carry-bag/" data-name="glasgow fleece blanket in carry bag" data-plu="119417" data-material="fabric-and-textile">
+      <img src="/assets/products/119417/119417-1-549f39a0.webp" alt="Glasgow Fleece Blanket in Carry Bag" loading="lazy">
+      <div><h2>Glasgow Fleece Blanket in Carry Bag</h2><p>PLU 119417</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/blankets/fabric-and-textile/glasgow-fleece-blanket-with-strap/" data-name="glasgow fleece blanket with strap" data-plu="120062" data-material="fabric-and-textile">
+      <img src="/assets/products/120062/120062-1-ce3ea555.webp" alt="Glasgow Fleece Blanket with Strap" loading="lazy">
+      <div><h2>Glasgow Fleece Blanket with Strap</h2><p>PLU 120062</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/blankets/fabric-and-textile/swiss-peak-picnic-blanket/" data-name="swiss peak picnic blanket" data-plu="121125" data-material="fabric-and-textile">
+      <img src="/assets/products/121125/121125-1-b0a9a5cc.webp" alt="Swiss Peak Picnic Blanket" loading="lazy">
+      <div><h2>Swiss Peak Picnic Blanket</h2><p>PLU 121125</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/blankets/fabric-and-textile/ohau-throw-blanket/" data-name="ohau throw blanket" data-plu="121994" data-material="fabric-and-textile">
+      <img src="/assets/products/121994/121994-1-78b97178.webp" alt="Ohau Throw Blanket" loading="lazy">
+      <div><h2>Ohau Throw Blanket</h2><p>PLU 121994</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/blankets/plastic/belfast-throw-blanket/" data-name="belfast throw blanket" data-plu="123041" data-material="plastic">
+      <img src="/assets/products/123041/123041-1-839d2f3d.webp" alt="Belfast Throw Blanket" loading="lazy">
+      <div><h2>Belfast Throw Blanket</h2><p>PLU 123041</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/blankets/fabric-and-textile/glasgow-fleece-blanket-in-carry-bag-sale/" data-name="glasgow fleece blanket in carry bag - sale" data-plu="129189" data-material="fabric-and-textile">
+      <img src="/assets/products/129189/129189-1-29991ec0.webp" alt="Glasgow Fleece Blanket in Carry Bag - Sale" loading="lazy">
+      <div><h2>Glasgow Fleece Blanket in Carry Bag - Sale</h2><p>PLU 129189</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/blankets/fabric-and-textile/glasgow-fleece-blanket-with-strap-sale/" data-name="glasgow fleece blanket with strap - sale" data-plu="129190" data-material="fabric-and-textile">
+      <img src="/assets/products/129190/129190-1-cddb0c1b.webp" alt="Glasgow Fleece Blanket with Strap - Sale" loading="lazy">
+      <div><h2>Glasgow Fleece Blanket with Strap - Sale</h2><p>PLU 129190</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/blankets/metal/frontier-torrent-camping-blanket/" data-name="frontier torrent camping blanket" data-plu="129735" data-material="metal">
+      <img src="/assets/products/129735/129735-1-c669daf8.webp" alt="Frontier Torrent Camping Blanket" loading="lazy">
+      <div><h2>Frontier Torrent Camping Blanket</h2><p>PLU 129735</p><p>Metal</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

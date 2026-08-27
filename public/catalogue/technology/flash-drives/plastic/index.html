@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Flash Drives · Plastic</title>
+  <meta name="description" content="4 products in Technology / Flash Drives / Plastic.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Flash Drives · Plastic</h1>
+        <p>4 products in Technology / Flash Drives / Plastic.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/technology/flash-drives/plastic/quadra-4gb-flash-drive/" data-name="quadra 4gb flash drive" data-plu="104072" data-material="plastic">
+      <img src="/assets/products/104072/104072-1-53bea2a5.webp" alt="Quadra 4GB Flash Drive" loading="lazy">
+      <div><h2>Quadra 4GB Flash Drive</h2><p>PLU 104072</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/technology/flash-drives/plastic/credit-card-flash-drive-4gb/" data-name="credit card flash drive 4gb" data-plu="108475" data-material="plastic">
+      <img src="/assets/products/108475/108475-1-82862206.webp" alt="Credit Card Flash Drive 4GB" loading="lazy">
+      <div><h2>Credit Card Flash Drive 4GB</h2><p>PLU 108475</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/technology/flash-drives/plastic/credit-card-flash-drive-8gb/" data-name="credit card flash drive 8gb" data-plu="108476" data-material="plastic">
+      
+      <div><h2>Credit Card Flash Drive 8GB</h2><p>PLU 108476</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/technology/flash-drives/plastic/zodiac-4gb-flash-drive/" data-name="zodiac 4gb flash drive" data-plu="116038" data-material="plastic">
+      <img src="/assets/products/116038/116038-1-a88bf126.webp" alt="Zodiac 4GB Flash Drive" loading="lazy">
+      <div><h2>Zodiac 4GB Flash Drive</h2><p>PLU 116038</p><p>Plastic</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

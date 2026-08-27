@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Headwear · Scarves</title>
+  <meta name="description" content="6 products split by material/style.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Headwear · Scarves</h1>
+        <p>6 products split by material/style.</p>
+        <div class="section-pills"><a href="/catalogue/headwear/scarves/fabric-and-textile/">Fabric &amp; Textile <span>6</span></a></div>
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/headwear/scarves/fabric-and-textile/nebraska-cable-knit-scarf/" data-name="nebraska cable knit scarf" data-plu="113612" data-material="fabric-and-textile">
+      <img src="/assets/products/113612/113612-1-3ca33d3b.webp" alt="Nebraska Cable Knit Scarf" loading="lazy">
+      <div><h2>Nebraska Cable Knit Scarf</h2><p>PLU 113612</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/headwear/scarves/fabric-and-textile/seattle-fleece-scarf/" data-name="seattle fleece scarf" data-plu="113647" data-material="fabric-and-textile">
+      <img src="/assets/products/113647/113647-1-1ff7cad1.webp" alt="Seattle Fleece Scarf" loading="lazy">
+      <div><h2>Seattle Fleece Scarf</h2><p>PLU 113647</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/headwear/scarves/fabric-and-textile/fairbanks-custom-knitted-scarf/" data-name="fairbanks custom knitted scarf" data-plu="117534" data-material="fabric-and-textile">
+      <img src="/assets/products/117534/117534-1-b327ca87.webp" alt="Fairbanks Custom Knitted Scarf" loading="lazy">
+      <div><h2>Fairbanks Custom Knitted Scarf</h2><p>PLU 117534</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/headwear/scarves/fabric-and-textile/berlin-scarf/" data-name="berlin scarf" data-plu="121901" data-material="fabric-and-textile">
+      <img src="/assets/products/121901/121901-1-dc1cc738.webp" alt="Berlin Scarf" loading="lazy">
+      <div><h2>Berlin Scarf</h2><p>PLU 121901</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/headwear/scarves/fabric-and-textile/berlin-infinity-scarf/" data-name="berlin infinity scarf" data-plu="121902" data-material="fabric-and-textile">
+      <img src="/assets/products/121902/121902-1-2a7ab41c.webp" alt="Berlin Infinity Scarf" loading="lazy">
+      <div><h2>Berlin Infinity Scarf</h2><p>PLU 121902</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/headwear/scarves/fabric-and-textile/avalanche-brushed-scarf/" data-name="avalanche brushed scarf" data-plu="123081" data-material="fabric-and-textile">
+      <img src="/assets/products/123081/123081-1-ae4f36b5.webp" alt="Avalanche Brushed Scarf" loading="lazy">
+      <div><h2>Avalanche Brushed Scarf</h2><p>PLU 123081</p><p>Fabric &amp; Textile</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

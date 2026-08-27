@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tech Accessories · Metal</title>
+  <meta name="description" content="9 products in Technology / Tech Accessories / Metal.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Tech Accessories · Metal</h1>
+        <p>9 products in Technology / Tech Accessories / Metal.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/technology/tech-accessories/metal/vega-phone-grip/" data-name="vega phone grip" data-plu="116447" data-material="metal">
+      <img src="/assets/products/116447/116447-1-3b3ae9b9.webp" alt="Vega Phone Grip" loading="lazy">
+      <div><h2>Vega Phone Grip</h2><p>PLU 116447</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/technology/tech-accessories/metal/megabyte-usb-hub/" data-name="megabyte usb hub" data-plu="124144" data-material="metal">
+      <img src="/assets/products/124144/124144-1-e286bec8.webp" alt="Megabyte USB Hub" loading="lazy">
+      <div><h2>Megabyte USB Hub</h2><p>PLU 124144</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/technology/tech-accessories/metal/creator-selfie-stick-tripod/" data-name="creator selfie stick tripod" data-plu="124969" data-material="metal">
+      <img src="/assets/products/124969/124969-1-2bd10259.webp" alt="Creator Selfie Stick Tripod" loading="lazy">
+      <div><h2>Creator Selfie Stick Tripod</h2><p>PLU 124969</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/technology/tech-accessories/metal/glacius-personal-cooling-fan/" data-name="glacius personal cooling fan" data-plu="126260" data-material="metal">
+      <img src="/assets/products/126260/126260-1-2e5d6653.webp" alt="Glacius Personal Cooling Fan" loading="lazy">
+      <div><h2>Glacius Personal Cooling Fan</h2><p>PLU 126260</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/technology/tech-accessories/metal/ferris-metal-phone-and-tablet-stand/" data-name="ferris metal phone and tablet stand" data-plu="126261" data-material="metal">
+      <img src="/assets/products/126261/126261-1-f43fb544.webp" alt="Ferris Metal Phone and Tablet Stand" loading="lazy">
+      <div><h2>Ferris Metal Phone and Tablet Stand</h2><p>PLU 126261</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/technology/tech-accessories/metal/phonelocker-lockable-phone-pouch/" data-name="phonelocker lockable phone pouch" data-plu="127022" data-material="metal">
+      <img src="/assets/products/127022/127022-1-52ccd952.webp" alt="PhoneLocker Lockable Phone Pouch" loading="lazy">
+      <div><h2>PhoneLocker Lockable Phone Pouch</h2><p>PLU 127022</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/technology/tech-accessories/metal/ingenio-quantum-universal-charging-and-data-cable/" data-name="ingenio quantum universal charging and data cable" data-plu="128410" data-material="metal">
+      <img src="/assets/products/128410/128410-1-27e584ea.webp" alt="INGENIO Quantum Universal Charging and Data Cable" loading="lazy">
+      <div><h2>INGENIO Quantum Universal Charging and Data Cable</h2><p>PLU 128410</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/technology/tech-accessories/metal/vibetag-bluetooth-tracker/" data-name="vibetag bluetooth tracker" data-plu="129377" data-material="metal">
+      <img src="/assets/products/129377/129377-1-ba1ae74c.webp" alt="VibeTag Bluetooth Tracker" loading="lazy">
+      <div><h2>VibeTag Bluetooth Tracker</h2><p>PLU 129377</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/technology/tech-accessories/metal/multi-functional-magnetic-badge/" data-name="multi-functional magnetic badge" data-plu="134170" data-material="metal">
+      <img src="/assets/products/134170/134170-1-ac78eca0.webp" alt="Multi-Functional Magnetic Badge" loading="lazy">
+      <div><h2>Multi-Functional Magnetic Badge</h2><p>PLU 134170</p><p>Metal</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

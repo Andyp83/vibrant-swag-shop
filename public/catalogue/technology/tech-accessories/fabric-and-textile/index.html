@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tech Accessories · Fabric &amp; Textile</title>
+  <meta name="description" content="8 products in Technology / Tech Accessories / Fabric &amp; Textile.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Tech Accessories · Fabric &amp; Textile</h1>
+        <p>8 products in Technology / Tech Accessories / Fabric &amp; Textile.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/technology/tech-accessories/fabric-and-textile/screen-and-lens-cleaner-small/" data-name="screen and lens cleaner small" data-plu="106380" data-material="fabric-and-textile">
+      <img src="/assets/products/106380/106380-1-dfd6d624.webp" alt="Screen and Lens Cleaner Small" loading="lazy">
+      <div><h2>Screen and Lens Cleaner Small</h2><p>PLU 106380</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/technology/tech-accessories/fabric-and-textile/screen-and-lens-cleaner-large/" data-name="screen and lens cleaner large" data-plu="106570" data-material="fabric-and-textile">
+      
+      <div><h2>Screen and Lens Cleaner Large</h2><p>PLU 106570</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/technology/tech-accessories/fabric-and-textile/screen-buddy/" data-name="screen buddy" data-plu="107032" data-material="fabric-and-textile">
+      <img src="/assets/products/107032/107032-1-1cdf3c0c.webp" alt="Screen Buddy" loading="lazy">
+      <div><h2>Screen Buddy</h2><p>PLU 107032</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/technology/tech-accessories/fabric-and-textile/magic-cover-small/" data-name="magic cover - small" data-plu="122436" data-material="fabric-and-textile">
+      <img src="/assets/products/122436/122436-1-11f34149.webp" alt="Magic Cover - Small" loading="lazy">
+      <div><h2>Magic Cover - Small</h2><p>PLU 122436</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/technology/tech-accessories/fabric-and-textile/magic-cover-medium/" data-name="magic cover - medium" data-plu="122437" data-material="fabric-and-textile">
+      <img src="/assets/products/122437/122437-1-5f261079.webp" alt="Magic Cover - Medium" loading="lazy">
+      <div><h2>Magic Cover - Medium</h2><p>PLU 122437</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/technology/tech-accessories/fabric-and-textile/magic-cover-large/" data-name="magic cover - large" data-plu="122438" data-material="fabric-and-textile">
+      <img src="/assets/products/122438/122438-1-b12b10fa.webp" alt="Magic Cover - Large" loading="lazy">
+      <div><h2>Magic Cover - Large</h2><p>PLU 122438</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/technology/tech-accessories/fabric-and-textile/natura-bamboo-lap-desk/" data-name="natura bamboo lap desk" data-plu="123717" data-material="fabric-and-textile">
+      <img src="/assets/products/123717/123717-1-7cfb3b5c.webp" alt="NATURA Bamboo Lap Desk" loading="lazy">
+      <div><h2>NATURA Bamboo Lap Desk</h2><p>PLU 123717</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/technology/tech-accessories/fabric-and-textile/bean-bag-phone-holder/" data-name="bean bag phone holder" data-plu="126736" data-material="fabric-and-textile">
+      <img src="/assets/products/126736/126736-1-343bc63f.webp" alt="Bean Bag Phone Holder" loading="lazy">
+      <div><h2>Bean Bag Phone Holder</h2><p>PLU 126736</p><p>Fabric &amp; Textile</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

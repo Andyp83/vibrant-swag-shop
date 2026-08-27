@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Promotion · Fidget Items</title>
+  <meta name="description" content="3 products split by material/style.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Promotion · Fidget Items</h1>
+        <p>3 products split by material/style.</p>
+        <div class="section-pills"><a href="/catalogue/promotion/fidget-items/plastic/">Plastic <span>3</span></a></div>
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/promotion/fidget-items/plastic/fidget-spinner/" data-name="fidget spinner" data-plu="113016" data-material="plastic">
+      <img src="/assets/products/113016/113016-1-e01de82c.webp" alt="Fidget Spinner" loading="lazy">
+      <div><h2>Fidget Spinner</h2><p>PLU 113016</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/promotion/fidget-items/plastic/pop-fidget-spinner/" data-name="pop fidget spinner" data-plu="129220" data-material="plastic">
+      <img src="/assets/products/129220/129220-1-bf7f6587.webp" alt="Pop Fidget Spinner" loading="lazy">
+      <div><h2>Pop Fidget Spinner</h2><p>PLU 129220</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/promotion/fidget-items/plastic/fidget-puzzle-ball/" data-name="fidget puzzle ball" data-plu="129221" data-material="plastic">
+      <img src="/assets/products/129221/129221-1-c1c45726.webp" alt="Fidget Puzzle Ball" loading="lazy">
+      <div><h2>Fidget Puzzle Ball</h2><p>PLU 129221</p><p>Plastic</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

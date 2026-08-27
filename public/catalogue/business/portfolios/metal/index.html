@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Portfolios · Metal</title>
+  <meta name="description" content="6 products in Business / Portfolios / Metal.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Portfolios · Metal</h1>
+        <p>6 products in Business / Portfolios / Metal.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/business/portfolios/metal/sovrano-leather-portfolio-large/" data-name="sovrano leather portfolio - large" data-plu="106273" data-material="metal">
+      <img src="/assets/products/106273/106273-1-37b4ac3c.webp" alt="Sovrano Leather Portfolio - Large" loading="lazy">
+      <div><h2>Sovrano Leather Portfolio - Large</h2><p>PLU 106273</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/business/portfolios/metal/sakura-cork-portfolio-a4/" data-name="sakura cork portfolio - a4" data-plu="121406" data-material="metal">
+      <img src="/assets/products/121406/121406-1-e5a1851b.webp" alt="Sakura Cork Portfolio - A4" loading="lazy">
+      <div><h2>Sakura Cork Portfolio - A4</h2><p>PLU 121406</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/business/portfolios/metal/beaufort-leather-portfolio/" data-name="beaufort leather portfolio" data-plu="122404" data-material="metal">
+      <img src="/assets/products/122404/122404-1-ac09d657.webp" alt="Beaufort Leather Portfolio" loading="lazy">
+      <div><h2>Beaufort Leather Portfolio</h2><p>PLU 122404</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/business/portfolios/metal/carlow-travel-portfolio-case/" data-name="carlow travel portfolio case" data-plu="122405" data-material="metal">
+      <img src="/assets/products/122405/122405-1-8fabee29.webp" alt="Carlow Travel Portfolio Case" loading="lazy">
+      <div><h2>Carlow Travel Portfolio Case</h2><p>PLU 122405</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/business/portfolios/metal/carrington-portfolio/" data-name="carrington portfolio" data-plu="122406" data-material="metal">
+      <img src="/assets/products/122406/122406-1-826ba26a.webp" alt="Carrington Portfolio" loading="lazy">
+      <div><h2>Carrington Portfolio</h2><p>PLU 122406</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/business/portfolios/metal/melrose-portfolio/" data-name="melrose portfolio" data-plu="122408" data-material="metal">
+      <img src="/assets/products/122408/122408-1-b2e624af.webp" alt="Melrose Portfolio" loading="lazy">
+      <div><h2>Melrose Portfolio</h2><p>PLU 122408</p><p>Metal</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

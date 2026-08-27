@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Flash Drives · Metal</title>
+  <meta name="description" content="7 products in Technology / Flash Drives / Metal.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Flash Drives · Metal</h1>
+        <p>7 products in Technology / Flash Drives / Metal.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/technology/flash-drives/metal/helix-4gb-mix-match-flash-drive/" data-name="helix 4gb mix &amp; match flash drive" data-plu="105604" data-material="metal">
+      <img src="/assets/products/105604/105604-1-759adee4.webp" alt="Helix 4GB Mix &amp; Match Flash Drive" loading="lazy">
+      <div><h2>Helix 4GB Mix &amp; Match Flash Drive</h2><p>PLU 105604</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/technology/flash-drives/metal/helix-8gb-flash-drive/" data-name="helix 8gb flash drive" data-plu="105605" data-material="metal">
+      <img src="/assets/products/105605/105605-1-aba1cb0f.webp" alt="Helix 8GB Flash Drive" loading="lazy">
+      <div><h2>Helix 8GB Flash Drive</h2><p>PLU 105605</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/technology/flash-drives/metal/flash-key-4gb-flash-drive/" data-name="flash key 4gb flash drive" data-plu="107763" data-material="metal">
+      <img src="/assets/products/107763/107763-1-b99f3c96.webp" alt="Flash Key 4GB Flash Drive" loading="lazy">
+      <div><h2>Flash Key 4GB Flash Drive</h2><p>PLU 107763</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/technology/flash-drives/metal/helix-16gb-flash-drive/" data-name="helix 16gb flash drive" data-plu="108474" data-material="metal">
+      <img src="/assets/products/108474/108474-1-5858ef58.webp" alt="Helix 16GB Flash Drive" loading="lazy">
+      <div><h2>Helix 16GB Flash Drive</h2><p>PLU 108474</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/technology/flash-drives/metal/helix-4gb-bamboo-flash-drive/" data-name="helix 4gb bamboo flash drive" data-plu="117042" data-material="metal">
+      <img src="/assets/products/117042/117042-1-0a52f89c.webp" alt="Helix 4GB Bamboo Flash Drive" loading="lazy">
+      <div><h2>Helix 4GB Bamboo Flash Drive</h2><p>PLU 117042</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/technology/flash-drives/metal/helix-8gb-dual-flash-drive/" data-name="helix 8gb dual flash drive" data-plu="121402" data-material="metal">
+      <img src="/assets/products/121402/121402-1-248a2214.webp" alt="Helix 8GB Dual Flash Drive" loading="lazy">
+      <div><h2>Helix 8GB Dual Flash Drive</h2><p>PLU 121402</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/technology/flash-drives/metal/helix-16gb-dual-flash-drive/" data-name="helix 16gb dual flash drive" data-plu="121403" data-material="metal">
+      <img src="/assets/products/121403/121403-1-edc7f7eb.webp" alt="Helix 16GB Dual Flash Drive" loading="lazy">
+      <div><h2>Helix 16GB Dual Flash Drive</h2><p>PLU 121403</p><p>Metal</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

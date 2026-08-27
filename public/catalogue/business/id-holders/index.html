@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Business · ID Holders</title>
+  <meta name="description" content="5 products split by material/style.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Business · ID Holders</h1>
+        <p>5 products split by material/style.</p>
+        <div class="section-pills"><a href="/catalogue/business/id-holders/plastic/">Plastic <span>3</span></a><a href="/catalogue/business/id-holders/metal/">Metal <span>2</span></a></div>
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/business/id-holders/plastic/single-card-holder/" data-name="single card holder" data-plu="107072" data-material="plastic">
+      <img src="/assets/products/107072/107072-1-4644bc51.webp" alt="Single Card Holder" loading="lazy">
+      <div><h2>Single Card Holder</h2><p>PLU 107072</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/business/id-holders/plastic/duet-id-holder/" data-name="duet id holder" data-plu="110792" data-material="plastic">
+      <img src="/assets/products/110792/110792-1-875f9e39.webp" alt="Duet ID Holder" loading="lazy">
+      <div><h2>Duet ID Holder</h2><p>PLU 110792</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/business/id-holders/metal/evo-retractable-id-holder/" data-name="evo retractable id holder" data-plu="110794" data-material="metal">
+      <img src="/assets/products/110794/110794-1-9d51576b.webp" alt="Evo Retractable ID Holder" loading="lazy">
+      <div><h2>Evo Retractable ID Holder</h2><p>PLU 110794</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/business/id-holders/metal/alta-retractable-id-holder/" data-name="alta retractable id holder" data-plu="110795" data-material="metal">
+      <img src="/assets/products/110795/110795-1-47eb41f8.webp" alt="Alta Retractable ID Holder" loading="lazy">
+      <div><h2>Alta Retractable ID Holder</h2><p>PLU 110795</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/business/id-holders/plastic/full-colour-id-card/" data-name="full colour id card" data-plu="124950" data-material="plastic">
+      <img src="/assets/products/124950/124950-1-245fe5a3.webp" alt="Full Colour ID Card" loading="lazy">
+      <div><h2>Full Colour ID Card</h2><p>PLU 124950</p><p>Plastic</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

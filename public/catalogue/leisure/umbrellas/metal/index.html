@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Umbrellas · Metal</title>
+  <meta name="description" content="5 products in Leisure / Umbrellas / Metal.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Umbrellas · Metal</h1>
+        <p>5 products in Leisure / Umbrellas / Metal.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/leisure/umbrellas/metal/avon-compact-umbrella/" data-name="avon compact umbrella" data-plu="107940" data-material="metal">
+      <img src="/assets/products/107940/107940-1-41addcfc.webp" alt="Avon Compact Umbrella" loading="lazy">
+      <div><h2>Avon Compact Umbrella</h2><p>PLU 107940</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/umbrellas/metal/bahama-beach-umbrella/" data-name="bahama beach umbrella" data-plu="113112" data-material="metal">
+      <img src="/assets/products/113112/113112-1-76a94968.webp" alt="Bahama Beach Umbrella" loading="lazy">
+      <div><h2>Bahama Beach Umbrella</h2><p>PLU 113112</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/umbrellas/metal/economist-umbrella/" data-name="economist umbrella" data-plu="120122" data-material="metal">
+      <img src="/assets/products/120122/120122-1-f16efd34.webp" alt="Economist Umbrella" loading="lazy">
+      <div><h2>Economist Umbrella</h2><p>PLU 120122</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/umbrellas/metal/colt-umbrella/" data-name="colt umbrella" data-plu="120305" data-material="metal">
+      <img src="/assets/products/120305/120305-1-50275568.webp" alt="Colt Umbrella" loading="lazy">
+      <div><h2>Colt Umbrella</h2><p>PLU 120305</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/umbrellas/metal/colour-changing-compact-umbrella/" data-name="colour changing compact umbrella" data-plu="129439" data-material="metal">
+      <img src="/assets/products/129439/129439-1-9b88576e.webp" alt="Colour Changing Compact Umbrella" loading="lazy">
+      <div><h2>Colour Changing Compact Umbrella</h2><p>PLU 129439</p><p>Metal</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

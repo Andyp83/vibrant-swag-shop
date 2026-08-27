@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Signage · General</title>
+  <meta name="description" content="3 products in Print / Signage / General.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Signage · General</h1>
+        <p>3 products in Print / Signage / General.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/print/signage/general/600-w-x-450-h-core-flute/" data-name="600 w x 450 h core flute" data-plu="126766" data-material="general">
+      <img src="/assets/products/126766/126766-1-08b5386c.webp" alt="600 W x 450 H Core Flute" loading="lazy">
+      <div><h2>600 W x 450 H Core Flute</h2><p>PLU 126766</p><p>General</p></div>
+    </a><a class="product-card" href="/catalogue/print/signage/general/600-w-x-900-h-core-flute/" data-name="600 w x 900 h core flute" data-plu="126767" data-material="general">
+      <img src="/assets/products/126767/126767-1-f75c7cb0.webp" alt="600 W x 900 H Core Flute" loading="lazy">
+      <div><h2>600 W x 900 H Core Flute</h2><p>PLU 126767</p><p>General</p></div>
+    </a><a class="product-card" href="/catalogue/print/signage/general/900-w-x-1200-h-core-flute/" data-name="900 w x 1200 h core flute" data-plu="126769" data-material="general">
+      <img src="/assets/products/126769/126769-1-2e09f270.webp" alt="900 W x 1200 H Core Flute" loading="lazy">
+      <div><h2>900 W x 1200 H Core Flute</h2><p>PLU 126769</p><p>General</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Speakers · Fabric &amp; Textile</title>
+  <meta name="description" content="3 products in Technology / Speakers / Fabric &amp; Textile.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Speakers · Fabric &amp; Textile</h1>
+        <p>3 products in Technology / Speakers / Fabric &amp; Textile.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/technology/speakers/fabric-and-textile/cylon-bluetooth-speaker/" data-name="cylon bluetooth speaker" data-plu="113156" data-material="fabric-and-textile">
+      <img src="/assets/products/113156/113156-1-01347e33.webp" alt="Cylon Bluetooth Speaker" loading="lazy">
+      <div><h2>Cylon Bluetooth Speaker</h2><p>PLU 113156</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/technology/speakers/fabric-and-textile/sublime-5w-bluetooth-speaker/" data-name="sublime 5w bluetooth speaker" data-plu="121392" data-material="fabric-and-textile">
+      <img src="/assets/products/121392/121392-1-a69844f8.webp" alt="Sublime 5W Bluetooth Speaker" loading="lazy">
+      <div><h2>Sublime 5W Bluetooth Speaker</h2><p>PLU 121392</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/technology/speakers/fabric-and-textile/sublime-10w-bluetooth-speaker/" data-name="sublime 10w bluetooth speaker" data-plu="121393" data-material="fabric-and-textile">
+      <img src="/assets/products/121393/121393-1-fe2d7cc7.webp" alt="Sublime 10W Bluetooth Speaker" loading="lazy">
+      <div><h2>Sublime 10W Bluetooth Speaker</h2><p>PLU 121393</p><p>Fabric &amp; Textile</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

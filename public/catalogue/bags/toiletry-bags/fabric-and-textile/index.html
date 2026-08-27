@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Toiletry Bags · Fabric &amp; Textile</title>
+  <meta name="description" content="8 products in Bags / Toiletry Bags / Fabric &amp; Textile.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Toiletry Bags · Fabric &amp; Textile</h1>
+        <p>8 products in Bags / Toiletry Bags / Fabric &amp; Textile.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/bags/toiletry-bags/fabric-and-textile/nirvana-toiletry-bag/" data-name="nirvana toiletry bag" data-plu="114092" data-material="fabric-and-textile">
+      <img src="/assets/products/114092/114092-1-52437776.webp" alt="Nirvana Toiletry Bag" loading="lazy">
+      <div><h2>Nirvana Toiletry Bag</h2><p>PLU 114092</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/bags/toiletry-bags/fabric-and-textile/ava-cosmetic-bag/" data-name="ava cosmetic bag" data-plu="116871" data-material="fabric-and-textile">
+      <img src="/assets/products/116871/116871-1-b10e86d3.webp" alt="Ava Cosmetic Bag" loading="lazy">
+      <div><h2>Ava Cosmetic Bag</h2><p>PLU 116871</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/bags/toiletry-bags/fabric-and-textile/cassini-cosmetic-bag/" data-name="cassini cosmetic bag" data-plu="116872" data-material="fabric-and-textile">
+      <img src="/assets/products/116872/116872-1-1478ad97.webp" alt="Cassini Cosmetic Bag" loading="lazy">
+      <div><h2>Cassini Cosmetic Bag</h2><p>PLU 116872</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/bags/toiletry-bags/fabric-and-textile/knox-toiletry-bag/" data-name="knox toiletry bag" data-plu="117635" data-material="fabric-and-textile">
+      <img src="/assets/products/117635/117635-1-7676337b.webp" alt="Knox Toiletry Bag" loading="lazy">
+      <div><h2>Knox Toiletry Bag</h2><p>PLU 117635</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/bags/toiletry-bags/fabric-and-textile/oakridge-toiletry-bag/" data-name="oakridge toiletry bag" data-plu="117808" data-material="fabric-and-textile">
+      <img src="/assets/products/117808/117808-1-d2a489eb.webp" alt="Oakridge Toiletry Bag" loading="lazy">
+      <div><h2>Oakridge Toiletry Bag</h2><p>PLU 117808</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/bags/toiletry-bags/fabric-and-textile/swiss-peak-toiletry-bag/" data-name="swiss peak toiletry bag" data-plu="118872" data-material="fabric-and-textile">
+      <img src="/assets/products/118872/118872-1-b755b2ea.webp" alt="Swiss Peak Toiletry Bag" loading="lazy">
+      <div><h2>Swiss Peak Toiletry Bag</h2><p>PLU 118872</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/bags/toiletry-bags/fabric-and-textile/archer-tasman-toiletry-bag/" data-name="archer tasman toiletry bag" data-plu="128650" data-material="fabric-and-textile">
+      <img src="/assets/products/128650/128650-1-c5080c96.webp" alt="ARCHER Tasman Toiletry Bag" loading="lazy">
+      <div><h2>ARCHER Tasman Toiletry Bag</h2><p>PLU 128650</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/bags/toiletry-bags/fabric-and-textile/archer-soft-touch-toiletry-bag/" data-name="archer soft-touch toiletry bag" data-plu="129114" data-material="fabric-and-textile">
+      <img src="/assets/products/129114/129114-1-28dd8bdd.webp" alt="ARCHER Soft-Touch Toiletry Bag" loading="lazy">
+      <div><h2>ARCHER Soft-Touch Toiletry Bag</h2><p>PLU 129114</p><p>Fabric &amp; Textile</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

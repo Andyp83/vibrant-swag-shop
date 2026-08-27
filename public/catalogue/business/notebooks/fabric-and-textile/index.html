@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Notebooks · Fabric &amp; Textile</title>
+  <meta name="description" content="2 products in Business / Notebooks / Fabric &amp; Textile.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Notebooks · Fabric &amp; Textile</h1>
+        <p>2 products in Business / Notebooks / Fabric &amp; Textile.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/business/notebooks/fabric-and-textile/recycled-cotton-hard-cover-notebook/" data-name="recycled cotton hard cover notebook" data-plu="123146" data-material="fabric-and-textile">
+      <img src="/assets/products/123146/123146-0-60b14476.webp" alt="Recycled Cotton Hard Cover Notebook" loading="lazy">
+      <div><h2>Recycled Cotton Hard Cover Notebook</h2><p>PLU 123146</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/business/notebooks/fabric-and-textile/denim-notebook/" data-name="denim notebook" data-plu="124869" data-material="fabric-and-textile">
+      <img src="/assets/products/124869/124869-1-79f11be4.webp" alt="Denim Notebook" loading="lazy">
+      <div><h2>Denim Notebook</h2><p>PLU 124869</p><p>Fabric &amp; Textile</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

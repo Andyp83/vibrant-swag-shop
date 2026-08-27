@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pens · Highlighter</title>
+  <meta name="description" content="2 products split by material/style.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Pens · Highlighter</h1>
+        <p>2 products split by material/style.</p>
+        <div class="section-pills"><a href="/catalogue/pens/highlighter/plastic/">Plastic <span>2</span></a></div>
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/pens/highlighter/plastic/kraft-pen-highlighter/" data-name="kraft pen highlighter" data-plu="104360" data-material="plastic">
+      <img src="/assets/products/104360/104360-1-847a0f00.webp" alt="Kraft Pen Highlighter" loading="lazy">
+      <div><h2>Kraft Pen Highlighter</h2><p>PLU 104360</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/pens/highlighter/plastic/kraft-pen-highlighter-sale/" data-name="kraft pen highlighter - sale" data-plu="129167" data-material="plastic">
+      <img src="/assets/products/129167/129167-1-28a6e325.webp" alt="Kraft Pen Highlighter - Sale" loading="lazy">
+      <div><h2>Kraft Pen Highlighter - Sale</h2><p>PLU 129167</p><p>Plastic</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

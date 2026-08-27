@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ad Labels · General</title>
+  <meta name="description" content="10 products in Print / Ad Labels / General.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Ad Labels · General</h1>
+        <p>10 products in Print / Ad Labels / General.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/print/ad-labels/general/ad-labels-40-x-20mm/" data-name="ad labels 40 x 20mm" data-plu="100109" data-material="general">
+      <img src="/assets/products/100109/100109-2-16bd3a0e.webp" alt="AD Labels 40 x 20mm" loading="lazy">
+      <div><h2>AD Labels 40 x 20mm</h2><p>PLU 100109</p><p>General</p></div>
+    </a><a class="product-card" href="/catalogue/print/ad-labels/general/ad-labels-55-x-24mm/" data-name="ad labels 55 x 24mm" data-plu="100110" data-material="general">
+      <img src="/assets/products/100110/100110-1-91e2dfc2.webp" alt="AD Labels 55 x 24mm" loading="lazy">
+      <div><h2>AD Labels 55 x 24mm</h2><p>PLU 100110</p><p>General</p></div>
+    </a><a class="product-card" href="/catalogue/print/ad-labels/general/ad-labels-50-x-50mm/" data-name="ad labels 50 x 50mm" data-plu="100111" data-material="general">
+      <img src="/assets/products/100111/100111-1-da0259ca.webp" alt="AD Labels 50 x 50mm" loading="lazy">
+      <div><h2>AD Labels 50 x 50mm</h2><p>PLU 100111</p><p>General</p></div>
+    </a><a class="product-card" href="/catalogue/print/ad-labels/general/ad-labels-60-x-40mm/" data-name="ad labels 60 x 40mm" data-plu="100112" data-material="general">
+      <img src="/assets/products/100112/100112-1-79ab91a0.webp" alt="AD Labels 60 x 40mm" loading="lazy">
+      <div><h2>AD Labels 60 x 40mm</h2><p>PLU 100112</p><p>General</p></div>
+    </a><a class="product-card" href="/catalogue/print/ad-labels/general/ad-labels-70-x-50mm-house-shaped/" data-name="ad labels 70 x 50mm - house shaped" data-plu="100113" data-material="general">
+      <img src="/assets/products/100113/100113-1-ff4c89f2.webp" alt="AD Labels 70 x 50mm - House Shaped" loading="lazy">
+      <div><h2>AD Labels 70 x 50mm - House Shaped</h2><p>PLU 100113</p><p>General</p></div>
+    </a><a class="product-card" href="/catalogue/print/ad-labels/general/ad-labels-60mm-circle/" data-name="ad labels 60mm - circle" data-plu="100114" data-material="general">
+      <img src="/assets/products/100114/100114-1-c7f26b50.webp" alt="AD Labels 60mm - Circle" loading="lazy">
+      <div><h2>AD Labels 60mm - Circle</h2><p>PLU 100114</p><p>General</p></div>
+    </a><a class="product-card" href="/catalogue/print/ad-labels/general/ad-labels-90-x-25mm/" data-name="ad labels 90 x 25mm" data-plu="100115" data-material="general">
+      <img src="/assets/products/100115/100115-1-aa685009.webp" alt="AD Labels 90 x 25mm" loading="lazy">
+      <div><h2>AD Labels 90 x 25mm</h2><p>PLU 100115</p><p>General</p></div>
+    </a><a class="product-card" href="/catalogue/print/ad-labels/general/ad-labels-78-x-48mm/" data-name="ad labels 78 x 48mm" data-plu="100116" data-material="general">
+      <img src="/assets/products/100116/100116-1-b4076b3c.webp" alt="AD Labels 78 x 48mm" loading="lazy">
+      <div><h2>AD Labels 78 x 48mm</h2><p>PLU 100116</p><p>General</p></div>
+    </a><a class="product-card" href="/catalogue/print/ad-labels/general/ad-labels-250-x-50mm/" data-name="ad labels 250 x 50mm" data-plu="100117" data-material="general">
+      <img src="/assets/products/100117/100117-1-6e787775.webp" alt="AD Labels 250 x 50mm" loading="lazy">
+      <div><h2>AD Labels 250 x 50mm</h2><p>PLU 100117</p><p>General</p></div>
+    </a><a class="product-card" href="/catalogue/print/ad-labels/general/special-design-ad-labels/" data-name="special design ad labels" data-plu="104077" data-material="general">
+      <img src="/assets/products/104077/104077-1-b07e3860.webp" alt="Special Design AD Labels" loading="lazy">
+      <div><h2>Special Design AD Labels</h2><p>PLU 104077</p><p>General</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

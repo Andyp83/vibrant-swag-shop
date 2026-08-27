@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cups &amp; Tumblers · Plastic</title>
+  <meta name="description" content="6 products in Drinkware / Cups &amp; Tumblers / Plastic.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Cups &amp; Tumblers · Plastic</h1>
+        <p>6 products in Drinkware / Cups &amp; Tumblers / Plastic.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/drinkware/cups-and-tumblers/plastic/quik-cup/" data-name="quik cup" data-plu="108820" data-material="plastic">
+      <img src="/assets/products/108820/108820-1-58ce6384.webp" alt="Quik Cup" loading="lazy">
+      <div><h2>Quik Cup</h2><p>PLU 108820</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/drinkware/cups-and-tumblers/plastic/carnival-tumbler/" data-name="carnival tumbler" data-plu="112527" data-material="plastic">
+      <img src="/assets/products/112527/112527-1-41e6879e.webp" alt="Carnival Tumbler" loading="lazy">
+      <div><h2>Carnival Tumbler</h2><p>PLU 112527</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/drinkware/cups-and-tumblers/plastic/polo-tumbler-tritan-410ml/" data-name="polo tumbler - tritan 410ml" data-plu="114145" data-material="plastic">
+      <img src="/assets/products/114145/114145-1-c335b129.webp" alt="Polo Tumbler - Tritan 410ml" loading="lazy">
+      <div><h2>Polo Tumbler - Tritan 410ml</h2><p>PLU 114145</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/drinkware/cups-and-tumblers/plastic/polo-tumbler-pet-410ml/" data-name="polo tumbler - pet 410ml" data-plu="114146" data-material="plastic">
+      <img src="/assets/products/114146/114146-1-638bb28f.webp" alt="Polo Tumbler - PET 410ml" loading="lazy">
+      <div><h2>Polo Tumbler - PET 410ml</h2><p>PLU 114146</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/drinkware/cups-and-tumblers/plastic/fresh-cup-natural/" data-name="fresh cup - natural" data-plu="120514" data-material="plastic">
+      <img src="/assets/products/120514/120514-1-7a20921d.webp" alt="Fresh Cup - Natural" loading="lazy">
+      <div><h2>Fresh Cup - Natural</h2><p>PLU 120514</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/drinkware/cups-and-tumblers/plastic/duran-coffee-cup/" data-name="duran coffee cup" data-plu="121727" data-material="plastic">
+      <img src="/assets/products/121727/121727-1-a6dd9968.webp" alt="Duran Coffee Cup" loading="lazy">
+      <div><h2>Duran Coffee Cup</h2><p>PLU 121727</p><p>Plastic</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

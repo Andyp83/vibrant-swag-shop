@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Backpacks · Plastic</title>
+  <meta name="description" content="10 products in Bags / Backpacks / Plastic.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Backpacks · Plastic</h1>
+        <p>10 products in Bags / Backpacks / Plastic.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/bags/backpacks/plastic/coronet-cooler-backpack/" data-name="coronet cooler backpack" data-plu="115262" data-material="plastic">
+      <img src="/assets/products/115262/115262-1-ea08bb7f.webp" alt="Coronet Cooler Backpack" loading="lazy">
+      <div><h2>Coronet Cooler Backpack</h2><p>PLU 115262</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/bags/backpacks/plastic/andes-cooler-backpack/" data-name="andes cooler backpack" data-plu="118124" data-material="plastic">
+      <img src="/assets/products/118124/118124-1-86a66d3e.webp" alt="Andes Cooler Backpack" loading="lazy">
+      <div><h2>Andes Cooler Backpack</h2><p>PLU 118124</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/bags/backpacks/plastic/bobby-hero-backpack/" data-name="bobby hero backpack" data-plu="120256" data-material="plastic">
+      <img src="/assets/products/120256/120256-1-a0842d9f.webp" alt="Bobby Hero Backpack" loading="lazy">
+      <div><h2>Bobby Hero Backpack</h2><p>PLU 120256</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/bags/backpacks/plastic/bobby-soft-backpack/" data-name="bobby soft backpack" data-plu="120257" data-material="plastic">
+      <img src="/assets/products/120257/120257-1-df73734f.webp" alt="Bobby Soft Backpack" loading="lazy">
+      <div><h2>Bobby Soft Backpack</h2><p>PLU 120257</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/bags/backpacks/plastic/osprey-arcane-roll-top-backpack/" data-name="osprey arcane roll top backpack" data-plu="122430" data-material="plastic">
+      <img src="/assets/products/122430/122430-1-95af68dc.webp" alt="Osprey Arcane Roll Top Backpack" loading="lazy">
+      <div><h2>Osprey Arcane Roll Top Backpack</h2><p>PLU 122430</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/bags/backpacks/plastic/osprey-arcane-large-day-backpack/" data-name="osprey arcane large day backpack" data-plu="122432" data-material="plastic">
+      <img src="/assets/products/122432/122432-1-b168235f.webp" alt="Osprey Arcane Large Day Backpack" loading="lazy">
+      <div><h2>Osprey Arcane Large Day Backpack</h2><p>PLU 122432</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/bags/backpacks/plastic/urban-camo-backpack/" data-name="urban camo backpack" data-plu="123694" data-material="plastic">
+      <img src="/assets/products/123694/123694-1-5f08d961.webp" alt="Urban Camo Backpack" loading="lazy">
+      <div><h2>Urban Camo Backpack</h2><p>PLU 123694</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/bags/backpacks/plastic/greyton-backpack/" data-name="greyton backpack" data-plu="126256" data-material="plastic">
+      <img src="/assets/products/126256/126256-1-6d150ac0.webp" alt="Greyton Backpack" loading="lazy">
+      <div><h2>Greyton Backpack</h2><p>PLU 126256</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/bags/backpacks/plastic/fjord-backpack/" data-name="fjord backpack" data-plu="126687" data-material="plastic">
+      <img src="/assets/products/126687/126687-1-48bd701e.webp" alt="Fjord Backpack" loading="lazy">
+      <div><h2>Fjord Backpack</h2><p>PLU 126687</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/bags/backpacks/plastic/oceana-recycled-backpack/" data-name="oceana recycled backpack" data-plu="129350" data-material="plastic">
+      <img src="/assets/products/129350/129350-1-1b1e8623.webp" alt="Oceana Recycled Backpack" loading="lazy">
+      <div><h2>Oceana Recycled Backpack</h2><p>PLU 129350</p><p>Plastic</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

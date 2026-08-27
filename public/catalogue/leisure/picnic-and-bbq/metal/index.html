@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Picnic &amp; BBQ · Metal</title>
+  <meta name="description" content="3 products in Leisure / Picnic &amp; BBQ / Metal.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Picnic &amp; BBQ · Metal</h1>
+        <p>3 products in Leisure / Picnic &amp; BBQ / Metal.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/leisure/picnic-and-bbq/metal/asada-bbq-set/" data-name="asada bbq set" data-plu="110804" data-material="metal">
+      <img src="/assets/products/110804/110804-1-9c5b8baf.webp" alt="Asada BBQ Set" loading="lazy">
+      <div><h2>Asada BBQ Set</h2><p>PLU 110804</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/picnic-and-bbq/metal/luxmore-bbq-set/" data-name="luxmore bbq set" data-plu="110805" data-material="metal">
+      <img src="/assets/products/110805/110805-1-96531eeb.webp" alt="Luxmore BBQ Set" loading="lazy">
+      <div><h2>Luxmore BBQ Set</h2><p>PLU 110805</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/picnic-and-bbq/metal/stainless-steel-cutlery-set/" data-name="stainless steel cutlery set" data-plu="122343" data-material="metal">
+      <img src="/assets/products/122343/122343-1-df5471a2.webp" alt="Stainless Steel Cutlery Set" loading="lazy">
+      <div><h2>Stainless Steel Cutlery Set</h2><p>PLU 122343</p><p>Metal</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

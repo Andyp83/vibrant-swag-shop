@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Camping &amp; Outdoors · Plastic</title>
+  <meta name="description" content="5 products in Leisure / Camping &amp; Outdoors / Plastic.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Camping &amp; Outdoors · Plastic</h1>
+        <p>5 products in Leisure / Camping &amp; Outdoors / Plastic.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/leisure/camping-and-outdoors/plastic/aurora-cob-lantern/" data-name="aurora cob lantern" data-plu="112193" data-material="plastic">
+      <img src="/assets/products/112193/112193-1-b30ace41.webp" alt="Aurora COB Lantern" loading="lazy">
+      <div><h2>Aurora COB Lantern</h2><p>PLU 112193</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/camping-and-outdoors/plastic/dynamo-rechargeable-torch/" data-name="dynamo rechargeable torch" data-plu="124138" data-material="plastic">
+      <img src="/assets/products/124138/124138-1-68e8e955.webp" alt="Dynamo Rechargeable Torch" loading="lazy">
+      <div><h2>Dynamo Rechargeable Torch</h2><p>PLU 124138</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/camping-and-outdoors/plastic/navigator-bamboo-torch/" data-name="navigator bamboo torch" data-plu="126809" data-material="plastic">
+      <img src="/assets/products/126809/126809-1-2cc10274.webp" alt="Navigator Bamboo Torch" loading="lazy">
+      <div><h2>Navigator Bamboo Torch</h2><p>PLU 126809</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/camping-and-outdoors/plastic/lumina-rechargeable-bamboo-torch/" data-name="lumina rechargeable bamboo torch" data-plu="126810" data-material="plastic">
+      <img src="/assets/products/126810/126810-1-a64124ab.webp" alt="Lumina Rechargeable Bamboo Torch" loading="lazy">
+      <div><h2>Lumina Rechargeable Bamboo Torch</h2><p>PLU 126810</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/camping-and-outdoors/plastic/frontier-stratus-outdoor-hammock/" data-name="frontier stratus outdoor hammock" data-plu="129106" data-material="plastic">
+      <img src="/assets/products/129106/129106-1-902d46a4.webp" alt="Frontier Stratus Outdoor Hammock" loading="lazy">
+      <div><h2>Frontier Stratus Outdoor Hammock</h2><p>PLU 129106</p><p>Plastic</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

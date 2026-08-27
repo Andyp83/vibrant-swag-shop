@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gift Boxes · Natural</title>
+  <meta name="description" content="4 products in Packaging / Gift Boxes / Natural.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Gift Boxes · Natural</h1>
+        <p>4 products in Packaging / Gift Boxes / Natural.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/packaging/gift-boxes/natural/catalonia-wine-crate-single/" data-name="catalonia wine crate - single" data-plu="125308" data-material="natural">
+      <img src="/assets/products/125308/125308-1-54931de0.webp" alt="Catalonia Wine Crate - Single" loading="lazy">
+      <div><h2>Catalonia Wine Crate - Single</h2><p>PLU 125308</p><p>Natural</p></div>
+    </a><a class="product-card" href="/catalogue/packaging/gift-boxes/natural/catalonia-wine-crate-double/" data-name="catalonia wine crate - double" data-plu="125309" data-material="natural">
+      <img src="/assets/products/125309/125309-1-426fd6d8.webp" alt="Catalonia Wine Crate - Double" loading="lazy">
+      <div><h2>Catalonia Wine Crate - Double</h2><p>PLU 125309</p><p>Natural</p></div>
+    </a><a class="product-card" href="/catalogue/packaging/gift-boxes/natural/catalonia-wine-crate-triple/" data-name="catalonia wine crate - triple" data-plu="125310" data-material="natural">
+      <img src="/assets/products/125310/125310-1-b6c76741.webp" alt="Catalonia Wine Crate - Triple" loading="lazy">
+      <div><h2>Catalonia Wine Crate - Triple</h2><p>PLU 125310</p><p>Natural</p></div>
+    </a><a class="product-card" href="/catalogue/packaging/gift-boxes/natural/tuscany-wine-tube/" data-name="tuscany wine tube" data-plu="125569" data-material="natural">
+      <img src="/assets/products/125569/125569-1-d6554667.webp" alt="Tuscany Wine Tube" loading="lazy">
+      <div><h2>Tuscany Wine Tube</h2><p>PLU 125569</p><p>Natural</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

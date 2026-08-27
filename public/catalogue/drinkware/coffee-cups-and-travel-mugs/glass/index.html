@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Coffee Cups &amp; Travel Mugs · Glass</title>
+  <meta name="description" content="10 products in Drinkware / Coffee Cups &amp; Travel Mugs / Glass.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Coffee Cups &amp; Travel Mugs · Glass</h1>
+        <p>10 products in Drinkware / Coffee Cups &amp; Travel Mugs / Glass.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/drinkware/coffee-cups-and-travel-mugs/glass/metro-cup/" data-name="metro cup" data-plu="113053" data-material="glass">
+      <img src="/assets/products/113053/113053-1-e1b4b668.webp" alt="Metro Cup" loading="lazy">
+      <div><h2>Metro Cup</h2><p>PLU 113053</p><p>Glass</p></div>
+    </a><a class="product-card" href="/catalogue/drinkware/coffee-cups-and-travel-mugs/glass/metro-cup-cork-band/" data-name="metro cup - cork band" data-plu="115233" data-material="glass">
+      <img src="/assets/products/115233/115233-1-f8f7f3fd.webp" alt="Metro Cup - Cork Band" loading="lazy">
+      <div><h2>Metro Cup - Cork Band</h2><p>PLU 115233</p><p>Glass</p></div>
+    </a><a class="product-card" href="/catalogue/drinkware/coffee-cups-and-travel-mugs/glass/nova-cup-borosilicate-350ml/" data-name="nova cup - borosilicate 350ml" data-plu="117372" data-material="glass">
+      <img src="/assets/products/117372/117372-1-4fd9b7f2.webp" alt="Nova Cup - Borosilicate 350ml" loading="lazy">
+      <div><h2>Nova Cup - Borosilicate 350ml</h2><p>PLU 117372</p><p>Glass</p></div>
+    </a><a class="product-card" href="/catalogue/drinkware/coffee-cups-and-travel-mugs/glass/nova-cup-borosilicate-250ml/" data-name="nova cup - borosilicate 250ml" data-plu="117373" data-material="glass">
+      <img src="/assets/products/117373/117373-1-292ae902.webp" alt="Nova Cup - Borosilicate 250ml" loading="lazy">
+      <div><h2>Nova Cup - Borosilicate 250ml</h2><p>PLU 117373</p><p>Glass</p></div>
+    </a><a class="product-card" href="/catalogue/drinkware/coffee-cups-and-travel-mugs/glass/stellar-cup-borosilicate-350ml/" data-name="stellar cup borosilicate - 350ml" data-plu="120945" data-material="glass">
+      <img src="/assets/products/120945/120945-1-88ee3e03.webp" alt="Stellar Cup Borosilicate - 350ml" loading="lazy">
+      <div><h2>Stellar Cup Borosilicate - 350ml</h2><p>PLU 120945</p><p>Glass</p></div>
+    </a><a class="product-card" href="/catalogue/drinkware/coffee-cups-and-travel-mugs/glass/stellar-cup-borosilicate-250ml/" data-name="stellar cup borosilicate - 250ml" data-plu="120946" data-material="glass">
+      <img src="/assets/products/120946/120946-1-c681c2fe.webp" alt="Stellar Cup Borosilicate - 250ml" loading="lazy">
+      <div><h2>Stellar Cup Borosilicate - 250ml</h2><p>PLU 120946</p><p>Glass</p></div>
+    </a><a class="product-card" href="/catalogue/drinkware/coffee-cups-and-travel-mugs/glass/stellar-cup-natural-350ml/" data-name="stellar cup natural - 350ml" data-plu="120947" data-material="glass">
+      <img src="/assets/products/120947/120947-1-c0fef9e8.webp" alt="Stellar Cup Natural - 350ml" loading="lazy">
+      <div><h2>Stellar Cup Natural - 350ml</h2><p>PLU 120947</p><p>Glass</p></div>
+    </a><a class="product-card" href="/catalogue/drinkware/coffee-cups-and-travel-mugs/glass/stellar-cup-natural-250ml/" data-name="stellar cup natural - 250ml" data-plu="120948" data-material="glass">
+      <img src="/assets/products/120948/120948-1-76867bbe.webp" alt="Stellar Cup Natural - 250ml" loading="lazy">
+      <div><h2>Stellar Cup Natural - 250ml</h2><p>PLU 120948</p><p>Glass</p></div>
+    </a><a class="product-card" href="/catalogue/drinkware/coffee-cups-and-travel-mugs/glass/valencia-cup-350ml/" data-name="valencia cup - 350ml" data-plu="121466" data-material="glass">
+      <img src="/assets/products/121466/121466-1-e99b5c78.webp" alt="Valencia Cup - 350ml" loading="lazy">
+      <div><h2>Valencia Cup - 350ml</h2><p>PLU 121466</p><p>Glass</p></div>
+    </a><a class="product-card" href="/catalogue/drinkware/coffee-cups-and-travel-mugs/glass/valencia-cup-230ml/" data-name="valencia cup - 230ml" data-plu="121467" data-material="glass">
+      <img src="/assets/products/121467/121467-1-de1ae6fd.webp" alt="Valencia Cup - 230ml" loading="lazy">
+      <div><h2>Valencia Cup - 230ml</h2><p>PLU 121467</p><p>Glass</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

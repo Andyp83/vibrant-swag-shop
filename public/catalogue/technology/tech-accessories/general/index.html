@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tech Accessories · General</title>
+  <meta name="description" content="4 products in Technology / Tech Accessories / General.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Tech Accessories · General</h1>
+        <p>4 products in Technology / Tech Accessories / General.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/technology/tech-accessories/general/3-in-1-lens-kit/" data-name="3-in-1 lens kit" data-plu="113599" data-material="general">
+      <img src="/assets/products/113599/113599-1-e674ec71.webp" alt="3-in-1 Lens Kit" loading="lazy">
+      <div><h2>3-in-1 Lens Kit</h2><p>PLU 113599</p><p>General</p></div>
+    </a><a class="product-card" href="/catalogue/technology/tech-accessories/general/wizard-phone-grip/" data-name="wizard phone grip" data-plu="117179" data-material="general">
+      <img src="/assets/products/117179/117179-1-584d1b40.webp" alt="Wizard Phone Grip" loading="lazy">
+      <div><h2>Wizard Phone Grip</h2><p>PLU 117179</p><p>General</p></div>
+    </a><a class="product-card" href="/catalogue/technology/tech-accessories/general/selfie-phone-light/" data-name="selfie phone light" data-plu="120269" data-material="general">
+      <img src="/assets/products/120269/120269-1-66f4f3e2.webp" alt="Selfie Phone Light" loading="lazy">
+      <div><h2>Selfie Phone Light</h2><p>PLU 120269</p><p>General</p></div>
+    </a><a class="product-card" href="/catalogue/technology/tech-accessories/general/voyage-travel-mouse-sale/" data-name="voyage travel mouse - sale" data-plu="127168" data-material="general">
+      <img src="/assets/products/127168/127168-1-332e352c.webp" alt="Voyage Travel Mouse - Sale" loading="lazy">
+      <div><h2>Voyage Travel Mouse - Sale</h2><p>PLU 127168</p><p>General</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

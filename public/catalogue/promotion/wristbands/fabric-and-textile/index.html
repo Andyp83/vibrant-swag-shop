@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wristbands · Fabric &amp; Textile</title>
+  <meta name="description" content="2 products in Promotion / Wristbands / Fabric &amp; Textile.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Wristbands · Fabric &amp; Textile</h1>
+        <p>2 products in Promotion / Wristbands / Fabric &amp; Textile.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/promotion/wristbands/fabric-and-textile/dazzler-wrist-band/" data-name="dazzler wrist band" data-plu="112922" data-material="fabric-and-textile">
+      <img src="/assets/products/112922/112922-1-92220ea5.webp" alt="Dazzler Wrist Band" loading="lazy">
+      <div><h2>Dazzler Wrist Band</h2><p>PLU 112922</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/promotion/wristbands/fabric-and-textile/event-wrist-band/" data-name="event wrist band" data-plu="116613" data-material="fabric-and-textile">
+      <img src="/assets/products/116613/116613-1-327cf828.webp" alt="Event Wrist Band" loading="lazy">
+      <div><h2>Event Wrist Band</h2><p>PLU 116613</p><p>Fabric &amp; Textile</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

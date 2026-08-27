@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Packaging · Ribbons</title>
+  <meta name="description" content="8 products split by material/style.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Packaging · Ribbons</h1>
+        <p>8 products split by material/style.</p>
+        <div class="section-pills"><a href="/catalogue/packaging/ribbons/fabric-and-textile/">Fabric &amp; Textile <span>8</span></a></div>
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/packaging/ribbons/fabric-and-textile/personalised-ribbon-15mm/" data-name="personalised ribbon 15mm" data-plu="116911" data-material="fabric-and-textile">
+      <img src="/assets/products/116911/116911-1-e0303a93.webp" alt="Personalised Ribbon 15mm" loading="lazy">
+      <div><h2>Personalised Ribbon 15mm</h2><p>PLU 116911</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/packaging/ribbons/fabric-and-textile/personalised-ribbon-20mm/" data-name="personalised ribbon 20mm" data-plu="116912" data-material="fabric-and-textile">
+      <img src="/assets/products/116912/116912-1-682ef2ac.webp" alt="Personalised Ribbon 20mm" loading="lazy">
+      <div><h2>Personalised Ribbon 20mm</h2><p>PLU 116912</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/packaging/ribbons/fabric-and-textile/personalised-ribbon-25mm/" data-name="personalised ribbon 25mm" data-plu="116913" data-material="fabric-and-textile">
+      <img src="/assets/products/116913/116913-2-75f9650d.webp" alt="Personalised Ribbon 25mm" loading="lazy">
+      <div><h2>Personalised Ribbon 25mm</h2><p>PLU 116913</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/packaging/ribbons/fabric-and-textile/personalised-ribbon-50mm/" data-name="personalised ribbon 50mm" data-plu="116915" data-material="fabric-and-textile">
+      <img src="/assets/products/116915/116915-1-fd9f7ee1.webp" alt="Personalised Ribbon 50mm" loading="lazy">
+      <div><h2>Personalised Ribbon 50mm</h2><p>PLU 116915</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/packaging/ribbons/fabric-and-textile/personalised-ribbon-15mm-full-colour/" data-name="personalised ribbon 15mm - full colour" data-plu="117022" data-material="fabric-and-textile">
+      <img src="/assets/products/117022/117022-1-f5911b3d.webp" alt="Personalised Ribbon 15mm - Full Colour" loading="lazy">
+      <div><h2>Personalised Ribbon 15mm - Full Colour</h2><p>PLU 117022</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/packaging/ribbons/fabric-and-textile/personalised-ribbon-20mm-full-colour/" data-name="personalised ribbon 20mm - full colour" data-plu="117023" data-material="fabric-and-textile">
+      <img src="/assets/products/117023/117023-1-8037631c.webp" alt="Personalised Ribbon 20mm - Full Colour" loading="lazy">
+      <div><h2>Personalised Ribbon 20mm - Full Colour</h2><p>PLU 117023</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/packaging/ribbons/fabric-and-textile/personalised-ribbon-25mm-full-colour/" data-name="personalised ribbon 25mm - full colour" data-plu="117024" data-material="fabric-and-textile">
+      <img src="/assets/products/117024/117024-1-0480045c.webp" alt="Personalised Ribbon 25mm - Full Colour" loading="lazy">
+      <div><h2>Personalised Ribbon 25mm - Full Colour</h2><p>PLU 117024</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/packaging/ribbons/fabric-and-textile/personalised-ribbon-50mm-full-colour/" data-name="personalised ribbon 50mm - full colour" data-plu="117026" data-material="fabric-and-textile">
+      <img src="/assets/products/117026/117026-1-f87a042c.webp" alt="Personalised Ribbon 50mm - Full Colour" loading="lazy">
+      <div><h2>Personalised Ribbon 50mm - Full Colour</h2><p>PLU 117026</p><p>Fabric &amp; Textile</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

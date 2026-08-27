@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Toiletry Bags · Metal</title>
+  <meta name="description" content="2 products in Bags / Toiletry Bags / Metal.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Toiletry Bags · Metal</h1>
+        <p>2 products in Bags / Toiletry Bags / Metal.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/bags/toiletry-bags/metal/peony-cosmetic-bag/" data-name="peony cosmetic bag" data-plu="125945" data-material="metal">
+      <img src="/assets/products/125945/125945-1-2820d0d0.webp" alt="Peony Cosmetic Bag" loading="lazy">
+      <div><h2>Peony Cosmetic Bag</h2><p>PLU 125945</p><p>Metal</p></div>
+    </a><a class="product-card" href="/catalogue/bags/toiletry-bags/metal/spice-waste2gear-dopp-kit/" data-name="spice waste2gear dopp kit" data-plu="128882" data-material="metal">
+      <img src="/assets/products/128882/128882-1-3282164a.webp" alt="SPICE Waste2Gear Dopp Kit" loading="lazy">
+      <div><h2>SPICE Waste2Gear Dopp Kit</h2><p>PLU 128882</p><p>Metal</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

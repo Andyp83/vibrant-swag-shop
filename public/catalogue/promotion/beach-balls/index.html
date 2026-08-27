@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Promotion · Beach Balls</title>
+  <meta name="description" content="6 products split by material/style.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Promotion · Beach Balls</h1>
+        <p>6 products split by material/style.</p>
+        <div class="section-pills"><a href="/catalogue/promotion/beach-balls/plastic/">Plastic <span>6</span></a></div>
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/promotion/beach-balls/plastic/beach-ball-21cm-mix-and-match/" data-name="beach ball - 21cm mix and match" data-plu="110504" data-material="plastic">
+      <img src="/assets/products/110504/110504-1-1db1cced.webp" alt="Beach Ball - 21cm Mix and Match" loading="lazy">
+      <div><h2>Beach Ball - 21cm Mix and Match</h2><p>PLU 110504</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/promotion/beach-balls/plastic/beach-ball-28cm-mix-and-match/" data-name="beach ball - 28cm mix and match" data-plu="110548" data-material="plastic">
+      <img src="/assets/products/110548/110548-1-778a71f0.webp" alt="Beach Ball - 28cm Mix and Match" loading="lazy">
+      <div><h2>Beach Ball - 28cm Mix and Match</h2><p>PLU 110548</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/promotion/beach-balls/plastic/beach-ball-34cm-mix-and-match/" data-name="beach ball - 34cm mix and match" data-plu="110549" data-material="plastic">
+      <img src="/assets/products/110549/110549-1-7cfe6d7e.webp" alt="Beach Ball - 34cm Mix and Match" loading="lazy">
+      <div><h2>Beach Ball - 34cm Mix and Match</h2><p>PLU 110549</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/promotion/beach-balls/plastic/beach-ball-40cm-mix-and-match/" data-name="beach ball - 40cm mix and match" data-plu="110550" data-material="plastic">
+      <img src="/assets/products/110550/110550-1-9605e8e6.webp" alt="Beach Ball - 40cm Mix and Match" loading="lazy">
+      <div><h2>Beach Ball - 40cm Mix and Match</h2><p>PLU 110550</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/promotion/beach-balls/plastic/beach-ball-48cm-mix-and-match/" data-name="beach ball - 48cm mix and match" data-plu="110551" data-material="plastic">
+      <img src="/assets/products/110551/110551-1-7207f7e6.webp" alt="Beach Ball - 48cm Mix and Match" loading="lazy">
+      <div><h2>Beach Ball - 48cm Mix and Match</h2><p>PLU 110551</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/promotion/beach-balls/plastic/beach-ball-60cm-mix-and-match/" data-name="beach ball - 60cm mix and match" data-plu="110552" data-material="plastic">
+      <img src="/assets/products/110552/110552-1-aa522be6.webp" alt="Beach Ball - 60cm Mix and Match" loading="lazy">
+      <div><h2>Beach Ball - 60cm Mix and Match</h2><p>PLU 110552</p><p>Plastic</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

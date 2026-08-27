@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Games &amp; Puzzles · Natural</title>
+  <meta name="description" content="4 products in Leisure / Games &amp; Puzzles / Natural.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Games &amp; Puzzles · Natural</h1>
+        <p>4 products in Leisure / Games &amp; Puzzles / Natural.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/leisure/games-and-puzzles/natural/travel-chess-set/" data-name="travel chess set" data-plu="121505" data-material="natural">
+      <img src="/assets/products/121505/121505-1-d23945a5.webp" alt="Travel Chess Set" loading="lazy">
+      <div><h2>Travel Chess Set</h2><p>PLU 121505</p><p>Natural</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/games-and-puzzles/natural/wooden-brain-teaser-set/" data-name="wooden brain teaser set" data-plu="121507" data-material="natural">
+      <img src="/assets/products/121507/121507-1-2ad80dc6.webp" alt="Wooden Brain Teaser Set" loading="lazy">
+      <div><h2>Wooden Brain Teaser Set</h2><p>PLU 121507</p><p>Natural</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/games-and-puzzles/natural/ring-toss-game/" data-name="ring toss game" data-plu="121846" data-material="natural">
+      <img src="/assets/products/121846/121846-1-ff93e380.webp" alt="Ring Toss Game" loading="lazy">
+      <div><h2>Ring Toss Game</h2><p>PLU 121846</p><p>Natural</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/games-and-puzzles/natural/pentomino-wooden-puzzle/" data-name="pentomino wooden puzzle" data-plu="126568" data-material="natural">
+      <img src="/assets/products/126568/126568-1-b12c28cc.webp" alt="Pentomino Wooden Puzzle" loading="lazy">
+      <div><h2>Pentomino Wooden Puzzle</h2><p>PLU 126568</p><p>Natural</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

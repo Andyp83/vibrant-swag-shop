@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Games &amp; Puzzles · Fabric &amp; Textile</title>
+  <meta name="description" content="4 products in Leisure / Games &amp; Puzzles / Fabric &amp; Textile.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Games &amp; Puzzles · Fabric &amp; Textile</h1>
+        <p>4 products in Leisure / Games &amp; Puzzles / Fabric &amp; Textile.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/leisure/games-and-puzzles/fabric-and-textile/wood-yoyo/" data-name="wood yoyo" data-plu="113591" data-material="fabric-and-textile">
+      <img src="/assets/products/113591/113591-1-ccebf576.webp" alt="Wood Yoyo" loading="lazy">
+      <div><h2>Wood Yoyo</h2><p>PLU 113591</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/games-and-puzzles/fabric-and-textile/saloon-playing-cards/" data-name="saloon playing cards" data-plu="116125" data-material="fabric-and-textile">
+      <img src="/assets/products/116125/116125-1-3b039aa3.webp" alt="Saloon Playing Cards" loading="lazy">
+      <div><h2>Saloon Playing Cards</h2><p>PLU 116125</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/games-and-puzzles/fabric-and-textile/jester-wooden-yoyo/" data-name="jester wooden yoyo" data-plu="120244" data-material="fabric-and-textile">
+      <img src="/assets/products/120244/120244-1-bcdfadc7.webp" alt="Jester Wooden Yoyo" loading="lazy">
+      <div><h2>Jester Wooden Yoyo</h2><p>PLU 120244</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/games-and-puzzles/fabric-and-textile/mini-tumbling-tower/" data-name="mini tumbling tower" data-plu="121506" data-material="fabric-and-textile">
+      <img src="/assets/products/121506/121506-1-ded8895d.webp" alt="Mini Tumbling Tower" loading="lazy">
+      <div><h2>Mini Tumbling Tower</h2><p>PLU 121506</p><p>Fabric &amp; Textile</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

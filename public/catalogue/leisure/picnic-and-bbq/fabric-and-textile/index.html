@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Picnic &amp; BBQ · Fabric &amp; Textile</title>
+  <meta name="description" content="5 products in Leisure / Picnic &amp; BBQ / Fabric &amp; Textile.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Picnic &amp; BBQ · Fabric &amp; Textile</h1>
+        <p>5 products in Leisure / Picnic &amp; BBQ / Fabric &amp; Textile.</p>
+        
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/leisure/picnic-and-bbq/fabric-and-textile/yukon-fleece-blanket/" data-name="yukon fleece blanket" data-plu="111669" data-material="fabric-and-textile">
+      <img src="/assets/products/111669/111669-1-f96110b1.webp" alt="Yukon Fleece Blanket" loading="lazy">
+      <div><h2>Yukon Fleece Blanket</h2><p>PLU 111669</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/picnic-and-bbq/fabric-and-textile/oslo-luxury-blanket/" data-name="oslo luxury blanket" data-plu="112592" data-material="fabric-and-textile">
+      <img src="/assets/products/112592/112592-1-cfa29b7f.webp" alt="Oslo Luxury Blanket" loading="lazy">
+      <div><h2>Oslo Luxury Blanket</h2><p>PLU 112592</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/picnic-and-bbq/fabric-and-textile/keepsake-picnic-blanket/" data-name="keepsake picnic blanket" data-plu="123606" data-material="fabric-and-textile">
+      <img src="/assets/products/123606/123606-1-0c9c47d3.webp" alt="Keepsake Picnic Blanket" loading="lazy">
+      <div><h2>Keepsake Picnic Blanket</h2><p>PLU 123606</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/picnic-and-bbq/fabric-and-textile/frontier-outland-picnic-blanket/" data-name="frontier outland picnic blanket" data-plu="129107" data-material="fabric-and-textile">
+      <img src="/assets/products/129107/129107-1-cbdae2fb.webp" alt="Frontier Outland Picnic Blanket" loading="lazy">
+      <div><h2>Frontier Outland Picnic Blanket</h2><p>PLU 129107</p><p>Fabric &amp; Textile</p></div>
+    </a><a class="product-card" href="/catalogue/leisure/picnic-and-bbq/fabric-and-textile/frontier-fraser-picnic-blanket/" data-name="frontier fraser picnic blanket" data-plu="129380" data-material="fabric-and-textile">
+      <img src="/assets/products/129380/129380-1-0a737bed.webp" alt="Frontier Fraser Picnic Blanket" loading="lazy">
+      <div><h2>Frontier Fraser Picnic Blanket</h2><p>PLU 129380</p><p>Fabric &amp; Textile</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Promotion · Bar Mats</title>
+  <meta name="description" content="5 products split by material/style.">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+      <a class="brand" href="/catalogue/"><span class="brand-mark"></span><span>Mini Merch</span></a>
+      <nav aria-label="Primary"><a href="/catalogue/">Catalogue</a><a href="/quote.html">Request Quote</a></nav>
+    </header>
+    
+
+    <main>
+      <section class="catalogue-head">
+        <h1>Promotion · Bar Mats</h1>
+        <p>5 products split by material/style.</p>
+        <div class="section-pills"><a href="/catalogue/promotion/bar-mats/plastic/">Plastic <span>5</span></a></div>
+        <div class="catalogue-tools"><input id="search" type="search" placeholder="Search product or PLU"><select id="material"><option value="">All materials</option></select></div>
+      </section>
+      <section class="product-grid" id="product-grid"><a class="product-card" href="/catalogue/promotion/bar-mats/plastic/large-counter-mat/" data-name="large counter mat" data-plu="108045" data-material="plastic">
+      <img src="/assets/products/108045/108045-1-f415d37f.webp" alt="Large Counter Mat" loading="lazy">
+      <div><h2>Large Counter Mat</h2><p>PLU 108045</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/promotion/bar-mats/plastic/small-counter-mat/" data-name="small counter mat" data-plu="108046" data-material="plastic">
+      <img src="/assets/products/108046/108046-1-f94811d0.webp" alt="Small Counter Mat" loading="lazy">
+      <div><h2>Small Counter Mat</h2><p>PLU 108046</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/promotion/bar-mats/plastic/bar-runner/" data-name="bar runner" data-plu="114090" data-material="plastic">
+      <img src="/assets/products/114090/114090-1-77aba06e.webp" alt="Bar Runner" loading="lazy">
+      <div><h2>Bar Runner</h2><p>PLU 114090</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/promotion/bar-mats/plastic/pvc-bar-runner-small/" data-name="pvc bar runner - small" data-plu="123058" data-material="plastic">
+      <img src="/assets/products/123058/123058-1-fe40459f.webp" alt="PVC Bar Runner - Small" loading="lazy">
+      <div><h2>PVC Bar Runner - Small</h2><p>PLU 123058</p><p>Plastic</p></div>
+    </a><a class="product-card" href="/catalogue/promotion/bar-mats/plastic/pvc-bar-runner-large/" data-name="pvc bar runner - large" data-plu="123059" data-material="plastic">
+      <img src="/assets/products/123059/123059-1-e1fadd4b.webp" alt="PVC Bar Runner - Large" loading="lazy">
+      <div><h2>PVC Bar Runner - Large</h2><p>PLU 123059</p><p>Plastic</p></div>
+    </a></section>
+    </main>
+    
+
+    <script>
+      const search = document.getElementById('search');
+      const material = document.getElementById('material');
+      const cards = Array.from(document.querySelectorAll('.product-card'));
+      const materials = Array.from(new Set(cards.map((card) => card.dataset.material).filter(Boolean))).sort();
+      materials.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+        material.appendChild(option);
+      });
+      function applyFilters() {
+        const q = search.value.trim().toLowerCase();
+        const mat = material.value;
+        cards.forEach((card) => {
+          const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.plu.includes(q);
+          const matchesMaterial = !mat || card.dataset.material === mat;
+          card.hidden = !(matchesQuery && matchesMaterial);
+        });
+      }
+      search.addEventListener('input', applyFilters);
+      material.addEventListener('change', applyFilters);
+    </script>
+    
+</body>
+</html>
