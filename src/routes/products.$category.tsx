@@ -4,9 +4,7 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import { borderAccentClass, softBgClass, spectrum, swatchClass, textClass } from "@/lib/catalog";
 import { catalogQueryOptions, type CmsCategory, type CmsProduct } from "@/lib/catalog-query";
 import { categoryPlacement } from "@/lib/banners";
-import { categoryVideos } from "@/lib/videos";
 import { PlacementBanners } from "@/components/site/PlacementBanners";
-import { VideoStrip } from "@/components/site/VideoStrip";
 import { Reveal } from "@/components/site/Reveal";
 import { ProductQuickView } from "@/components/site/ProductQuickView";
 
