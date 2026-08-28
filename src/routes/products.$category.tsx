@@ -12,6 +12,8 @@ import { ProductQuickView } from "@/components/site/ProductQuickView";
 
 import { ProductFilters } from "@/components/site/ProductFilters";
 import {
+  colourImageFor,
+  colourOptions,
   decorationOptions,
   matchesFilters,
   parseFilterSearch,
@@ -124,6 +126,7 @@ function CategoryPage() {
   const navigate = useNavigate({ from: Route.fullPath });
   const filters: ProductFilterValue = {
     decoration: search.decoration ?? "",
+    colour: search.colour ?? "",
     impact: search.impact ?? false,
     moq: search.moq ?? 0,
   };
@@ -137,6 +140,7 @@ function CategoryPage() {
     navigate({
       search: {
         ...(merged.decoration ? { decoration: merged.decoration } : {}),
+        ...(merged.colour ? { colour: merged.colour } : {}),
         ...(merged.impact ? { impact: true } : {}),
         ...(merged.moq ? { moq: merged.moq } : {}),
       },
@@ -246,6 +250,7 @@ function CategoryPage() {
           className="mt-6"
           value={filters}
           decorations={decorationOptions(category.products)}
+          colours={colourOptions(category.products)}
           onChange={updateFilters}
           resultCount={visibleProducts.length}
           totalCount={category.products.length}
