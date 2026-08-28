@@ -121,6 +121,41 @@ export function colourImageFor(product: CmsProduct, colour: string | string[]): 
   return null;
 }
 
+/**
+ * How well a product matches the selected colours.
+ * Each selected colour scores 2 when the product has a photo in that colour,
+ * and 1 when it lists the colour without a dedicated photo.
+ */
+export function colourMatchScore(product: CmsProduct, colours: string[]): number {
+  let score = 0;
+  for (const colour of colours.map((c) => c.trim()).filter(Boolean)) {
+    if (colourImageFor(product, colour)) score += 2;
+    else if (productHasColour(product, colour)) score += 1;
+  }
+  return score;
+}
+
+/**
+ * Products ordered by colour-match strength (photo matches first), keeping the
+ * original order for ties. Returns the input order for any other sort mode.
+ */
+export function sortProducts<T>(
+  items: T[],
+  filters: ProductFilterValue,
+  getProduct: (item: T) => CmsProduct,
+): T[] {
+  if (filters.sort !== "colour-match" || (filters.colours ?? []).length === 0) return items;
+  return items
+    .map((item, index) => ({
+      item,
+      index,
+      score: colourMatchScore(getProduct(item), filters.colours),
+    }))
+    .sort((a, b) => b.score - a.score || a.index - b.index)
+    .map((entry) => entry.item);
+}
+
+
 const SWATCH_HEX: Record<string, string> = {
   black: "#1a1a1a", white: "#f8f8f8", red: "#e32636", orange: "#f47920",
   yellow: "#f5c518", green: "#2e8b57", teal: "#0f8b8d", blue: "#2266cc",
