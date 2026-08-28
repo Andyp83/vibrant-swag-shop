@@ -160,7 +160,10 @@ export const listCatalog = createServerFn({ method: "GET" }).handler(
     if (productsResult.error) throw new Error(productsResult.error.message);
     if (subcategoriesResult.error) throw new Error(subcategoriesResult.error.message);
 
-    const products = productsResult.data ?? [];
+    const products = (productsResult.data ?? []).map((p) => ({
+      ...p,
+      colour_images: (Array.isArray(p.colour_images) ? p.colour_images : []) as CmsColourImage[],
+    }));
     const subcategories = subcategoriesResult.data ?? [];
 
     return (categoriesResult.data ?? []).map((category) => ({
