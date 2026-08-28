@@ -45,9 +45,10 @@ import { Route as AuthenticatedAdminCustomersRouteImport } from './routes/_authe
 import { Route as AuthenticatedAdminInvoicesRouteImport } from './routes/_authenticated/admin/invoices'
 import { Route as AuthenticatedAdminJobsRouteImport } from './routes/_authenticated/admin/jobs'
 import { Route as AuthenticatedAdminQuotesRouteImport } from './routes/_authenticated/admin/quotes'
-import { Route as ProductsCategorySubcategoryRouteImport } from './routes/products.$category.$subcategory'
+import { Route as ProductsCategorySubcategoryRouteImport } from './routes/products.$category_.$subcategory'
 import { Route as ApiPublicCatalogImageSplatRouteImport } from './routes/api/public/catalog-image.$'
 import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
+import { Route as ProductsCategorySubcategoryProductRouteImport } from './routes/products.$category_.$subcategory_.$product'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -240,9 +241,9 @@ const AuthenticatedAdminQuotesRoute =
   } as any)
 const ProductsCategorySubcategoryRoute =
   ProductsCategorySubcategoryRouteImport.update({
-    id: '/$subcategory',
-    path: '/$subcategory',
-    getParentRoute: () => ProductsCategoryRoute,
+    id: '/products/$category_/$subcategory',
+    path: '/products/$category/$subcategory',
+    getParentRoute: () => rootRouteImport,
   } as any)
 const ApiPublicCatalogImageSplatRoute =
   ApiPublicCatalogImageSplatRouteImport.update({
@@ -254,6 +255,12 @@ const ApiPublicPaymentsWebhookRoute =
   ApiPublicPaymentsWebhookRouteImport.update({
     id: '/api/public/payments/webhook',
     path: '/api/public/payments/webhook',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ProductsCategorySubcategoryProductRoute =
+  ProductsCategorySubcategoryProductRouteImport.update({
+    id: '/products/$category_/$subcategory_/$product',
+    path: '/products/$category/$subcategory/$product',
     getParentRoute: () => rootRouteImport,
   } as any)
 
@@ -279,7 +286,7 @@ export interface FileRoutesByFullPath {
   '/portal': typeof AuthenticatedPortalRoute
   '/job/$token': typeof JobTokenRoute
   '/pay/$token': typeof PayTokenRoute
-  '/products/$category': typeof ProductsCategoryRouteWithChildren
+  '/products/$category': typeof ProductsCategoryRoute
   '/proof/$token': typeof ProofTokenRoute
   '/q/$token': typeof QTokenRoute
   '/products/': typeof ProductsIndexRoute
@@ -296,6 +303,7 @@ export interface FileRoutesByFullPath {
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/api/public/catalog-image/$': typeof ApiPublicCatalogImageSplatRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
+  '/products/$category/$subcategory/$product': typeof ProductsCategorySubcategoryProductRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -318,7 +326,7 @@ export interface FileRoutesByTo {
   '/portal': typeof AuthenticatedPortalRoute
   '/job/$token': typeof JobTokenRoute
   '/pay/$token': typeof PayTokenRoute
-  '/products/$category': typeof ProductsCategoryRouteWithChildren
+  '/products/$category': typeof ProductsCategoryRoute
   '/proof/$token': typeof ProofTokenRoute
   '/q/$token': typeof QTokenRoute
   '/products': typeof ProductsIndexRoute
@@ -335,6 +343,7 @@ export interface FileRoutesByTo {
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/api/public/catalog-image/$': typeof ApiPublicCatalogImageSplatRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
+  '/products/$category/$subcategory/$product': typeof ProductsCategorySubcategoryProductRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -360,7 +369,7 @@ export interface FileRoutesById {
   '/_authenticated/portal': typeof AuthenticatedPortalRoute
   '/job/$token': typeof JobTokenRoute
   '/pay/$token': typeof PayTokenRoute
-  '/products/$category': typeof ProductsCategoryRouteWithChildren
+  '/products/$category': typeof ProductsCategoryRoute
   '/proof/$token': typeof ProofTokenRoute
   '/q/$token': typeof QTokenRoute
   '/products/': typeof ProductsIndexRoute
@@ -373,10 +382,11 @@ export interface FileRoutesById {
   '/_authenticated/admin/invoices': typeof AuthenticatedAdminInvoicesRoute
   '/_authenticated/admin/jobs': typeof AuthenticatedAdminJobsRoute
   '/_authenticated/admin/quotes': typeof AuthenticatedAdminQuotesRoute
-  '/products/$category/$subcategory': typeof ProductsCategorySubcategoryRoute
+  '/products/$category_/$subcategory': typeof ProductsCategorySubcategoryRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/api/public/catalog-image/$': typeof ApiPublicCatalogImageSplatRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
+  '/products/$category_/$subcategory_/$product': typeof ProductsCategorySubcategoryProductRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -419,6 +429,7 @@ export interface FileRouteTypes {
     | '/admin/'
     | '/api/public/catalog-image/$'
     | '/api/public/payments/webhook'
+    | '/products/$category/$subcategory/$product'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -458,6 +469,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/api/public/catalog-image/$'
     | '/api/public/payments/webhook'
+    | '/products/$category/$subcategory/$product'
   id:
     | '__root__'
     | '/'
@@ -495,10 +507,11 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/invoices'
     | '/_authenticated/admin/jobs'
     | '/_authenticated/admin/quotes'
-    | '/products/$category/$subcategory'
+    | '/products/$category_/$subcategory'
     | '/_authenticated/admin/'
     | '/api/public/catalog-image/$'
     | '/api/public/payments/webhook'
+    | '/products/$category_/$subcategory_/$product'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -521,14 +534,16 @@ export interface RootRouteChildren {
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   JobTokenRoute: typeof JobTokenRoute
   PayTokenRoute: typeof PayTokenRoute
-  ProductsCategoryRoute: typeof ProductsCategoryRouteWithChildren
+  ProductsCategoryRoute: typeof ProductsCategoryRoute
   ProofTokenRoute: typeof ProofTokenRoute
   QTokenRoute: typeof QTokenRoute
   ProductsIndexRoute: typeof ProductsIndexRoute
   DotlovableOauthConsentRoute: typeof DotlovableOauthConsentRoute
   Char91DotmcpChar93InvokeToolToolRoute: typeof Char91DotmcpChar93InvokeToolToolRoute
+  ProductsCategorySubcategoryRoute: typeof ProductsCategorySubcategoryRoute
   ApiPublicCatalogImageSplatRoute: typeof ApiPublicCatalogImageSplatRoute
   ApiPublicPaymentsWebhookRoute: typeof ApiPublicPaymentsWebhookRoute
+  ProductsCategorySubcategoryProductRoute: typeof ProductsCategorySubcategoryProductRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -785,12 +800,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminQuotesRouteImport
       parentRoute: typeof AuthenticatedAdminRouteRoute
     }
-    '/products/$category/$subcategory': {
-      id: '/products/$category/$subcategory'
-      path: '/$subcategory'
+    '/products/$category_/$subcategory': {
+      id: '/products/$category_/$subcategory'
+      path: '/products/$category/$subcategory'
       fullPath: '/products/$category/$subcategory'
       preLoaderRoute: typeof ProductsCategorySubcategoryRouteImport
-      parentRoute: typeof ProductsCategoryRoute
+      parentRoute: typeof rootRouteImport
     }
     '/api/public/catalog-image/$': {
       id: '/api/public/catalog-image/$'
@@ -804,6 +819,13 @@ declare module '@tanstack/react-router' {
       path: '/api/public/payments/webhook'
       fullPath: '/api/public/payments/webhook'
       preLoaderRoute: typeof ApiPublicPaymentsWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/products/$category_/$subcategory_/$product': {
+      id: '/products/$category_/$subcategory_/$product'
+      path: '/products/$category/$subcategory/$product'
+      fullPath: '/products/$category/$subcategory/$product'
+      preLoaderRoute: typeof ProductsCategorySubcategoryProductRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -852,17 +874,6 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
 const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
-interface ProductsCategoryRouteChildren {
-  ProductsCategorySubcategoryRoute: typeof ProductsCategorySubcategoryRoute
-}
-
-const ProductsCategoryRouteChildren: ProductsCategoryRouteChildren = {
-  ProductsCategorySubcategoryRoute: ProductsCategorySubcategoryRoute,
-}
-
-const ProductsCategoryRouteWithChildren =
-  ProductsCategoryRoute._addFileChildren(ProductsCategoryRouteChildren)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
@@ -884,14 +895,17 @@ const rootRouteChildren: RootRouteChildren = {
     Char91DotwellKnownChar93OauthProtectedResourceRoute,
   JobTokenRoute: JobTokenRoute,
   PayTokenRoute: PayTokenRoute,
-  ProductsCategoryRoute: ProductsCategoryRouteWithChildren,
+  ProductsCategoryRoute: ProductsCategoryRoute,
   ProofTokenRoute: ProofTokenRoute,
   QTokenRoute: QTokenRoute,
   ProductsIndexRoute: ProductsIndexRoute,
   DotlovableOauthConsentRoute: DotlovableOauthConsentRoute,
   Char91DotmcpChar93InvokeToolToolRoute: Char91DotmcpChar93InvokeToolToolRoute,
+  ProductsCategorySubcategoryRoute: ProductsCategorySubcategoryRoute,
   ApiPublicCatalogImageSplatRoute: ApiPublicCatalogImageSplatRoute,
   ApiPublicPaymentsWebhookRoute: ApiPublicPaymentsWebhookRoute,
+  ProductsCategorySubcategoryProductRoute:
+    ProductsCategorySubcategoryProductRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

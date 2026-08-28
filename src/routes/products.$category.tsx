@@ -1,19 +1,26 @@
 import { createFileRoute, Link, notFound, useNavigate } from "@tanstack/react-router";
+import { useState } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { borderAccentClass, softBgClass, spectrum, swatchClass, textClass } from "@/lib/catalog";
-import { catalogQueryOptions, type CmsCategory } from "@/lib/catalog-query";
+import { catalogQueryOptions, type CmsCategory, type CmsProduct } from "@/lib/catalog-query";
 import { categoryPlacement } from "@/lib/banners";
 import { categoryVideos } from "@/lib/videos";
 import { PlacementBanners } from "@/components/site/PlacementBanners";
 import { VideoStrip } from "@/components/site/VideoStrip";
 import { Reveal } from "@/components/site/Reveal";
-import { FavoriteButton } from "@/components/site/FavoriteButton";
+import { ProductQuickView } from "@/components/site/ProductQuickView";
 
 import { ProductFilters } from "@/components/site/ProductFilters";
 import {
+  colourImageFor,
+  colourOptions,
+  coloursFromSearch,
+  coloursToSearch,
   decorationOptions,
   matchesFilters,
   parseFilterSearch,
+  sortProducts,
+
   type ProductFilterValue,
 } from "@/lib/product-filters";
 
@@ -114,19 +121,32 @@ function CategoryNotFound() {
 }
 
 function CategoryPage() {
-  const { category, others } = Route.useLoaderData() as {
-    category: CmsCategory;
-    others: CmsCategory[];
-  };
+  const { category } = Route.useLoaderData() as { category: CmsCategory };
   const search = Route.useSearch();
+  const [quickView, setQuickView] = useState<CmsProduct | null>(null);
   const navigate = useNavigate({ from: Route.fullPath });
   const filters: ProductFilterValue = {
+    category: category.slug,
+    subcategory: search.sub ?? "",
     decoration: search.decoration ?? "",
+    colours: coloursFromSearch(search.colour),
+    colourMatch: search.colourMatch ?? "any",
+    sort: search.sort ?? "default",
     impact: search.impact ?? false,
     moq: search.moq ?? 0,
+    density: search.density ?? "3",
   };
-  const visibleProducts = category.products.filter((p) =>
-    matchesFilters(p, filters, category.slug),
+  const subcategoryIdFor = (slug: string) =>
+    category.subcategories.find((s) => s.slug === slug)?.id ?? null;
+  const activeSubId = filters.subcategory ? subcategoryIdFor(filters.subcategory) : null;
+  const visibleProducts = sortProducts(
+    category.products.filter(
+      (p) =>
+        matchesFilters(p, filters, category.slug) &&
+        (!activeSubId || p.subcategory_id === activeSubId),
+    ),
+    filters,
+    (p) => p,
   );
   const accent = spectrum(category.colour);
 
@@ -134,10 +154,20 @@ function CategoryPage() {
     const merged = { ...filters, ...next };
     navigate({
       search: {
+        ...(merged.subcategory ? { sub: merged.subcategory } : {}),
         ...(merged.decoration ? { decoration: merged.decoration } : {}),
+        ...(merged.colours.length ? { colour: coloursToSearch(merged.colours) } : {}),
+        ...(merged.colours.length > 1 && merged.colourMatch === "all"
+          ? { colourMatch: "all" as const }
+          : {}),
+        ...(merged.colours.length && merged.sort === "colour-match"
+          ? { sort: "colour-match" as const }
+          : {}),
         ...(merged.impact ? { impact: true } : {}),
         ...(merged.moq ? { moq: merged.moq } : {}),
+        ...(merged.density === "5" ? { density: "5" as const } : {}),
       },
+
       replace: true,
     });
   };
@@ -190,36 +220,6 @@ function CategoryPage() {
 
         </div>
 
-        {category.subcategories.length > 0 ? (
-          <section className="mt-20">
-            <h2 className="display-type text-2xl sm:text-3xl">Browse {category.name}</h2>
-            <p className="mt-3 max-w-2xl text-sm text-muted-foreground">
-              {category.subcategories.length} sub-ranges — pick one to see what's available and
-              request a quote.
-            </p>
-            <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-              {category.subcategories.map((s, i) => (
-                <Reveal key={s.id} delay={(i % 3) * 60} variant="up">
-                  <Link
-                    to="/products/$category/$subcategory"
-                    params={{ category: category.slug, subcategory: s.slug }}
-                    className={`lift group flex h-full items-center justify-between gap-3 rounded-xl border-2 bg-card px-5 py-4 ${borderAccentClass[accent]}`}
-                  >
-                    <span className="text-sm font-semibold">{s.name}</span>
-                    <ArrowRight
-                      className={`size-4 shrink-0 transition-transform duration-300 group-hover:translate-x-1 ${textClass[accent]}`}
-                      aria-hidden="true"
-                    />
-                  </Link>
-                </Reveal>
-              ))}
-            </div>
-          </section>
-        ) : null}
-
-
-
-
         <PlacementBanners
           placement={categoryPlacement(category.slug)}
           title="Featured ranges"
@@ -243,67 +243,72 @@ function CategoryPage() {
         <ProductFilters
           className="mt-6"
           value={filters}
+          subcategories={category.subcategories
+            .filter((s) => category.products.some((p) => p.subcategory_id === s.id))
+            .map((s) => ({ slug: s.slug, name: s.name }))}
           decorations={decorationOptions(category.products)}
+          colours={colourOptions(category.products)}
           onChange={updateFilters}
           resultCount={visibleProducts.length}
           totalCount={category.products.length}
         />
-        <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {visibleProducts.map((p, i) => (
-            <Reveal key={p.id} delay={(i % 3) * 90} variant="up">
-              <article
-                className={`lift flex h-full flex-col rounded-xl border-2 bg-card p-6 ${borderAccentClass[accent]}`}
+        <div
+          className={`mt-8 grid gap-4 sm:grid-cols-2 ${
+            filters.density === "5" ? "lg:grid-cols-5" : "lg:grid-cols-3"
+          }`}
+        >
+          {visibleProducts.map((p, i) => {
+            const previewImage = colourImageFor(p, filters.colours) ?? p.image_url;
+            const cols = filters.density === "5" ? 5 : 3;
+            return (
+            <Reveal key={p.id} delay={(i % cols) * 90} variant="up">
+              <button
+                type="button"
+                onClick={() => setQuickView(p)}
+                className={`lift group flex h-full w-full flex-col rounded-xl border-2 bg-card text-left ${
+                  filters.density === "5" ? "p-3" : "p-5"
+                } ${borderAccentClass[accent]}`}
               >
-                <span className={`h-1.5 w-10 rounded-full ${swatchClass[accent]}`} />
-                <h3 className="mt-4 font-semibold">{p.name}</h3>
-                <p className="mt-2 text-sm text-muted-foreground">{p.blurb}</p>
-                <dl className="mt-4 space-y-1 text-xs text-muted-foreground">
-                  <div className="flex gap-2">
-                    <dt className="font-semibold text-foreground">Colours:</dt>
-                    <dd>{p.colours}</dd>
-                  </div>
-                  <div className="flex gap-2">
-                    <dt className="font-semibold text-foreground">Minimum:</dt>
-                    <dd>{p.moq}</dd>
-                  </div>
-                </dl>
-                <ul className="mt-4 flex flex-wrap gap-1.5">
-                  {p.methods.map((m) => (
-                    <li
-                      key={m}
-                      className={`rounded-full border px-2.5 py-1 text-[11px] font-medium transition-transform duration-300 hover:scale-105 ${borderAccentClass[accent]} ${textClass[accent]}`}
-                    >
-                      {m}
-                    </li>
-                  ))}
-                </ul>
-                <div className="mt-6 flex flex-wrap items-center gap-3">
-                  <Link
-                    to="/quote"
-                    search={{ product: p.name }}
-                    className="group inline-flex items-center gap-1.5 text-sm font-semibold underline underline-offset-4"
-                  >
-                    Quote this item
-                    <ArrowRight
-                      className="size-3.5 transition-transform duration-300 group-hover:translate-x-1"
-                      aria-hidden="true"
+                <span className="block aspect-square w-full overflow-hidden rounded-lg bg-background">
+                  {previewImage ? (
+                    <img
+                      src={previewImage}
+                      alt={filters.colours.length ? `${p.name} in ${filters.colours.join(", ")}` : p.name}
+                      loading={i < 6 ? "eager" : "lazy"}
+                      decoding="async"
+                      width={640}
+                      height={640}
+                      className="size-full object-contain p-2 transition-transform duration-500 group-hover:scale-105"
                     />
-                  </Link>
-                  <FavoriteButton
-                    item={{
-                      id: p.id,
-                      name: p.name,
-                      categoryName: category.name,
-                      categorySlug: category.slug,
-                      methods: p.methods,
-                      moq: p.moq,
-                    }}
-                  />
-                </div>
-              </article>
+                  ) : null}
+                </span>
+                <span className="mt-3 block text-sm font-semibold">{p.name}</span>
+              </button>
             </Reveal>
-          ))}
+            );
+          })}
         </div>
+
+        <ProductQuickView
+          product={quickView}
+          accent={accent}
+          categoryName={category.name}
+          categorySlug={category.slug}
+          preferredColours={filters.colours}
+
+          productLink={
+            quickView
+              ? {
+                  subcategory:
+                    category.subcategories.find((s) => s.id === quickView.subcategory_id)?.slug ??
+                    "range",
+                  product: quickView.slug || quickView.id,
+                }
+              : undefined
+          }
+          onClose={() => setQuickView(null)}
+        />
+
 
         {visibleProducts.length === 0 ? (
           <p className="mt-8 rounded-xl border border-dashed border-border p-8 text-center text-sm text-muted-foreground">
@@ -313,20 +318,6 @@ function CategoryPage() {
         ) : null}
 
 
-        <h2 className="display-type mt-20 text-2xl">Other categories</h2>
-        <div className="mt-6 flex flex-wrap gap-3">
-          {others.map((c) => (
-            <Link
-              key={c.slug}
-              to="/products/$category"
-              params={{ category: c.slug }}
-              className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-sm font-medium transition-colors hover:bg-accent"
-            >
-              <span className={`size-2.5 rounded-full ${swatchClass[spectrum(c.colour)]}`} aria-hidden="true" />
-              {c.name}
-            </Link>
-          ))}
-        </div>
       </div>
     </div>
   );

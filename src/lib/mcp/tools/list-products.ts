@@ -6,7 +6,7 @@ export default defineTool({
   name: "list_products",
   title: "List catalogue products",
   description:
-    "List merchandise products with blurb, colours, minimum order quantity (MOQ) and decoration methods. Optionally filter by category slug.",
+    "List merchandise products with PLU, descriptions, colours, minimum order quantity (MOQ), decoration methods and key specification fields. Optionally filter by category slug.",
   inputSchema: {
     category_slug: z
       .string()
@@ -39,7 +39,9 @@ export default defineTool({
 
     let query = supabase
       .from("catalog_products")
-      .select("id, category_id, name, blurb, colours, moq, methods, sort_order")
+      .select(
+        "id, category_id, subcategory_id, slug, plu, name, blurb, description, features, service, specifications, colours, dimensions, materials, material_group, branding_options, packaging, carton_details, source_url, moq, methods, image_url, sort_order",
+      )
       .order("sort_order", { ascending: true });
     if (categoryId) query = query.eq("category_id", categoryId);
 

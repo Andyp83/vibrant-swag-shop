@@ -6,9 +6,14 @@ import { ProductFilters } from "@/components/site/ProductFilters";
 import { catalogQueryOptions } from "@/lib/catalog-query";
 import { spectrum, swatchClass } from "@/lib/catalog";
 import {
+  colourOptions,
+  coloursFromSearch,
+  coloursToSearch,
   decorationOptions,
   matchesFilters,
   parseFilterSearch,
+  sortProducts,
+
   type ProductFilterValue,
 } from "@/lib/product-filters";
 
@@ -50,9 +55,15 @@ function LookbookPage() {
   const navigate = useNavigate({ from: Route.fullPath });
 
   const filters: ProductFilterValue = {
+    category: "",
+    subcategory: "",
     decoration: search.decoration ?? "",
+    colours: coloursFromSearch(search.colour),
+    colourMatch: search.colourMatch ?? "any",
+    sort: search.sort ?? "default",
     impact: search.impact ?? false,
     moq: search.moq ?? 0,
+    density: search.density ?? "3",
   };
 
   const updateFilters = (next: Partial<ProductFilterValue>) => {
@@ -60,8 +71,16 @@ function LookbookPage() {
     navigate({
       search: {
         ...(merged.decoration ? { decoration: merged.decoration } : {}),
+        ...(merged.colours.length ? { colour: coloursToSearch(merged.colours) } : {}),
+        ...(merged.colours.length > 1 && merged.colourMatch === "all"
+          ? { colourMatch: "all" as const }
+          : {}),
+        ...(merged.colours.length && merged.sort === "colour-match"
+          ? { sort: "colour-match" as const }
+          : {}),
         ...(merged.impact ? { impact: true } : {}),
         ...(merged.moq ? { moq: merged.moq } : {}),
+        ...(merged.density === "5" ? { density: "5" as const } : {}),
       },
       replace: true,
     });
@@ -70,9 +89,12 @@ function LookbookPage() {
   const allProducts = categories.flatMap((c) =>
     c.products.map((p) => ({ product: p, category: c })),
   );
-  const visible = allProducts.filter(({ product, category }) =>
-    matchesFilters(product, filters, category.slug),
+  const visible = sortProducts(
+    allProducts.filter(({ product, category }) => matchesFilters(product, filters, category.slug)),
+    filters,
+    (entry) => entry.product,
   );
+
 
   return (
     <div className="mx-auto max-w-6xl px-5 py-16">
@@ -107,12 +129,17 @@ function LookbookPage() {
           className="mt-6"
           value={filters}
           decorations={decorationOptions(allProducts.map((x) => x.product))}
+          colours={colourOptions(allProducts.map((x) => x.product))}
           onChange={updateFilters}
           resultCount={visible.length}
           totalCount={allProducts.length}
         />
 
-        <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div
+          className={`mt-8 grid gap-4 sm:grid-cols-2 ${
+            filters.density === "5" ? "lg:grid-cols-5" : "lg:grid-cols-3"
+          }`}
+        >
           {visible.map(({ product: p, category: c }) => (
             <article key={p.id} className="flex flex-col rounded-xl border border-border bg-card p-6">
               <span
