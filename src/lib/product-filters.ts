@@ -122,13 +122,38 @@ function canonicalColour(label?: string): string | null {
   return ALLOWED_COLOURS.find((c) => c.toLowerCase() === key) ?? null;
 }
 
+const COLOUR_ALIASES: Record<string, string[]> = {
+  gray: ["grey"],
+  grey: ["gray"],
+  "light blue": ["sky", "sky blue", "pale blue"],
+  "bright green": ["lime", "neon green"],
+  natural: ["beige", "tan", "cream", "khaki", "stone", "sand"],
+  gunmetal: ["charcoal", "dark grey", "dark gray"],
+  clear: ["transparent"],
+  white: ["off white", "off-white"],
+  black: ["matte black"],
+  red: ["maroon", "burgundy"],
+  blue: ["royal", "royal blue", "cobalt"],
+  navy: ["navy blue"],
+  brown: ["chocolate", "coffee"],
+};
+
+/** All search terms that should match a given canonical colour. */
+function colourSearchTerms(colour: string): string[] {
+  const key = colour.trim().toLowerCase();
+  return [key, ...(COLOUR_ALIASES[key] ?? [])];
+}
+
 export function productHasColour(product: CmsProduct, colour: string): boolean {
   const needle = colour.trim().toLowerCase();
   if (!needle) return true;
-  if ((product.colours ?? "").toLowerCase().includes(needle)) return true;
-  return (product.colour_images ?? []).some((shot) =>
-    (shot.label ?? "").trim().toLowerCase().includes(needle),
-  );
+  const terms = colourSearchTerms(needle);
+  const colourText = (product.colours ?? "").toLowerCase();
+  if (terms.some((t) => colourText.includes(t))) return true;
+  return (product.colour_images ?? []).some((shot) => {
+    const label = (shot.label ?? "").trim().toLowerCase();
+    return terms.some((t) => label.includes(t));
+  });
 }
 
 /** True when the product satisfies the selected colours under the given match mode. */
