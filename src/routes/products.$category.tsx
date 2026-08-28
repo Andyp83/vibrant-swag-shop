@@ -12,6 +12,8 @@ import { ProductQuickView } from "@/components/site/ProductQuickView";
 
 import { ProductFilters } from "@/components/site/ProductFilters";
 import {
+  colourImageFor,
+  colourOptions,
   decorationOptions,
   matchesFilters,
   parseFilterSearch,
@@ -124,6 +126,7 @@ function CategoryPage() {
   const navigate = useNavigate({ from: Route.fullPath });
   const filters: ProductFilterValue = {
     decoration: search.decoration ?? "",
+    colour: search.colour ?? "",
     impact: search.impact ?? false,
     moq: search.moq ?? 0,
   };
@@ -137,6 +140,7 @@ function CategoryPage() {
     navigate({
       search: {
         ...(merged.decoration ? { decoration: merged.decoration } : {}),
+        ...(merged.colour ? { colour: merged.colour } : {}),
         ...(merged.impact ? { impact: true } : {}),
         ...(merged.moq ? { moq: merged.moq } : {}),
       },
@@ -246,12 +250,15 @@ function CategoryPage() {
           className="mt-6"
           value={filters}
           decorations={decorationOptions(category.products)}
+          colours={colourOptions(category.products)}
           onChange={updateFilters}
           resultCount={visibleProducts.length}
           totalCount={category.products.length}
         />
         <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {visibleProducts.map((p, i) => (
+          {visibleProducts.map((p, i) => {
+            const previewImage = colourImageFor(p, filters.colour) ?? p.image_url;
+            return (
             <Reveal key={p.id} delay={(i % 3) * 90} variant="up">
               <button
                 type="button"
@@ -259,10 +266,10 @@ function CategoryPage() {
                 className={`lift group flex h-full w-full flex-col rounded-xl border-2 bg-card p-5 text-left ${borderAccentClass[accent]}`}
               >
                 <span className="block aspect-square w-full overflow-hidden rounded-lg bg-background">
-                  {p.image_url ? (
+                  {previewImage ? (
                     <img
-                      src={p.image_url}
-                      alt={p.name}
+                      src={previewImage}
+                      alt={filters.colour ? `${p.name} in ${filters.colour}` : p.name}
                       loading={i < 6 ? "eager" : "lazy"}
                       decoding="async"
                       width={640}
@@ -274,7 +281,8 @@ function CategoryPage() {
                 <span className="mt-4 block text-sm font-semibold">{p.name}</span>
               </button>
             </Reveal>
-          ))}
+            );
+          })}
         </div>
 
         <ProductQuickView
