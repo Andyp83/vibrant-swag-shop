@@ -101,6 +101,91 @@ export type Database = {
         }
         Relationships: []
       }
+      catalog_product_colours: {
+        Row: {
+          colour_code: string
+          colour_name: string
+          created_at: string
+          id: string
+          product_id: string
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          colour_code: string
+          colour_name: string
+          created_at?: string
+          id?: string
+          product_id: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          colour_code?: string
+          colour_name?: string
+          created_at?: string
+          id?: string
+          product_id?: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "catalog_product_colours_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "catalog_products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      catalog_product_images: {
+        Row: {
+          colour_label: string | null
+          created_at: string
+          id: string
+          image_code: string
+          image_url: string
+          product_id: string
+          shot_type: string
+          sort_order: number
+          source_filename: string
+          updated_at: string
+        }
+        Insert: {
+          colour_label?: string | null
+          created_at?: string
+          id?: string
+          image_code: string
+          image_url: string
+          product_id: string
+          shot_type?: string
+          sort_order?: number
+          source_filename?: string
+          updated_at?: string
+        }
+        Update: {
+          colour_label?: string | null
+          created_at?: string
+          id?: string
+          image_code?: string
+          image_url?: string
+          product_id?: string
+          shot_type?: string
+          sort_order?: number
+          source_filename?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "catalog_product_images_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "catalog_products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       catalog_products: {
         Row: {
           blurb: string
@@ -924,6 +1009,24 @@ export type Database = {
         }
         Returns: boolean
       }
+      import_trends_product_colours_chunk: {
+        Args: { chunk_url: string }
+        Returns: number
+      }
+      import_trends_product_images_chunk: {
+        Args: { chunk_url: string }
+        Returns: number
+      }
+      load_product_colours_chunk: {
+        Args: { chunk_url: string }
+        Returns: number
+      }
+      load_product_images_chunk: {
+        Args: { chunk_url: string }
+        Returns: number
+      }
+      rpc_load_product_colours: { Args: { payload: Json }; Returns: number }
+      rpc_load_product_images: { Args: { payload: Json }; Returns: number }
     }
     Enums: {
       app_role: "admin"

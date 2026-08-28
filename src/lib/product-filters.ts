@@ -75,25 +75,85 @@ export function colourNames(product: CmsProduct): string[] {
     .filter(Boolean);
 }
 
-/** Sorted list of every colour offered by the given products. */
+/** Canonical colour palette exposed in product filters. */
+export const ALLOWED_COLOURS = [
+  "Natural",
+  "Pink",
+  "Green",
+  "Yellow",
+  "Teal",
+  "Light Blue",
+  "Black",
+  "Silver",
+  "Brown",
+  "White",
+  "Gray",
+  "Gold",
+  "Clear",
+  "Navy",
+  "Gunmetal",
+  "Orange",
+  "Blue",
+  "Purple",
+  "Bright Green",
+  "Red",
+];
+
+/** Sorted list of every colour offered by the given products, restricted to the canonical palette. */
 export function colourOptions(products: CmsProduct[]): string[] {
-  const names = new Set<string>();
+  const available = new Set<string>();
   for (const p of products) {
-    for (const name of colourNames(p)) names.add(name);
+    for (const name of colourNames(p)) {
+      const canonical = canonicalColour(name);
+      if (canonical) available.add(canonical);
+    }
     for (const shot of p.colour_images ?? []) {
-      if (shot.label?.trim()) names.add(shot.label.trim());
+      const canonical = canonicalColour(shot.label);
+      if (canonical) available.add(canonical);
     }
   }
-  return [...names].sort((a, b) => a.localeCompare(b));
+  return ALLOWED_COLOURS.filter((c) => available.has(c));
+}
+
+/** Map a free-form colour name to its canonical palette entry, or null if it is not in the palette. */
+function canonicalColour(label?: string): string | null {
+  if (!label?.trim()) return null;
+  const key = label.trim().toLowerCase();
+  return ALLOWED_COLOURS.find((c) => c.toLowerCase() === key) ?? null;
+}
+
+const COLOUR_ALIASES: Record<string, string[]> = {
+  gray: ["grey"],
+  grey: ["gray"],
+  "light blue": ["sky", "sky blue", "pale blue"],
+  "bright green": ["lime", "neon green"],
+  natural: ["beige", "tan", "cream", "khaki", "stone", "sand"],
+  gunmetal: ["charcoal", "dark grey", "dark gray"],
+  clear: ["transparent"],
+  white: ["off white", "off-white"],
+  black: ["matte black"],
+  red: ["maroon", "burgundy"],
+  blue: ["royal", "royal blue", "cobalt"],
+  navy: ["navy blue"],
+  brown: ["chocolate", "coffee"],
+};
+
+/** All search terms that should match a given canonical colour. */
+function colourSearchTerms(colour: string): string[] {
+  const key = colour.trim().toLowerCase();
+  return [key, ...(COLOUR_ALIASES[key] ?? [])];
 }
 
 export function productHasColour(product: CmsProduct, colour: string): boolean {
   const needle = colour.trim().toLowerCase();
   if (!needle) return true;
-  if ((product.colours ?? "").toLowerCase().includes(needle)) return true;
-  return (product.colour_images ?? []).some((shot) =>
-    (shot.label ?? "").trim().toLowerCase().includes(needle),
-  );
+  const terms = colourSearchTerms(needle);
+  const colourText = (product.colours ?? "").toLowerCase();
+  if (terms.some((t) => colourText.includes(t))) return true;
+  return (product.colour_images ?? []).some((shot) => {
+    const label = (shot.label ?? "").trim().toLowerCase();
+    return terms.some((t) => label.includes(t));
+  });
 }
 
 /** True when the product satisfies the selected colours under the given match mode. */
@@ -117,8 +177,9 @@ export function productMatchesColours(
 export function colourImageFor(product: CmsProduct, colour: string | string[]): string | null {
   const wanted = (Array.isArray(colour) ? colour : [colour]).map((c) => c.trim()).filter(Boolean);
   for (const needle of wanted.map((c) => c.toLowerCase())) {
+    const terms = colourSearchTerms(needle);
     const shot = (product.colour_images ?? []).find((image) =>
-      Boolean(image?.url) && (image.label ?? "").trim().toLowerCase().includes(needle),
+      Boolean(image?.url) && terms.some((t) => (image.label ?? "").trim().toLowerCase().includes(t)),
     );
     if (shot?.url) return shot.url;
   }
@@ -161,12 +222,27 @@ export function sortProducts<T>(
 
 
 const SWATCH_HEX: Record<string, string> = {
-  black: "#1a1a1a", white: "#f8f8f8", red: "#e32636", orange: "#f47920",
-  yellow: "#f5c518", green: "#2e8b57", teal: "#0f8b8d", blue: "#2266cc",
-  navy: "#1f2a5a", purple: "#7b4bb3", pink: "#ef7fa8", grey: "#9aa0a6",
-  gray: "#9aa0a6", silver: "#c8ccd2", gold: "#d4af37", brown: "#8a5a3b",
-  maroon: "#7b2230", burgundy: "#7b2230", lime: "#a6c93b", khaki: "#b7a77a",
-  cream: "#f3ead7", charcoal: "#3c4043", royal: "#3153b3", sky: "#7ec4e8",
+  black: "#1a1a1a",
+  white: "#f8f8f8",
+  red: "#e32636",
+  orange: "#f47920",
+  yellow: "#f5c518",
+  green: "#2e8b57",
+  "bright green": "#39ff14",
+  teal: "#0f8b8d",
+  blue: "#2266cc",
+  "light blue": "#87ceeb",
+  navy: "#1f2a5a",
+  purple: "#7b4bb3",
+  pink: "#ef7fa8",
+  grey: "#9aa0a6",
+  gray: "#9aa0a6",
+  silver: "#c8ccd2",
+  gold: "#d4af37",
+  brown: "#8a5a3b",
+  natural: "#c4a77d",
+  clear: "#e8f4f8",
+  gunmetal: "#2a3439",
 };
 
 /** CSS colour for a swatch dot, with a stable fallback hue for unknown names. */
