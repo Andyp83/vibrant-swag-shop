@@ -2,11 +2,17 @@ import type { CmsProduct } from "./catalog.functions";
 
 export type ProductFilterValue = {
   decoration: string;
+  colour: string;
   impact: boolean;
   moq: number;
 };
 
-export const emptyFilters: ProductFilterValue = { decoration: "", impact: false, moq: 0 };
+export const emptyFilters: ProductFilterValue = {
+  decoration: "",
+  colour: "",
+  impact: false,
+  moq: 0,
+};
 
 export const moqOptions = [
   { value: 0, label: "Any quantity" },
