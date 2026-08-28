@@ -251,21 +251,13 @@ function CategoryPage() {
         <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {visibleProducts.map((p, i) => (
             <Reveal key={p.id} delay={(i % 3) * 90} variant="up">
-              <article
-                className={`lift flex h-full flex-col rounded-xl border-2 bg-card p-6 ${borderAccentClass[accent]}`}
+              <button
+                type="button"
+                onClick={() => setQuickView(p)}
+                className={`lift group flex h-full w-full flex-col rounded-xl border-2 bg-card p-5 text-left ${borderAccentClass[accent]}`}
               >
-                {p.image_url ? (
-                  <Link
-                    to="/products/$category/$subcategory/$product"
-                    params={{
-                      category: category.slug,
-                      subcategory:
-                        category.subcategories.find((s) => s.id === p.subcategory_id)?.slug ??
-                        "range",
-                      product: p.slug || p.id,
-                    }}
-                    className="mb-5 block aspect-square overflow-hidden rounded-lg bg-background"
-                  >
+                <span className="block aspect-square w-full overflow-hidden rounded-lg bg-background">
+                  {p.image_url ? (
                     <img
                       src={p.image_url}
                       alt={p.name}
@@ -273,98 +265,34 @@ function CategoryPage() {
                       decoding="async"
                       width={640}
                       height={640}
-                      className="size-full object-contain p-3 transition-transform duration-500 hover:scale-105"
+                      className="size-full object-contain p-3 transition-transform duration-500 group-hover:scale-105"
                     />
-                  </Link>
-                ) : null}
-                <span className={`h-1.5 w-10 rounded-full ${swatchClass[accent]}`} />
-                <h3 className="mt-4 font-semibold">
-                  <Link
-                    to="/products/$category/$subcategory/$product"
-                    params={{
-                      category: category.slug,
-                      subcategory:
-                        category.subcategories.find((s) => s.id === p.subcategory_id)?.slug ??
-                        "range",
-                      product: p.slug || p.id,
-                    }}
-                    className="hover:underline"
-                  >
-                    {p.name}
-                  </Link>
-                </h3>
-                {p.plu ? <p className="mt-1 text-xs text-muted-foreground">PLU {p.plu}</p> : null}
-                <p className="mt-2 text-sm text-muted-foreground">{p.blurb}</p>
-                <dl className="mt-4 space-y-1 text-xs text-muted-foreground">
-                  {p.material_group && p.material_group !== "General" ? (
-                    <div className="flex gap-2">
-                      <dt className="font-semibold text-foreground">Material:</dt>
-                      <dd>{p.material_group}</dd>
-                    </div>
                   ) : null}
-                  <div className="flex gap-2">
-                    <dt className="font-semibold text-foreground">Colours:</dt>
-                    <dd>{p.colours}</dd>
-                  </div>
-                  <div className="flex gap-2">
-                    <dt className="font-semibold text-foreground">Minimum:</dt>
-                    <dd>{p.moq}</dd>
-                  </div>
-                </dl>
-                <ul className="mt-4 flex flex-wrap gap-1.5">
-                  {p.methods.map((m) => (
-                    <li
-                      key={m}
-                      className={`rounded-full border px-2.5 py-1 text-[11px] font-medium transition-transform duration-300 hover:scale-105 ${borderAccentClass[accent]} ${textClass[accent]}`}
-                    >
-                      {m}
-                    </li>
-                  ))}
-                </ul>
-                <div className="mt-6 flex flex-wrap items-center gap-3">
-                  <Link
-                    to="/products/$category/$subcategory/$product"
-                    params={{
-                      category: category.slug,
-                      subcategory:
-                        category.subcategories.find((s) => s.id === p.subcategory_id)?.slug ??
-                        "range",
-                      product: p.slug || p.id,
-                    }}
-                    className="group inline-flex items-center gap-1.5 text-sm font-semibold underline underline-offset-4"
-                  >
-                    View details
-                    <ArrowRight
-                      className="size-3.5 transition-transform duration-300 group-hover:translate-x-1"
-                      aria-hidden="true"
-                    />
-                  </Link>
-                  <Link
-                    to="/quote"
-                    search={{ product: p.name }}
-                    className="group inline-flex items-center gap-1.5 text-sm font-semibold underline underline-offset-4"
-                  >
-                    Quote this item
-                    <ArrowRight
-                      className="size-3.5 transition-transform duration-300 group-hover:translate-x-1"
-                      aria-hidden="true"
-                    />
-                  </Link>
-                  <FavoriteButton
-                    item={{
-                      id: p.id,
-                      name: p.name,
-                      categoryName: category.name,
-                      categorySlug: category.slug,
-                      methods: p.methods,
-                      moq: p.moq,
-                    }}
-                  />
-                </div>
-              </article>
+                </span>
+                <span className="mt-4 block text-sm font-semibold">{p.name}</span>
+              </button>
             </Reveal>
           ))}
         </div>
+
+        <ProductQuickView
+          product={quickView}
+          accent={accent}
+          categoryName={category.name}
+          categorySlug={category.slug}
+          productLink={
+            quickView
+              ? {
+                  subcategory:
+                    category.subcategories.find((s) => s.id === quickView.subcategory_id)?.slug ??
+                    "range",
+                  product: quickView.slug || quickView.id,
+                }
+              : undefined
+          }
+          onClose={() => setQuickView(null)}
+        />
+
 
         {visibleProducts.length === 0 ? (
           <p className="mt-8 rounded-xl border border-dashed border-border p-8 text-center text-sm text-muted-foreground">
