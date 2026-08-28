@@ -7,6 +7,8 @@ import { catalogQueryOptions } from "@/lib/catalog-query";
 import { spectrum, swatchClass } from "@/lib/catalog";
 import {
   colourOptions,
+  coloursFromSearch,
+  coloursToSearch,
   decorationOptions,
   matchesFilters,
   parseFilterSearch,
@@ -52,7 +54,8 @@ function LookbookPage() {
 
   const filters: ProductFilterValue = {
     decoration: search.decoration ?? "",
-    colour: search.colour ?? "",
+    colours: coloursFromSearch(search.colour),
+    colourMatch: search.colourMatch ?? "any",
     impact: search.impact ?? false,
     moq: search.moq ?? 0,
   };
@@ -62,7 +65,10 @@ function LookbookPage() {
     navigate({
       search: {
         ...(merged.decoration ? { decoration: merged.decoration } : {}),
-        ...(merged.colour ? { colour: merged.colour } : {}),
+        ...(merged.colours.length ? { colour: coloursToSearch(merged.colours) } : {}),
+        ...(merged.colours.length > 1 && merged.colourMatch === "all"
+          ? { colourMatch: "all" as const }
+          : {}),
         ...(merged.impact ? { impact: true } : {}),
         ...(merged.moq ? { moq: merged.moq } : {}),
       },

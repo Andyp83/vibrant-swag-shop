@@ -1,15 +1,19 @@
 import type { CmsProduct } from "./catalog.functions";
 
+export type ColourMatchMode = "any" | "all";
+
 export type ProductFilterValue = {
   decoration: string;
-  colour: string;
+  colours: string[];
+  colourMatch: ColourMatchMode;
   impact: boolean;
   moq: number;
 };
 
 export const emptyFilters: ProductFilterValue = {
   decoration: "",
-  colour: "",
+  colours: [],
+  colourMatch: "any",
   impact: false,
   moq: 0,
 };
@@ -83,17 +87,33 @@ export function productHasColour(product: CmsProduct, colour: string): boolean {
   );
 }
 
+/** True when the product satisfies the selected colours under the given match mode. */
+export function productMatchesColours(
+  product: CmsProduct,
+  colours: string[],
+  mode: ColourMatchMode = "any",
+): boolean {
+  const wanted = colours.map((c) => c.trim()).filter(Boolean);
+  if (wanted.length === 0) return true;
+  return mode === "all"
+    ? wanted.every((c) => productHasColour(product, c))
+    : wanted.some((c) => productHasColour(product, c));
+}
+
 /**
  * The colour-specific photo for a product when a colour filter is active,
  * or null when no matching shot exists (fall back to the default image).
+ * With several colours selected, the first selected colour that has a photo wins.
  */
-export function colourImageFor(product: CmsProduct, colour: string): string | null {
-  const needle = colour.trim().toLowerCase();
-  if (!needle) return null;
-  const shot = (product.colour_images ?? []).find((image) =>
-    Boolean(image?.url) && (image.label ?? "").trim().toLowerCase().includes(needle),
-  );
-  return shot?.url ?? null;
+export function colourImageFor(product: CmsProduct, colour: string | string[]): string | null {
+  const wanted = (Array.isArray(colour) ? colour : [colour]).map((c) => c.trim()).filter(Boolean);
+  for (const needle of wanted.map((c) => c.toLowerCase())) {
+    const shot = (product.colour_images ?? []).find((image) =>
+      Boolean(image?.url) && (image.label ?? "").trim().toLowerCase().includes(needle),
+    );
+    if (shot?.url) return shot.url;
+  }
+  return null;
 }
 
 const SWATCH_HEX: Record<string, string> = {
@@ -123,7 +143,9 @@ export function matchesFilters(
   categorySlug?: string,
 ): boolean {
   if (filters.decoration && !product.methods.includes(filters.decoration)) return false;
-  if (filters.colour && !productHasColour(product, filters.colour)) return false;
+  if (!productMatchesColours(product, filters.colours ?? [], filters.colourMatch ?? "any")) {
+    return false;
+  }
   if (filters.impact && !isImpactAware(product, categorySlug)) return false;
   if (filters.moq) {
     const moq = parseMoq(product.moq);
@@ -136,18 +158,29 @@ export function matchesFilters(
 export function parseFilterSearch(search: Record<string, unknown>): {
   decoration?: string;
   colour?: string;
+  colourMatch?: ColourMatchMode;
   impact?: boolean;
   moq?: number;
 } {
-  const out: { decoration?: string; colour?: string; impact?: boolean; moq?: number } = {};
+  const out: {
+    decoration?: string;
+    colour?: string;
+    colourMatch?: ColourMatchMode;
+    impact?: boolean;
+    moq?: number;
+  } = {};
   const rawDecoration = search["decoration"];
   if (typeof rawDecoration === "string" && rawDecoration.trim()) {
     out.decoration = rawDecoration.slice(0, 60);
   }
   const rawColour = search["colour"];
   if (typeof rawColour === "string" && rawColour.trim()) {
-    out.colour = rawColour.slice(0, 40);
+    out.colour = rawColour.slice(0, 400);
+  } else if (Array.isArray(rawColour)) {
+    const joined = rawColour.filter((c): c is string => typeof c === "string").join(",");
+    if (joined.trim()) out.colour = joined.slice(0, 400);
   }
+  if (search["colourMatch"] === "all") out.colourMatch = "all";
   const rawImpact = search["impact"];
   if (rawImpact === true || rawImpact === "true" || rawImpact === "1") {
     out.impact = true;
@@ -155,4 +188,18 @@ export function parseFilterSearch(search: Record<string, unknown>): {
   const moq = Number(search["moq"]);
   if (Number.isFinite(moq) && moq > 0) out.moq = Math.min(9999, Math.round(moq));
   return out;
+}
+
+/** Parse the `colour` search param ("Navy,Red") into a clean list of colour names. */
+export function coloursFromSearch(colour?: string): string[] {
+  return (colour ?? "")
+    .split(",")
+    .map((c) => c.trim())
+    .filter(Boolean)
+    .slice(0, 20);
+}
+
+/** Serialise selected colours back into a single search param value. */
+export function coloursToSearch(colours: string[]): string {
+  return colours.map((c) => c.trim()).filter(Boolean).join(",");
 }
