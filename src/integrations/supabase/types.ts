@@ -1009,24 +1009,6 @@ export type Database = {
         }
         Returns: boolean
       }
-      import_trends_product_colours_chunk: {
-        Args: { chunk_url: string }
-        Returns: number
-      }
-      import_trends_product_images_chunk: {
-        Args: { chunk_url: string }
-        Returns: number
-      }
-      load_product_colours_chunk: {
-        Args: { chunk_url: string }
-        Returns: number
-      }
-      load_product_images_chunk: {
-        Args: { chunk_url: string }
-        Returns: number
-      }
-      rpc_load_product_colours: { Args: { payload: Json }; Returns: number }
-      rpc_load_product_images: { Args: { payload: Json }; Returns: number }
     }
     Enums: {
       app_role: "admin"

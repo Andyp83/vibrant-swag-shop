@@ -55,6 +55,8 @@ function LookbookPage() {
   const navigate = useNavigate({ from: Route.fullPath });
 
   const filters: ProductFilterValue = {
+    category: "",
+    subcategory: "",
     decoration: search.decoration ?? "",
     colours: coloursFromSearch(search.colour),
     colourMatch: search.colourMatch ?? "any",
