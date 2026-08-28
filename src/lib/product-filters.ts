@@ -196,12 +196,27 @@ export function sortProducts<T>(
 
 
 const SWATCH_HEX: Record<string, string> = {
-  black: "#1a1a1a", white: "#f8f8f8", red: "#e32636", orange: "#f47920",
-  yellow: "#f5c518", green: "#2e8b57", teal: "#0f8b8d", blue: "#2266cc",
-  navy: "#1f2a5a", purple: "#7b4bb3", pink: "#ef7fa8", grey: "#9aa0a6",
-  gray: "#9aa0a6", silver: "#c8ccd2", gold: "#d4af37", brown: "#8a5a3b",
-  maroon: "#7b2230", burgundy: "#7b2230", lime: "#a6c93b", khaki: "#b7a77a",
-  cream: "#f3ead7", charcoal: "#3c4043", royal: "#3153b3", sky: "#7ec4e8",
+  black: "#1a1a1a",
+  white: "#f8f8f8",
+  red: "#e32636",
+  orange: "#f47920",
+  yellow: "#f5c518",
+  green: "#2e8b57",
+  "bright green": "#39ff14",
+  teal: "#0f8b8d",
+  blue: "#2266cc",
+  "light blue": "#87ceeb",
+  navy: "#1f2a5a",
+  purple: "#7b4bb3",
+  pink: "#ef7fa8",
+  grey: "#9aa0a6",
+  gray: "#9aa0a6",
+  silver: "#c8ccd2",
+  gold: "#d4af37",
+  brown: "#8a5a3b",
+  natural: "#c4a77d",
+  clear: "#e8f4f8",
+  gunmetal: "#2a3439",
 };
 
 /** CSS colour for a swatch dot, with a stable fallback hue for unknown names. */
