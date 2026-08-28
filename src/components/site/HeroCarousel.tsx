@@ -4,10 +4,10 @@ import { ArrowRight, ChevronLeft, ChevronRight, Gift, Printer, Sparkles } from "
 import type { LucideIcon } from "lucide-react";
 
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
-import heroMerch from "@/assets/hero/hero-lineup-1862.png";
-import heroMerchSmall from "@/assets/hero/hero-lineup-1400.png";
-import heroPrint from "@/assets/hero/hero-print-cut.png";
-import heroGifting from "@/assets/hero/hero-gifting-cut.png";
+import heroMerch from "@/assets/hero/hero-lineup-1862.webp";
+import heroMerchSmall from "@/assets/hero/hero-lineup-1400.webp";
+import heroPrint from "@/assets/hero/hero-print-cut.webp";
+import heroGifting from "@/assets/hero/hero-gifting-cut.webp";
 
 type Slide = {
   id: string;
@@ -128,7 +128,8 @@ const INTERVAL = 7000;
 
 /**
  * Head links for the homepage: preload the first (LCP) hero image at high
- * priority and warm the other two slides so the rotation never fetches mid-tick.
+ * priority. The other slides are not preloaded — they load lazily so the
+ * initial homepage payload stays small on mobile connections.
  */
 export const heroPreloadLinks = [
   {
@@ -139,8 +140,6 @@ export const heroPreloadLinks = [
     imageSizes: slides[0]!.image.sizes,
     fetchPriority: "high",
   },
-  { rel: "preload", as: "image", href: heroPrint, fetchPriority: "low" },
-  { rel: "preload", as: "image", href: heroGifting, fetchPriority: "low" },
 ] as const;
 
 
@@ -294,7 +293,7 @@ export function HeroCarousel() {
                   alt={slide.image.alt}
                   // All three slides load up front (3 images, one of which is the
                   // LCP) so ticking worlds never waits on a lazy fetch.
-                  loading="eager"
+                  loading={i === 0 ? "eager" : "lazy"}
                   fetchPriority={i === 0 ? "high" : "low"}
                   decoding="async"
                   width={slide.image.width}
