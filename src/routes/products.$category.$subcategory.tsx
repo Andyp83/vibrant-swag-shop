@@ -1,8 +1,9 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { useState } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 
 import { Reveal } from "@/components/site/Reveal";
-import { FavoriteButton } from "@/components/site/FavoriteButton";
+import { ProductQuickView } from "@/components/site/ProductQuickView";
 import { borderAccentClass, softBgClass, spectrum, swatchClass, textClass } from "@/lib/catalog";
 import { catalogQueryOptions, type CmsCategory, type CmsSubcategory } from "@/lib/catalog-query";
 import type { CmsProduct } from "@/lib/catalog.functions";
@@ -117,6 +118,7 @@ function SubcategoryPage() {
     siblings: CmsSubcategory[];
   };
   const accent = spectrum(category.colour);
+  const [quickView, setQuickView] = useState<CmsProduct | null>(null);
   const productGroups = products.reduce<Array<{ material: string; products: CmsProduct[] }>>(
     (groups, product) => {
       const material = product.material_group || "General";
@@ -210,6 +212,19 @@ function SubcategoryPage() {
             current options, colours and pricing straight back.
           </p>
         )}
+
+        <ProductQuickView
+          product={quickView}
+          accent={accent}
+          categoryName={`${category.name} — ${subcategory.name}`}
+          categorySlug={category.slug}
+          productLink={
+            quickView
+              ? { subcategory: subcategory.slug, product: quickView.slug || quickView.id }
+              : undefined
+          }
+          onClose={() => setQuickView(null)}
+        />
 
         <h2 className="display-type mt-20 text-2xl">More in {category.name}</h2>
         <div className="mt-6 flex flex-wrap gap-3">
