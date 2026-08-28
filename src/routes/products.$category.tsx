@@ -305,6 +305,8 @@ function CategoryPage() {
           accent={accent}
           categoryName={category.name}
           categorySlug={category.slug}
+          preferredColours={filters.colours}
+
           productLink={
             quickView
               ? {
