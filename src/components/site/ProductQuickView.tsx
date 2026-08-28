@@ -17,6 +17,29 @@ export type QuickViewProduct = CmsProduct;
 
 type Gallery = { label: string; url: string }[];
 
+const SWATCH_HEX: Record<string, string> = {
+  black: "#1a1a1a", white: "#f8f8f8", red: "#e32636", orange: "#f47920",
+  yellow: "#f5c518", green: "#2e8b57", teal: "#0f8b8d", blue: "#2266cc",
+  navy: "#1f2a5a", purple: "#7b4bb3", pink: "#ef7fa8", grey: "#9aa0a6",
+  gray: "#9aa0a6", silver: "#c8ccd2", gold: "#d4af37", brown: "#8a5a3b",
+  maroon: "#7b2230", burgundy: "#7b2230", lime: "#a6c93b", khaki: "#b7a77a",
+  cream: "#f3ead7", charcoal: "#3c4043", royal: "#3153b3", sky: "#7ec4e8",
+  product: "#cfcfcf",
+};
+
+function cssColorFor(label: string): string {
+  const key = label.trim().toLowerCase();
+  if (SWATCH_HEX[key]) return SWATCH_HEX[key];
+  for (const [name, hex] of Object.entries(SWATCH_HEX)) {
+    if (key.includes(name)) return hex;
+  }
+  // Give every swatch a stable, distinct fallback hue even for names like "Colour 2".
+  let hash = 0;
+  for (let i = 0; i < key.length; i++) hash = (hash * 31 + key.charCodeAt(i)) | 0;
+  return `hsl(${((hash % 360) + 360) % 360} 65% 60%)`;
+}
+
+
 function buildGallery(product: QuickViewProduct): Gallery {
   const colourShots = (product.colour_images ?? []).filter((image) => Boolean(image?.url));
   const shots: Gallery = colourShots.map((image, index) => ({
@@ -92,8 +115,30 @@ export function ProductQuickView({
             {gallery.length > 1 ? (
               <>
                 <p className="mt-3 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                  Colours
+                  Pick a colour
                 </p>
+                <div className="mt-2 flex flex-wrap items-center gap-2" role="listbox" aria-label="Colour options">
+                  {gallery.map((shot, index) => (
+                    <button
+                      key={`swatch-${shot.url}-${index}`}
+                      type="button"
+                      role="option"
+                      aria-selected={index === activeIndex}
+                      onClick={() => setActiveIndex(index)}
+                      title={shot.label}
+                      aria-label={`Show ${shot.label}`}
+                      className={`size-8 rounded-full border-2 transition-all hover:scale-110 ${
+                        index === activeIndex
+                          ? `${borderAccentClass[accent]} ring-2 ring-offset-2 ring-offset-background ${borderAccentClass[accent].replace("border-", "ring-")}`
+                          : "border-border"
+                      }`}
+                      style={{ backgroundColor: cssColorFor(shot.label) }}
+                    />
+                  ))}
+                  {active ? (
+                    <span className="ml-1 text-xs font-medium text-muted-foreground">{active.label}</span>
+                  ) : null}
+                </div>
                 <div className="mt-2 flex flex-wrap gap-2">
                   {gallery.map((shot, index) => (
                     <button
