@@ -177,8 +177,9 @@ export function productMatchesColours(
 export function colourImageFor(product: CmsProduct, colour: string | string[]): string | null {
   const wanted = (Array.isArray(colour) ? colour : [colour]).map((c) => c.trim()).filter(Boolean);
   for (const needle of wanted.map((c) => c.toLowerCase())) {
+    const terms = colourSearchTerms(needle);
     const shot = (product.colour_images ?? []).find((image) =>
-      Boolean(image?.url) && (image.label ?? "").trim().toLowerCase().includes(needle),
+      Boolean(image?.url) && terms.some((t) => (image.label ?? "").trim().toLowerCase().includes(t)),
     );
     if (shot?.url) return shot.url;
   }
