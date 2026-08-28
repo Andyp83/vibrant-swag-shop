@@ -51,6 +51,7 @@ function LookbookPage() {
 
   const filters: ProductFilterValue = {
     decoration: search.decoration ?? "",
+    colour: search.colour ?? "",
     impact: search.impact ?? false,
     moq: search.moq ?? 0,
   };
@@ -60,6 +61,7 @@ function LookbookPage() {
     navigate({
       search: {
         ...(merged.decoration ? { decoration: merged.decoration } : {}),
+        ...(merged.colour ? { colour: merged.colour } : {}),
         ...(merged.impact ? { impact: true } : {}),
         ...(merged.moq ? { moq: merged.moq } : {}),
       },
