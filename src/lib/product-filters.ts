@@ -75,16 +75,51 @@ export function colourNames(product: CmsProduct): string[] {
     .filter(Boolean);
 }
 
-/** Sorted list of every colour offered by the given products. */
+/** Canonical colour palette exposed in product filters. */
+export const ALLOWED_COLOURS = [
+  "Natural",
+  "Pink",
+  "Green",
+  "Yellow",
+  "Teal",
+  "Light Blue",
+  "Black",
+  "Silver",
+  "Brown",
+  "White",
+  "Gray",
+  "Gold",
+  "Clear",
+  "Navy",
+  "Gunmetal",
+  "Orange",
+  "Blue",
+  "Purple",
+  "Bright Green",
+  "Red",
+];
+
+/** Sorted list of every colour offered by the given products, restricted to the canonical palette. */
 export function colourOptions(products: CmsProduct[]): string[] {
-  const names = new Set<string>();
+  const available = new Set<string>();
   for (const p of products) {
-    for (const name of colourNames(p)) names.add(name);
+    for (const name of colourNames(p)) {
+      const canonical = canonicalColour(name);
+      if (canonical) available.add(canonical);
+    }
     for (const shot of p.colour_images ?? []) {
-      if (shot.label?.trim()) names.add(shot.label.trim());
+      const canonical = canonicalColour(shot.label);
+      if (canonical) available.add(canonical);
     }
   }
-  return [...names].sort((a, b) => a.localeCompare(b));
+  return ALLOWED_COLOURS.filter((c) => available.has(c));
+}
+
+/** Map a free-form colour name to its canonical palette entry, or null if it is not in the palette. */
+function canonicalColour(label?: string): string | null {
+  if (!label?.trim()) return null;
+  const key = label.trim().toLowerCase();
+  return ALLOWED_COLOURS.find((c) => c.toLowerCase() === key) ?? null;
 }
 
 export function productHasColour(product: CmsProduct, colour: string): boolean {
