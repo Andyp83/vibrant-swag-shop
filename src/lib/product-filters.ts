@@ -199,6 +199,7 @@ export function parseFilterSearch(search: Record<string, unknown>): {
   decoration?: string;
   colour?: string;
   colourMatch?: ColourMatchMode;
+  sort?: ProductSortMode;
   impact?: boolean;
   moq?: number;
 } {
@@ -206,6 +207,7 @@ export function parseFilterSearch(search: Record<string, unknown>): {
     decoration?: string;
     colour?: string;
     colourMatch?: ColourMatchMode;
+    sort?: ProductSortMode;
     impact?: boolean;
     moq?: number;
   } = {};
@@ -221,6 +223,8 @@ export function parseFilterSearch(search: Record<string, unknown>): {
     if (joined.trim()) out.colour = joined.slice(0, 400);
   }
   if (search["colourMatch"] === "all") out.colourMatch = "all";
+  if (search["sort"] === "colour-match") out.sort = "colour-match";
+
   const rawImpact = search["impact"];
   if (rawImpact === true || rawImpact === "true" || rawImpact === "1") {
     out.impact = true;
