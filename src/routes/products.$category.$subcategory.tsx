@@ -120,6 +120,7 @@ function SubcategoryPage() {
     siblings: CmsSubcategory[];
   };
   const search = Route.useSearch();
+  const params = Route.useParams();
   const navigate = useNavigate({ from: Route.fullPath });
   const density: GridDensity = search.density === "5" ? "5" : "3";
   const accent = spectrum(category.colour);
