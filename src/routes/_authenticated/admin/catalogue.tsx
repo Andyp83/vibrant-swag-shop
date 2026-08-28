@@ -765,6 +765,7 @@ function ProductDialog({
     moq: draft.moq ?? "",
     methods: (draft.methods ?? []).join(", "),
     image_url: draft.image_url ?? null,
+    colour_images: draft.colour_images ?? [],
     subcategory_id: draft.subcategory_id ?? "",
     sort_order: draft.sort_order ?? 0,
   });
@@ -855,6 +856,62 @@ function ProductDialog({
             onChange={(value) => setForm({ ...form, image_url: value })}
           />
 
+          <div className="space-y-3 rounded-lg border border-border p-3">
+            <Label>Colour photos</Label>
+            <p className="text-xs text-muted-foreground">
+              Add one photo per colour — these appear in the pop-up gallery on the category page.
+            </p>
+            {form.colour_images.map((shot, index) => (
+              <div key={index} className="space-y-2 rounded-md bg-muted/40 p-2">
+                <Input
+                  placeholder="Colour name"
+                  value={shot.label}
+                  onChange={(e) =>
+                    setForm({
+                      ...form,
+                      colour_images: form.colour_images.map((item, i) =>
+                        i === index ? { ...item, label: e.target.value } : item,
+                      ),
+                    })
+                  }
+                />
+                <ImageField
+                  label="Photo"
+                  value={shot.url || null}
+                  onChange={(value) =>
+                    setForm({
+                      ...form,
+                      colour_images: form.colour_images.map((item, i) =>
+                        i === index ? { ...item, url: value ?? "" } : item,
+                      ),
+                    })
+                  }
+                />
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() =>
+                    setForm({
+                      ...form,
+                      colour_images: form.colour_images.filter((_, i) => i !== index),
+                    })
+                  }
+                >
+                  <Trash2 className="mr-1 size-3.5" aria-hidden="true" /> Remove colour
+                </Button>
+              </div>
+            ))}
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() =>
+                setForm({ ...form, colour_images: [...form.colour_images, { label: "", url: "" }] })
+              }
+            >
+              <Plus className="mr-1 size-3.5" aria-hidden="true" /> Add colour
+            </Button>
+          </div>
+
           <div className="space-y-2">
             <Label htmlFor="prod-order">Display order</Label>
             <Input
@@ -879,6 +936,7 @@ function ProductDialog({
                 id: draft.id,
                 category_id: draft.category_id,
                 subcategory_id: form.subcategory_id || null,
+                colour_images: form.colour_images.filter((shot) => Boolean(shot.url)),
                 methods: form.methods
                   .split(",")
                   .map((m) => m.trim())
