@@ -10,7 +10,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { borderAccentClass, swatchClass, textClass, type SpectrumColour } from "@/lib/catalog";
+import { borderAccentClass, swatchClass, textClass, type SpectrumColor } from "@/lib/catalog";
 import type { CmsProduct } from "@/lib/catalog-query";
 
 export type QuickViewProduct = CmsProduct;
@@ -38,7 +38,7 @@ export function ProductQuickView({
   onClose,
 }: {
   product: QuickViewProduct | null;
-  accent: SpectrumColour;
+  accent: SpectrumColor;
   categoryName: string;
   categorySlug: string;
   productLink?: { subcategory: string; product: string };
