@@ -12,6 +12,8 @@ import {
   decorationOptions,
   matchesFilters,
   parseFilterSearch,
+  sortProducts,
+
   type ProductFilterValue,
 } from "@/lib/product-filters";
 
