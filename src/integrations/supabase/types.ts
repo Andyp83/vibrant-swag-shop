@@ -105,8 +105,9 @@ export type Database = {
         Row: {
           blurb: string
           branding_options: string
-          category_id: string
           carton_details: string
+          category_id: string
+          colour_images: Json
           colours: string
           created_at: string
           description: string
@@ -123,17 +124,18 @@ export type Database = {
           plu: string | null
           service: string
           slug: string
+          sort_order: number
           source_url: string | null
           specifications: string
-          sort_order: number
           subcategory_id: string | null
           updated_at: string
         }
         Insert: {
           blurb?: string
           branding_options?: string
-          category_id: string
           carton_details?: string
+          category_id: string
+          colour_images?: Json
           colours?: string
           created_at?: string
           description?: string
@@ -150,17 +152,18 @@ export type Database = {
           plu?: string | null
           service?: string
           slug?: string
+          sort_order?: number
           source_url?: string | null
           specifications?: string
-          sort_order?: number
           subcategory_id?: string | null
           updated_at?: string
         }
         Update: {
           blurb?: string
           branding_options?: string
-          category_id?: string
           carton_details?: string
+          category_id?: string
+          colour_images?: Json
           colours?: string
           created_at?: string
           description?: string
@@ -177,9 +180,9 @@ export type Database = {
           plu?: string | null
           service?: string
           slug?: string
+          sort_order?: number
           source_url?: string | null
           specifications?: string
-          sort_order?: number
           subcategory_id?: string | null
           updated_at?: string
         }
