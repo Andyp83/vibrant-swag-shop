@@ -30,7 +30,30 @@ export type CmsProduct = {
   image_url: string | null;
   colour_images: CmsColourImage[];
   sort_order: number;
+  images: CmsProductImage[];
+  colour_options: CmsProductColour[];
 };
+
+export type CmsProductImage = {
+  id: string;
+  product_id: string;
+  image_code: string;
+  image_url: string;
+  source_filename: string;
+  colour_label: string | null;
+  shot_type: string;
+  sort_order: number;
+};
+
+export type CmsProductColour = {
+  id: string;
+  product_id: string;
+  colour_code: string;
+  colour_name: string;
+  sort_order: number;
+};
+
+type CmsProductRow = Omit<CmsProduct, "images" | "colour_options">;
 
 export type CmsSubcategory = {
   id: string;
@@ -133,53 +156,96 @@ async function assertAdmin(context: { supabase: unknown; userId: string }) {
   await guard(context);
 }
 
+type PagedResult<T> = {
+  data: T[] | null;
+  error: { message: string } | null;
+};
+
+async function fetchAllRows<T>(
+  label: string,
+  queryPage: (from: number, to: number) => PromiseLike<PagedResult<T>>,
+): Promise<T[]> {
+  const pageSize = 1000;
+  const rows: T[] = [];
+
+  for (let from = 0; ; from += pageSize) {
+    const { data, error } = await queryPage(from, from + pageSize - 1);
+    if (error) throw new Error(`${label}: ${error.message}`);
+
+    const page = data ?? [];
+    rows.push(...page);
+    if (page.length < pageSize) break;
+  }
+
+  return rows;
+}
+
+function groupByProductId<T extends { product_id: string }>(rows: T[]) {
+  const grouped = new Map<string, T[]>();
+  for (const row of rows) {
+    const group = grouped.get(row.product_id);
+    if (group) {
+      group.push(row);
+    } else {
+      grouped.set(row.product_id, [row]);
+    }
+  }
+  return grouped;
+}
+
 /** Public: the whole catalogue, for the marketing site. */
 export const listCatalog = createServerFn({ method: "GET" }).handler(
   async (): Promise<CmsCategory[]> => {
     const { getPublicSupabase } = await import("./supabase-public.server");
     const supabase = getPublicSupabase();
 
-    const PRODUCT_COLUMNS =
-      "id, category_id, subcategory_id, slug, plu, name, blurb, description, features, service, specifications, colours, dimensions, materials, material_group, branding_options, packaging, carton_details, source_url, moq, methods, image_url, colour_images, sort_order";
-
-    /** PostgREST caps a response at 1000 rows, so page through the catalogue. */
-    const fetchAllProducts = async () => {
-      const pageSize = 1000;
-      const rows: Record<string, unknown>[] = [];
-      for (let page = 0; page < 20; page++) {
-        const { data, error } = await supabase
-          .from("catalog_products")
-          .select(PRODUCT_COLUMNS)
-          .order("sort_order", { ascending: true })
-          .range(page * pageSize, page * pageSize + pageSize - 1);
-        if (error) throw new Error(error.message);
-        rows.push(...((data ?? []) as Record<string, unknown>[]));
-        if ((data?.length ?? 0) < pageSize) break;
-      }
-      return rows;
-    };
-
-    const [categoriesResult, productRows, subcategoriesResult] = await Promise.all([
+    const [categoriesResult, productsData, subcategoriesResult, images, colours] = await Promise.all([
       supabase
         .from("catalog_categories")
         .select("id, slug, name, tagline, description, colour, image_url, hero_image_url, sort_order")
         .order("sort_order", { ascending: true }),
-      fetchAllProducts(),
+      fetchAllRows<CmsProductRow>("catalog_products", (from, to) =>
+        supabase
+          .from("catalog_products")
+          .select(
+            "id, category_id, subcategory_id, slug, plu, name, blurb, description, features, service, specifications, colours, dimensions, materials, material_group, branding_options, packaging, carton_details, source_url, moq, methods, image_url, colour_images, sort_order",
+          )
+          .order("sort_order", { ascending: true })
+          .range(from, to),
+      ),
       supabase
         .from("catalog_subcategories")
         .select("id, category_id, slug, name, description, image_url, sort_order")
         .order("sort_order", { ascending: true }),
+      fetchAllRows<CmsProductImage>("catalog_product_images", (from, to) =>
+        supabase
+          .from("catalog_product_images")
+          .select("id, product_id, image_code, image_url, source_filename, colour_label, shot_type, sort_order")
+          .order("product_id", { ascending: true })
+          .order("sort_order", { ascending: true })
+          .range(from, to),
+      ),
+      fetchAllRows<CmsProductColour>("catalog_product_colours", (from, to) =>
+        supabase
+          .from("catalog_product_colours")
+          .select("id, product_id, colour_code, colour_name, sort_order")
+          .order("product_id", { ascending: true })
+          .order("sort_order", { ascending: true })
+          .range(from, to),
+      ),
     ]);
 
 
     if (categoriesResult.error) throw new Error(categoriesResult.error.message);
     if (subcategoriesResult.error) throw new Error(subcategoriesResult.error.message);
 
-    const products = productRows.map((p) => ({
-      ...(p as CmsProduct),
-      colour_images: (Array.isArray((p as CmsProduct).colour_images)
-        ? (p as CmsProduct).colour_images
-        : []) as CmsColourImage[],
+    const imagesByProduct = groupByProductId(images);
+    const coloursByProduct = groupByProductId(colours);
+    const products = productsData.map((product) => ({
+      ...product,
+      colour_images: (Array.isArray(product.colour_images) ? product.colour_images : []) as CmsColourImage[],
+      images: imagesByProduct.get(product.id) ?? [],
+      colour_options: coloursByProduct.get(product.id) ?? [],
     }));
 
     const subcategories = subcategoriesResult.data ?? [];

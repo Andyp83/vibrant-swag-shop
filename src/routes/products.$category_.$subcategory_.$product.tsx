@@ -1,6 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft, ArrowRight, ExternalLink, HeartHandshake } from "lucide-react";
 import type { ReactNode } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { FavoriteButton } from "@/components/site/FavoriteButton";
 import { Reveal } from "@/components/site/Reveal";
@@ -93,6 +94,31 @@ function ProductPage() {
   const accent = spectrum(category.colour);
   const specs = splitSpecList(product.specifications);
   const features = splitSpecList(product.features);
+  const gallery = useMemo(
+    () =>
+      product.images.length > 0
+        ? product.images
+        : product.image_url
+          ? [
+              {
+                id: product.id,
+                product_id: product.id,
+                image_code: product.plu || product.id,
+                image_url: product.image_url,
+                source_filename: "",
+                colour_label: null,
+                shot_type: "Primary",
+                sort_order: 0,
+              },
+            ]
+          : [],
+    [product],
+  );
+  const [selectedImage, setSelectedImage] = useState(gallery[0]);
+
+  useEffect(() => {
+    setSelectedImage(gallery[0]);
+  }, [gallery]);
 
   return (
     <div className={softBgClass[accent]}>
@@ -107,15 +133,46 @@ function ProductPage() {
         </Link>
 
         <div className="mt-8 grid gap-10 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:items-start">
-          <Reveal variant="scale" className="rounded-2xl border bg-card p-6">
-            {product.image_url ? (
-              <img
-                src={product.image_url}
-                alt={product.name}
-                width={900}
-                height={900}
-                className="aspect-square w-full object-contain"
-              />
+          <Reveal variant="scale" className="rounded-2xl border bg-card p-5">
+            {selectedImage ? (
+              <>
+                <img
+                  src={selectedImage.image_url}
+                  alt={`${product.name} ${selectedImage.image_code}`}
+                  width={900}
+                  height={900}
+                  className="aspect-square w-full object-contain"
+                />
+                <p className="mt-3 text-xs font-semibold text-muted-foreground">
+                  Image {selectedImage.image_code}
+                  {selectedImage.colour_label ? ` / ${selectedImage.colour_label}` : ""}
+                </p>
+                {gallery.length > 1 ? (
+                  <div className="mt-4 grid grid-cols-4 gap-2 sm:grid-cols-6">
+                    {gallery.map((image) => (
+                      <button
+                        key={image.id}
+                        type="button"
+                        onClick={() => setSelectedImage(image)}
+                        className={`aspect-square rounded-lg border bg-background p-1 transition ${
+                          selectedImage.id === image.id ? borderAccentClass[accent] : "border-border"
+                        }`}
+                        aria-label={`Show image ${image.image_code}`}
+                      >
+                        <img
+                          src={image.image_url}
+                          alt=""
+                          loading="lazy"
+                          decoding="async"
+                          width={160}
+                          height={160}
+                          className="size-full object-contain"
+                        />
+                      </button>
+                    ))}
+                  </div>
+                ) : null}
+              </>
             ) : (
               <div className="flex aspect-square items-center justify-center rounded-xl bg-muted text-sm text-muted-foreground">
                 Image coming soon
@@ -145,6 +202,22 @@ function ProductPage() {
               <Detail label="Dimensions" value={product.dimensions} />
               <Detail label="Materials" value={product.materials} />
             </dl>
+
+            {product.colour_options.length > 0 ? (
+              <section className="mt-6">
+                <h2 className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                  Colour Codes
+                </h2>
+                <ul className="mt-3 flex flex-wrap gap-2">
+                  {product.colour_options.map((colour) => (
+                    <li key={colour.id} className="rounded-full border bg-card px-3 py-1.5 text-xs">
+                      <span className="font-semibold">{colour.colour_code}</span>
+                      <span className="text-muted-foreground"> / {colour.colour_name}</span>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            ) : null}
 
             <div className="mt-7 flex flex-wrap items-center gap-3">
               <Link
