@@ -61,6 +61,7 @@ function LookbookPage() {
     sort: search.sort ?? "default",
     impact: search.impact ?? false,
     moq: search.moq ?? 0,
+    density: search.density ?? "3",
   };
 
   const updateFilters = (next: Partial<ProductFilterValue>) => {
@@ -77,6 +78,7 @@ function LookbookPage() {
           : {}),
         ...(merged.impact ? { impact: true } : {}),
         ...(merged.moq ? { moq: merged.moq } : {}),
+        ...(merged.density === "5" ? { density: "5" as const } : {}),
       },
       replace: true,
     });
@@ -131,7 +133,11 @@ function LookbookPage() {
           totalCount={allProducts.length}
         />
 
-        <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div
+          className={`mt-8 grid gap-4 sm:grid-cols-2 ${
+            filters.density === "5" ? "lg:grid-cols-5" : "lg:grid-cols-3"
+          }`}
+        >
           {visible.map(({ product: p, category: c }) => (
             <article key={p.id} className="flex flex-col rounded-xl border border-border bg-card p-6">
               <span

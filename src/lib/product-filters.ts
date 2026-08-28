@@ -4,6 +4,8 @@ export type ColourMatchMode = "any" | "all";
 
 export type ProductSortMode = "default" | "colour-match";
 
+export type GridDensity = "3" | "5";
+
 export type ProductFilterValue = {
   decoration: string;
   colours: string[];
@@ -11,6 +13,7 @@ export type ProductFilterValue = {
   sort: ProductSortMode;
   impact: boolean;
   moq: number;
+  density: GridDensity;
 };
 
 export const emptyFilters: ProductFilterValue = {
@@ -20,6 +23,7 @@ export const emptyFilters: ProductFilterValue = {
   sort: "default",
   impact: false,
   moq: 0,
+  density: "3",
 };
 
 
@@ -202,6 +206,7 @@ export function parseFilterSearch(search: Record<string, unknown>): {
   sort?: ProductSortMode;
   impact?: boolean;
   moq?: number;
+  density?: GridDensity;
 } {
   const out: {
     decoration?: string;
@@ -210,6 +215,7 @@ export function parseFilterSearch(search: Record<string, unknown>): {
     sort?: ProductSortMode;
     impact?: boolean;
     moq?: number;
+    density?: GridDensity;
   } = {};
   const rawDecoration = search["decoration"];
   if (typeof rawDecoration === "string" && rawDecoration.trim()) {
@@ -224,6 +230,9 @@ export function parseFilterSearch(search: Record<string, unknown>): {
   }
   if (search["colourMatch"] === "all") out.colourMatch = "all";
   if (search["sort"] === "colour-match") out.sort = "colour-match";
+
+  const rawDensity = search["density"];
+  if (rawDensity === "5") out.density = "5";
 
   const rawImpact = search["impact"];
   if (rawImpact === true || rawImpact === "true" || rawImpact === "1") {

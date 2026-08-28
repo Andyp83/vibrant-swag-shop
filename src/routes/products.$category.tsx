@@ -135,6 +135,7 @@ function CategoryPage() {
     sort: search.sort ?? "default",
     impact: search.impact ?? false,
     moq: search.moq ?? 0,
+    density: search.density ?? "3",
   };
   const visibleProducts = sortProducts(
     category.products.filter((p) => matchesFilters(p, filters, category.slug)),
@@ -157,6 +158,7 @@ function CategoryPage() {
           : {}),
         ...(merged.impact ? { impact: true } : {}),
         ...(merged.moq ? { moq: merged.moq } : {}),
+        ...(merged.density === "5" ? { density: "5" as const } : {}),
       },
 
       replace: true,
@@ -270,15 +272,22 @@ function CategoryPage() {
           resultCount={visibleProducts.length}
           totalCount={category.products.length}
         />
-        <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div
+          className={`mt-8 grid gap-4 sm:grid-cols-2 ${
+            filters.density === "5" ? "lg:grid-cols-5" : "lg:grid-cols-3"
+          }`}
+        >
           {visibleProducts.map((p, i) => {
             const previewImage = colourImageFor(p, filters.colours) ?? p.image_url;
+            const cols = filters.density === "5" ? 5 : 3;
             return (
-            <Reveal key={p.id} delay={(i % 3) * 90} variant="up">
+            <Reveal key={p.id} delay={(i % cols) * 90} variant="up">
               <button
                 type="button"
                 onClick={() => setQuickView(p)}
-                className={`lift group flex h-full w-full flex-col rounded-xl border-2 bg-card p-5 text-left ${borderAccentClass[accent]}`}
+                className={`lift group flex h-full w-full flex-col rounded-xl border-2 bg-card text-left ${
+                  filters.density === "5" ? "p-3" : "p-5"
+                } ${borderAccentClass[accent]}`}
               >
                 <span className="block aspect-square w-full overflow-hidden rounded-lg bg-background">
                   {previewImage ? (
@@ -289,11 +298,11 @@ function CategoryPage() {
                       decoding="async"
                       width={640}
                       height={640}
-                      className="size-full object-contain p-3 transition-transform duration-500 group-hover:scale-105"
+                      className="size-full object-contain p-2 transition-transform duration-500 group-hover:scale-105"
                     />
                   ) : null}
                 </span>
-                <span className="mt-4 block text-sm font-semibold">{p.name}</span>
+                <span className="mt-3 block text-sm font-semibold">{p.name}</span>
               </button>
             </Reveal>
             );
