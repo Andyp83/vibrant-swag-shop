@@ -8,8 +8,12 @@ import {
   type ProductFilterValue,
 } from "@/lib/product-filters";
 
+type Option = { slug: string; name: string };
+
 type Props = {
   value: ProductFilterValue;
+  categories?: Option[];
+  subcategories?: Option[];
   decorations: string[];
   colours: string[];
   onChange: (next: Partial<ProductFilterValue>) => void;
@@ -20,6 +24,8 @@ type Props = {
 
 export function ProductFilters({
   value,
+  categories,
+  subcategories,
   decorations,
   colours,
   onChange,
@@ -29,7 +35,12 @@ export function ProductFilters({
 }: Props) {
   const selected = value.colours ?? [];
   const active =
-    Boolean(value.decoration) || selected.length > 0 || value.impact || value.moq > 0;
+    Boolean(value.category) ||
+    Boolean(value.subcategory) ||
+    Boolean(value.decoration) ||
+    selected.length > 0 ||
+    value.impact ||
+    value.moq > 0;
 
   const toggleColour = (colour: string) => {
     const next = selected.includes(colour)
@@ -42,6 +53,42 @@ export function ProductFilters({
   return (
     <div className={`rounded-2xl border border-border bg-card p-5 ${className}`}>
       <div className="flex flex-wrap items-end gap-5">
+        {categories && categories.length > 0 ? (
+          <label className="flex min-w-[190px] flex-col gap-1.5 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            Category
+            <select
+              value={value.category}
+              onChange={(e) => onChange({ category: e.target.value, subcategory: "" })}
+              className="rounded-full border border-border bg-background px-4 py-2 text-sm font-medium normal-case tracking-normal text-foreground"
+            >
+              <option value="">All categories</option>
+              {categories.map((c) => (
+                <option key={c.slug} value={c.slug}>
+                  {c.name}
+                </option>
+              ))}
+            </select>
+          </label>
+        ) : null}
+
+        {subcategories && subcategories.length > 0 ? (
+          <label className="flex min-w-[190px] flex-col gap-1.5 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            Sub-range
+            <select
+              value={value.subcategory}
+              onChange={(e) => onChange({ subcategory: e.target.value })}
+              className="rounded-full border border-border bg-background px-4 py-2 text-sm font-medium normal-case tracking-normal text-foreground"
+            >
+              <option value="">All sub-ranges</option>
+              {subcategories.map((s) => (
+                <option key={s.slug} value={s.slug}>
+                  {s.name}
+                </option>
+              ))}
+            </select>
+          </label>
+        ) : null}
+
         <label className="flex min-w-[190px] flex-col gap-1.5 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
           Decoration
           <select
@@ -224,6 +271,8 @@ export function ProductFilters({
             type="button"
             onClick={() =>
               onChange({
+                category: "",
+                subcategory: "",
                 decoration: "",
                 colours: [],
                 colourMatch: "any",

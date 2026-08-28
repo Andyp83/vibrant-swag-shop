@@ -7,6 +7,8 @@ export type ProductSortMode = "default" | "colour-match";
 export type GridDensity = "3" | "5";
 
 export type ProductFilterValue = {
+  category: string;
+  subcategory: string;
   decoration: string;
   colours: string[];
   colourMatch: ColourMatchMode;
@@ -17,6 +19,8 @@ export type ProductFilterValue = {
 };
 
 export const emptyFilters: ProductFilterValue = {
+  category: "",
+  subcategory: "",
   decoration: "",
   colours: [],
   colourMatch: "any",
@@ -276,6 +280,8 @@ export function matchesFilters(
 
 /** Shared validateSearch shape for routes that expose product filters. */
 export function parseFilterSearch(search: Record<string, unknown>): {
+  category?: string;
+  sub?: string;
   decoration?: string;
   colour?: string;
   colourMatch?: ColourMatchMode;
@@ -285,6 +291,8 @@ export function parseFilterSearch(search: Record<string, unknown>): {
   density?: GridDensity;
 } {
   const out: {
+    category?: string;
+    sub?: string;
     decoration?: string;
     colour?: string;
     colourMatch?: ColourMatchMode;
@@ -293,6 +301,14 @@ export function parseFilterSearch(search: Record<string, unknown>): {
     moq?: number;
     density?: GridDensity;
   } = {};
+  const rawCategory = search["category"];
+  if (typeof rawCategory === "string" && rawCategory.trim()) {
+    out.category = rawCategory.slice(0, 80);
+  }
+  const rawSub = search["sub"];
+  if (typeof rawSub === "string" && rawSub.trim()) {
+    out.sub = rawSub.slice(0, 80);
+  }
   const rawDecoration = search["decoration"];
   if (typeof rawDecoration === "string" && rawDecoration.trim()) {
     out.decoration = rawDecoration.slice(0, 60);

@@ -139,31 +139,49 @@ export const listCatalog = createServerFn({ method: "GET" }).handler(
     const { getPublicSupabase } = await import("./supabase-public.server");
     const supabase = getPublicSupabase();
 
-    const [categoriesResult, productsResult, subcategoriesResult] = await Promise.all([
+    const PRODUCT_COLUMNS =
+      "id, category_id, subcategory_id, slug, plu, name, blurb, description, features, service, specifications, colours, dimensions, materials, material_group, branding_options, packaging, carton_details, source_url, moq, methods, image_url, colour_images, sort_order";
+
+    /** PostgREST caps a response at 1000 rows, so page through the catalogue. */
+    const fetchAllProducts = async () => {
+      const pageSize = 1000;
+      const rows: Record<string, unknown>[] = [];
+      for (let page = 0; page < 20; page++) {
+        const { data, error } = await supabase
+          .from("catalog_products")
+          .select(PRODUCT_COLUMNS)
+          .order("sort_order", { ascending: true })
+          .range(page * pageSize, page * pageSize + pageSize - 1);
+        if (error) throw new Error(error.message);
+        rows.push(...((data ?? []) as Record<string, unknown>[]));
+        if ((data?.length ?? 0) < pageSize) break;
+      }
+      return rows;
+    };
+
+    const [categoriesResult, productRows, subcategoriesResult] = await Promise.all([
       supabase
         .from("catalog_categories")
         .select("id, slug, name, tagline, description, colour, image_url, hero_image_url, sort_order")
         .order("sort_order", { ascending: true }),
-      supabase
-        .from("catalog_products")
-        .select(
-          "id, category_id, subcategory_id, slug, plu, name, blurb, description, features, service, specifications, colours, dimensions, materials, material_group, branding_options, packaging, carton_details, source_url, moq, methods, image_url, colour_images, sort_order",
-        )
-        .order("sort_order", { ascending: true }),
+      fetchAllProducts(),
       supabase
         .from("catalog_subcategories")
         .select("id, category_id, slug, name, description, image_url, sort_order")
         .order("sort_order", { ascending: true }),
     ]);
 
+
     if (categoriesResult.error) throw new Error(categoriesResult.error.message);
-    if (productsResult.error) throw new Error(productsResult.error.message);
     if (subcategoriesResult.error) throw new Error(subcategoriesResult.error.message);
 
-    const products = (productsResult.data ?? []).map((p) => ({
-      ...p,
-      colour_images: (Array.isArray(p.colour_images) ? p.colour_images : []) as CmsColourImage[],
+    const products = productRows.map((p) => ({
+      ...(p as CmsProduct),
+      colour_images: (Array.isArray((p as CmsProduct).colour_images)
+        ? (p as CmsProduct).colour_images
+        : []) as CmsColourImage[],
     }));
+
     const subcategories = subcategoriesResult.data ?? [];
 
     return (categoriesResult.data ?? []).map((category) => ({

@@ -121,14 +121,13 @@ function CategoryNotFound() {
 }
 
 function CategoryPage() {
-  const { category, others } = Route.useLoaderData() as {
-    category: CmsCategory;
-    others: CmsCategory[];
-  };
+  const { category } = Route.useLoaderData() as { category: CmsCategory };
   const search = Route.useSearch();
   const [quickView, setQuickView] = useState<CmsProduct | null>(null);
   const navigate = useNavigate({ from: Route.fullPath });
   const filters: ProductFilterValue = {
+    category: category.slug,
+    subcategory: search.sub ?? "",
     decoration: search.decoration ?? "",
     colours: coloursFromSearch(search.colour),
     colourMatch: search.colourMatch ?? "any",
@@ -137,8 +136,15 @@ function CategoryPage() {
     moq: search.moq ?? 0,
     density: search.density ?? "3",
   };
+  const subcategoryIdFor = (slug: string) =>
+    category.subcategories.find((s) => s.slug === slug)?.id ?? null;
+  const activeSubId = filters.subcategory ? subcategoryIdFor(filters.subcategory) : null;
   const visibleProducts = sortProducts(
-    category.products.filter((p) => matchesFilters(p, filters, category.slug)),
+    category.products.filter(
+      (p) =>
+        matchesFilters(p, filters, category.slug) &&
+        (!activeSubId || p.subcategory_id === activeSubId),
+    ),
     filters,
     (p) => p,
   );
@@ -148,6 +154,7 @@ function CategoryPage() {
     const merged = { ...filters, ...next };
     navigate({
       search: {
+        ...(merged.subcategory ? { sub: merged.subcategory } : {}),
         ...(merged.decoration ? { decoration: merged.decoration } : {}),
         ...(merged.colours.length ? { colour: coloursToSearch(merged.colours) } : {}),
         ...(merged.colours.length > 1 && merged.colourMatch === "all"
@@ -213,36 +220,6 @@ function CategoryPage() {
 
         </div>
 
-        {category.subcategories.length > 0 ? (
-          <section className="mt-20">
-            <h2 className="display-type text-2xl sm:text-3xl">Browse {category.name}</h2>
-            <p className="mt-3 max-w-2xl text-sm text-muted-foreground">
-              {category.subcategories.length} sub-ranges — pick one to see what's available and
-              request a quote.
-            </p>
-            <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-              {category.subcategories.map((s, i) => (
-                <Reveal key={s.id} delay={(i % 3) * 60} variant="up">
-                  <Link
-                    to="/products/$category/$subcategory"
-                    params={{ category: category.slug, subcategory: s.slug }}
-                    className={`lift group flex h-full items-center justify-between gap-3 rounded-xl border-2 bg-card px-5 py-4 ${borderAccentClass[accent]}`}
-                  >
-                    <span className="text-sm font-semibold">{s.name}</span>
-                    <ArrowRight
-                      className={`size-4 shrink-0 transition-transform duration-300 group-hover:translate-x-1 ${textClass[accent]}`}
-                      aria-hidden="true"
-                    />
-                  </Link>
-                </Reveal>
-              ))}
-            </div>
-          </section>
-        ) : null}
-
-
-
-
         <PlacementBanners
           placement={categoryPlacement(category.slug)}
           title="Featured ranges"
@@ -266,6 +243,9 @@ function CategoryPage() {
         <ProductFilters
           className="mt-6"
           value={filters}
+          subcategories={category.subcategories
+            .filter((s) => category.products.some((p) => p.subcategory_id === s.id))
+            .map((s) => ({ slug: s.slug, name: s.name }))}
           decorations={decorationOptions(category.products)}
           colours={colourOptions(category.products)}
           onChange={updateFilters}
@@ -338,20 +318,6 @@ function CategoryPage() {
         ) : null}
 
 
-        <h2 className="display-type mt-20 text-2xl">Other categories</h2>
-        <div className="mt-6 flex flex-wrap gap-3">
-          {others.map((c) => (
-            <Link
-              key={c.slug}
-              to="/products/$category"
-              params={{ category: c.slug }}
-              className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-sm font-medium transition-colors hover:bg-accent"
-            >
-              <span className={`size-2.5 rounded-full ${swatchClass[spectrum(c.colour)]}`} aria-hidden="true" />
-              {c.name}
-            </Link>
-          ))}
-        </div>
       </div>
     </div>
   );
