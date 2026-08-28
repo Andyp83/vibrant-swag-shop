@@ -3,6 +3,8 @@ import { z } from "zod";
 
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
+export type CmsColourImage = { label: string; url: string };
+
 export type CmsProduct = {
   id: string;
   category_id: string;
@@ -26,6 +28,7 @@ export type CmsProduct = {
   moq: string;
   methods: string[];
   image_url: string | null;
+  colour_images: CmsColourImage[];
   sort_order: number;
 };
 
@@ -110,6 +113,15 @@ const productSchema = z.object({
   moq: z.string().trim().max(80).default(""),
   methods: z.array(z.string().trim().min(1).max(60)).max(12).default([]),
   image_url: z.string().trim().max(2000).nullable().default(null),
+  colour_images: z
+    .array(
+      z.object({
+        label: z.string().trim().max(120).default(""),
+        url: z.string().trim().min(1).max(2000),
+      }),
+    )
+    .max(40)
+    .default([]),
   sort_order: z.number().int().min(0).max(9999),
 });
 
@@ -135,7 +147,7 @@ export const listCatalog = createServerFn({ method: "GET" }).handler(
       supabase
         .from("catalog_products")
         .select(
-          "id, category_id, subcategory_id, slug, plu, name, blurb, description, features, service, specifications, colours, dimensions, materials, material_group, branding_options, packaging, carton_details, source_url, moq, methods, image_url, sort_order",
+          "id, category_id, subcategory_id, slug, plu, name, blurb, description, features, service, specifications, colours, dimensions, materials, material_group, branding_options, packaging, carton_details, source_url, moq, methods, image_url, colour_images, sort_order",
         )
         .order("sort_order", { ascending: true }),
       supabase
@@ -148,7 +160,10 @@ export const listCatalog = createServerFn({ method: "GET" }).handler(
     if (productsResult.error) throw new Error(productsResult.error.message);
     if (subcategoriesResult.error) throw new Error(subcategoriesResult.error.message);
 
-    const products = productsResult.data ?? [];
+    const products = (productsResult.data ?? []).map((p) => ({
+      ...p,
+      colour_images: (Array.isArray(p.colour_images) ? p.colour_images : []) as CmsColourImage[],
+    }));
     const subcategories = subcategoriesResult.data ?? [];
 
     return (categoriesResult.data ?? []).map((category) => ({

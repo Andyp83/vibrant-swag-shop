@@ -35,7 +35,7 @@
       {
         "name": "list_products",
         "title": "List catalogue products",
-        "description": "List merchandise products with blurb, colours, minimum order quantity (MOQ) and decoration methods. Optionally filter by category slug.",
+        "description": "List merchandise products with PLU, descriptions, colours, minimum order quantity (MOQ), decoration methods and key specification fields. Optionally filter by category slug.",
         "annotations": {
           "readOnlyHint": true,
           "idempotentHint": true,
@@ -56,7 +56,7 @@
       {
         "name": "update_product",
         "title": "Update a catalogue product",
-        "description": "Update an existing product's blurb, colours, minimum order quantity or decoration methods. Admin access required.",
+        "description": "Update an existing product's catalogue details, colours, minimum order quantity or decoration methods. Admin access required.",
         "annotations": {
           "readOnlyHint": false,
           "destructiveHint": false,
@@ -74,7 +74,37 @@
             "blurb": {
               "type": "string"
             },
+            "description": {
+              "type": "string"
+            },
+            "features": {
+              "type": "string"
+            },
+            "service": {
+              "type": "string"
+            },
+            "specifications": {
+              "type": "string"
+            },
             "colours": {
+              "type": "string"
+            },
+            "dimensions": {
+              "type": "string"
+            },
+            "materials": {
+              "type": "string"
+            },
+            "material_group": {
+              "type": "string"
+            },
+            "branding_options": {
+              "type": "string"
+            },
+            "packaging": {
+              "type": "string"
+            },
+            "carton_details": {
               "type": "string"
             },
             "moq": {
