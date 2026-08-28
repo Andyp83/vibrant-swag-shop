@@ -52,12 +52,22 @@ function buildGallery(product: QuickViewProduct): Gallery {
   return shots;
 }
 
+/** Index of the first gallery shot matching any of the preferred colour names. */
+function preferredIndex(gallery: Gallery, preferred: string[]): number {
+  for (const wanted of preferred.map((c) => c.trim().toLowerCase()).filter(Boolean)) {
+    const index = gallery.findIndex((shot) => shot.label.toLowerCase().includes(wanted));
+    if (index >= 0) return index;
+  }
+  return 0;
+}
+
 export function ProductQuickView({
   product,
   accent,
   categoryName,
   categorySlug,
   productLink,
+  preferredColours = [],
   onClose,
 }: {
   product: QuickViewProduct | null;
@@ -65,18 +75,22 @@ export function ProductQuickView({
   categoryName: string;
   categorySlug: string;
   productLink?: { subcategory: string; product: string } | undefined;
+  preferredColours?: string[];
   onClose: () => void;
 }) {
   const [activeIndex, setActiveIndex] = useState(0);
+  const preferredKey = preferredColours.join(",");
 
   useEffect(() => {
-    setActiveIndex(0);
-  }, [product?.id]);
+    if (!product) return;
+    setActiveIndex(preferredIndex(buildGallery(product), preferredKey.split(",")));
+  }, [product, preferredKey]);
 
   if (!product) return null;
 
   const gallery = buildGallery(product);
   const active = gallery[Math.min(activeIndex, Math.max(gallery.length - 1, 0))];
+
   const colourNames = product.colours
     ? product.colours
         .split(/[,/]/)
