@@ -281,7 +281,8 @@ function CategoryPage() {
                 <span className="mt-4 block text-sm font-semibold">{p.name}</span>
               </button>
             </Reveal>
-          ))}
+            );
+          })}
         </div>
 
         <ProductQuickView

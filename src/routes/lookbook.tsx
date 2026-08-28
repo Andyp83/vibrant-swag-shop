@@ -6,6 +6,7 @@ import { ProductFilters } from "@/components/site/ProductFilters";
 import { catalogQueryOptions } from "@/lib/catalog-query";
 import { spectrum, swatchClass } from "@/lib/catalog";
 import {
+  colourOptions,
   decorationOptions,
   matchesFilters,
   parseFilterSearch,
@@ -109,6 +110,7 @@ function LookbookPage() {
           className="mt-6"
           value={filters}
           decorations={decorationOptions(allProducts.map((x) => x.product))}
+          colours={colourOptions(allProducts.map((x) => x.product))}
           onChange={updateFilters}
           resultCount={visible.length}
           totalCount={allProducts.length}
