@@ -104,43 +104,82 @@ export type Database = {
       catalog_products: {
         Row: {
           blurb: string
+          branding_options: string
+          carton_details: string
           category_id: string
           colours: string
           created_at: string
+          description: string
+          dimensions: string
+          features: string
           id: string
           image_url: string | null
+          material_group: string
+          materials: string
           methods: string[]
           moq: string
           name: string
+          packaging: string
+          plu: string | null
+          service: string
+          slug: string
           sort_order: number
+          source_url: string | null
+          specifications: string
           subcategory_id: string | null
           updated_at: string
         }
         Insert: {
           blurb?: string
+          branding_options?: string
+          carton_details?: string
           category_id: string
           colours?: string
           created_at?: string
+          description?: string
+          dimensions?: string
+          features?: string
           id?: string
           image_url?: string | null
+          material_group?: string
+          materials?: string
           methods?: string[]
           moq?: string
           name: string
+          packaging?: string
+          plu?: string | null
+          service?: string
+          slug?: string
           sort_order?: number
+          source_url?: string | null
+          specifications?: string
           subcategory_id?: string | null
           updated_at?: string
         }
         Update: {
           blurb?: string
+          branding_options?: string
+          carton_details?: string
           category_id?: string
           colours?: string
           created_at?: string
+          description?: string
+          dimensions?: string
+          features?: string
           id?: string
           image_url?: string | null
+          material_group?: string
+          materials?: string
           methods?: string[]
           moq?: string
           name?: string
+          packaging?: string
+          plu?: string | null
+          service?: string
+          slug?: string
           sort_order?: number
+          source_url?: string | null
+          specifications?: string
           subcategory_id?: string | null
           updated_at?: string
         }
