@@ -188,6 +188,7 @@ function SubcategoryPage() {
                     aria-pressed={density === d}
                     onClick={() =>
                       navigate({
+                        to: ".",
                         search: { ...search, ...(d === "5" ? { density: "5" } : {}) },
                         replace: true,
                       })
