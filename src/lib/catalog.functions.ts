@@ -54,6 +54,7 @@ export type CmsProductColour = {
 };
 
 type CmsProductRow = Omit<CmsProduct, "images" | "colour_options">;
+type CmsProductRaw = Omit<CmsProductRow, "colour_images"> & { colour_images: unknown };
 
 export type CmsSubcategory = {
   id: string;
@@ -204,7 +205,7 @@ export const listCatalog = createServerFn({ method: "GET" }).handler(
         .from("catalog_categories")
         .select("id, slug, name, tagline, description, colour, image_url, hero_image_url, sort_order")
         .order("sort_order", { ascending: true }),
-      fetchAllRows<CmsProductRow>("catalog_products", (from, to) =>
+      fetchAllRows<CmsProductRaw>("catalog_products", (from, to) =>
         supabase
           .from("catalog_products")
           .select(

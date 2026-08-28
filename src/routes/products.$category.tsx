@@ -4,9 +4,7 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import { borderAccentClass, softBgClass, spectrum, swatchClass, textClass } from "@/lib/catalog";
 import { catalogQueryOptions, type CmsCategory, type CmsProduct } from "@/lib/catalog-query";
 import { categoryPlacement } from "@/lib/banners";
-import { categoryVideos } from "@/lib/videos";
 import { PlacementBanners } from "@/components/site/PlacementBanners";
-import { VideoStrip } from "@/components/site/VideoStrip";
 import { Reveal } from "@/components/site/Reveal";
 import { ProductQuickView } from "@/components/site/ProductQuickView";
 
@@ -225,19 +223,6 @@ function CategoryPage() {
           title="Featured ranges"
           className="mt-20"
         />
-
-        {(categoryVideos[category.slug] ?? []).length > 0 ? (
-          <section className="mt-20">
-            <h2 className="display-type text-2xl sm:text-3xl">In motion</h2>
-            <div className="mt-8 grid gap-6 sm:grid-cols-2">
-              {(categoryVideos[category.slug] ?? []).map((v) => (
-                <VideoStrip key={v.url} video={v} />
-              ))}
-            </div>
-          </section>
-        ) : null}
-
-
 
         <h2 className="display-type mt-20 text-2xl sm:text-3xl">Examples</h2>
         <ProductFilters
