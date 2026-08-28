@@ -1,13 +1,14 @@
 import { createFileRoute, Link, notFound, useNavigate } from "@tanstack/react-router";
+import { useState } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { borderAccentClass, softBgClass, spectrum, swatchClass, textClass } from "@/lib/catalog";
-import { catalogQueryOptions, type CmsCategory } from "@/lib/catalog-query";
+import { catalogQueryOptions, type CmsCategory, type CmsProduct } from "@/lib/catalog-query";
 import { categoryPlacement } from "@/lib/banners";
 import { categoryVideos } from "@/lib/videos";
 import { PlacementBanners } from "@/components/site/PlacementBanners";
 import { VideoStrip } from "@/components/site/VideoStrip";
 import { Reveal } from "@/components/site/Reveal";
-import { FavoriteButton } from "@/components/site/FavoriteButton";
+import { ProductQuickView } from "@/components/site/ProductQuickView";
 
 import { ProductFilters } from "@/components/site/ProductFilters";
 import {
@@ -119,6 +120,7 @@ function CategoryPage() {
     others: CmsCategory[];
   };
   const search = Route.useSearch();
+  const [quickView, setQuickView] = useState<CmsProduct | null>(null);
   const navigate = useNavigate({ from: Route.fullPath });
   const filters: ProductFilterValue = {
     decoration: search.decoration ?? "",
