@@ -56,6 +56,7 @@ function LookbookPage() {
     decoration: search.decoration ?? "",
     colours: coloursFromSearch(search.colour),
     colourMatch: search.colourMatch ?? "any",
+    sort: search.sort ?? "default",
     impact: search.impact ?? false,
     moq: search.moq ?? 0,
   };
@@ -69,6 +70,9 @@ function LookbookPage() {
         ...(merged.colours.length > 1 && merged.colourMatch === "all"
           ? { colourMatch: "all" as const }
           : {}),
+        ...(merged.colours.length && merged.sort === "colour-match"
+          ? { sort: "colour-match" as const }
+          : {}),
         ...(merged.impact ? { impact: true } : {}),
         ...(merged.moq ? { moq: merged.moq } : {}),
       },
@@ -79,9 +83,12 @@ function LookbookPage() {
   const allProducts = categories.flatMap((c) =>
     c.products.map((p) => ({ product: p, category: c })),
   );
-  const visible = allProducts.filter(({ product, category }) =>
-    matchesFilters(product, filters, category.slug),
+  const visible = sortProducts(
+    allProducts.filter(({ product, category }) => matchesFilters(product, filters, category.slug)),
+    filters,
+    (entry) => entry.product,
   );
+
 
   return (
     <div className="mx-auto max-w-6xl px-5 py-16">
