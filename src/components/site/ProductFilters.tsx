@@ -148,6 +148,23 @@ export function ProductFilters({
         </div>
 
 
+        {selected.length > 0 ? (
+          <label className="flex min-w-[200px] flex-col gap-1.5 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            Sort
+            <select
+              value={value.sort ?? "default"}
+              onChange={(e) =>
+                onChange({ sort: e.target.value === "colour-match" ? "colour-match" : "default" })
+              }
+              className="rounded-full border border-border bg-background px-4 py-2 text-sm font-medium normal-case tracking-normal text-foreground"
+            >
+              <option value="default">Featured order</option>
+              <option value="colour-match">Best colour match</option>
+            </select>
+          </label>
+        ) : null}
+
+
         <label className="flex min-w-[170px] flex-col gap-1.5 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
           Minimum order
           <select
@@ -180,7 +197,17 @@ export function ProductFilters({
         {active ? (
           <button
             type="button"
-            onClick={() => onChange({ decoration: "", colours: [], colourMatch: "any", impact: false, moq: 0 })}
+            onClick={() =>
+              onChange({
+                decoration: "",
+                colours: [],
+                colourMatch: "any",
+                sort: "default",
+                impact: false,
+                moq: 0,
+              })
+            }
+
             className="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground underline underline-offset-4 hover:text-foreground"
           >
             <X className="size-3.5" aria-hidden="true" /> Clear filters

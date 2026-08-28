@@ -19,6 +19,8 @@ import {
   decorationOptions,
   matchesFilters,
   parseFilterSearch,
+  sortProducts,
+
   type ProductFilterValue,
 } from "@/lib/product-filters";
 
@@ -130,11 +132,14 @@ function CategoryPage() {
     decoration: search.decoration ?? "",
     colours: coloursFromSearch(search.colour),
     colourMatch: search.colourMatch ?? "any",
+    sort: search.sort ?? "default",
     impact: search.impact ?? false,
     moq: search.moq ?? 0,
   };
-  const visibleProducts = category.products.filter((p) =>
-    matchesFilters(p, filters, category.slug),
+  const visibleProducts = sortProducts(
+    category.products.filter((p) => matchesFilters(p, filters, category.slug)),
+    filters,
+    (p) => p,
   );
   const accent = spectrum(category.colour);
 
@@ -147,9 +152,13 @@ function CategoryPage() {
         ...(merged.colours.length > 1 && merged.colourMatch === "all"
           ? { colourMatch: "all" as const }
           : {}),
+        ...(merged.colours.length && merged.sort === "colour-match"
+          ? { sort: "colour-match" as const }
+          : {}),
         ...(merged.impact ? { impact: true } : {}),
         ...(merged.moq ? { moq: merged.moq } : {}),
       },
+
       replace: true,
     });
   };
