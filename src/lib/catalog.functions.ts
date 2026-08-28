@@ -54,6 +54,7 @@ export type CmsProductColour = {
 };
 
 type CmsProductRow = Omit<CmsProduct, "images" | "colour_options">;
+type CmsProductRaw = Omit<CmsProductRow, "colour_images"> & { colour_images: unknown };
 
 export type CmsSubcategory = {
   id: string;
