@@ -1,10 +1,15 @@
 import { X } from "lucide-react";
 
-import { moqOptions, type ProductFilterValue } from "@/lib/product-filters";
+import {
+  colourSwatchCss,
+  moqOptions,
+  type ProductFilterValue,
+} from "@/lib/product-filters";
 
 type Props = {
   value: ProductFilterValue;
   decorations: string[];
+  colours: string[];
   onChange: (next: Partial<ProductFilterValue>) => void;
   resultCount: number;
   totalCount: number;
@@ -14,12 +19,13 @@ type Props = {
 export function ProductFilters({
   value,
   decorations,
+  colours,
   onChange,
   resultCount,
   totalCount,
   className = "",
 }: Props) {
-  const active = Boolean(value.decoration) || value.impact || value.moq > 0;
+  const active = Boolean(value.decoration) || Boolean(value.colour) || value.impact || value.moq > 0;
 
   return (
     <div className={`rounded-2xl border border-border bg-card p-5 ${className}`}>
