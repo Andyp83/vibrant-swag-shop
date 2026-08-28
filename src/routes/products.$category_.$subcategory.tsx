@@ -9,7 +9,7 @@ import { catalogQueryOptions, type CmsCategory, type CmsSubcategory } from "@/li
 import type { CmsProduct } from "@/lib/catalog.functions";
 import { parseFilterSearch, type GridDensity } from "@/lib/product-filters";
 
-export const Route = createFileRoute("/products/$category/$subcategory")({
+export const Route = createFileRoute("/products/$category_/$subcategory")({
   validateSearch: parseFilterSearch,
   loader: async ({ params, context }) => {
     const catalog = await context.queryClient.ensureQueryData(catalogQueryOptions());
