@@ -38,7 +38,8 @@ export function parseMoq(moq: string): number | null {
 
 export function isImpactAware(product: CmsProduct, categorySlug?: string): boolean {
   if (categorySlug === "eco") return true;
-  const haystack = `${product.name} ${product.blurb} ${product.colours}`.toLowerCase();
+  const haystack =
+    `${product.name} ${product.blurb} ${product.description} ${product.features} ${product.materials} ${product.colours}`.toLowerCase();
   return IMPACT_KEYWORDS.some((k) => haystack.includes(k));
 }
 

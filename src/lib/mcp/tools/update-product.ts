@@ -6,11 +6,21 @@ export default defineTool({
   name: "update_product",
   title: "Update a catalogue product",
   description:
-    "Update an existing product's blurb, colours, minimum order quantity or decoration methods. Admin access required.",
+    "Update an existing product's catalogue details, colours, minimum order quantity or decoration methods. Admin access required.",
   inputSchema: {
     id: z.string().describe("Product id from list_products."),
     blurb: z.string().trim().optional(),
+    description: z.string().trim().optional(),
+    features: z.string().trim().optional(),
+    service: z.string().trim().optional(),
+    specifications: z.string().trim().optional(),
     colours: z.string().trim().optional(),
+    dimensions: z.string().trim().optional(),
+    materials: z.string().trim().optional(),
+    material_group: z.string().trim().optional(),
+    branding_options: z.string().trim().optional(),
+    packaging: z.string().trim().optional(),
+    carton_details: z.string().trim().optional(),
     moq: z.string().trim().optional().describe("Minimum order quantity, e.g. '50 units'."),
     methods: z
       .array(z.string().trim())
@@ -32,7 +42,9 @@ export default defineTool({
       .from("catalog_products")
       .update(patch)
       .eq("id", id)
-      .select("id, name, blurb, colours, moq, methods");
+      .select(
+        "id, slug, plu, name, blurb, description, features, service, specifications, colours, dimensions, materials, material_group, branding_options, packaging, carton_details, source_url, moq, methods, image_url",
+      );
     if (error) return { content: [{ type: "text", text: error.message }], isError: true };
     if (!data || data.length === 0)
       return {

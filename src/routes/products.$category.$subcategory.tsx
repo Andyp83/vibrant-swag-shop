@@ -117,6 +117,19 @@ function SubcategoryPage() {
     siblings: CmsSubcategory[];
   };
   const accent = spectrum(category.colour);
+  const productGroups = products.reduce<Array<{ material: string; products: CmsProduct[] }>>(
+    (groups, product) => {
+      const material = product.material_group || "General";
+      const group = groups.find((item) => item.material === material);
+      if (group) {
+        group.products.push(product);
+      } else {
+        groups.push({ material, products: [product] });
+      }
+      return groups;
+    },
+    [],
+  );
 
   return (
     <div className={softBgClass[accent]}>
@@ -155,52 +168,110 @@ function SubcategoryPage() {
         {products.length > 0 ? (
           <>
             <h2 className="display-type mt-16 text-2xl sm:text-3xl">Examples</h2>
-            <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {products.map((p, i) => (
-                <Reveal key={p.id} delay={(i % 3) * 90} variant="up">
-                  <article
-                    className={`lift flex h-full flex-col rounded-xl border-2 bg-card p-6 ${borderAccentClass[accent]}`}
-                  >
-                    <span className={`h-1.5 w-10 rounded-full ${swatchClass[accent]}`} />
-                    <h3 className="mt-4 font-semibold">{p.name}</h3>
-                    <p className="mt-2 text-sm text-muted-foreground">{p.blurb}</p>
-                    <dl className="mt-4 space-y-1 text-xs text-muted-foreground">
-                      <div className="flex gap-2">
-                        <dt className="font-semibold text-foreground">Colours:</dt>
-                        <dd>{p.colours}</dd>
-                      </div>
-                      <div className="flex gap-2">
-                        <dt className="font-semibold text-foreground">Minimum:</dt>
-                        <dd>{p.moq}</dd>
-                      </div>
-                    </dl>
-                    <div className="mt-6 flex flex-wrap items-center gap-3">
-                      <Link
-                        to="/quote"
-                        search={{ product: p.name }}
-                        className="group inline-flex items-center gap-1.5 text-sm font-semibold underline underline-offset-4"
+            {productGroups.map((group) => (
+              <section key={group.material} className="mt-10">
+                {group.material !== "General" || productGroups.length > 1 ? (
+                  <h3 className={`text-sm font-semibold uppercase tracking-[0.22em] ${textClass[accent]}`}>
+                    {group.material}
+                  </h3>
+                ) : null}
+                <div className="mt-5 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                  {group.products.map((p, i) => (
+                    <Reveal key={p.id} delay={(i % 3) * 90} variant="up">
+                      <article
+                        className={`lift flex h-full flex-col rounded-xl border-2 bg-card p-6 ${borderAccentClass[accent]}`}
                       >
-                        Quote this item
-                        <ArrowRight
-                          className="size-3.5 transition-transform duration-300 group-hover:translate-x-1"
-                          aria-hidden="true"
-                        />
-                      </Link>
-                      <FavoriteButton
-                        item={{
-                          id: p.id,
-                          name: p.name,
-                          categoryName: `${category.name} — ${subcategory.name}`,
-                          categorySlug: category.slug,
-                          methods: p.methods,
-                          moq: p.moq,
-                        }}
-                      />
-                    </div>
-                  </article>
-                </Reveal>
-              ))}
-            </div>
+                        {p.image_url ? (
+                          <Link
+                            to="/products/$category/$subcategory/$product"
+                            params={{
+                              category: category.slug,
+                              subcategory: subcategory.slug,
+                              product: p.slug || p.id,
+                            }}
+                            className="mb-5 block aspect-square overflow-hidden rounded-lg bg-background"
+                          >
+                            <img
+                              src={p.image_url}
+                              alt={p.name}
+                              loading={i < 6 ? "eager" : "lazy"}
+                              decoding="async"
+                              width={640}
+                              height={640}
+                              className="size-full object-contain p-3 transition-transform duration-500 hover:scale-105"
+                            />
+                          </Link>
+                        ) : null}
+                        <span className={`h-1.5 w-10 rounded-full ${swatchClass[accent]}`} />
+                        <h3 className="mt-4 font-semibold">
+                          <Link
+                            to="/products/$category/$subcategory/$product"
+                            params={{
+                              category: category.slug,
+                              subcategory: subcategory.slug,
+                              product: p.slug || p.id,
+                            }}
+                            className="hover:underline"
+                          >
+                            {p.name}
+                          </Link>
+                        </h3>
+                        {p.plu ? <p className="mt-1 text-xs text-muted-foreground">PLU {p.plu}</p> : null}
+                        <p className="mt-2 text-sm text-muted-foreground">{p.blurb}</p>
+                        <dl className="mt-4 space-y-1 text-xs text-muted-foreground">
+                          <div className="flex gap-2">
+                            <dt className="font-semibold text-foreground">Colours:</dt>
+                            <dd>{p.colours}</dd>
+                          </div>
+                          <div className="flex gap-2">
+                            <dt className="font-semibold text-foreground">Minimum:</dt>
+                            <dd>{p.moq}</dd>
+                          </div>
+                        </dl>
+                        <div className="mt-6 flex flex-wrap items-center gap-3">
+                          <Link
+                            to="/products/$category/$subcategory/$product"
+                            params={{
+                              category: category.slug,
+                              subcategory: subcategory.slug,
+                              product: p.slug || p.id,
+                            }}
+                            className="group inline-flex items-center gap-1.5 text-sm font-semibold underline underline-offset-4"
+                          >
+                            View details
+                            <ArrowRight
+                              className="size-3.5 transition-transform duration-300 group-hover:translate-x-1"
+                              aria-hidden="true"
+                            />
+                          </Link>
+                          <Link
+                            to="/quote"
+                            search={{ product: p.name }}
+                            className="group inline-flex items-center gap-1.5 text-sm font-semibold underline underline-offset-4"
+                          >
+                            Quote this item
+                            <ArrowRight
+                              className="size-3.5 transition-transform duration-300 group-hover:translate-x-1"
+                              aria-hidden="true"
+                            />
+                          </Link>
+                          <FavoriteButton
+                            item={{
+                              id: p.id,
+                              name: p.name,
+                              categoryName: `${category.name} — ${subcategory.name}`,
+                              categorySlug: category.slug,
+                              methods: p.methods,
+                              moq: p.moq,
+                            }}
+                          />
+                        </div>
+                      </article>
+                    </Reveal>
+                  ))}
+                </div>
+              </section>
+            ))}
           </>
         ) : (
           <p className="mt-16 rounded-xl border border-dashed border-border p-8 text-sm text-muted-foreground">

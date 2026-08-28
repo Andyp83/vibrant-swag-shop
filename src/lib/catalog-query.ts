@@ -1,6 +1,6 @@
 import { queryOptions } from "@tanstack/react-query";
 
-import { listCatalog, type CmsCategory, type CmsSubcategory } from "./catalog.functions";
+import { listCatalog, type CmsCategory, type CmsProduct, type CmsSubcategory } from "./catalog.functions";
 
 export const catalogQueryOptions = () =>
   queryOptions({
@@ -13,4 +13,4 @@ export const catalogQueryOptions = () =>
   });
 
 
-export type { CmsCategory, CmsSubcategory };
+export type { CmsCategory, CmsProduct, CmsSubcategory };
