@@ -41,7 +41,7 @@ export function ProductQuickView({
   accent: SpectrumColor;
   categoryName: string;
   categorySlug: string;
-  productLink?: { subcategory: string; product: string };
+  productLink?: { subcategory: string; product: string } | undefined;
   onClose: () => void;
 }) {
   const [activeIndex, setActiveIndex] = useState(0);
