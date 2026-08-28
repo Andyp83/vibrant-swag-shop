@@ -135,13 +135,18 @@ export function matchesFilters(
 /** Shared validateSearch shape for routes that expose product filters. */
 export function parseFilterSearch(search: Record<string, unknown>): {
   decoration?: string;
+  colour?: string;
   impact?: boolean;
   moq?: number;
 } {
-  const out: { decoration?: string; impact?: boolean; moq?: number } = {};
+  const out: { decoration?: string; colour?: string; impact?: boolean; moq?: number } = {};
   const rawDecoration = search["decoration"];
   if (typeof rawDecoration === "string" && rawDecoration.trim()) {
     out.decoration = rawDecoration.slice(0, 60);
+  }
+  const rawColour = search["colour"];
+  if (typeof rawColour === "string" && rawColour.trim()) {
+    out.colour = rawColour.slice(0, 40);
   }
   const rawImpact = search["impact"];
   if (rawImpact === true || rawImpact === "true" || rawImpact === "1") {
