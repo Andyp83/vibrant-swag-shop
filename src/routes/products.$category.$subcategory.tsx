@@ -188,9 +188,9 @@ function SubcategoryPage() {
                     aria-pressed={density === d}
                     onClick={() =>
                       navigate({
-                        to: ".",
                         search: { ...search, ...(d === "5" ? { density: "5" } : {}) },
                         replace: true,
+                        params: true,
                       })
                     }
                     className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold transition-colors ${
