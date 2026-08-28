@@ -197,7 +197,17 @@ export function ProductFilters({
         {active ? (
           <button
             type="button"
-            onClick={() => onChange({ decoration: "", colours: [], colourMatch: "any", impact: false, moq: 0 })}
+            onClick={() =>
+              onChange({
+                decoration: "",
+                colours: [],
+                colourMatch: "any",
+                sort: "default",
+                impact: false,
+                moq: 0,
+              })
+            }
+
             className="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground underline underline-offset-4 hover:text-foreground"
           >
             <X className="size-3.5" aria-hidden="true" /> Clear filters
