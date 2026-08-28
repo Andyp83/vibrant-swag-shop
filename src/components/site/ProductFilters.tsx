@@ -1,9 +1,10 @@
-import { Check, ChevronDown, X } from "lucide-react";
+import { Check, ChevronDown, LayoutGrid, X } from "lucide-react";
 
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import {
   colourSwatchCss,
   moqOptions,
+  type GridDensity,
   type ProductFilterValue,
 } from "@/lib/product-filters";
 
@@ -194,6 +195,30 @@ export function ProductFilters({
           Impact Aware only
         </button>
 
+        <div
+          className="flex rounded-full border border-border p-0.5"
+          role="group"
+          aria-label="Grid density"
+        >
+          {(["3", "5"] as GridDensity[]).map((d) => (
+            <button
+              key={d}
+              type="button"
+              aria-pressed={value.density === d}
+              onClick={() => onChange({ density: d })}
+              className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold transition-colors ${
+                value.density === d
+                  ? "bg-foreground text-background"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+              title={`${d} products per row`}
+            >
+              <LayoutGrid className="size-3.5" aria-hidden="true" />
+              {d}
+            </button>
+          ))}
+        </div>
+
         {active ? (
           <button
             type="button"
@@ -205,6 +230,7 @@ export function ProductFilters({
                 sort: "default",
                 impact: false,
                 moq: 0,
+                density: "3",
               })
             }
 

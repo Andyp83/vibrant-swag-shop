@@ -1,14 +1,16 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { createFileRoute, Link, notFound, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, LayoutGrid } from "lucide-react";
 
 import { Reveal } from "@/components/site/Reveal";
 import { ProductQuickView } from "@/components/site/ProductQuickView";
 import { borderAccentClass, softBgClass, spectrum, swatchClass, textClass } from "@/lib/catalog";
 import { catalogQueryOptions, type CmsCategory, type CmsSubcategory } from "@/lib/catalog-query";
 import type { CmsProduct } from "@/lib/catalog.functions";
+import { parseFilterSearch, type GridDensity } from "@/lib/product-filters";
 
-export const Route = createFileRoute("/products/$category/$subcategory")({
+export const Route = createFileRoute("/products/$category_/$subcategory")({
+  validateSearch: parseFilterSearch,
   loader: async ({ params, context }) => {
     const catalog = await context.queryClient.ensureQueryData(catalogQueryOptions());
     const category = catalog.find((c) => c.slug === params.category);
@@ -117,6 +119,10 @@ function SubcategoryPage() {
     products: CmsProduct[];
     siblings: CmsSubcategory[];
   };
+  const search = Route.useSearch();
+  const params = Route.useParams();
+  const navigate = useNavigate({ from: Route.fullPath });
+  const density: GridDensity = search.density === "5" ? "5" : "3";
   const accent = spectrum(category.colour);
   const [quickView, setQuickView] = useState<CmsProduct | null>(null);
   const productGroups = products.reduce<Array<{ material: string; products: CmsProduct[] }>>(
@@ -169,7 +175,39 @@ function SubcategoryPage() {
 
         {products.length > 0 ? (
           <>
-            <h2 className="display-type mt-16 text-2xl sm:text-3xl">Examples</h2>
+            <div className="mt-16 flex flex-wrap items-end justify-between gap-4">
+              <h2 className="display-type text-2xl sm:text-3xl">Examples</h2>
+              <div
+                className="flex rounded-full border border-border p-0.5"
+                role="group"
+                aria-label="Grid density"
+              >
+                {(["3", "5"] as GridDensity[]).map((d) => (
+                  <button
+                    key={d}
+                    type="button"
+                    aria-pressed={density === d}
+                    onClick={() =>
+                      navigate({
+                        to: "/products/$category/$subcategory",
+                        params: { category: params.category, subcategory: params.subcategory },
+                        search: { ...search, ...(d === "5" ? { density: "5" } : {}) },
+                        replace: true,
+                      })
+                    }
+                    className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold transition-colors ${
+                      density === d
+                        ? "bg-foreground text-background"
+                        : "text-muted-foreground hover:text-foreground"
+                    }`}
+                    title={`${d} products per row`}
+                  >
+                    <LayoutGrid className="size-3.5" aria-hidden="true" />
+                    {d}
+                  </button>
+                ))}
+              </div>
+            </div>
             {productGroups.map((group) => (
               <section key={group.material} className="mt-10">
                 {group.material !== "General" || productGroups.length > 1 ? (
@@ -177,13 +215,21 @@ function SubcategoryPage() {
                     {group.material}
                   </h3>
                 ) : null}
-                <div className="mt-5 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                  {group.products.map((p, i) => (
-                    <Reveal key={p.id} delay={(i % 3) * 90} variant="up">
+                <div
+                  className={`mt-5 grid gap-4 sm:grid-cols-2 ${
+                    density === "5" ? "lg:grid-cols-5" : "lg:grid-cols-3"
+                  }`}
+                >
+                  {group.products.map((p, i) => {
+                    const cols = density === "5" ? 5 : 3;
+                    return (
+                    <Reveal key={p.id} delay={(i % cols) * 90} variant="up">
                       <button
                         type="button"
                         onClick={() => setQuickView(p)}
-                        className={`lift group flex h-full w-full flex-col rounded-xl border-2 bg-card p-5 text-left ${borderAccentClass[accent]}`}
+                        className={`lift group flex h-full w-full flex-col rounded-xl border-2 bg-card text-left ${
+                          density === "5" ? "p-3" : "p-5"
+                        } ${borderAccentClass[accent]}`}
                       >
                         <span className="block aspect-square w-full overflow-hidden rounded-lg bg-background">
                           {p.image_url ? (
@@ -194,14 +240,15 @@ function SubcategoryPage() {
                               decoding="async"
                               width={640}
                               height={640}
-                              className="size-full object-contain p-3 transition-transform duration-500 group-hover:scale-105"
+                              className="size-full object-contain p-2 transition-transform duration-500 group-hover:scale-105"
                             />
                           ) : null}
                         </span>
-                        <span className="mt-4 block text-sm font-semibold">{p.name}</span>
+                        <span className="mt-3 block text-sm font-semibold">{p.name}</span>
                       </button>
                     </Reveal>
-                  ))}
+                    );
+                  })}
                 </div>
               </section>
             ))}

@@ -8,7 +8,7 @@ import { borderAccentClass, softBgClass, spectrum, swatchClass, textClass } from
 import { catalogQueryOptions, type CmsCategory, type CmsSubcategory } from "@/lib/catalog-query";
 import type { CmsProduct } from "@/lib/catalog.functions";
 
-export const Route = createFileRoute("/products/$category/$subcategory/$product")({
+export const Route = createFileRoute("/products/$category_/$subcategory_/$product")({
   loader: async ({ params, context }) => {
     const catalog = await context.queryClient.ensureQueryData(catalogQueryOptions());
     const category = catalog.find((c) => c.slug === params.category);
