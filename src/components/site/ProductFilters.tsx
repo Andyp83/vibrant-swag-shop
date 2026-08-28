@@ -46,6 +46,33 @@ export function ProductFilters({
           </select>
         </label>
 
+        <label className="flex min-w-[150px] flex-col gap-1.5 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+          Colour
+          <span className="relative flex items-center">
+            {value.colour ? (
+              <span
+                className="pointer-events-none absolute left-4 size-3 rounded-full border border-border"
+                style={{ backgroundColor: colourSwatchCss(value.colour) }}
+                aria-hidden="true"
+              />
+            ) : null}
+            <select
+              value={value.colour}
+              onChange={(e) => onChange({ colour: e.target.value })}
+              className={`w-full rounded-full border border-border bg-background py-2 pr-4 text-sm font-medium normal-case tracking-normal text-foreground ${
+                value.colour ? "pl-9" : "px-4"
+              }`}
+            >
+              <option value="">Any colour</option>
+              {colours.map((c) => (
+                <option key={c} value={c}>
+                  {c}
+                </option>
+              ))}
+            </select>
+          </span>
+        </label>
+
         <label className="flex min-w-[170px] flex-col gap-1.5 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
           Minimum order
           <select
@@ -78,7 +105,7 @@ export function ProductFilters({
         {active ? (
           <button
             type="button"
-            onClick={() => onChange({ decoration: "", impact: false, moq: 0 })}
+            onClick={() => onChange({ decoration: "", colour: "", impact: false, moq: 0 })}
             className="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground underline underline-offset-4 hover:text-foreground"
           >
             <X className="size-3.5" aria-hidden="true" /> Clear filters
