@@ -224,19 +224,6 @@ function CategoryPage() {
           className="mt-20"
         />
 
-        {(categoryVideos[category.slug] ?? []).length > 0 ? (
-          <section className="mt-20">
-            <h2 className="display-type text-2xl sm:text-3xl">In motion</h2>
-            <div className="mt-8 grid gap-6 sm:grid-cols-2">
-              {(categoryVideos[category.slug] ?? []).map((v) => (
-                <VideoStrip key={v.url} video={v} />
-              ))}
-            </div>
-          </section>
-        ) : null}
-
-
-
         <h2 className="display-type mt-20 text-2xl sm:text-3xl">Examples</h2>
         <ProductFilters
           className="mt-6"
