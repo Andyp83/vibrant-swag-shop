@@ -348,3 +348,104 @@ export function coloursFromSearch(colour?: string): string[] {
 export function coloursToSearch(colours: string[]): string {
   return colours.map((c) => c.trim()).filter(Boolean).join(",");
 }
+
+/**
+ * A group of products that are really the same item in different sizes, lids or
+ * finishes. Single products become a family of one.
+ */
+export type ProductFamily = {
+  key: string;
+  /** Shared name without the variant suffix. */
+  name: string;
+  /** The variant used for the card image and default quick-view selection. */
+  primary: CmsProduct;
+  variants: CmsProduct[];
+};
+
+/** Name shown for a variant option chip. */
+export function variantLabel(product: CmsProduct): string {
+  return (product.variant_label ?? "").trim() || "Standard";
+}
+
+/** Group products into families using the variant grouping stored on each product. */
+export function groupFamilies(products: CmsProduct[]): ProductFamily[] {
+  const families: ProductFamily[] = [];
+  const byKey = new Map<string, ProductFamily>();
+
+  for (const product of products) {
+    const key = (product.variant_group ?? "").trim();
+    if (!key) {
+      families.push({ key: `single:${product.id}`, name: product.name, primary: product, variants: [product] });
+      continue;
+    }
+    const existing = byKey.get(key);
+    if (existing) {
+      existing.variants.push(product);
+      continue;
+    }
+    const family: ProductFamily = {
+      key,
+      name: product.name.split(" - ")[0] ?? product.name,
+      primary: product,
+      variants: [product],
+    };
+    byKey.set(key, family);
+    families.push(family);
+  }
+
+  for (const family of families) {
+    if (family.variants.length < 2) continue;
+    family.variants.sort(
+      (a, b) => a.sort_order - b.sort_order || variantLabel(a).localeCompare(variantLabel(b)),
+    );
+    family.primary =
+      family.variants.find((v) => Boolean(v.image_url)) ?? family.variants[0] ?? family.primary;
+  }
+
+  return families;
+}
+
+/** True when any variant in the family satisfies the filters. */
+export function familyMatchesFilters(
+  family: ProductFamily,
+  filters: ProductFilterValue,
+  categorySlug?: string,
+): boolean {
+  return family.variants.some((variant) => matchesFilters(variant, filters, categorySlug));
+}
+
+/**
+ * The variant to feature for the current filters: the first one that matches,
+ * preferring one with a photo in a selected colour.
+ */
+export function featuredVariant(family: ProductFamily, filters: ProductFilterValue): CmsProduct {
+  const colours = filters.colours ?? [];
+  if (colours.length) {
+    const withPhoto = family.variants.find((v) => colourImageFor(v, colours));
+    if (withPhoto) return withPhoto;
+    const listed = family.variants.find((v) => productMatchesColours(v, colours, filters.colourMatch));
+    if (listed) return listed;
+  }
+  return family.primary;
+}
+
+/** Best colour-match score across the family's variants. */
+export function familyColourMatchScore(family: ProductFamily, colours: string[]): number {
+  return family.variants.reduce((best, v) => Math.max(best, colourMatchScore(v, colours)), 0);
+}
+
+/** Families ordered by colour-match strength, keeping input order for ties. */
+export function sortFamilies(
+  families: ProductFamily[],
+  filters: ProductFilterValue,
+): ProductFamily[] {
+  if (filters.sort !== "colour-match" || (filters.colours ?? []).length === 0) return families;
+  return families
+    .map((family, index) => ({
+      family,
+      index,
+      score: familyColourMatchScore(family, filters.colours),
+    }))
+    .sort((a, b) => b.score - a.score || a.index - b.index)
+    .map((entry) => entry.family);
+}
