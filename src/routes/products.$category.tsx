@@ -268,7 +268,12 @@ function CategoryPage() {
                     />
                   ) : null}
                 </span>
-                <span className="mt-3 block text-sm font-semibold">{p.name}</span>
+                <span className="mt-3 block text-sm font-semibold">{family.name}</span>
+                {family.variants.length > 1 ? (
+                  <span className="mt-1 block text-xs text-muted-foreground">
+                    {family.variants.length} options
+                  </span>
+                ) : null}
               </button>
             </Reveal>
             );
@@ -276,7 +281,8 @@ function CategoryPage() {
         </div>
 
         <ProductQuickView
-          product={quickView}
+          product={quickView ? featuredVariant(quickView, filters) : null}
+          variants={quickView?.variants}
           accent={accent}
           categoryName={category.name}
           categorySlug={category.slug}
@@ -286,9 +292,10 @@ function CategoryPage() {
             quickView
               ? {
                   subcategory:
-                    category.subcategories.find((s) => s.id === quickView.subcategory_id)?.slug ??
-                    "range",
-                  product: quickView.slug || quickView.id,
+                    category.subcategories.find(
+                      (s) => s.id === quickView.primary.subcategory_id,
+                    )?.slug ?? "range",
+                  product: quickView.primary.slug || quickView.primary.id,
                 }
               : undefined
           }
@@ -296,7 +303,7 @@ function CategoryPage() {
         />
 
 
-        {visibleProducts.length === 0 ? (
+        {visibleFamilies.length === 0 ? (
           <p className="mt-8 rounded-xl border border-dashed border-border p-8 text-center text-sm text-muted-foreground">
             No examples in this category match those filters — try a different decoration method or
             a higher minimum order.
