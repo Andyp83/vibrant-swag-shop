@@ -10,9 +10,11 @@ import {
   coloursFromSearch,
   coloursToSearch,
   decorationOptions,
-  matchesFilters,
+  familyMatchesFilters,
+  featuredVariant,
+  groupFamilies,
   parseFilterSearch,
-  sortProducts,
+  sortFamilies,
 
   type ProductFilterValue,
 } from "@/lib/product-filters";
@@ -86,14 +88,16 @@ function LookbookPage() {
     });
   };
 
-  const allProducts = categories.flatMap((c) =>
-    c.products.map((p) => ({ product: p, category: c })),
+  const allEntries = categories.flatMap((c) =>
+    groupFamilies(c.products).map((family) => ({ family, category: c })),
   );
-  const visible = sortProducts(
-    allProducts.filter(({ product, category }) => matchesFilters(product, filters, category.slug)),
+  const matching = allEntries.filter(({ family, category }) =>
+    familyMatchesFilters(family, filters, category.slug),
+  );
+  const visible = sortFamilies(
+    matching.map((entry) => entry.family),
     filters,
-    (entry) => entry.product,
-  );
+  ).map((family) => matching.find((entry) => entry.family === family)!);
 
 
   return (
@@ -128,11 +132,11 @@ function LookbookPage() {
         <ProductFilters
           className="mt-6"
           value={filters}
-          decorations={decorationOptions(allProducts.map((x) => x.product))}
-          colours={colourOptions(allProducts.map((x) => x.product))}
+          decorations={decorationOptions(allEntries.flatMap((x) => x.family.variants))}
+          colours={colourOptions(allEntries.flatMap((x) => x.family.variants))}
           onChange={updateFilters}
           resultCount={visible.length}
-          totalCount={allProducts.length}
+          totalCount={allEntries.length}
         />
 
         <div
@@ -140,8 +144,10 @@ function LookbookPage() {
             filters.density === "5" ? "lg:grid-cols-5" : "lg:grid-cols-3"
           }`}
         >
-          {visible.map(({ product: p, category: c }) => (
-            <article key={p.id} className="flex flex-col rounded-xl border border-border bg-card p-6">
+          {visible.map(({ family, category: c }) => {
+            const p = featuredVariant(family, filters);
+            return (
+            <article key={family.key} className="flex flex-col rounded-xl border border-border bg-card p-6">
               <span
                 className={`h-1.5 w-10 rounded-full ${swatchClass[spectrum(c.colour)]}`}
                 aria-hidden="true"
@@ -153,7 +159,12 @@ function LookbookPage() {
               >
                 {c.name}
               </Link>
-              <h3 className="mt-2 font-semibold">{p.name}</h3>
+              <h3 className="mt-2 font-semibold">{family.name}</h3>
+              {family.variants.length > 1 ? (
+                <p className="mt-1 text-xs text-muted-foreground">
+                  {family.variants.length} options
+                </p>
+              ) : null}
               <p className="mt-2 text-sm text-muted-foreground">{p.blurb}</p>
               <dl className="mt-4 space-y-1 text-xs text-muted-foreground">
                 <div className="flex gap-2">
@@ -183,7 +194,8 @@ function LookbookPage() {
                 Quote this item <ArrowRight className="size-3.5" aria-hidden="true" />
               </Link>
             </article>
-          ))}
+            );
+          })}
         </div>
         {visible.length === 0 ? (
           <p className="mt-8 rounded-xl border border-dashed border-border p-8 text-center text-sm text-muted-foreground">

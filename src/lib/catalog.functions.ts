@@ -29,6 +29,8 @@ export type CmsProduct = {
   methods: string[];
   image_url: string | null;
   colour_images: CmsColourImage[];
+  variant_group: string | null;
+  variant_label: string | null;
   sort_order: number;
   images: CmsProductImage[];
   colour_options: CmsProductColour[];
@@ -209,7 +211,7 @@ export const listCatalog = createServerFn({ method: "GET" }).handler(
         supabase
           .from("catalog_products")
           .select(
-            "id, category_id, subcategory_id, slug, plu, name, blurb, description, features, service, specifications, colours, dimensions, materials, material_group, branding_options, packaging, carton_details, source_url, moq, methods, image_url, colour_images, sort_order",
+            "id, category_id, subcategory_id, slug, plu, name, blurb, description, features, service, specifications, colours, dimensions, materials, material_group, branding_options, packaging, carton_details, source_url, moq, methods, image_url, colour_images, variant_group, variant_label, sort_order",
           )
           .order("sort_order", { ascending: true })
           .range(from, to),

@@ -12,7 +12,11 @@ import {
   coloursFromSearch,
   coloursToSearch,
   decorationOptions,
-  matchesFilters,
+  familyMatchesFilters,
+  featuredVariant,
+  groupFamilies,
+  sortFamilies,
+  type ProductFamily,
   parseFilterSearch,
   sortProducts,
   type ProductFilterValue,
@@ -43,7 +47,7 @@ export const Route = createFileRoute("/products/")({
   component: AllProductsPage,
 });
 
-type Entry = { product: CmsProduct; category: CmsCategory; subSlug: string };
+type Entry = { family: ProductFamily; category: CmsCategory; subSlug: string };
 
 function AllProductsPage() {
   const { data: categories } = useSuspenseQuery(catalogQueryOptions());
@@ -69,23 +73,23 @@ function AllProductsPage() {
   const scoped = activeCategory ? [activeCategory] : categories;
 
   const allEntries: Entry[] = scoped.flatMap((category) =>
-    category.products.map((product) => ({
-      product,
+    groupFamilies(category.products).map((family) => ({
+      family,
       category,
       subSlug:
-        category.subcategories.find((s) => s.id === product.subcategory_id)?.slug ?? "",
+        category.subcategories.find((s) => s.id === family.primary.subcategory_id)?.slug ?? "",
     })),
   );
 
-  const visible = sortProducts(
-    allEntries.filter(
-      (e) =>
-        matchesFilters(e.product, filters, e.category.slug) &&
-        (!filters.subcategory || e.subSlug === filters.subcategory),
-    ),
-    filters,
-    (e) => e.product,
+  const matching = allEntries.filter(
+    (e) =>
+      familyMatchesFilters(e.family, filters, e.category.slug) &&
+      (!filters.subcategory || e.subSlug === filters.subcategory),
   );
+  const visible = sortFamilies(
+    matching.map((e) => e.family),
+    filters,
+  ).map((family) => matching.find((e) => e.family === family) as Entry);
 
   const updateFilters = (next: Partial<ProductFilterValue>) => {
     setShown(PAGE_SIZE);
@@ -138,8 +142,8 @@ function AllProductsPage() {
                 .map((s) => ({ slug: s.slug, name: s.name }))
             : []
         }
-        decorations={decorationOptions(allEntries.map((e) => e.product))}
-        colours={colourOptions(allEntries.map((e) => e.product))}
+        decorations={decorationOptions(allEntries.flatMap((e) => e.family.variants))}
+        colours={colourOptions(allEntries.flatMap((e) => e.family.variants))}
         onChange={updateFilters}
         resultCount={visible.length}
         totalCount={allEntries.length}
@@ -152,9 +156,10 @@ function AllProductsPage() {
       >
         {visible.slice(0, shown).map((e, i) => {
           const accent = spectrum(e.category.colour);
-          const previewImage = colourImageFor(e.product, filters.colours) ?? e.product.image_url;
+          const featured = featuredVariant(e.family, filters);
+          const previewImage = colourImageFor(featured, filters.colours) ?? featured.image_url;
           return (
-            <Reveal key={e.product.id} delay={(i % cols) * 90} variant="up">
+            <Reveal key={e.family.key} delay={(i % cols) * 90} variant="up">
               <button
                 type="button"
                 onClick={() => setQuickView(e)}
@@ -168,8 +173,8 @@ function AllProductsPage() {
                       src={previewImage}
                       alt={
                         filters.colours.length
-                          ? `${e.product.name} in ${filters.colours.join(", ")}`
-                          : e.product.name
+                          ? `${e.family.name} in ${filters.colours.join(", ")}`
+                          : e.family.name
                       }
                       loading={i < 6 ? "eager" : "lazy"}
                       decoding="async"
@@ -179,7 +184,12 @@ function AllProductsPage() {
                     />
                   ) : null}
                 </span>
-                <span className="mt-3 block text-sm font-semibold">{e.product.name}</span>
+                <span className="mt-3 block text-sm font-semibold">{e.family.name}</span>
+                {e.family.variants.length > 1 ? (
+                  <span className="mt-1 block text-xs text-muted-foreground">
+                    {e.family.variants.length} options
+                  </span>
+                ) : null}
               </button>
             </Reveal>
           );
@@ -205,7 +215,8 @@ function AllProductsPage() {
       ) : null}
 
       <ProductQuickView
-        product={quickView?.product ?? null}
+        product={quickView ? featuredVariant(quickView.family, filters) : null}
+        variants={quickView?.family.variants}
         accent={quickView ? spectrum(quickView.category.colour) : "red"}
         categoryName={quickView?.category.name ?? ""}
         categorySlug={quickView?.category.slug ?? ""}
@@ -214,7 +225,7 @@ function AllProductsPage() {
           quickView
             ? {
                 subcategory: quickView.subSlug || "range",
-                product: quickView.product.slug || quickView.product.id,
+                product: quickView.family.primary.slug || quickView.family.primary.id,
               }
             : undefined
         }

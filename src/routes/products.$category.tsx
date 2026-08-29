@@ -15,10 +15,12 @@ import {
   coloursFromSearch,
   coloursToSearch,
   decorationOptions,
-  matchesFilters,
+  familyMatchesFilters,
+  featuredVariant,
+  groupFamilies,
   parseFilterSearch,
-  sortProducts,
-
+  sortFamilies,
+  type ProductFamily,
   type ProductFilterValue,
 } from "@/lib/product-filters";
 
@@ -121,7 +123,7 @@ function CategoryNotFound() {
 function CategoryPage() {
   const { category } = Route.useLoaderData() as { category: CmsCategory };
   const search = Route.useSearch();
-  const [quickView, setQuickView] = useState<CmsProduct | null>(null);
+  const [quickView, setQuickView] = useState<ProductFamily | null>(null);
   const navigate = useNavigate({ from: Route.fullPath });
   const filters: ProductFilterValue = {
     category: category.slug,
@@ -137,14 +139,12 @@ function CategoryPage() {
   const subcategoryIdFor = (slug: string) =>
     category.subcategories.find((s) => s.slug === slug)?.id ?? null;
   const activeSubId = filters.subcategory ? subcategoryIdFor(filters.subcategory) : null;
-  const visibleProducts = sortProducts(
-    category.products.filter(
-      (p) =>
-        matchesFilters(p, filters, category.slug) &&
-        (!activeSubId || p.subcategory_id === activeSubId),
-    ),
+  const families = groupFamilies(
+    category.products.filter((p) => !activeSubId || p.subcategory_id === activeSubId),
+  );
+  const visibleFamilies = sortFamilies(
+    families.filter((family) => familyMatchesFilters(family, filters, category.slug)),
     filters,
-    (p) => p,
   );
   const accent = spectrum(category.colour);
 
@@ -234,22 +234,23 @@ function CategoryPage() {
           decorations={decorationOptions(category.products)}
           colours={colourOptions(category.products)}
           onChange={updateFilters}
-          resultCount={visibleProducts.length}
-          totalCount={category.products.length}
+          resultCount={visibleFamilies.length}
+          totalCount={families.length}
         />
         <div
           className={`mt-8 grid gap-4 sm:grid-cols-2 ${
             filters.density === "5" ? "lg:grid-cols-5" : "lg:grid-cols-3"
           }`}
         >
-          {visibleProducts.map((p, i) => {
+          {visibleFamilies.map((family, i) => {
+            const p = featuredVariant(family, filters);
             const previewImage = colourImageFor(p, filters.colours) ?? p.image_url;
             const cols = filters.density === "5" ? 5 : 3;
             return (
-            <Reveal key={p.id} delay={(i % cols) * 90} variant="up">
+            <Reveal key={family.key} delay={(i % cols) * 90} variant="up">
               <button
                 type="button"
-                onClick={() => setQuickView(p)}
+                onClick={() => setQuickView(family)}
                 className={`lift group flex h-full w-full flex-col rounded-xl border-2 bg-card text-left ${
                   filters.density === "5" ? "p-3" : "p-5"
                 } ${borderAccentClass[accent]}`}
@@ -267,7 +268,12 @@ function CategoryPage() {
                     />
                   ) : null}
                 </span>
-                <span className="mt-3 block text-sm font-semibold">{p.name}</span>
+                <span className="mt-3 block text-sm font-semibold">{family.name}</span>
+                {family.variants.length > 1 ? (
+                  <span className="mt-1 block text-xs text-muted-foreground">
+                    {family.variants.length} options
+                  </span>
+                ) : null}
               </button>
             </Reveal>
             );
@@ -275,7 +281,8 @@ function CategoryPage() {
         </div>
 
         <ProductQuickView
-          product={quickView}
+          product={quickView ? featuredVariant(quickView, filters) : null}
+          variants={quickView?.variants}
           accent={accent}
           categoryName={category.name}
           categorySlug={category.slug}
@@ -285,9 +292,10 @@ function CategoryPage() {
             quickView
               ? {
                   subcategory:
-                    category.subcategories.find((s) => s.id === quickView.subcategory_id)?.slug ??
-                    "range",
-                  product: quickView.slug || quickView.id,
+                    category.subcategories.find(
+                      (s) => s.id === quickView.primary.subcategory_id,
+                    )?.slug ?? "range",
+                  product: quickView.primary.slug || quickView.primary.id,
                 }
               : undefined
           }
@@ -295,7 +303,7 @@ function CategoryPage() {
         />
 
 
-        {visibleProducts.length === 0 ? (
+        {visibleFamilies.length === 0 ? (
           <p className="mt-8 rounded-xl border border-dashed border-border p-8 text-center text-sm text-muted-foreground">
             No examples in this category match those filters — try a different decoration method or
             a higher minimum order.
