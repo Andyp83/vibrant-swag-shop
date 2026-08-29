@@ -43,7 +43,7 @@ export const Route = createFileRoute("/products/")({
   component: AllProductsPage,
 });
 
-type Entry = { product: CmsProduct; category: CmsCategory; subSlug: string };
+type Entry = { family: ProductFamily; category: CmsCategory; subSlug: string };
 
 function AllProductsPage() {
   const { data: categories } = useSuspenseQuery(catalogQueryOptions());
@@ -69,23 +69,23 @@ function AllProductsPage() {
   const scoped = activeCategory ? [activeCategory] : categories;
 
   const allEntries: Entry[] = scoped.flatMap((category) =>
-    category.products.map((product) => ({
-      product,
+    groupFamilies(category.products).map((family) => ({
+      family,
       category,
       subSlug:
-        category.subcategories.find((s) => s.id === product.subcategory_id)?.slug ?? "",
+        category.subcategories.find((s) => s.id === family.primary.subcategory_id)?.slug ?? "",
     })),
   );
 
-  const visible = sortProducts(
-    allEntries.filter(
-      (e) =>
-        matchesFilters(e.product, filters, e.category.slug) &&
-        (!filters.subcategory || e.subSlug === filters.subcategory),
-    ),
-    filters,
-    (e) => e.product,
+  const matching = allEntries.filter(
+    (e) =>
+      familyMatchesFilters(e.family, filters, e.category.slug) &&
+      (!filters.subcategory || e.subSlug === filters.subcategory),
   );
+  const visible = sortFamilies(
+    matching.map((e) => e.family),
+    filters,
+  ).map((family) => matching.find((e) => e.family === family) as Entry);
 
   const updateFilters = (next: Partial<ProductFilterValue>) => {
     setShown(PAGE_SIZE);
