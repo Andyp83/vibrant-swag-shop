@@ -12,7 +12,11 @@ import {
   coloursFromSearch,
   coloursToSearch,
   decorationOptions,
-  matchesFilters,
+  familyMatchesFilters,
+  featuredVariant,
+  groupFamilies,
+  sortFamilies,
+  type ProductFamily,
   parseFilterSearch,
   sortProducts,
   type ProductFilterValue,
@@ -211,7 +215,8 @@ function AllProductsPage() {
       ) : null}
 
       <ProductQuickView
-        product={quickView?.product ?? null}
+        product={quickView ? featuredVariant(quickView.family, filters) : null}
+        variants={quickView?.family.variants}
         accent={quickView ? spectrum(quickView.category.colour) : "red"}
         categoryName={quickView?.category.name ?? ""}
         categorySlug={quickView?.category.slug ?? ""}
@@ -220,7 +225,7 @@ function AllProductsPage() {
           quickView
             ? {
                 subcategory: quickView.subSlug || "range",
-                product: quickView.product.slug || quickView.product.id,
+                product: quickView.family.primary.slug || quickView.family.primary.id,
               }
             : undefined
         }
