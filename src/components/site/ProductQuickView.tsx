@@ -85,24 +85,54 @@ export function ProductQuickView({
   const gallery = buildGallery(selected);
   const active = gallery[Math.min(activeIndex, Math.max(gallery.length - 1, 0))];
 
-  const colourNames = product.colours
-    ? product.colours
+  const colourNames = selected.colours
+    ? selected.colours
         .split(/[,/]/)
         .map((value) => value.trim())
         .filter(Boolean)
     : [];
+
+  const familyName = options.length ? (selected.name.split(" - ")[0] ?? selected.name) : selected.name;
 
   return (
     <Dialog open onOpenChange={(open) => (open ? undefined : onClose())}>
       <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-3xl">
         <DialogHeader className="text-left">
           <span className={`h-1.5 w-10 rounded-full ${swatchClass[accent]}`} aria-hidden="true" />
-          <DialogTitle className="display-type mt-3 text-3xl">{product.name}</DialogTitle>
+          <DialogTitle className="display-type mt-3 text-3xl">{familyName}</DialogTitle>
           <DialogDescription>
-            {product.plu ? `PLU ${product.plu} · ` : ""}
+            {selected.plu ? `PLU ${selected.plu} · ` : ""}
             {categoryName}
           </DialogDescription>
         </DialogHeader>
+
+        {options.length ? (
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+              Options
+            </p>
+            <div className="mt-2 flex flex-wrap gap-2" role="group" aria-label="Product options">
+              {options.map((variant) => {
+                const isActive = variant.id === selected.id;
+                return (
+                  <button
+                    key={variant.id}
+                    type="button"
+                    aria-pressed={isActive}
+                    onClick={() => setSelectedId(variant.id)}
+                    className={`rounded-full border-2 px-3 py-1.5 text-xs font-semibold transition-colors ${
+                      isActive
+                        ? `${borderAccentClass[accent]} ${textClass[accent]}`
+                        : "border-border text-muted-foreground hover:text-foreground"
+                    }`}
+                  >
+                    {optionLabel(variant)}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        ) : null}
 
         <div className="grid gap-6 sm:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
           <div>
