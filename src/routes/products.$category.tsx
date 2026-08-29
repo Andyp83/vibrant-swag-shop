@@ -234,22 +234,23 @@ function CategoryPage() {
           decorations={decorationOptions(category.products)}
           colours={colourOptions(category.products)}
           onChange={updateFilters}
-          resultCount={visibleProducts.length}
-          totalCount={category.products.length}
+          resultCount={visibleFamilies.length}
+          totalCount={families.length}
         />
         <div
           className={`mt-8 grid gap-4 sm:grid-cols-2 ${
             filters.density === "5" ? "lg:grid-cols-5" : "lg:grid-cols-3"
           }`}
         >
-          {visibleProducts.map((p, i) => {
+          {visibleFamilies.map((family, i) => {
+            const p = featuredVariant(family, filters);
             const previewImage = colourImageFor(p, filters.colours) ?? p.image_url;
             const cols = filters.density === "5" ? 5 : 3;
             return (
-            <Reveal key={p.id} delay={(i % cols) * 90} variant="up">
+            <Reveal key={family.key} delay={(i % cols) * 90} variant="up">
               <button
                 type="button"
-                onClick={() => setQuickView(p)}
+                onClick={() => setQuickView(family)}
                 className={`lift group flex h-full w-full flex-col rounded-xl border-2 bg-card text-left ${
                   filters.density === "5" ? "p-3" : "p-5"
                 } ${borderAccentClass[accent]}`}
