@@ -169,8 +169,8 @@ function AllProductsPage() {
                       src={previewImage}
                       alt={
                         filters.colours.length
-                          ? `${e.product.name} in ${filters.colours.join(", ")}`
-                          : e.product.name
+                          ? `${e.family.name} in ${filters.colours.join(", ")}`
+                          : e.family.name
                       }
                       loading={i < 6 ? "eager" : "lazy"}
                       decoding="async"
@@ -180,7 +180,12 @@ function AllProductsPage() {
                     />
                   ) : null}
                 </span>
-                <span className="mt-3 block text-sm font-semibold">{e.product.name}</span>
+                <span className="mt-3 block text-sm font-semibold">{e.family.name}</span>
+                {e.family.variants.length > 1 ? (
+                  <span className="mt-1 block text-xs text-muted-foreground">
+                    {e.family.variants.length} options
+                  </span>
+                ) : null}
               </button>
             </Reveal>
           );
