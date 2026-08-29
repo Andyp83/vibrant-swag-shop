@@ -27,7 +27,7 @@ export const emptyFilters: ProductFilterValue = {
   sort: "default",
   impact: false,
   moq: 0,
-  density: "3",
+  density: "5",
 };
 
 
@@ -324,7 +324,7 @@ export function parseFilterSearch(search: Record<string, unknown>): {
   if (search["sort"] === "colour-match") out.sort = "colour-match";
 
   const rawDensity = search["density"];
-  if (rawDensity === "5") out.density = "5";
+  if (rawDensity === "3" || rawDensity === "5") out.density = rawDensity;
 
   const rawImpact = search["impact"];
   if (rawImpact === true || rawImpact === "true" || rawImpact === "1") {

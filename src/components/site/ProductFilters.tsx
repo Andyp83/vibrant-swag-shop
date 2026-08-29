@@ -279,7 +279,7 @@ export function ProductFilters({
                 sort: "default",
                 impact: false,
                 moq: 0,
-                density: "3",
+                density: "5",
               })
             }
 

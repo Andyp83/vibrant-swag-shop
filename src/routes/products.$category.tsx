@@ -132,7 +132,7 @@ function CategoryPage() {
     sort: search.sort ?? "default",
     impact: search.impact ?? false,
     moq: search.moq ?? 0,
-    density: search.density ?? "3",
+    density: search.density ?? "5",
   };
   const subcategoryIdFor = (slug: string) =>
     category.subcategories.find((s) => s.slug === slug)?.id ?? null;
@@ -163,7 +163,7 @@ function CategoryPage() {
           : {}),
         ...(merged.impact ? { impact: true } : {}),
         ...(merged.moq ? { moq: merged.moq } : {}),
-        ...(merged.density === "5" ? { density: "5" as const } : {}),
+        ...(merged.density === "3" ? { density: "3" as const } : {}),
       },
 
       replace: true,
