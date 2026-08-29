@@ -138,8 +138,8 @@ function AllProductsPage() {
                 .map((s) => ({ slug: s.slug, name: s.name }))
             : []
         }
-        decorations={decorationOptions(allEntries.map((e) => e.product))}
-        colours={colourOptions(allEntries.map((e) => e.product))}
+        decorations={decorationOptions(allEntries.flatMap((e) => e.family.variants))}
+        colours={colourOptions(allEntries.flatMap((e) => e.family.variants))}
         onChange={updateFilters}
         resultCount={visible.length}
         totalCount={allEntries.length}
@@ -152,9 +152,10 @@ function AllProductsPage() {
       >
         {visible.slice(0, shown).map((e, i) => {
           const accent = spectrum(e.category.colour);
-          const previewImage = colourImageFor(e.product, filters.colours) ?? e.product.image_url;
+          const featured = featuredVariant(e.family, filters);
+          const previewImage = colourImageFor(featured, filters.colours) ?? featured.image_url;
           return (
-            <Reveal key={e.product.id} delay={(i % cols) * 90} variant="up">
+            <Reveal key={e.family.key} delay={(i % cols) * 90} variant="up">
               <button
                 type="button"
                 onClick={() => setQuickView(e)}
