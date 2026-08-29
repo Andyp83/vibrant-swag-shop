@@ -60,7 +60,7 @@ export function ProductQuickView({
 }: {
   product: QuickViewProduct | null;
   /** Sibling sizes/lids/finishes of the same item, including `product`. */
-  variants?: QuickViewProduct[];
+  variants?: QuickViewProduct[] | undefined;
   accent: SpectrumColor;
   categoryName: string;
   categorySlug: string;
