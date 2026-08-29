@@ -123,7 +123,7 @@ function CategoryNotFound() {
 function CategoryPage() {
   const { category } = Route.useLoaderData() as { category: CmsCategory };
   const search = Route.useSearch();
-  const [quickView, setQuickView] = useState<CmsProduct | null>(null);
+  const [quickView, setQuickView] = useState<ProductFamily | null>(null);
   const navigate = useNavigate({ from: Route.fullPath });
   const filters: ProductFilterValue = {
     category: category.slug,
