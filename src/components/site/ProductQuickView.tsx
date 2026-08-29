@@ -23,6 +23,10 @@ function cssColorFor(label: string): string {
 }
 
 
+function optionLabel(product: QuickViewProduct): string {
+  return (product.variant_label ?? "").trim() || "Standard";
+}
+
 function buildGallery(product: QuickViewProduct): Gallery {
   const colourShots = (product.colour_images ?? []).filter((image) => Boolean(image?.url));
   const shots: Gallery = colourShots.map((image, index) => ({
@@ -142,7 +146,7 @@ export function ProductQuickView({
               >
                 <img
                   src={active.url}
-                  alt={`${product.name} — ${active.label}`}
+                  alt={`${selected.name} — ${active.label}`}
                   loading="lazy"
                   decoding="async"
                   className="size-full object-contain p-4"
@@ -209,32 +213,32 @@ export function ProductQuickView({
 
           <div>
             <p className="text-sm text-muted-foreground">
-              {product.description || product.blurb}
+              {selected.description || selected.blurb}
             </p>
 
             <dl className="mt-5 space-y-2 text-xs text-muted-foreground">
-              {product.material_group && product.material_group !== "General" ? (
+              {selected.material_group && selected.material_group !== "General" ? (
                 <div className="flex gap-2">
                   <dt className="font-semibold text-foreground">Material:</dt>
-                  <dd>{product.material_group}</dd>
+                  <dd>{selected.material_group}</dd>
                 </div>
               ) : null}
-              {product.colours ? (
+              {selected.colours ? (
                 <div className="flex gap-2">
                   <dt className="font-semibold text-foreground">Colours:</dt>
-                  <dd>{product.colours}</dd>
+                  <dd>{selected.colours}</dd>
                 </div>
               ) : null}
-              {product.dimensions ? (
+              {selected.dimensions ? (
                 <div className="flex gap-2">
                   <dt className="font-semibold text-foreground">Size:</dt>
-                  <dd>{product.dimensions}</dd>
+                  <dd>{selected.dimensions}</dd>
                 </div>
               ) : null}
-              {product.moq ? (
+              {selected.moq ? (
                 <div className="flex gap-2">
                   <dt className="font-semibold text-foreground">Minimum:</dt>
-                  <dd>{product.moq}</dd>
+                  <dd>{selected.moq}</dd>
                 </div>
               ) : null}
             </dl>
@@ -252,13 +256,13 @@ export function ProductQuickView({
               </ul>
             ) : null}
 
-            {product.methods.length > 0 ? (
+            {selected.methods.length > 0 ? (
               <>
                 <p className="mt-5 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
                   Branding
                 </p>
                 <ul className="mt-2 flex flex-wrap gap-1.5">
-                  {product.methods.map((method) => (
+                  {selected.methods.map((method) => (
                     <li
                       key={method}
                       className={`rounded-full border px-2.5 py-1 text-[11px] font-medium ${borderAccentClass[accent]} ${textClass[accent]}`}
@@ -273,7 +277,7 @@ export function ProductQuickView({
             <div className="mt-7 flex flex-wrap items-center gap-3">
               <Link
                 to="/quote"
-                search={{ product: product.name }}
+                search={{ product: selected.name }}
                 className="sweep group inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground"
               >
                 Quote this item
@@ -284,12 +288,12 @@ export function ProductQuickView({
               </Link>
               <FavoriteButton
                 item={{
-                  id: product.id,
-                  name: product.name,
+                  id: selected.id,
+                  name: selected.name,
                   categoryName,
                   categorySlug,
-                  methods: product.methods,
-                  moq: product.moq,
+                  methods: selected.methods,
+                  moq: selected.moq,
                 }}
               />
             </div>
