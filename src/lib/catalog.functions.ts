@@ -244,12 +244,15 @@ export const listCatalog = createServerFn({ method: "GET" }).handler(
 
     const imagesByProduct = groupByProductId(images);
     const coloursByProduct = groupByProductId(colours);
-    const products = productsData.map((product) => ({
-      ...product,
-      colour_images: (Array.isArray(product.colour_images) ? product.colour_images : []) as CmsColourImage[],
-      images: imagesByProduct.get(product.id) ?? [],
-      colour_options: coloursByProduct.get(product.id) ?? [],
-    }));
+    const bySortOrder = <T extends { sort_order: number }>(a: T, b: T) => a.sort_order - b.sort_order;
+    const products = productsData
+      .map((product) => ({
+        ...product,
+        colour_images: (Array.isArray(product.colour_images) ? product.colour_images : []) as CmsColourImage[],
+        images: (imagesByProduct.get(product.id) ?? []).sort(bySortOrder),
+        colour_options: (coloursByProduct.get(product.id) ?? []).sort(bySortOrder),
+      }))
+      .sort(bySortOrder);
 
     const subcategories = subcategoriesResult.data ?? [];
 
