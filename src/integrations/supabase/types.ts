@@ -214,6 +214,8 @@ export type Database = {
           specifications: string
           subcategory_id: string | null
           updated_at: string
+          variant_group: string | null
+          variant_label: string | null
         }
         Insert: {
           blurb?: string
@@ -242,6 +244,8 @@ export type Database = {
           specifications?: string
           subcategory_id?: string | null
           updated_at?: string
+          variant_group?: string | null
+          variant_label?: string | null
         }
         Update: {
           blurb?: string
@@ -270,6 +274,8 @@ export type Database = {
           specifications?: string
           subcategory_id?: string | null
           updated_at?: string
+          variant_group?: string | null
+          variant_label?: string | null
         }
         Relationships: [
           {
