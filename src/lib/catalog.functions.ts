@@ -213,7 +213,9 @@ export const listCatalog = createServerFn({ method: "GET" }).handler(
           .select(
             "id, category_id, subcategory_id, slug, plu, name, blurb, description, features, service, specifications, colours, dimensions, materials, material_group, branding_options, packaging, carton_details, source_url, moq, methods, image_url, colour_images, variant_group, variant_label, sort_order",
           )
-          .order("sort_order", { ascending: true })
+          // Page by primary key (indexed) instead of sort_order — an unindexed
+          // ORDER BY across the full table was tripping the statement timeout.
+          .order("id", { ascending: true })
           .range(from, to),
       ),
       supabase
@@ -224,16 +226,14 @@ export const listCatalog = createServerFn({ method: "GET" }).handler(
         supabase
           .from("catalog_product_images")
           .select("id, product_id, image_code, image_url, source_filename, colour_label, shot_type, sort_order")
-          .order("product_id", { ascending: true })
-          .order("sort_order", { ascending: true })
+          .order("id", { ascending: true })
           .range(from, to),
       ),
       fetchAllRows<CmsProductColour>("catalog_product_colours", (from, to) =>
         supabase
           .from("catalog_product_colours")
           .select("id, product_id, colour_code, colour_name, sort_order")
-          .order("product_id", { ascending: true })
-          .order("sort_order", { ascending: true })
+          .order("id", { ascending: true })
           .range(from, to),
       ),
     ]);
@@ -244,12 +244,15 @@ export const listCatalog = createServerFn({ method: "GET" }).handler(
 
     const imagesByProduct = groupByProductId(images);
     const coloursByProduct = groupByProductId(colours);
-    const products = productsData.map((product) => ({
-      ...product,
-      colour_images: (Array.isArray(product.colour_images) ? product.colour_images : []) as CmsColourImage[],
-      images: imagesByProduct.get(product.id) ?? [],
-      colour_options: coloursByProduct.get(product.id) ?? [],
-    }));
+    const bySortOrder = <T extends { sort_order: number }>(a: T, b: T) => a.sort_order - b.sort_order;
+    const products = productsData
+      .map((product) => ({
+        ...product,
+        colour_images: (Array.isArray(product.colour_images) ? product.colour_images : []) as CmsColourImage[],
+        images: (imagesByProduct.get(product.id) ?? []).sort(bySortOrder),
+        colour_options: (coloursByProduct.get(product.id) ?? []).sort(bySortOrder),
+      }))
+      .sort(bySortOrder);
 
     const subcategories = subcategoriesResult.data ?? [];
 
