@@ -15,10 +15,12 @@ import {
   coloursFromSearch,
   coloursToSearch,
   decorationOptions,
-  matchesFilters,
+  familyMatchesFilters,
+  featuredVariant,
+  groupFamilies,
   parseFilterSearch,
-  sortProducts,
-
+  sortFamilies,
+  type ProductFamily,
   type ProductFilterValue,
 } from "@/lib/product-filters";
 
@@ -137,14 +139,12 @@ function CategoryPage() {
   const subcategoryIdFor = (slug: string) =>
     category.subcategories.find((s) => s.slug === slug)?.id ?? null;
   const activeSubId = filters.subcategory ? subcategoryIdFor(filters.subcategory) : null;
-  const visibleProducts = sortProducts(
-    category.products.filter(
-      (p) =>
-        matchesFilters(p, filters, category.slug) &&
-        (!activeSubId || p.subcategory_id === activeSubId),
-    ),
+  const families = groupFamilies(
+    category.products.filter((p) => !activeSubId || p.subcategory_id === activeSubId),
+  );
+  const visibleFamilies = sortFamilies(
+    families.filter((family) => familyMatchesFilters(family, filters, category.slug)),
     filters,
-    (p) => p,
   );
   const accent = spectrum(category.colour);
 
