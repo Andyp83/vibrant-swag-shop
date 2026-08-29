@@ -46,6 +46,7 @@ function preferredIndex(gallery: Gallery, preferred: string[]): number {
 
 export function ProductQuickView({
   product,
+  variants,
   accent,
   categoryName,
   categorySlug,
@@ -54,6 +55,8 @@ export function ProductQuickView({
   onClose,
 }: {
   product: QuickViewProduct | null;
+  /** Sibling sizes/lids/finishes of the same item, including `product`. */
+  variants?: QuickViewProduct[];
   accent: SpectrumColor;
   categoryName: string;
   categorySlug: string;
@@ -62,16 +65,24 @@ export function ProductQuickView({
   onClose: () => void;
 }) {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
   const preferredKey = preferredColours.join(",");
 
+  const options = (variants ?? []).length > 1 ? (variants as QuickViewProduct[]) : [];
+  const selected = options.find((v) => v.id === selectedId) ?? product;
+
   useEffect(() => {
-    if (!product) return;
-    setActiveIndex(preferredIndex(buildGallery(product), preferredKey.split(",")));
-  }, [product, preferredKey]);
+    setSelectedId(product?.id ?? null);
+  }, [product]);
 
-  if (!product) return null;
+  useEffect(() => {
+    if (!selected) return;
+    setActiveIndex(preferredIndex(buildGallery(selected), preferredKey.split(",")));
+  }, [selected, preferredKey]);
 
-  const gallery = buildGallery(product);
+  if (!product || !selected) return null;
+
+  const gallery = buildGallery(selected);
   const active = gallery[Math.min(activeIndex, Math.max(gallery.length - 1, 0))];
 
   const colourNames = product.colours
