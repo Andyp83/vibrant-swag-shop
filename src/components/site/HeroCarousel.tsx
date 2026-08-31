@@ -115,9 +115,9 @@ const slides: Slide[] = [
     image: {
       src: heroGifting,
       sizes: "(max-width: 640px) 100vw, (max-width: 1024px) 92vw, 1024px",
-      width: 1536,
-      height: 576,
-      alt: "Corporate gift hampers, wine bag, candle, chocolates, keepsake box and leather notebook",
+      width: 1867,
+      height: 504,
+      alt: "Rainbow row of branded corporate gift hampers with ribbon bows, wine, drink bottles, candles, flowers and treats",
     },
     imageClass: "hero-lineup-warm",
     accent: "hero-accent-gift",
