@@ -3,7 +3,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Download } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { artworkFaq, decorations, spectrum, swatchClass, textClass } from "@/lib/catalog";
-import { catalogQueryOptions } from "@/lib/catalog-query";
+import { categoriesQueryOptions } from "@/lib/catalog-query";
 import { decorationImages } from "@/lib/decoration-images";
 import { PlacementBanners } from "@/components/site/PlacementBanners";
 import {
@@ -22,7 +22,7 @@ import {
 
 
 export const Route = createFileRoute("/decoration")({
-  loader: ({ context }) => context.queryClient.ensureQueryData(catalogQueryOptions()),
+  loader: ({ context }) => context.queryClient.ensureQueryData(categoriesQueryOptions()),
 
   head: () => ({
     meta: [
@@ -47,7 +47,7 @@ export const Route = createFileRoute("/decoration")({
 });
 
 function DecorationPage() {
-  const { data: categories } = useSuspenseQuery(catalogQueryOptions());
+  const { data: categories } = useSuspenseQuery(categoriesQueryOptions());
   const [categoryFilter, setCategoryFilter] = useState("");
   const [selected, setSelected] = useState(decorations[0]!.slug);
   const [lightboxSlug, setLightboxSlug] = useState<string | null>(null);
