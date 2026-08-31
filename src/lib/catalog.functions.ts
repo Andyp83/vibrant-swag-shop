@@ -336,6 +336,35 @@ export const listCatalog = createServerFn({ method: "GET" }).handler(
 
 );
 
+/** Public: categories + subcategories only (no products) — for nav and the homepage. */
+export const listCategories = createServerFn({ method: "GET" }).handler(
+  async (): Promise<CmsCategory[]> => {
+    const { getPublicSupabase } = await import("./supabase-public.server");
+    const supabase = getPublicSupabase();
+
+    const [categoriesResult, subcategoriesResult] = await Promise.all([
+      supabase
+        .from("catalog_categories")
+        .select("id, slug, name, tagline, description, colour, image_url, hero_image_url, sort_order")
+        .order("sort_order", { ascending: true }),
+      supabase
+        .from("catalog_subcategories")
+        .select("id, category_id, slug, name, description, image_url, sort_order")
+        .order("sort_order", { ascending: true }),
+    ]);
+
+    if (categoriesResult.error) throw new Error(categoriesResult.error.message);
+    if (subcategoriesResult.error) throw new Error(subcategoriesResult.error.message);
+
+    const subcategories = subcategoriesResult.data ?? [];
+    return (categoriesResult.data ?? []).map((category) => ({
+      ...category,
+      products: [],
+      subcategories: subcategories.filter((s) => s.category_id === category.id),
+    }));
+  },
+);
+
 /** Public: the long-text detail fields for a single product. */
 export const getProductDetail = createServerFn({ method: "GET" })
   .inputValidator((input: unknown) => idSchema.parse(input))

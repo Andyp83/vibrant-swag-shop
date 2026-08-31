@@ -3,6 +3,7 @@ import { queryOptions } from "@tanstack/react-query";
 import {
   getProductDetail,
   listCatalog,
+  listCategories,
   type CmsCategory,
   type CmsProduct,
   type CmsProductColour,
@@ -28,4 +29,13 @@ export const productDetailQueryOptions = (id: string) =>
     queryKey: ["catalog", "product-detail", id],
     queryFn: () => getProductDetail({ data: { id } }),
     staleTime: 5 * 60_000,
+  });
+
+/** Lightweight: categories + subcategories, without the full product payload. */
+export const categoriesQueryOptions = () =>
+  queryOptions({
+    queryKey: ["catalog", "categories"],
+    queryFn: () => listCategories(),
+    staleTime: 5 * 60_000,
+    retry: 2,
   });
