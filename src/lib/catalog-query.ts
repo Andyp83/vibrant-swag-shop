@@ -1,6 +1,7 @@
 import { queryOptions } from "@tanstack/react-query";
 
 import {
+  getProductDetail,
   listCatalog,
   type CmsCategory,
   type CmsProduct,
@@ -21,3 +22,10 @@ export const catalogQueryOptions = () =>
 
 
 export type { CmsCategory, CmsProduct, CmsProductColour, CmsProductImage, CmsSubcategory };
+
+export const productDetailQueryOptions = (id: string) =>
+  queryOptions({
+    queryKey: ["catalog", "product-detail", id],
+    queryFn: () => getProductDetail({ data: { id } }),
+    staleTime: 5 * 60_000,
+  });

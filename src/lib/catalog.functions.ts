@@ -58,6 +58,34 @@ export type CmsProductColour = {
 type CmsProductRow = Omit<CmsProduct, "images" | "colour_options">;
 type CmsProductRaw = Omit<CmsProductRow, "colour_images"> & { colour_images: unknown };
 
+/** The trimmed shape returned by the full-catalogue list query. */
+type CmsProductListRow = Omit<
+  CmsProductRaw,
+  | "description"
+  | "features"
+  | "specifications"
+  | "dimensions"
+  | "materials"
+  | "branding_options"
+  | "packaging"
+  | "carton_details"
+  | "source_url"
+>;
+
+/** Long-text fields fetched on demand for the product detail page. */
+export type CmsProductDetail = {
+  description: string;
+  features: string;
+  specifications: string;
+  dimensions: string;
+  materials: string;
+  branding_options: string;
+  packaging: string;
+  carton_details: string;
+  source_url: string | null;
+};
+
+
 export type CmsSubcategory = {
   id: string;
   category_id: string;
@@ -164,24 +192,42 @@ type PagedResult<T> = {
   error: { message: string } | null;
 };
 
-async function fetchAllRows<T>(
+/**
+ * Keyset pagination by primary key. OFFSET-style `.range()` makes Postgres
+ * re-scan and re-sort every earlier row on each page, which trips the
+ * statement timeout on the larger catalogue tables. Paging with `id > cursor`
+ * keeps each page an index range scan. Falls back to smaller pages when a
+ * page still times out.
+ */
+async function fetchAllRows<T extends { id: string }>(
   label: string,
-  queryPage: (from: number, to: number) => PromiseLike<PagedResult<T>>,
+  queryPage: (cursor: string | null, limit: number) => PromiseLike<PagedResult<T>>,
 ): Promise<T[]> {
-  const pageSize = 1000;
   const rows: T[] = [];
+  let cursor: string | null = null;
+  let pageSize = 500;
 
-  for (let from = 0; ; from += pageSize) {
-    const { data, error } = await queryPage(from, from + pageSize - 1);
-    if (error) throw new Error(`${label}: ${error.message}`);
+  for (;;) {
+    const { data, error } = await queryPage(cursor, pageSize);
+
+    if (error) {
+      const timedOut = /timeout|canceling statement/i.test(error.message);
+      if (timedOut && pageSize > 100) {
+        pageSize = Math.floor(pageSize / 2);
+        continue;
+      }
+      throw new Error(`${label}: ${error.message}`);
+    }
 
     const page = data ?? [];
     rows.push(...page);
     if (page.length < pageSize) break;
+    cursor = page[page.length - 1]!.id;
   }
 
   return rows;
 }
+
 
 function groupByProductId<T extends { product_id: string }>(rows: T[]) {
   const grouped = new Map<string, T[]>();
@@ -202,41 +248,56 @@ export const listCatalog = createServerFn({ method: "GET" }).handler(
     const { getPublicSupabase } = await import("./supabase-public.server");
     const supabase = getPublicSupabase();
 
-    const [categoriesResult, productsData, subcategoriesResult, images, colours] = await Promise.all([
+    const [categoriesResult, subcategoriesResult] = await Promise.all([
       supabase
         .from("catalog_categories")
         .select("id, slug, name, tagline, description, colour, image_url, hero_image_url, sort_order")
         .order("sort_order", { ascending: true }),
-      fetchAllRows<CmsProductRaw>("catalog_products", (from, to) =>
-        supabase
-          .from("catalog_products")
-          .select(
-            "id, category_id, subcategory_id, slug, plu, name, blurb, description, features, service, specifications, colours, dimensions, materials, material_group, branding_options, packaging, carton_details, source_url, moq, methods, image_url, colour_images, variant_group, variant_label, sort_order",
-          )
-          // Page by primary key (indexed) instead of sort_order — an unindexed
-          // ORDER BY across the full table was tripping the statement timeout.
-          .order("id", { ascending: true })
-          .range(from, to),
-      ),
       supabase
         .from("catalog_subcategories")
         .select("id, category_id, slug, name, description, image_url, sort_order")
         .order("sort_order", { ascending: true }),
-      fetchAllRows<CmsProductImage>("catalog_product_images", (from, to) =>
-        supabase
-          .from("catalog_product_images")
-          .select("id, product_id, image_code, image_url, source_filename, colour_label, shot_type, sort_order")
-          .order("id", { ascending: true })
-          .range(from, to),
-      ),
-      fetchAllRows<CmsProductColour>("catalog_product_colours", (from, to) =>
-        supabase
-          .from("catalog_product_colours")
-          .select("id, product_id, colour_code, colour_name, sort_order")
-          .order("id", { ascending: true })
-          .range(from, to),
-      ),
     ]);
+
+    // Run the big table scans sequentially: three concurrent full-table reads
+    // competed for the same connection pool and tripped the statement timeout.
+    // Heavy long-text columns (features, specifications, branding_options,
+    // packaging, carton_details, materials, dimensions, source_url) are NOT
+    // selected here — they multiplied the payload by ~10x for a full-catalogue
+    // read and are only needed on the product detail page, which fetches them
+    // on demand via getProductDetail().
+    const productsData = await fetchAllRows<CmsProductListRow>("catalog_products", (cursor, limit) => {
+      let query = supabase
+        .from("catalog_products")
+        .select(
+          "id, category_id, subcategory_id, slug, plu, name, blurb, service, colours, material_group, moq, methods, image_url, colour_images, variant_group, variant_label, sort_order",
+        )
+        .order("id", { ascending: true })
+        .limit(limit);
+      if (cursor) query = query.gt("id", cursor);
+      return query;
+    });
+
+    const images = await fetchAllRows<CmsProductImage>("catalog_product_images", (cursor, limit) => {
+      let query = supabase
+        .from("catalog_product_images")
+        .select("id, product_id, image_code, image_url, source_filename, colour_label, shot_type, sort_order")
+        .order("id", { ascending: true })
+        .limit(limit);
+      if (cursor) query = query.gt("id", cursor);
+      return query;
+    });
+
+    const colours = await fetchAllRows<CmsProductColour>("catalog_product_colours", (cursor, limit) => {
+      let query = supabase
+        .from("catalog_product_colours")
+        .select("id, product_id, colour_code, colour_name, sort_order")
+        .order("id", { ascending: true })
+        .limit(limit);
+      if (cursor) query = query.gt("id", cursor);
+      return query;
+    });
+
 
 
     if (categoriesResult.error) throw new Error(categoriesResult.error.message);
@@ -245,14 +306,24 @@ export const listCatalog = createServerFn({ method: "GET" }).handler(
     const imagesByProduct = groupByProductId(images);
     const coloursByProduct = groupByProductId(colours);
     const bySortOrder = <T extends { sort_order: number }>(a: T, b: T) => a.sort_order - b.sort_order;
-    const products = productsData
+    const products: CmsProduct[] = productsData
       .map((product) => ({
         ...product,
+        description: "",
+        features: "",
+        specifications: "",
+        dimensions: "",
+        materials: "",
+        branding_options: "",
+        packaging: "",
+        carton_details: "",
+        source_url: null,
         colour_images: (Array.isArray(product.colour_images) ? product.colour_images : []) as CmsColourImage[],
         images: (imagesByProduct.get(product.id) ?? []).sort(bySortOrder),
         colour_options: (coloursByProduct.get(product.id) ?? []).sort(bySortOrder),
       }))
       .sort(bySortOrder);
+
 
     const subcategories = subcategoriesResult.data ?? [];
 
@@ -264,6 +335,38 @@ export const listCatalog = createServerFn({ method: "GET" }).handler(
   },
 
 );
+
+/** Public: the long-text detail fields for a single product. */
+export const getProductDetail = createServerFn({ method: "GET" })
+  .inputValidator((input: unknown) => idSchema.parse(input))
+  .handler(async ({ data }): Promise<CmsProductDetail> => {
+    const { getPublicSupabase } = await import("./supabase-public.server");
+    const supabase = getPublicSupabase();
+
+    const { data: row, error } = await supabase
+      .from("catalog_products")
+      .select(
+        "description, features, specifications, dimensions, materials, branding_options, packaging, carton_details, source_url",
+      )
+      .eq("id", data.id)
+      .maybeSingle();
+
+    if (error) throw new Error(error.message);
+
+    return {
+      description: row?.description ?? "",
+      features: row?.features ?? "",
+      specifications: row?.specifications ?? "",
+      dimensions: row?.dimensions ?? "",
+      materials: row?.materials ?? "",
+      branding_options: row?.branding_options ?? "",
+      packaging: row?.packaging ?? "",
+      carton_details: row?.carton_details ?? "",
+      source_url: row?.source_url ?? null,
+    };
+  });
+
+
 
 export const checkIsAdmin = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])

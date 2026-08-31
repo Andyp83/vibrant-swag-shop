@@ -1,3 +1,4 @@
+import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, ExternalLink } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -11,7 +12,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { borderAccentClass, swatchClass, textClass, type SpectrumColor } from "@/lib/catalog";
-import type { CmsProduct } from "@/lib/catalog-query";
+import { productDetailQueryOptions, type CmsProduct } from "@/lib/catalog-query";
 import { colourSwatchCss } from "@/lib/product-filters";
 
 export type QuickViewProduct = CmsProduct;
@@ -74,6 +75,13 @@ export function ProductQuickView({
 
   const options = (variants ?? []).length > 1 ? (variants as QuickViewProduct[]) : [];
   const selected = options.find((v) => v.id === selectedId) ?? product;
+
+  // The catalogue list omits long-text fields; pull the description on demand.
+  const { data: detail } = useQuery({
+    ...productDetailQueryOptions(selected?.id ?? ""),
+    enabled: Boolean(selected?.id),
+  });
+
 
   useEffect(() => {
     setSelectedId(product?.id ?? null);
@@ -213,7 +221,7 @@ export function ProductQuickView({
 
           <div>
             <p className="text-sm text-muted-foreground">
-              {selected.description || selected.blurb}
+              {detail?.description || selected.blurb}
             </p>
 
             <dl className="mt-5 space-y-2 text-xs text-muted-foreground">
