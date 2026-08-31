@@ -6,7 +6,7 @@ import type { LucideIcon } from "lucide-react";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import heroMerch from "@/assets/hero/hero-lineup-1862.png";
 import heroMerchSmall from "@/assets/hero/hero-lineup-1400.png";
-import heroPrint from "@/assets/hero/hero-print-cut.png";
+import heroPrint from "@/assets/hero/hero-print-rainbow.png";
 import heroGifting from "@/assets/hero/hero-gifting-cut.png";
 
 type Slide = {
@@ -84,8 +84,8 @@ const slides: Slide[] = [
     image: {
       src: heroPrint,
       sizes: "(max-width: 640px) 100vw, (max-width: 1024px) 92vw, 1024px",
-      width: 1536,
-      height: 576,
+      width: 1335,
+      height: 626,
       alt: "Printed business cards, flyers, posters, trifold brochures, presentation folders, vinyl banners and pull-up banners printed in bright cyan, magenta and yellow on white stock",
     },
     imageClass: "hero-lineup-light",
