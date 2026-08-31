@@ -6,8 +6,8 @@ import type { LucideIcon } from "lucide-react";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import heroMerch from "@/assets/hero/hero-lineup-1862.png";
 import heroMerchSmall from "@/assets/hero/hero-lineup-1400.png";
-import heroPrint from "@/assets/hero/hero-print-rainbow.png";
-import heroGifting from "@/assets/hero/hero-gifting-cut.png";
+import heroPrint from "@/assets/hero/hero-print-rainbow.webp";
+import heroGifting from "@/assets/hero/hero-gifting-rainbow.webp";
 
 type Slide = {
   id: string;
@@ -115,9 +115,9 @@ const slides: Slide[] = [
     image: {
       src: heroGifting,
       sizes: "(max-width: 640px) 100vw, (max-width: 1024px) 92vw, 1024px",
-      width: 1536,
-      height: 576,
-      alt: "Corporate gift hampers, wine bag, candle, chocolates, keepsake box and leather notebook",
+      width: 1867,
+      height: 504,
+      alt: "Rainbow row of branded corporate gift hampers with ribbon bows, wine, drink bottles, candles, flowers and treats",
     },
     imageClass: "hero-lineup-warm",
     accent: "hero-accent-gift",
