@@ -6,8 +6,8 @@ import type { LucideIcon } from "lucide-react";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import heroMerch from "@/assets/hero/hero-lineup-1862.png";
 import heroMerchSmall from "@/assets/hero/hero-lineup-1400.png";
-import heroPrint from "@/assets/hero/hero-print-rainbow.png";
-import heroGifting from "@/assets/hero/hero-gifting-cut.png";
+import heroPrint from "@/assets/hero/hero-print-rainbow.webp";
+import heroGifting from "@/assets/hero/hero-gifting-rainbow.webp";
 
 type Slide = {
   id: string;
