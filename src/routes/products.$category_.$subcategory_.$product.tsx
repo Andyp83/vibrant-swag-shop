@@ -6,7 +6,7 @@ import { useEffect, useMemo, useState } from "react";
 import { FavoriteButton } from "@/components/site/FavoriteButton";
 import { Reveal } from "@/components/site/Reveal";
 import { borderAccentClass, softBgClass, spectrum, swatchClass, textClass } from "@/lib/catalog";
-import { catalogQueryOptions, type CmsCategory, type CmsSubcategory } from "@/lib/catalog-query";
+import { catalogQueryOptions, productDetailQueryOptions, type CmsCategory, type CmsSubcategory } from "@/lib/catalog-query";
 import type { CmsProduct } from "@/lib/catalog.functions";
 
 export const Route = createFileRoute("/products/$category_/$subcategory_/$product")({
@@ -16,14 +16,18 @@ export const Route = createFileRoute("/products/$category_/$subcategory_/$produc
     if (!category) throw notFound();
     const subcategory = category.subcategories.find((s) => s.slug === params.subcategory);
     if (!subcategory) throw notFound();
-    const product = category.products.find(
+    const listed = category.products.find(
       (p) =>
         p.subcategory_id === subcategory.id &&
         (p.slug === params.product || p.id === params.product || p.plu === params.product),
     );
-    if (!product) throw notFound();
-    return { category, subcategory, product };
+    if (!listed) throw notFound();
+    // The catalogue list query omits long-text fields for payload size; fetch
+    // them for this one product.
+    const detail = await context.queryClient.ensureQueryData(productDetailQueryOptions(listed.id));
+    return { category, subcategory, product: { ...listed, ...detail } };
   },
+
   head: ({ loaderData }) => {
     if (!loaderData) {
       return {
