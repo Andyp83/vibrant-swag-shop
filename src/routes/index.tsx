@@ -2,7 +2,7 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import { borderAccentClass, softBgClass, spectrum, swatchClass } from "@/lib/catalog";
-import { catalogQueryOptions } from "@/lib/catalog-query";
+import { categoriesQueryOptions } from "@/lib/catalog-query";
 import { HeroCarousel, heroPreloadLinks } from "@/components/site/HeroCarousel";
 import { PlacementBanners } from "@/components/site/PlacementBanners";
 import { Reveal } from "@/components/site/Reveal";
@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/accordion";
 
 export const Route = createFileRoute("/")({
-  loader: ({ context }) => context.queryClient.ensureQueryData(catalogQueryOptions()),
+  loader: ({ context }) => context.queryClient.ensureQueryData(categoriesQueryOptions()),
   head: () => ({
     meta: [
       { title: "See See Bloom — Branded Merchandise for Brands Worth Remembering" },
@@ -98,7 +98,7 @@ const faqs = [
 // Hampers & Gifting and Print sit outside the printed-merchandise spectrum
 const nonBrandingSlugs = ["hampers-gifting", "print"];
 function Home() {
-  const { data: allCategories } = useSuspenseQuery(catalogQueryOptions());
+  const { data: allCategories } = useSuspenseQuery(categoriesQueryOptions());
   const categories = allCategories.filter((c) => !nonBrandingSlugs.includes(c.slug));
 
   return (
