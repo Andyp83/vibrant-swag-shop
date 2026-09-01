@@ -2,19 +2,24 @@ import { Link } from "@tanstack/react-router";
 import { Menu } from "lucide-react";
 import { useState } from "react";
 import brandLockup from "@/assets/brand/see-see-bloom-lockup-light.png";
-import { DecorationMenu } from "@/components/site/DecorationMenu";
+import {
+  BrandedMenu,
+  GiftingMenu,
+  PrintMenu,
+} from "@/components/site/ProductWorldMenus";
 import { ShortlistLink } from "@/components/site/ShortlistLink";
 
 
-const nav = [
-  { to: "/", label: "Home" },
-  { to: "/products", label: "Products" },
+const mobileNav = [
+  { to: "/products", label: "Branded merchandise" },
   { to: "/catalogues", label: "Catalogues" },
   { to: "/procurement", label: "Sourcing" },
   { to: "/decoration", label: "Decoration" },
+  { to: "/quote", label: "Print with us" },
   { to: "/quote", label: "Get a quote" },
   { to: "/portal", label: "Client login" },
 ] as const;
+
 
 
 export function SiteHeader() {
