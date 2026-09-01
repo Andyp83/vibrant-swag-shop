@@ -2,7 +2,13 @@ import { createFileRoute, Link, notFound, useNavigate } from "@tanstack/react-ro
 import { useState } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { borderAccentClass, softBgClass, spectrum, swatchClass, textClass } from "@/lib/catalog";
-import { catalogQueryOptions, type CmsCategory, type CmsProduct } from "@/lib/catalog-query";
+import {
+  categoriesQueryOptions,
+  decorationMethodsQueryOptions,
+  productFamiliesQueryOptions,
+  type CmsCategory,
+} from "@/lib/catalog-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { categoryPlacement } from "@/lib/banners";
 import { PlacementBanners } from "@/components/site/PlacementBanners";
 import { Reveal } from "@/components/site/Reveal";
@@ -10,27 +16,54 @@ import { ProductQuickView } from "@/components/site/ProductQuickView";
 
 import { ProductFilters } from "@/components/site/ProductFilters";
 import {
+  ALLOWED_COLOURS,
   colourImageFor,
-  colourOptions,
   coloursFromSearch,
   coloursToSearch,
-  decorationOptions,
-  familyMatchesFilters,
+  familiesFromPage,
   featuredVariant,
-  groupFamilies,
   parseFilterSearch,
-  sortFamilies,
   type ProductFamily,
   type ProductFilterValue,
 } from "@/lib/product-filters";
 
+const PAGE_SIZE = 60;
+
 export const Route = createFileRoute("/products/$category")({
   validateSearch: parseFilterSearch,
-  loader: async ({ params, context }) => {
-    const catalog = await context.queryClient.ensureQueryData(catalogQueryOptions());
-    const category = catalog.find((c) => c.slug === params.category);
+  loaderDeps: ({ search }) => ({
+    category: search.category ?? "",
+    sub: search.sub ?? "",
+    decoration: search.decoration ?? "",
+    colour: search.colour ?? "",
+    colourMatch: search.colourMatch ?? "any",
+    sort: search.sort ?? "default",
+    impact: search.impact ?? false,
+    moq: search.moq ?? 0,
+    page: search.page ?? 1,
+  }),
+  loader: async ({ params, context, deps }) => {
+    const categories = await context.queryClient.ensureQueryData(categoriesQueryOptions());
+    const category = categories.find((c) => c.slug === params.category);
     if (!category) throw notFound();
-    return { category, others: catalog.filter((c) => c.slug !== category.slug) };
+    await Promise.all([
+      context.queryClient.ensureQueryData(decorationMethodsQueryOptions()),
+      context.queryClient.ensureQueryData(
+        productFamiliesQueryOptions({
+          category: category.slug,
+      ...(deps.sub ? { sub: deps.sub } : {}),
+      ...(deps.decoration ? { decoration: deps.decoration } : {}),
+      colours: coloursFromSearch(deps.colour),
+      colourMode: deps.colourMatch,
+      impact: deps.impact,
+      moqMax: deps.moq,
+      sort: deps.sort,
+      page: Math.max(0, deps.page - 1),
+      pageSize: PAGE_SIZE,
+        }),
+      ),
+    ]);
+    return { category };
   },
   head: ({ loaderData }) => {
     if (!loaderData) {
@@ -61,17 +94,12 @@ export const Route = createFileRoute("/products/$category")({
             name: title,
             description: category.description,
             url,
-            numberOfItems: category.products.length,
-            itemListElement: category.products.map((product, index) => ({
+            numberOfItems: category.subcategories.length,
+            itemListElement: category.subcategories.map((sub, index) => ({
               "@type": "ListItem",
               position: index + 1,
-              item: {
-                "@type": "Product",
-                name: product.name,
-                description: product.blurb || undefined,
-                category: category.name,
-                brand: { "@type": "Brand", name: "See See Bloom" },
-              },
+              name: sub.name,
+              item: `https://seeseebloom.com.au/products/${category.slug}/${sub.slug}`,
             })),
           }),
         },
@@ -136,17 +164,35 @@ function CategoryPage() {
     moq: search.moq ?? 0,
     density: search.density ?? "5",
   };
-  const subcategoryIdFor = (slug: string) =>
-    category.subcategories.find((s) => s.slug === slug)?.id ?? null;
-  const activeSubId = filters.subcategory ? subcategoryIdFor(filters.subcategory) : null;
-  const families = groupFamilies(
-    category.products.filter((p) => !activeSubId || p.subcategory_id === activeSubId),
+  const page = Math.max(1, search.page ?? 1);
+  const decorations = useSuspenseQuery(decorationMethodsQueryOptions()).data;
+  const { data: pageData } = useSuspenseQuery(
+    productFamiliesQueryOptions({
+      category: category.slug,
+      ...(filters.subcategory ? { sub: filters.subcategory } : {}),
+      ...(filters.decoration ? { decoration: filters.decoration } : {}),
+      colours: filters.colours,
+      colourMode: filters.colourMatch,
+      impact: filters.impact,
+      moqMax: filters.moq,
+      sort: filters.sort,
+      page: page - 1,
+      pageSize: PAGE_SIZE,
+    }),
   );
-  const visibleFamilies = sortFamilies(
-    families.filter((family) => familyMatchesFilters(family, filters, category.slug)),
-    filters,
-  );
+  const visibleFamilies = familiesFromPage(pageData.families);
+  const totalPages = Math.max(1, Math.ceil(pageData.total / PAGE_SIZE));
   const accent = spectrum(category.colour);
+
+  const goToPage = (nextPage: number) => {
+    navigate({
+      search: (prev) => {
+        const { page: _current, ...rest } = prev;
+        return nextPage > 1 ? { ...rest, page: nextPage } : rest;
+      },
+    });
+    if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   const updateFilters = (next: Partial<ProductFilterValue>) => {
     const merged = { ...filters, ...next };
@@ -228,14 +274,12 @@ function CategoryPage() {
         <ProductFilters
           className="mt-6"
           value={filters}
-          subcategories={category.subcategories
-            .filter((s) => category.products.some((p) => p.subcategory_id === s.id))
-            .map((s) => ({ slug: s.slug, name: s.name }))}
-          decorations={decorationOptions(category.products)}
-          colours={colourOptions(category.products)}
+          subcategories={category.subcategories.map((s) => ({ slug: s.slug, name: s.name }))}
+          decorations={decorations}
+          colours={ALLOWED_COLOURS}
           onChange={updateFilters}
-          resultCount={visibleFamilies.length}
-          totalCount={families.length}
+          resultCount={pageData.total}
+          totalCount={pageData.total}
         />
         <div
           className={`mt-8 grid gap-4 sm:grid-cols-2 ${
@@ -279,6 +323,30 @@ function CategoryPage() {
             );
           })}
         </div>
+
+        {totalPages > 1 ? (
+          <div className="mt-10 flex items-center justify-center gap-3">
+            <button
+              type="button"
+              disabled={page <= 1}
+              onClick={() => goToPage(page - 1)}
+              className="rounded-full border-2 border-border px-6 py-3 text-sm font-semibold transition-colors hover:bg-accent disabled:opacity-40"
+            >
+              Previous
+            </button>
+            <span className="text-sm text-muted-foreground">
+              Page {page} of {totalPages}
+            </span>
+            <button
+              type="button"
+              disabled={page >= totalPages}
+              onClick={() => goToPage(page + 1)}
+              className="rounded-full border-2 border-border px-6 py-3 text-sm font-semibold transition-colors hover:bg-accent disabled:opacity-40"
+            >
+              Next
+            </button>
+          </div>
+        ) : null}
 
         <ProductQuickView
           product={quickView ? featuredVariant(quickView, filters) : null}

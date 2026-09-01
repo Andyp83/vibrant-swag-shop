@@ -21,7 +21,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { supabase } from "@/integrations/supabase/client";
 import { bannerPlacements, bannersQueryOptions, categoryPlacement } from "@/lib/banners";
 import { deleteBanner, saveBanner, type SiteBanner } from "@/lib/banners.functions";
-import { catalogQueryOptions } from "@/lib/catalog-query";
+import { categoriesQueryOptions } from "@/lib/catalog-query";
 
 export const Route = createFileRoute("/_authenticated/admin/banners")({
   head: () => ({
@@ -55,7 +55,7 @@ const emptyDraft: Draft = {
 function BannersPage() {
   const queryClient = useQueryClient();
   const bannersQuery = useQuery(bannersQueryOptions());
-  const catalogQuery = useSuspenseQuery(catalogQueryOptions());
+  const catalogQuery = useSuspenseQuery(categoriesQueryOptions());
   const [draft, setDraft] = useState<Draft | null>(null);
 
   const saveFn = useServerFn(saveBanner);

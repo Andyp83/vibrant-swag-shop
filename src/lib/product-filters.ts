@@ -151,6 +151,19 @@ function colourSearchTerms(colour: string): string[] {
   return [key, ...(COLOUR_ALIASES[key] ?? [])];
 }
 
+function escapeRegex(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+/**
+ * A Postgres regex alternation ("red|maroon|burgundy") matching every search
+ * term for a canonical colour. Used by the database-side catalogue search so
+ * colour filtering behaves the same on the server as it does in the browser.
+ */
+export function colourRegexPattern(colour: string): string {
+  return colourSearchTerms(colour).map(escapeRegex).filter(Boolean).join("|");
+}
+
 export function productHasColour(product: CmsProduct, colour: string): boolean {
   const needle = colour.trim().toLowerCase();
   if (!needle) return true;
@@ -292,6 +305,7 @@ export function parseFilterSearch(search: Record<string, unknown>): {
   impact?: boolean;
   moq?: number;
   density?: GridDensity;
+  page?: number;
 } {
   const out: {
     category?: string;
@@ -303,6 +317,7 @@ export function parseFilterSearch(search: Record<string, unknown>): {
     impact?: boolean;
     moq?: number;
     density?: GridDensity;
+    page?: number;
   } = {};
   const rawCategory = search["category"];
   if (typeof rawCategory === "string" && rawCategory.trim()) {
@@ -335,6 +350,8 @@ export function parseFilterSearch(search: Record<string, unknown>): {
   }
   const moq = Number(search["moq"]);
   if (Number.isFinite(moq) && moq > 0) out.moq = Math.min(9999, Math.round(moq));
+  const page = Number(search["page"]);
+  if (Number.isFinite(page) && page > 1) out.page = Math.min(400, Math.round(page));
   return out;
 }
 
@@ -451,4 +468,21 @@ export function sortFamilies(
     }))
     .sort((a, b) => b.score - a.score || a.index - b.index)
     .map((entry) => entry.family);
+}
+
+/** Build display families from a database page of grouped variants. */
+export function familiesFromPage(
+  page: { key: string; variants: CmsProduct[] }[],
+): ProductFamily[] {
+  return page
+    .filter((entry) => entry.variants.length > 0)
+    .map((entry) => {
+      const variants = [...entry.variants].sort(
+        (a, b) => a.sort_order - b.sort_order || variantLabel(a).localeCompare(variantLabel(b)),
+      );
+      const primary = variants.find((v) => Boolean(v.image_url)) ?? variants[0]!;
+      const name =
+        variants.length > 1 ? (primary.name.split(" - ")[0] ?? primary.name) : primary.name;
+      return { key: entry.key, name, primary, variants };
+    });
 }

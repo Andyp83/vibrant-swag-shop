@@ -192,7 +192,9 @@ export type Database = {
           branding_options: string
           carton_details: string
           category_id: string
+          colour_image_search: string | null
           colour_images: Json
+          colour_search: string | null
           colours: string
           created_at: string
           description: string
@@ -205,6 +207,7 @@ export type Database = {
           materials: string
           methods: string[]
           moq: string
+          moq_min: number | null
           name: string
           packaging: string
           plu: string | null
@@ -223,7 +226,9 @@ export type Database = {
           branding_options?: string
           carton_details?: string
           category_id: string
+          colour_image_search?: string | null
           colour_images?: Json
+          colour_search?: string | null
           colours?: string
           created_at?: string
           description?: string
@@ -236,6 +241,7 @@ export type Database = {
           materials?: string
           methods?: string[]
           moq?: string
+          moq_min?: number | null
           name: string
           packaging?: string
           plu?: string | null
@@ -254,7 +260,9 @@ export type Database = {
           branding_options?: string
           carton_details?: string
           category_id?: string
+          colour_image_search?: string | null
           colour_images?: Json
+          colour_search?: string | null
           colours?: string
           created_at?: string
           description?: string
@@ -267,6 +275,7 @@ export type Database = {
           materials?: string
           methods?: string[]
           moq?: string
+          moq_min?: number | null
           name?: string
           packaging?: string
           plu?: string | null
@@ -1011,12 +1020,28 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      catalog_decoration_methods: { Args: never; Returns: string[] }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
           _user_id: string
         }
         Returns: boolean
+      }
+      search_product_families: {
+        Args: {
+          p_category_id?: string
+          p_colour_mode?: string
+          p_colour_terms?: string[]
+          p_decoration?: string
+          p_impact?: boolean
+          p_limit?: number
+          p_moq_max?: number
+          p_offset?: number
+          p_sort?: string
+          p_subcategory_id?: string
+        }
+        Returns: Json
       }
     }
     Enums: {

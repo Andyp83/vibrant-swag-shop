@@ -18,7 +18,7 @@ import { confirmQuoteRequest } from "@/lib/backoffice/quote-confirm.functions";
 
 import { decorations } from "@/lib/catalog";
 import { getArtworkSpec, fileExtension, isRaster } from "@/lib/artwork-specs";
-import { catalogQueryOptions } from "@/lib/catalog-query";
+import { categoriesQueryOptions } from "@/lib/catalog-query";
 import { useShortlist, shortlistSummary } from "@/lib/shortlist";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -95,7 +95,7 @@ function QuotePage() {
           d.name.toLowerCase() === decoration.toLowerCase(),
       )?.name ?? "")
     : "";
-  const categories = useQuery(catalogQueryOptions()).data ?? [];
+  const categories = useQuery(categoriesQueryOptions()).data ?? [];
   const sendConfirmation = useServerFn(confirmQuoteRequest);
   const {
     items: shortlist,
