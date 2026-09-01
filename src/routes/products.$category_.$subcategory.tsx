@@ -5,22 +5,27 @@ import { ArrowLeft, ArrowRight, LayoutGrid } from "lucide-react";
 import { Reveal } from "@/components/site/Reveal";
 import { ProductQuickView } from "@/components/site/ProductQuickView";
 import { borderAccentClass, softBgClass, spectrum, swatchClass, textClass } from "@/lib/catalog";
-import { catalogQueryOptions, type CmsCategory, type CmsSubcategory } from "@/lib/catalog-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import {
+  categoriesQueryOptions,
+  productFamiliesQueryOptions,
+  type CmsCategory,
+  type CmsSubcategory,
+} from "@/lib/catalog-query";
 import type { CmsProduct } from "@/lib/catalog.functions";
 import { parseFilterSearch, type GridDensity } from "@/lib/product-filters";
 
 export const Route = createFileRoute("/products/$category_/$subcategory")({
   validateSearch: parseFilterSearch,
   loader: async ({ params, context }) => {
-    const catalog = await context.queryClient.ensureQueryData(catalogQueryOptions());
-    const category = catalog.find((c) => c.slug === params.category);
+    const categories = await context.queryClient.ensureQueryData(categoriesQueryOptions());
+    const category = categories.find((c) => c.slug === params.category);
     if (!category) throw notFound();
     const subcategory = category.subcategories.find((s) => s.slug === params.subcategory);
     if (!subcategory) throw notFound();
     return {
       category,
       subcategory,
-      products: category.products.filter((p) => p.subcategory_id === subcategory.id),
       siblings: category.subcategories.filter((s) => s.slug !== subcategory.slug),
     };
   },
@@ -30,7 +35,7 @@ export const Route = createFileRoute("/products/$category_/$subcategory")({
         meta: [{ title: "Unavailable | See See Bloom" }, { name: "robots", content: "noindex" }],
       };
     }
-    const { category, subcategory, products } = loaderData;
+    const { category, subcategory } = loaderData;
     const title = `Branded ${subcategory.name} — ${category.name} | See See Bloom`;
     const description =
       subcategory.description ||
@@ -56,18 +61,10 @@ export const Route = createFileRoute("/products/$category_/$subcategory")({
             name: title,
             description,
             url,
-            numberOfItems: products.length,
-            itemListElement: products.map((product, index) => ({
-              "@type": "ListItem",
-              position: index + 1,
-              item: {
-                "@type": "Product",
-                name: product.name,
-                description: product.blurb || undefined,
-                category: `${category.name} / ${subcategory.name}`,
-                brand: { "@type": "Brand", name: "See See Bloom" },
-              },
-            })),
+            numberOfItems: 1,
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: subcategory.name, item: url },
+            ],
           }),
         },
         {
@@ -113,10 +110,9 @@ function SubcategoryNotFound() {
 }
 
 function SubcategoryPage() {
-  const { category, subcategory, products, siblings } = Route.useLoaderData() as {
+  const { category, subcategory, siblings } = Route.useLoaderData() as {
     category: CmsCategory;
     subcategory: CmsSubcategory;
-    products: CmsProduct[];
     siblings: CmsSubcategory[];
   };
   const search = Route.useSearch();
@@ -125,6 +121,15 @@ function SubcategoryPage() {
   const density: GridDensity = search.density === "5" ? "5" : "3";
   const accent = spectrum(category.colour);
   const [quickView, setQuickView] = useState<CmsProduct | null>(null);
+  const { data: pageData } = useSuspenseQuery(
+    productFamiliesQueryOptions({
+      category: category.slug,
+      sub: subcategory.slug,
+      page: 0,
+      pageSize: 120,
+    }),
+  );
+  const products = pageData.families.flatMap((family) => family.variants);
   const productGroups = products.reduce<Array<{ material: string; products: CmsProduct[] }>>(
     (groups, product) => {
       const material = product.material_group || "General";

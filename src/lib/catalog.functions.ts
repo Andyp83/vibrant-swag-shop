@@ -207,14 +207,18 @@ async function fetchAllRows<T extends { id: string }>(
   const rows: T[] = [];
   let cursor: string | null = null;
   let pageSize = 500;
+  let shrinks = 0;
 
   for (;;) {
     const { data, error } = await queryPage(cursor, pageSize);
 
     if (error) {
+      // Bounded backoff: retrying forever with ever smaller pages multiplied
+      // load on an already struggling database.
       const timedOut = /timeout|canceling statement/i.test(error.message);
-      if (timedOut && pageSize > 100) {
-        pageSize = Math.floor(pageSize / 2);
+      if (timedOut && shrinks < 3 && pageSize > 100) {
+        pageSize = Math.max(100, Math.floor(pageSize / 2));
+        shrinks += 1;
         continue;
       }
       throw new Error(`${label}: ${error.message}`);
@@ -338,7 +342,153 @@ export const listCatalog = createServerFn({ method: "GET" }).handler(
 
 );
 
+/** One page of grouped (variant-collapsed) products for the catalogue grids. */
+export type CmsFamilyPage = {
+  total: number;
+  families: { key: string; variants: CmsProduct[] }[];
+};
+
+const familyQuerySchema = z.object({
+  category: z.string().trim().max(80).optional(),
+  sub: z.string().trim().max(80).optional(),
+  decoration: z.string().trim().max(60).optional(),
+  colours: z.array(z.string().trim().max(40)).max(20).default([]),
+  colourMode: z.enum(["any", "all"]).default("any"),
+  impact: z.boolean().default(false),
+  moqMax: z.number().int().min(0).max(9999).default(0),
+  sort: z.enum(["default", "colour-match"]).default("default"),
+  page: z.number().int().min(0).max(400).default(0),
+  pageSize: z.number().int().min(1).max(120).default(60),
+});
+
+export type CmsFamilyQuery = z.input<typeof familyQuerySchema>;
+
+/**
+ * Public: one page of products, filtered, grouped and counted in the database.
+ * The catalogue grids used to download the entire catalogue (2,800 products plus
+ * every image and colour row) on every request, which tripped statement
+ * timeouts. This reads only the rows the current page renders.
+ */
+export const listProductFamilies = createServerFn({ method: "GET" })
+  .inputValidator((input: unknown) => familyQuerySchema.parse(input ?? {}))
+  .handler(async ({ data }): Promise<CmsFamilyPage> => {
+    const [{ getPublicSupabase }, { colourRegexPattern }] = await Promise.all([
+      import("./supabase-public.server"),
+      import("./product-filters"),
+    ]);
+    const supabase = getPublicSupabase();
+
+    let categoryId: string | null = null;
+    let subcategoryId: string | null = null;
+
+    if (data.category) {
+      const { data: row, error } = await supabase
+        .from("catalog_categories")
+        .select("id")
+        .eq("slug", data.category)
+        .maybeSingle();
+      if (error) throw new Error(error.message);
+      if (!row) return { total: 0, families: [] };
+      categoryId = row.id;
+
+      if (data.sub) {
+        const { data: subRow, error: subError } = await supabase
+          .from("catalog_subcategories")
+          .select("id")
+          .eq("category_id", row.id)
+          .eq("slug", data.sub)
+          .maybeSingle();
+        if (subError) throw new Error(subError.message);
+        if (!subRow) return { total: 0, families: [] };
+        subcategoryId = subRow.id;
+      }
+    }
+
+    const colourTerms = data.colours
+      .map((colour) => colourRegexPattern(colour))
+      .filter((pattern) => pattern.length > 0);
+
+    const rpc = supabase.rpc.bind(supabase) as unknown as (
+      name: string,
+      args: Record<string, unknown>,
+    ) => PromiseLike<{ data: unknown; error: { message: string } | null }>;
+
+    const { data: result, error } = await rpc("search_product_families", {
+      p_category_id: categoryId,
+      p_subcategory_id: subcategoryId,
+      p_decoration: data.decoration ?? null,
+      p_colour_terms: colourTerms,
+      p_colour_mode: data.colourMode,
+      // The eco category is impact-aware by definition, so the flag adds nothing there.
+      p_impact: data.impact && data.category !== "eco",
+      p_moq_max: data.moqMax,
+      p_sort: data.sort,
+      p_limit: data.pageSize,
+      p_offset: data.page * data.pageSize,
+    });
+
+    if (error) throw new Error(`search_product_families: ${error.message}`);
+
+    const payload = (result ?? {}) as {
+      total?: number;
+      families?: { key: string; variants: CmsProductListRow[] | null }[];
+    };
+    const rawFamilies = payload.families ?? [];
+    const ids = rawFamilies.flatMap((family) => (family.variants ?? []).map((v) => v.id));
+
+    let images: CmsProductImage[] = [];
+    let colourRows: CmsProductColour[] = [];
+    if (ids.length) {
+      const [imagesResult, coloursResult] = await Promise.all([
+        supabase
+          .from("catalog_product_images")
+          .select(
+            "id, product_id, image_code, image_url, source_filename, colour_label, shot_type, sort_order",
+          )
+          .in("product_id", ids),
+        supabase
+          .from("catalog_product_colours")
+          .select("id, product_id, colour_code, colour_name, sort_order")
+          .in("product_id", ids),
+      ]);
+      if (imagesResult.error) throw new Error(imagesResult.error.message);
+      if (coloursResult.error) throw new Error(coloursResult.error.message);
+      images = imagesResult.data ?? [];
+      colourRows = coloursResult.data ?? [];
+    }
+
+    const imagesByProduct = groupByProductId(images);
+    const coloursByProduct = groupByProductId(colourRows);
+    const bySortOrder = <T extends { sort_order: number }>(a: T, b: T) => a.sort_order - b.sort_order;
+
+    return {
+      total: payload.total ?? 0,
+      families: rawFamilies.map((family) => ({
+        key: family.key,
+        variants: (family.variants ?? []).map((product) => ({
+          ...product,
+          impact_aware: product.impact_aware ?? false,
+          description: "",
+          features: "",
+          specifications: "",
+          dimensions: "",
+          materials: "",
+          branding_options: "",
+          packaging: "",
+          carton_details: "",
+          source_url: null,
+          colour_images: (Array.isArray(product.colour_images)
+            ? product.colour_images
+            : []) as CmsColourImage[],
+          images: (imagesByProduct.get(product.id) ?? []).sort(bySortOrder),
+          colour_options: (coloursByProduct.get(product.id) ?? []).sort(bySortOrder),
+        })),
+      })),
+    };
+  });
+
 /** Public: categories + subcategories only (no products) — for nav and the homepage. */
+
 export const listCategories = createServerFn({ method: "GET" }).handler(
   async (): Promise<CmsCategory[]> => {
     const { getPublicSupabase } = await import("./supabase-public.server");
@@ -366,6 +516,118 @@ export const listCategories = createServerFn({ method: "GET" }).handler(
     }));
   },
 );
+
+/** Public: the decoration methods used anywhere in the catalogue (filter options). */
+export const listDecorationMethods = createServerFn({ method: "GET" }).handler(
+  async (): Promise<string[]> => {
+    const { getPublicSupabase } = await import("./supabase-public.server");
+    const supabase = getPublicSupabase();
+    const rpc = supabase.rpc.bind(supabase) as unknown as (
+      name: string,
+    ) => PromiseLike<{ data: unknown; error: { message: string } | null }>;
+    const { data, error } = await rpc("catalog_decoration_methods");
+    if (error) throw new Error(error.message);
+    return Array.isArray(data) ? (data as string[]) : [];
+  },
+);
+
+const productPageSchema = z.object({
+  category: z.string().trim().min(1).max(80),
+  subcategory: z.string().trim().min(1).max(80),
+  product: z.string().trim().min(1).max(120),
+});
+
+export type CmsProductPage = {
+  category: CmsCategory;
+  subcategory: CmsSubcategory;
+  product: CmsProduct;
+} | null;
+
+/** Public: one product (with its images, colours and long text) by slug path. */
+export const getProductPage = createServerFn({ method: "GET" })
+  .inputValidator((input: unknown) => productPageSchema.parse(input))
+  .handler(async ({ data }): Promise<CmsProductPage> => {
+    const { getPublicSupabase } = await import("./supabase-public.server");
+    const supabase = getPublicSupabase();
+
+    const { data: category, error: categoryError } = await supabase
+      .from("catalog_categories")
+      .select("id, slug, name, tagline, description, colour, image_url, hero_image_url, sort_order")
+      .eq("slug", data.category)
+      .maybeSingle();
+    if (categoryError) throw new Error(categoryError.message);
+    if (!category) return null;
+
+    const { data: subcategory, error: subError } = await supabase
+      .from("catalog_subcategories")
+      .select("id, category_id, slug, name, description, image_url, sort_order")
+      .eq("category_id", category.id)
+      .eq("slug", data.subcategory)
+      .maybeSingle();
+    if (subError) throw new Error(subError.message);
+    if (!subcategory) return null;
+
+    const columns =
+      "id, category_id, subcategory_id, slug, plu, name, blurb, service, colours, material_group, moq, methods, image_url, colour_images, variant_group, variant_label, impact_aware, sort_order, description, features, specifications, dimensions, materials, branding_options, packaging, carton_details, source_url";
+
+    let productRow: CmsProductRaw | null = null;
+    for (const column of ["slug", "plu"] as const) {
+      const { data: row, error } = await supabase
+        .from("catalog_products")
+        .select(columns)
+        .eq("subcategory_id", subcategory.id)
+        .eq(column, data.product)
+        .maybeSingle();
+      if (error) throw new Error(error.message);
+      if (row) {
+        productRow = row as unknown as CmsProductRaw;
+        break;
+      }
+    }
+
+    if (!productRow && /^[0-9a-f-]{36}$/i.test(data.product)) {
+      const { data: row, error } = await supabase
+        .from("catalog_products")
+        .select(columns)
+        .eq("id", data.product)
+        .maybeSingle();
+      if (error) throw new Error(error.message);
+      if (row) productRow = row as unknown as CmsProductRaw;
+    }
+
+    if (!productRow) return null;
+
+    const [imagesResult, coloursResult] = await Promise.all([
+      supabase
+        .from("catalog_product_images")
+        .select(
+          "id, product_id, image_code, image_url, source_filename, colour_label, shot_type, sort_order",
+        )
+        .eq("product_id", productRow.id),
+      supabase
+        .from("catalog_product_colours")
+        .select("id, product_id, colour_code, colour_name, sort_order")
+        .eq("product_id", productRow.id),
+    ]);
+    if (imagesResult.error) throw new Error(imagesResult.error.message);
+    if (coloursResult.error) throw new Error(coloursResult.error.message);
+
+    const bySortOrder = <T extends { sort_order: number }>(a: T, b: T) => a.sort_order - b.sort_order;
+
+    return {
+      category: { ...category, products: [], subcategories: [] },
+      subcategory,
+      product: {
+        ...productRow,
+        impact_aware: productRow.impact_aware ?? false,
+        colour_images: (Array.isArray(productRow.colour_images)
+          ? productRow.colour_images
+          : []) as CmsColourImage[],
+        images: (imagesResult.data ?? []).sort(bySortOrder),
+        colour_options: (coloursResult.data ?? []).sort(bySortOrder),
+      },
+    };
+  });
 
 /** Public: the long-text detail fields for a single product. */
 export const getProductDetail = createServerFn({ method: "GET" })

@@ -2,29 +2,34 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { borderAccentClass, spectrum } from "@/lib/catalog";
-import { catalogQueryOptions, type CmsCategory, type CmsProduct } from "@/lib/catalog-query";
+import {
+  categoriesQueryOptions,
+  decorationMethodsQueryOptions,
+  productFamiliesQueryOptions,
+  type CmsCategory,
+} from "@/lib/catalog-query";
 import { Reveal } from "@/components/site/Reveal";
 import { ProductFilters } from "@/components/site/ProductFilters";
 import { ProductQuickView } from "@/components/site/ProductQuickView";
 import {
+  ALLOWED_COLOURS,
   colourImageFor,
-  colourOptions,
   coloursFromSearch,
   coloursToSearch,
-  decorationOptions,
-  familyMatchesFilters,
+  familiesFromPage,
   featuredVariant,
-  groupFamilies,
-  sortFamilies,
   type ProductFamily,
   parseFilterSearch,
-  sortProducts,
   type ProductFilterValue,
 } from "@/lib/product-filters";
 
+const PAGE_SIZE = 60;
+
 export const Route = createFileRoute("/products/")({
   validateSearch: parseFilterSearch,
-  loader: ({ context }) => context.queryClient.ensureQueryData(catalogQueryOptions()),
+  loader: ({ context }) => {
+    context.queryClient.ensureQueryData(categoriesQueryOptions());
+  },
   head: () => ({
     meta: [
       { title: "All Branded Merchandise Products | See See Bloom" },
@@ -44,18 +49,24 @@ export const Route = createFileRoute("/products/")({
     ],
     links: [{ rel: "canonical", href: "https://seeseebloom.com.au/products" }],
   }),
+  errorComponent: ({ error }) => (
+    <div role="alert" className="mx-auto max-w-3xl px-5 py-24 text-center text-muted-foreground">
+      {error.message}
+    </div>
+  ),
+  notFoundComponent: () => (
+    <div className="mx-auto max-w-3xl px-5 py-24 text-center">No products found.</div>
+  ),
   component: AllProductsPage,
 });
 
-type Entry = { family: ProductFamily; category: CmsCategory; subSlug: string };
-
 function AllProductsPage() {
-  const { data: categories } = useSuspenseQuery(catalogQueryOptions());
+  const { data: categories } = useSuspenseQuery(categoriesQueryOptions());
   const search = Route.useSearch();
   const navigate = useNavigate({ from: Route.fullPath });
-  const [quickView, setQuickView] = useState<Entry | null>(null);
-  const PAGE_SIZE = 48;
-  const [shown, setShown] = useState(PAGE_SIZE);
+  const [quickView, setQuickView] = useState<{ family: ProductFamily; category: CmsCategory } | null>(
+    null,
+  );
 
   const filters: ProductFilterValue = {
     category: search.category ?? "",
@@ -68,31 +79,32 @@ function AllProductsPage() {
     moq: search.moq ?? 0,
     density: search.density ?? "5",
   };
+  const page = Math.max(1, search.page ?? 1);
 
   const activeCategory = categories.find((c) => c.slug === filters.category) ?? null;
-  const scoped = activeCategory ? [activeCategory] : categories;
-
-  const allEntries: Entry[] = scoped.flatMap((category) =>
-    groupFamilies(category.products).map((family) => ({
-      family,
-      category,
-      subSlug:
-        category.subcategories.find((s) => s.id === family.primary.subcategory_id)?.slug ?? "",
-    })),
+  const decorations = useSuspenseQuery(decorationMethodsQueryOptions()).data;
+  const { data: pageData } = useSuspenseQuery(
+    productFamiliesQueryOptions({
+      ...(filters.category ? { category: filters.category } : {}),
+      ...(filters.category && filters.subcategory ? { sub: filters.subcategory } : {}),
+      ...(filters.decoration ? { decoration: filters.decoration } : {}),
+      colours: filters.colours,
+      colourMode: filters.colourMatch,
+      impact: filters.impact,
+      moqMax: filters.moq,
+      sort: filters.sort,
+      page: page - 1,
+      pageSize: PAGE_SIZE,
+    }),
   );
 
-  const matching = allEntries.filter(
-    (e) =>
-      familyMatchesFilters(e.family, filters, e.category.slug) &&
-      (!filters.subcategory || e.subSlug === filters.subcategory),
-  );
-  const visible = sortFamilies(
-    matching.map((e) => e.family),
-    filters,
-  ).map((family) => matching.find((e) => e.family === family) as Entry);
+  const families = familiesFromPage(pageData.families);
+  const subSlugFor = (family: ProductFamily, category: CmsCategory | null) =>
+    category?.subcategories.find((s) => s.id === family.primary.subcategory_id)?.slug ?? "";
+  const categoryFor = (family: ProductFamily) =>
+    categories.find((c) => c.id === family.primary.category_id) ?? activeCategory ?? categories[0]!;
 
   const updateFilters = (next: Partial<ProductFilterValue>) => {
-    setShown(PAGE_SIZE);
     const merged = { ...filters, ...next };
     navigate({
       search: {
@@ -114,7 +126,15 @@ function AllProductsPage() {
     });
   };
 
+  const goToPage = (nextPage: number) => {
+    navigate({
+      search: (prev) => ({ ...prev, ...(nextPage > 1 ? { page: nextPage } : { page: undefined }) }),
+    });
+    if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   const cols = filters.density === "5" ? 5 : 3;
+  const totalPages = Math.max(1, Math.ceil(pageData.total / PAGE_SIZE));
 
   return (
     <div className="mx-auto max-w-6xl px-5 py-14">
@@ -135,18 +155,14 @@ function AllProductsPage() {
         categories={categories.map((c) => ({ slug: c.slug, name: c.name }))}
         subcategories={
           activeCategory
-            ? activeCategory.subcategories
-                .filter((s) =>
-                  activeCategory.products.some((p) => p.subcategory_id === s.id),
-                )
-                .map((s) => ({ slug: s.slug, name: s.name }))
+            ? activeCategory.subcategories.map((s) => ({ slug: s.slug, name: s.name }))
             : []
         }
-        decorations={decorationOptions(allEntries.flatMap((e) => e.family.variants))}
-        colours={colourOptions(allEntries.flatMap((e) => e.family.variants))}
+        decorations={decorations}
+        colours={ALLOWED_COLOURS}
         onChange={updateFilters}
-        resultCount={visible.length}
-        totalCount={allEntries.length}
+        resultCount={pageData.total}
+        totalCount={pageData.total}
       />
 
       <div
@@ -154,15 +170,16 @@ function AllProductsPage() {
           filters.density === "5" ? "lg:grid-cols-5" : "lg:grid-cols-3"
         }`}
       >
-        {visible.slice(0, shown).map((e, i) => {
-          const accent = spectrum(e.category.colour);
-          const featured = featuredVariant(e.family, filters);
+        {families.map((family, i) => {
+          const category = categoryFor(family);
+          const accent = spectrum(category.colour);
+          const featured = featuredVariant(family, filters);
           const previewImage = colourImageFor(featured, filters.colours) ?? featured.image_url;
           return (
-            <Reveal key={e.family.key} delay={(i % cols) * 90} variant="up">
+            <Reveal key={family.key} delay={(i % cols) * 90} variant="up">
               <button
                 type="button"
-                onClick={() => setQuickView(e)}
+                onClick={() => setQuickView({ family, category })}
                 className={`lift group flex h-full w-full flex-col rounded-xl border-2 bg-card text-left ${
                   filters.density === "5" ? "p-3" : "p-5"
                 } ${borderAccentClass[accent]}`}
@@ -173,8 +190,8 @@ function AllProductsPage() {
                       src={previewImage}
                       alt={
                         filters.colours.length
-                          ? `${e.family.name} in ${filters.colours.join(", ")}`
-                          : e.family.name
+                          ? `${family.name} in ${filters.colours.join(", ")}`
+                          : family.name
                       }
                       loading={i < 6 ? "eager" : "lazy"}
                       decoding="async"
@@ -184,10 +201,10 @@ function AllProductsPage() {
                     />
                   ) : null}
                 </span>
-                <span className="mt-3 block text-sm font-semibold">{e.family.name}</span>
-                {e.family.variants.length > 1 ? (
+                <span className="mt-3 block text-sm font-semibold">{family.name}</span>
+                {family.variants.length > 1 ? (
                   <span className="mt-1 block text-xs text-muted-foreground">
-                    {e.family.variants.length} options
+                    {family.variants.length} options
                   </span>
                 ) : null}
               </button>
@@ -196,19 +213,31 @@ function AllProductsPage() {
         })}
       </div>
 
-      {visible.length > shown ? (
-        <div className="mt-10 flex justify-center">
+      {totalPages > 1 ? (
+        <div className="mt-10 flex items-center justify-center gap-3">
           <button
             type="button"
-            onClick={() => setShown((n) => n + PAGE_SIZE)}
-            className="rounded-full border-2 border-border px-7 py-3 text-sm font-semibold transition-colors hover:bg-accent"
+            disabled={page <= 1}
+            onClick={() => goToPage(page - 1)}
+            className="rounded-full border-2 border-border px-6 py-3 text-sm font-semibold transition-colors hover:bg-accent disabled:opacity-40"
           >
-            Load more products ({visible.length - shown} remaining)
+            Previous
+          </button>
+          <span className="text-sm text-muted-foreground">
+            Page {page} of {totalPages}
+          </span>
+          <button
+            type="button"
+            disabled={page >= totalPages}
+            onClick={() => goToPage(page + 1)}
+            className="rounded-full border-2 border-border px-6 py-3 text-sm font-semibold transition-colors hover:bg-accent disabled:opacity-40"
+          >
+            Next
           </button>
         </div>
       ) : null}
 
-      {visible.length === 0 ? (
+      {families.length === 0 ? (
         <p className="mt-8 rounded-xl border border-dashed border-border p-8 text-center text-sm text-muted-foreground">
           No products match those filters — try clearing a filter or choosing another category.
         </p>
@@ -224,7 +253,7 @@ function AllProductsPage() {
         productLink={
           quickView
             ? {
-                subcategory: quickView.subSlug || "range",
+                subcategory: subSlugFor(quickView.family, quickView.category) || "range",
                 product: quickView.family.primary.slug || quickView.family.primary.id,
               }
             : undefined

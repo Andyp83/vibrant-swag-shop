@@ -6,26 +6,21 @@ import { useEffect, useMemo, useState } from "react";
 import { FavoriteButton } from "@/components/site/FavoriteButton";
 import { Reveal } from "@/components/site/Reveal";
 import { borderAccentClass, softBgClass, spectrum, swatchClass, textClass } from "@/lib/catalog";
-import { catalogQueryOptions, productDetailQueryOptions, type CmsCategory, type CmsSubcategory } from "@/lib/catalog-query";
+import { productPageQueryOptions, type CmsCategory, type CmsSubcategory } from "@/lib/catalog-query";
 import type { CmsProduct } from "@/lib/catalog.functions";
 
 export const Route = createFileRoute("/products/$category_/$subcategory_/$product")({
   loader: async ({ params, context }) => {
-    const catalog = await context.queryClient.ensureQueryData(catalogQueryOptions());
-    const category = catalog.find((c) => c.slug === params.category);
-    if (!category) throw notFound();
-    const subcategory = category.subcategories.find((s) => s.slug === params.subcategory);
-    if (!subcategory) throw notFound();
-    const listed = category.products.find(
-      (p) =>
-        p.subcategory_id === subcategory.id &&
-        (p.slug === params.product || p.id === params.product || p.plu === params.product),
+    // One product read, instead of downloading the whole catalogue.
+    const result = await context.queryClient.ensureQueryData(
+      productPageQueryOptions({
+        category: params.category,
+        subcategory: params.subcategory,
+        product: params.product,
+      }),
     );
-    if (!listed) throw notFound();
-    // The catalogue list query omits long-text fields for payload size; fetch
-    // them for this one product.
-    const detail = await context.queryClient.ensureQueryData(productDetailQueryOptions(listed.id));
-    return { category, subcategory, product: { ...listed, ...detail } };
+    if (!result) throw notFound();
+    return result;
   },
 
   head: ({ loaderData }) => {

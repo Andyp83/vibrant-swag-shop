@@ -3,26 +3,28 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import { PlacementBanners } from "@/components/site/PlacementBanners";
 import { ProductFilters } from "@/components/site/ProductFilters";
-import { catalogQueryOptions } from "@/lib/catalog-query";
+import {
+  categoriesQueryOptions,
+  decorationMethodsQueryOptions,
+  productFamiliesQueryOptions,
+} from "@/lib/catalog-query";
 import { spectrum, swatchClass } from "@/lib/catalog";
 import {
-  colourOptions,
+  ALLOWED_COLOURS,
   coloursFromSearch,
   coloursToSearch,
-  decorationOptions,
-  familyMatchesFilters,
+  familiesFromPage,
   featuredVariant,
-  groupFamilies,
   parseFilterSearch,
-  sortFamilies,
-
   type ProductFilterValue,
 } from "@/lib/product-filters";
+
+const PAGE_SIZE = 60;
 
 export const Route = createFileRoute("/lookbook")({
   validateSearch: parseFilterSearch,
   loader: ({ context }) => {
-    context.queryClient.ensureQueryData(catalogQueryOptions());
+    context.queryClient.ensureQueryData(categoriesQueryOptions());
   },
   head: () => ({
     meta: [
@@ -52,7 +54,7 @@ export const Route = createFileRoute("/lookbook")({
 });
 
 function LookbookPage() {
-  const { data: categories } = useSuspenseQuery(catalogQueryOptions());
+  const { data: categories } = useSuspenseQuery(categoriesQueryOptions());
   const search = Route.useSearch();
   const navigate = useNavigate({ from: Route.fullPath });
 
@@ -88,16 +90,33 @@ function LookbookPage() {
     });
   };
 
-  const allEntries = categories.flatMap((c) =>
-    groupFamilies(c.products).map((family) => ({ family, category: c })),
+  const page = Math.max(1, search.page ?? 1);
+  const decorations = useSuspenseQuery(decorationMethodsQueryOptions()).data;
+  const { data: pageData } = useSuspenseQuery(
+    productFamiliesQueryOptions({
+      ...(filters.decoration ? { decoration: filters.decoration } : {}),
+      colours: filters.colours,
+      colourMode: filters.colourMatch,
+      impact: filters.impact,
+      moqMax: filters.moq,
+      sort: filters.sort,
+      page: page - 1,
+      pageSize: PAGE_SIZE,
+    }),
   );
-  const matching = allEntries.filter(({ family, category }) =>
-    familyMatchesFilters(family, filters, category.slug),
-  );
-  const visible = sortFamilies(
-    matching.map((entry) => entry.family),
-    filters,
-  ).map((family) => matching.find((entry) => entry.family === family)!);
+  const totalPages = Math.max(1, Math.ceil(pageData.total / PAGE_SIZE));
+  const visible = familiesFromPage(pageData.families).map((family) => ({
+    family,
+    category:
+      categories.find((c) => c.id === family.primary.category_id) ?? categories[0]!,
+  }));
+
+  const goToPage = (nextPage: number) => {
+    navigate({
+      search: (prev) => ({ ...prev, ...(nextPage > 1 ? { page: nextPage } : { page: undefined }) }),
+    });
+    if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
 
   return (
@@ -132,11 +151,11 @@ function LookbookPage() {
         <ProductFilters
           className="mt-6"
           value={filters}
-          decorations={decorationOptions(allEntries.flatMap((x) => x.family.variants))}
-          colours={colourOptions(allEntries.flatMap((x) => x.family.variants))}
+          decorations={decorations}
+          colours={ALLOWED_COLOURS}
           onChange={updateFilters}
-          resultCount={visible.length}
-          totalCount={allEntries.length}
+          resultCount={pageData.total}
+          totalCount={pageData.total}
         />
 
         <div
@@ -197,6 +216,30 @@ function LookbookPage() {
             );
           })}
         </div>
+        {totalPages > 1 ? (
+          <div className="mt-10 flex items-center justify-center gap-3">
+            <button
+              type="button"
+              disabled={page <= 1}
+              onClick={() => goToPage(page - 1)}
+              className="rounded-full border-2 border-border px-6 py-3 text-sm font-semibold transition-colors hover:bg-accent disabled:opacity-40"
+            >
+              Previous
+            </button>
+            <span className="text-sm text-muted-foreground">
+              Page {page} of {totalPages}
+            </span>
+            <button
+              type="button"
+              disabled={page >= totalPages}
+              onClick={() => goToPage(page + 1)}
+              className="rounded-full border-2 border-border px-6 py-3 text-sm font-semibold transition-colors hover:bg-accent disabled:opacity-40"
+            >
+              Next
+            </button>
+          </div>
+        ) : null}
+
         {visible.length === 0 ? (
           <p className="mt-8 rounded-xl border border-dashed border-border p-8 text-center text-sm text-muted-foreground">
             Nothing matches those filters yet — try another decoration method or a higher minimum
