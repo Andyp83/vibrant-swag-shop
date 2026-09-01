@@ -200,6 +200,7 @@ export type Database = {
           features: string
           id: string
           image_url: string | null
+          impact_aware: boolean | null
           material_group: string
           materials: string
           methods: string[]
@@ -230,6 +231,7 @@ export type Database = {
           features?: string
           id?: string
           image_url?: string | null
+          impact_aware?: boolean | null
           material_group?: string
           materials?: string
           methods?: string[]
@@ -260,6 +262,7 @@ export type Database = {
           features?: string
           id?: string
           image_url?: string | null
+          impact_aware?: boolean | null
           material_group?: string
           materials?: string
           methods?: string[]

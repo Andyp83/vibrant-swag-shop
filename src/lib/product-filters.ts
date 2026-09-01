@@ -61,6 +61,9 @@ export function parseMoq(moq: string): number | null {
 
 export function isImpactAware(product: CmsProduct, categorySlug?: string): boolean {
   if (categorySlug === "eco") return true;
+  // The catalogue list omits long-text columns; the database exposes a
+  // generated flag computed from the full product text.
+  if (typeof product.impact_aware === "boolean") return product.impact_aware;
   const haystack =
     `${product.name} ${product.blurb} ${product.description} ${product.features} ${product.materials} ${product.colours}`.toLowerCase();
   return IMPACT_KEYWORDS.some((k) => haystack.includes(k));
