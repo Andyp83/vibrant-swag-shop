@@ -2,20 +2,49 @@ import { Link } from "@tanstack/react-router";
 import { Menu } from "lucide-react";
 import { useState } from "react";
 import brandLockup from "@/assets/brand/see-see-bloom-lockup-light.png";
-import { DecorationMenu } from "@/components/site/DecorationMenu";
+import { BrandedMenu, GiftingMenu, PrintMenu } from "@/components/site/ProductWorldMenus";
 import { ShortlistLink } from "@/components/site/ShortlistLink";
 
+type MobileLink = { label: string; to: string; params?: Record<string, string> };
 
-const nav = [
-  { to: "/", label: "Home" },
-  { to: "/products", label: "Products" },
-  { to: "/catalogues", label: "Catalogues" },
-  { to: "/procurement", label: "Sourcing" },
-  { to: "/decoration", label: "Decoration" },
-  { to: "/quote", label: "Get a quote" },
-  { to: "/portal", label: "Client login" },
-] as const;
-
+const mobileSections: { title: string; links: MobileLink[] }[] = [
+  {
+    title: "Branded merchandise",
+    links: [
+      { label: "All products", to: "/products" },
+      { label: "Catalogues", to: "/catalogues" },
+      { label: "Sourcing", to: "/procurement" },
+      { label: "Decoration", to: "/decoration" },
+      { label: "Shortlist", to: "/shortlist" },
+    ],
+  },
+  {
+    title: "Print with us",
+    links: [
+      { label: "Print range", to: "/products/$category", params: { category: "print" } },
+      { label: "Colour guide", to: "/colour-guide" },
+      { label: "Design & print brokering", to: "/procurement" },
+    ],
+  },
+  {
+    title: "Gifting",
+    links: [
+      {
+        label: "Hampers & gifting",
+        to: "/products/$category",
+        params: { category: "hampers-gifting" },
+      },
+      { label: "Gift packs", to: "/products/$category", params: { category: "gift-packs" } },
+    ],
+  },
+  {
+    title: "More",
+    links: [
+      { label: "Get a quote", to: "/quote" },
+      { label: "Client login", to: "/portal" },
+    ],
+  },
+];
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
@@ -34,28 +63,10 @@ export function SiteHeader() {
           />
         </Link>
 
-
         <nav className="hidden items-center gap-7 md:flex">
-          {nav.slice(0, 4).map((item) => (
-            <Link
-              key={item.to}
-              to={item.to}
-              activeOptions={{ exact: item.to === "/" }}
-              className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-              activeProps={{ className: "text-foreground" }}
-            >
-              {item.label}
-            </Link>
-          ))}
-          <Link
-            to="/products/$category"
-            params={{ category: "hampers-gifting" }}
-            className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-            activeProps={{ className: "text-foreground" }}
-          >
-            Gifting
-          </Link>
-          <DecorationMenu />
+          <BrandedMenu />
+          <PrintMenu />
+          <GiftingMenu />
           <ShortlistLink />
           <Link
             to="/portal"
@@ -82,33 +93,30 @@ export function SiteHeader() {
             <Menu className="size-5" aria-hidden="true" />
           </button>
         </div>
-
       </div>
 
       {open && (
-        <nav className="border-t border-border px-5 pb-4 md:hidden">
-          {nav.map((item) => (
-            <Link
-              key={item.to}
-              to={item.to}
-              onClick={() => setOpen(false)}
-              className="block border-b border-border py-3 text-sm font-medium last:border-0"
-            >
-              {item.label}
-            </Link>
+        <nav className="border-t border-border px-5 pb-6 md:hidden">
+          {mobileSections.map((section) => (
+            <div key={section.title} className="border-b border-border py-3 last:border-0">
+              <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                {section.title}
+              </p>
+              {section.links.map((link) => (
+                <Link
+                  key={link.label}
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                  to={link.to as any}
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                  params={link.params as any}
+                  onClick={() => setOpen(false)}
+                  className="block py-2.5 text-sm font-medium"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
           ))}
-          <Link
-            to="/products/$category"
-            params={{ category: "hampers-gifting" }}
-            onClick={() => setOpen(false)}
-            className="block border-b border-border py-3 text-sm font-medium"
-          >
-            Gifting
-          </Link>
-          <ShortlistLink
-            onNavigate={() => setOpen(false)}
-            className="flex items-center gap-1.5 border-t border-border py-3 text-sm font-medium"
-          />
         </nav>
       )}
     </header>
