@@ -237,12 +237,13 @@ export function ProductQuickView({
                   <dd>{selected.colours}</dd>
                 </div>
               ) : null}
-              {selected.dimensions ? (
+              {detail?.dimensions ? (
                 <div className="flex gap-2">
                   <dt className="font-semibold text-foreground">Size:</dt>
-                  <dd>{selected.dimensions}</dd>
+                  <dd>{detail.dimensions}</dd>
                 </div>
               ) : null}
+
               {selected.moq ? (
                 <div className="flex gap-2">
                   <dt className="font-semibold text-foreground">Minimum:</dt>
