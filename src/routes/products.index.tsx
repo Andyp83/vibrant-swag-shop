@@ -128,7 +128,10 @@ function AllProductsPage() {
 
   const goToPage = (nextPage: number) => {
     navigate({
-      search: (prev) => ({ ...prev, ...(nextPage > 1 ? { page: nextPage } : { page: undefined }) }),
+      search: (prev) => {
+        const { page: _current, ...rest } = prev;
+        return nextPage > 1 ? { ...rest, page: nextPage } : rest;
+      },
     });
     if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
   };
