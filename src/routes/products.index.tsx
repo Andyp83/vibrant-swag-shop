@@ -27,8 +27,36 @@ const PAGE_SIZE = 60;
 
 export const Route = createFileRoute("/products/")({
   validateSearch: parseFilterSearch,
-  loader: ({ context }) => {
-    context.queryClient.ensureQueryData(categoriesQueryOptions());
+  loaderDeps: ({ search }) => ({
+    category: search.category ?? "",
+    sub: search.sub ?? "",
+    decoration: search.decoration ?? "",
+    colour: search.colour ?? "",
+    colourMatch: search.colourMatch ?? "any",
+    sort: search.sort ?? "default",
+    impact: search.impact ?? false,
+    moq: search.moq ?? 0,
+    page: search.page ?? 1,
+  }),
+  loader: async ({ context, deps }) => {
+    await Promise.all([
+      context.queryClient.ensureQueryData(categoriesQueryOptions()),
+      context.queryClient.ensureQueryData(decorationMethodsQueryOptions()),
+      context.queryClient.ensureQueryData(
+        productFamiliesQueryOptions({
+      ...(deps.category ? { category: deps.category } : {}),
+      ...(deps.category && deps.sub ? { sub: deps.sub } : {}),
+      ...(deps.decoration ? { decoration: deps.decoration } : {}),
+      colours: coloursFromSearch(deps.colour),
+      colourMode: deps.colourMatch,
+      impact: deps.impact,
+      moqMax: deps.moq,
+      sort: deps.sort,
+      page: Math.max(0, deps.page - 1),
+      pageSize: PAGE_SIZE,
+        }),
+      ),
+    ]);
   },
   head: () => ({
     meta: [

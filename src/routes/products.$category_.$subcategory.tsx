@@ -23,6 +23,14 @@ export const Route = createFileRoute("/products/$category_/$subcategory")({
     if (!category) throw notFound();
     const subcategory = category.subcategories.find((s) => s.slug === params.subcategory);
     if (!subcategory) throw notFound();
+    await context.queryClient.ensureQueryData(
+      productFamiliesQueryOptions({
+        category: category.slug,
+        sub: subcategory.slug,
+        page: 0,
+        pageSize: 120,
+      }),
+    );
     return {
       category,
       subcategory,
