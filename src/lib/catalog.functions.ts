@@ -31,7 +31,7 @@ export type CmsProduct = {
   colour_images: CmsColourImage[];
   variant_group: string | null;
   variant_label: string | null;
-  impact_aware?: boolean;
+  impact_aware?: boolean | null;
   sort_order: number;
   images: CmsProductImage[];
   colour_options: CmsProductColour[];
