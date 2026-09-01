@@ -31,6 +31,7 @@ export type CmsProduct = {
   colour_images: CmsColourImage[];
   variant_group: string | null;
   variant_label: string | null;
+  impact_aware?: boolean;
   sort_order: number;
   images: CmsProductImage[];
   colour_options: CmsProductColour[];
@@ -270,7 +271,7 @@ export const listCatalog = createServerFn({ method: "GET" }).handler(
       let query = supabase
         .from("catalog_products")
         .select(
-          "id, category_id, subcategory_id, slug, plu, name, blurb, service, colours, material_group, moq, methods, image_url, colour_images, variant_group, variant_label, sort_order",
+          "id, category_id, subcategory_id, slug, plu, name, blurb, service, colours, material_group, moq, methods, image_url, colour_images, variant_group, variant_label, impact_aware, sort_order",
         )
         .order("id", { ascending: true })
         .limit(limit);
@@ -309,6 +310,7 @@ export const listCatalog = createServerFn({ method: "GET" }).handler(
     const products: CmsProduct[] = productsData
       .map((product) => ({
         ...product,
+        impact_aware: product.impact_aware ?? false,
         description: "",
         features: "",
         specifications: "",
