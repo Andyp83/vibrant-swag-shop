@@ -44,8 +44,7 @@ export const Route = createFileRoute("/")({
       },
       { name: "twitter:card", content: "summary_large_image" },
     ],
-    links: [{ rel: "canonical", href: "https://seeseebloom.com.au/" }],
-    links: [...heroPreloadLinks],
+    links: [...heroPreloadLinks, { rel: "canonical", href: "https://seeseebloom.com.au/" }],
   }),
   component: Home,
 });
