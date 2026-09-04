@@ -1,14 +1,23 @@
 {
   "catalogue_products": 2812,
-  "gallery_images": 16061,
+  "gallery_images": 16076,
   "colour_options": 8714,
-  "unmatched_source_images": 405,
+  "unmatched_source_images": 390,
   "image_statuses": {
     "ok": 0,
-    "cached": 16061,
+    "cached": 16076,
     "error": 0
   },
   "errors": [],
-  "max_image_edge": 700,
-  "webp_quality": 55
+  "max_image_edge": 640,
+  "webp_quality": 50,
+  "colour_labelled_images": 12131,
+  "colour_assignment_methods": {
+    "sequence_colour": 5110,
+    "single_colour": 7021,
+    "unassigned": 3945
+  },
+  "visual_colour_enabled": false,
+  "force_rebuild": false,
+  "reuse_existing_assets": true
 }

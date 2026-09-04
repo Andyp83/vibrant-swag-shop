@@ -17,10 +17,11 @@ import { colourSwatchCss } from "@/lib/product-filters";
 
 export type QuickViewProduct = CmsProduct;
 
-type Gallery = { label: string; url: string }[];
+type GalleryShot = { colourLabel?: string | null; label: string; url: string };
+type Gallery = GalleryShot[];
 
-function cssColorFor(label: string): string {
-  return colourSwatchCss(label);
+function cssColorFor(shot: GalleryShot): string {
+  return colourSwatchCss(shot.colourLabel || shot.label);
 }
 
 
@@ -29,11 +30,27 @@ function optionLabel(product: QuickViewProduct): string {
 }
 
 function buildGallery(product: QuickViewProduct): Gallery {
+  const shots: Gallery = [];
+  for (const image of product.images ?? []) {
+    if (!image?.image_url || shots.some((shot) => shot.url === image.image_url)) continue;
+    const colourLabel = image.colour_label?.trim() || null;
+    shots.push({
+      colourLabel,
+      label: colourLabel || image.image_code || image.shot_type || "Product",
+      url: image.image_url,
+    });
+  }
+
   const colourShots = (product.colour_images ?? []).filter((image) => Boolean(image?.url));
-  const shots: Gallery = colourShots.map((image, index) => ({
-    label: image.label || `Colour ${index + 1}`,
-    url: image.url,
-  }));
+  for (const [index, image] of colourShots.entries()) {
+    if (shots.some((shot) => shot.url === image.url)) continue;
+    shots.push({
+      colourLabel: image.label || null,
+      label: image.label || `Colour ${index + 1}`,
+      url: image.url,
+    });
+  }
+
   if (product.image_url && !shots.some((shot) => shot.url === product.image_url)) {
     shots.unshift({ label: "Product", url: product.image_url });
   }
@@ -43,7 +60,9 @@ function buildGallery(product: QuickViewProduct): Gallery {
 /** Index of the first gallery shot matching any of the preferred colour names. */
 function preferredIndex(gallery: Gallery, preferred: string[]): number {
   for (const wanted of preferred.map((c) => c.trim().toLowerCase()).filter(Boolean)) {
-    const index = gallery.findIndex((shot) => shot.label.toLowerCase().includes(wanted));
+    const index = gallery.findIndex((shot) =>
+      `${shot.colourLabel ?? ""} ${shot.label}`.toLowerCase().includes(wanted),
+    );
     if (index >= 0) return index;
   }
   return 0;
@@ -182,7 +201,7 @@ export function ProductQuickView({
                           ? `${borderAccentClass[accent]} ring-2 ring-offset-2 ring-offset-background ${borderAccentClass[accent].replace("border-", "ring-")}`
                           : "border-border"
                       }`}
-                      style={{ backgroundColor: cssColorFor(shot.label) }}
+                      style={{ backgroundColor: cssColorFor(shot) }}
                     />
                   ))}
                   {active ? (

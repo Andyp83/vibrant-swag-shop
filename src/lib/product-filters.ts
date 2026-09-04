@@ -118,6 +118,10 @@ export function colourOptions(products: CmsProduct[]): string[] {
       const canonical = canonicalColour(shot.label);
       if (canonical) available.add(canonical);
     }
+    for (const image of p.images ?? []) {
+      const canonical = canonicalColour(image.colour_label ?? "");
+      if (canonical) available.add(canonical);
+    }
   }
   return ALLOWED_COLOURS.filter((c) => available.has(c));
 }
@@ -170,6 +174,12 @@ export function productHasColour(product: CmsProduct, colour: string): boolean {
   const terms = colourSearchTerms(needle);
   const colourText = (product.colours ?? "").toLowerCase();
   if (terms.some((t) => colourText.includes(t))) return true;
+  if ((product.images ?? []).some((shot) => {
+    const label = (shot.colour_label ?? "").trim().toLowerCase();
+    return terms.some((t) => label.includes(t));
+  })) {
+    return true;
+  }
   return (product.colour_images ?? []).some((shot) => {
     const label = (shot.label ?? "").trim().toLowerCase();
     return terms.some((t) => label.includes(t));
@@ -198,6 +208,11 @@ export function colourImageFor(product: CmsProduct, colour: string | string[]): 
   const wanted = (Array.isArray(colour) ? colour : [colour]).map((c) => c.trim()).filter(Boolean);
   for (const needle of wanted.map((c) => c.toLowerCase())) {
     const terms = colourSearchTerms(needle);
+    const galleryShot = (product.images ?? []).find((image) =>
+      Boolean(image?.image_url) && terms.some((t) => (image.colour_label ?? "").trim().toLowerCase().includes(t)),
+    );
+    if (galleryShot?.image_url) return galleryShot.image_url;
+
     const shot = (product.colour_images ?? []).find((image) =>
       Boolean(image?.url) && terms.some((t) => (image.label ?? "").trim().toLowerCase().includes(t)),
     );
