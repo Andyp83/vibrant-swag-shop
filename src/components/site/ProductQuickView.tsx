@@ -186,29 +186,8 @@ export function ProductQuickView({
                 <p className="mt-3 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
                   Pick a colour
                 </p>
-                <div className="mt-2 flex flex-wrap items-center gap-2" role="listbox" aria-label="Colour options">
-                  {gallery.map((shot, index) => (
-                    <button
-                      key={`swatch-${shot.url}-${index}`}
-                      type="button"
-                      role="option"
-                      aria-selected={index === activeIndex}
-                      onClick={() => setActiveIndex(index)}
-                      title={shot.label}
-                      aria-label={`Show ${shot.label}`}
-                      className={`size-8 rounded-full border-2 transition-all hover:scale-110 ${
-                        index === activeIndex
-                          ? `${borderAccentClass[accent]} ring-2 ring-offset-2 ring-offset-background ${borderAccentClass[accent].replace("border-", "ring-")}`
-                          : "border-border"
-                      }`}
-                      style={{ backgroundColor: cssColorFor(shot) }}
-                    />
-                  ))}
-                  {active ? (
-                    <span className="ml-1 text-xs font-medium text-muted-foreground">{active.label}</span>
-                  ) : null}
-                </div>
                 <div className="mt-2 flex flex-wrap gap-2">
+
                   {gallery.map((shot, index) => (
                     <button
                       key={`${shot.url}-${index}`}
