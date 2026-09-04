@@ -31,8 +31,20 @@ export const Route = createFileRoute("/")({
           "Bright promotional merchandise and corporate gift kits, decorated in-house and quoted within one business day.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://seeseebloom.com.au/" },
+      {
+        property: "og:image",
+        content:
+          "https://seeseebloom.com.au/__l5e/assets-v1/ea04488e-4e56-49b9-961f-b0142641e600/hero-lineup-1400.webp",
+      },
+      {
+        name: "twitter:image",
+        content:
+          "https://seeseebloom.com.au/__l5e/assets-v1/ea04488e-4e56-49b9-961f-b0142641e600/hero-lineup-1400.webp",
+      },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: "https://seeseebloom.com.au/" }],
     links: [...heroPreloadLinks],
   }),
   component: Home,
