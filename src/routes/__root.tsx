@@ -87,7 +87,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "Branded merchandise for brands worth remembering. Bright promotional products and corporate gifts, decorated in-house.",
       },
       { name: "author", content: "See See Bloom" },
-      { property: "og:title", content: "See See Bloom — Branded Merchandise for Brands Worth Remembering" },
+      { property: "og:title", content: "See See Bloom" },
       {
         property: "og:description",
         content: "Branded merchandise for brands worth remembering. Promotional products and corporate gifts.",
