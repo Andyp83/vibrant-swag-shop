@@ -80,14 +80,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "See See Bloom — Branded Merchandise for Brands Worth Remembering" },
+      { title: "See See Bloom" },
       {
         name: "description",
         content:
           "Branded merchandise for brands worth remembering. Bright promotional products and corporate gifts, decorated in-house.",
       },
       { name: "author", content: "See See Bloom" },
-      { property: "og:title", content: "See See Bloom — Branded Merchandise for Brands Worth Remembering" },
+      { property: "og:title", content: "See See Bloom" },
       {
         property: "og:description",
         content: "Branded merchandise for brands worth remembering. Promotional products and corporate gifts.",
