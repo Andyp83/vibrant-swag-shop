@@ -13,16 +13,11 @@ import {
 } from "@/components/ui/dialog";
 import { borderAccentClass, swatchClass, textClass, type SpectrumColor } from "@/lib/catalog";
 import { productDetailQueryOptions, type CmsProduct } from "@/lib/catalog-query";
-import { colourSwatchCss } from "@/lib/product-filters";
 
 export type QuickViewProduct = CmsProduct;
 
 type GalleryShot = { colourLabel?: string | null; label: string; url: string };
 type Gallery = GalleryShot[];
-
-function cssColorFor(shot: GalleryShot): string {
-  return colourSwatchCss(shot.colourLabel || shot.label);
-}
 
 
 function optionLabel(product: QuickViewProduct): string {
