@@ -353,7 +353,7 @@ function Field({
   required?: boolean;
   placeholder?: string;
   inputMode?: "numeric";
-  error?: string;
+  error?: string | undefined;
 }) {
   return (
     <div className="space-y-2">
