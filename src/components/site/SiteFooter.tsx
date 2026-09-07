@@ -74,6 +74,11 @@ export function SiteFooter() {
               </Link>
             </li>
             <li>
+              <Link to="/corporate-gifts" className="text-muted-foreground hover:text-foreground">
+                Corporate gifts
+              </Link>
+            </li>
+            <li>
               <Link to="/procurement" className="text-muted-foreground hover:text-foreground">
                 Custom sourcing
               </Link>
