@@ -20,6 +20,7 @@ import { Route as ImpactAwareRouteImport } from './routes/impact-aware'
 import { Route as LookbookRouteImport } from './routes/lookbook'
 import { Route as McpRouteImport } from './routes/mcp'
 import { Route as MerchandiseRouteImport } from './routes/merchandise'
+import { Route as PrintRouteImport } from './routes/print'
 import { Route as ProcurementRouteImport } from './routes/procurement'
 import { Route as QuoteRouteImport } from './routes/quote'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
@@ -104,6 +105,11 @@ const McpRoute = McpRouteImport.update({
 const MerchandiseRoute = MerchandiseRouteImport.update({
   id: '/merchandise',
   path: '/merchandise',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrintRoute = PrintRouteImport.update({
+  id: '/print',
+  path: '/print',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProcurementRoute = ProcurementRouteImport.update({
@@ -287,6 +293,7 @@ export interface FileRoutesByFullPath {
   '/lookbook': typeof LookbookRoute
   '/mcp': typeof McpRoute
   '/merchandise': typeof MerchandiseRoute
+  '/print': typeof PrintRoute
   '/procurement': typeof ProcurementRoute
   '/quote': typeof QuoteRoute
   '/reset-password': typeof ResetPasswordRoute
@@ -330,6 +337,7 @@ export interface FileRoutesByTo {
   '/lookbook': typeof LookbookRoute
   '/mcp': typeof McpRoute
   '/merchandise': typeof MerchandiseRoute
+  '/print': typeof PrintRoute
   '/procurement': typeof ProcurementRoute
   '/quote': typeof QuoteRoute
   '/reset-password': typeof ResetPasswordRoute
@@ -374,6 +382,7 @@ export interface FileRoutesById {
   '/lookbook': typeof LookbookRoute
   '/mcp': typeof McpRoute
   '/merchandise': typeof MerchandiseRoute
+  '/print': typeof PrintRoute
   '/procurement': typeof ProcurementRoute
   '/quote': typeof QuoteRoute
   '/reset-password': typeof ResetPasswordRoute
@@ -419,6 +428,7 @@ export interface FileRouteTypes {
     | '/lookbook'
     | '/mcp'
     | '/merchandise'
+    | '/print'
     | '/procurement'
     | '/quote'
     | '/reset-password'
@@ -462,6 +472,7 @@ export interface FileRouteTypes {
     | '/lookbook'
     | '/mcp'
     | '/merchandise'
+    | '/print'
     | '/procurement'
     | '/quote'
     | '/reset-password'
@@ -505,6 +516,7 @@ export interface FileRouteTypes {
     | '/lookbook'
     | '/mcp'
     | '/merchandise'
+    | '/print'
     | '/procurement'
     | '/quote'
     | '/reset-password'
@@ -550,6 +562,7 @@ export interface RootRouteChildren {
   LookbookRoute: typeof LookbookRoute
   McpRoute: typeof McpRoute
   MerchandiseRoute: typeof MerchandiseRoute
+  PrintRoute: typeof PrintRoute
   ProcurementRoute: typeof ProcurementRoute
   QuoteRoute: typeof QuoteRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
@@ -649,6 +662,13 @@ declare module '@tanstack/react-router' {
       path: '/merchandise'
       fullPath: '/merchandise'
       preLoaderRoute: typeof MerchandiseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/print': {
+      id: '/print'
+      path: '/print'
+      fullPath: '/print'
+      preLoaderRoute: typeof PrintRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/procurement': {
@@ -926,6 +946,7 @@ const rootRouteChildren: RootRouteChildren = {
   LookbookRoute: LookbookRoute,
   McpRoute: McpRoute,
   MerchandiseRoute: MerchandiseRoute,
+  PrintRoute: PrintRoute,
   ProcurementRoute: ProcurementRoute,
   QuoteRoute: QuoteRoute,
   ResetPasswordRoute: ResetPasswordRoute,
