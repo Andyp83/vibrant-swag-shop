@@ -56,16 +56,16 @@ function GiftsPage() {
 
   return (
     <div>
-      <section className="hero-world-gift relative overflow-hidden text-ink">
+      <section className="hero-world-gift relative overflow-hidden text-primary-foreground">
         <div className="mx-auto grid max-w-6xl items-center gap-10 px-5 py-16 lg:grid-cols-[1.05fr_1fr] lg:py-20">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-ink/60">
+            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-primary-foreground/60">
               Gift packs · Hampers · Kits
             </p>
             <h1 className="display-type mt-5 text-5xl leading-[0.95] sm:text-6xl">
               Gifts that get remembered
             </h1>
-            <p className="mt-6 max-w-xl text-ink/70">
+            <p className="mt-6 max-w-xl text-primary-foreground/75">
               Onboarding kits, client hampers, event gifts and milestone packs — curated, branded,
               assembled and delivered anywhere in Australia.
             </p>
@@ -73,14 +73,14 @@ function GiftsPage() {
               <Link
                 to="/products"
                 search={{ world: "gifts" }}
-                className="inline-flex items-center gap-2 rounded-full bg-ink px-7 py-3.5 text-sm font-semibold text-primary-foreground"
+                className="inline-flex items-center gap-2 rounded-full bg-primary-foreground px-7 py-3.5 text-sm font-semibold text-ink"
               >
                 Browse gift packs
                 <ArrowRight className="size-4" aria-hidden="true" />
               </Link>
               <Link
                 to="/corporate-gifts"
-                className="inline-flex items-center rounded-full border border-ink/25 px-7 py-3.5 text-sm font-semibold hover:bg-ink/5"
+                className="inline-flex items-center rounded-full border border-primary-foreground/30 px-7 py-3.5 text-sm font-semibold hover:bg-primary-foreground/10"
               >
                 Gift enquiry
               </Link>
