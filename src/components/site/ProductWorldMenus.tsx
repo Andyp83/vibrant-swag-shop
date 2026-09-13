@@ -138,7 +138,7 @@ export function BrandedMenu() {
   );
 
   return (
-    <MegaMenu label="Branded merchandise" to="/products">
+    <MegaMenu label="Branded merchandise" to="/merchandise">
       {(close) => (
         <>
           <div className="flex items-end justify-between gap-4">
@@ -196,7 +196,7 @@ export function PrintMenu() {
   const print = useCategories().find((c) => c.slug === PRINT_SLUG);
 
   return (
-    <MegaMenu label="Print with us" to="/products/$category" params={{ category: PRINT_SLUG }}>
+    <MegaMenu label="Print with us" to="/print">
       {(close) => (
         <>
           <div className="flex items-end justify-between gap-4">
@@ -286,7 +286,7 @@ export function GiftingMenu() {
   const giftPacks = useCategories().find((c) => c.slug === "gift-packs");
 
   return (
-    <MegaMenu label="Gifting" to="/products/$category" params={{ category: GIFTING_SLUG }}>
+    <MegaMenu label="Gifting" to="/gifts">
       {(close) => (
         <>
           <div className="flex items-end justify-between gap-4">
