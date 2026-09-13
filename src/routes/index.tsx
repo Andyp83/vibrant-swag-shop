@@ -55,7 +55,7 @@ const panels: Record<
     icon: Gift,
     image: heroGifting,
     alt: "Curated corporate gift packs and hampers with ribbon and branded packaging",
-    surface: "hero-world-gifting",
+    surface: "hero-world-gift",
     text: "text-ink",
     button: "bg-ink text-primary-foreground",
   },

@@ -56,7 +56,7 @@ function GiftsPage() {
 
   return (
     <div>
-      <section className="hero-world-gifting relative overflow-hidden text-ink">
+      <section className="hero-world-gift relative overflow-hidden text-ink">
         <div className="mx-auto grid max-w-6xl items-center gap-10 px-5 py-16 lg:grid-cols-[1.05fr_1fr] lg:py-20">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.3em] text-ink/60">
