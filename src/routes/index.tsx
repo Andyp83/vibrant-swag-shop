@@ -74,37 +74,37 @@ function Chooser() {
           return (
             <Link
               key={world.slug}
-                to={world.path}
-                className={`group relative flex w-full flex-col justify-end overflow-hidden ${panel.surface} ${panel.text}`}
-              >
-                <img
-                  src={panel.image}
-                  alt={panel.alt}
-                  loading={i === 0 ? "eager" : "lazy"}
-                  decoding="async"
-                  sizes="(max-width: 1024px) 100vw, 33vw"
-                  className="pointer-events-none absolute inset-x-0 top-[12%] mx-auto w-[115%] max-w-none opacity-95 transition-transform duration-[1200ms] ease-out group-hover:scale-105"
-                />
-                <div className="relative p-8 pt-52 sm:p-10 sm:pt-64">
-                  <Icon className="size-7" aria-hidden="true" />
-                  <p className="mt-6 text-xs font-semibold uppercase tracking-[0.3em] opacity-70">
-                    {world.tagline}
-                  </p>
-                  <p className="display-type mt-3 text-4xl leading-[0.95] sm:text-5xl">
-                    {world.label}
-                  </p>
-                  <p className="mt-4 max-w-sm text-sm opacity-80">{world.blurb}</p>
-                  <span
-                    className={`mt-8 inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold ${panel.button}`}
-                  >
-                    Enter
-                    <ArrowRight
-                      className="size-4 transition-transform duration-300 group-hover:translate-x-1"
-                      aria-hidden="true"
-                    />
-                  </span>
-                </div>
-                <div className="spectrum-bar h-1.5 w-full" aria-hidden="true" />
+              to={world.path}
+              className={`group relative flex w-full flex-col justify-end overflow-hidden ${panel.surface} ${panel.text}`}
+            >
+              <img
+                src={panel.image}
+                alt={panel.alt}
+                loading={i === 0 ? "eager" : "lazy"}
+                decoding="async"
+                sizes="(max-width: 1024px) 100vw, 33vw"
+                className="pointer-events-none absolute inset-x-0 top-[12%] mx-auto w-[115%] max-w-none opacity-95 transition-transform duration-[1200ms] ease-out group-hover:scale-105"
+              />
+              <div className="relative p-8 pt-52 sm:p-10 sm:pt-64">
+                <Icon className="size-7" aria-hidden="true" />
+                <p className="mt-6 text-xs font-semibold uppercase tracking-[0.3em] opacity-70">
+                  {world.tagline}
+                </p>
+                <p className="display-type mt-3 text-4xl leading-[0.95] sm:text-5xl">
+                  {world.label}
+                </p>
+                <p className="mt-4 max-w-sm text-sm opacity-80">{world.blurb}</p>
+                <span
+                  className={`mt-8 inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold ${panel.button}`}
+                >
+                  Enter
+                  <ArrowRight
+                    className="size-4 transition-transform duration-300 group-hover:translate-x-1"
+                    aria-hidden="true"
+                  />
+                </span>
+              </div>
+              <div className="spectrum-bar h-1.5 w-full" aria-hidden="true" />
             </Link>
           );
         })}
