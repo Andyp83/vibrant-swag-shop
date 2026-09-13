@@ -1028,21 +1028,38 @@ export type Database = {
         }
         Returns: boolean
       }
-      search_product_families: {
-        Args: {
-          p_category_id?: string
-          p_colour_mode?: string
-          p_colour_terms?: string[]
-          p_decoration?: string
-          p_impact?: boolean
-          p_limit?: number
-          p_moq_max?: number
-          p_offset?: number
-          p_sort?: string
-          p_subcategory_id?: string
-        }
-        Returns: Json
-      }
+      search_product_families:
+        | {
+            Args: {
+              p_category_id?: string
+              p_colour_mode?: string
+              p_colour_terms?: string[]
+              p_decoration?: string
+              p_impact?: boolean
+              p_limit?: number
+              p_moq_max?: number
+              p_offset?: number
+              p_sort?: string
+              p_subcategory_id?: string
+            }
+            Returns: Json
+          }
+        | {
+            Args: {
+              p_category_id?: string
+              p_category_ids?: string[]
+              p_colour_mode?: string
+              p_colour_terms?: string[]
+              p_decoration?: string
+              p_impact?: boolean
+              p_limit?: number
+              p_moq_max?: number
+              p_offset?: number
+              p_sort?: string
+              p_subcategory_id?: string
+            }
+            Returns: Json
+          }
     }
     Enums: {
       app_role: "admin"
