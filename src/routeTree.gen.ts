@@ -16,6 +16,7 @@ import { Route as CataloguesRouteImport } from './routes/catalogues'
 import { Route as ColourGuideRouteImport } from './routes/colour-guide'
 import { Route as CorporateGiftsRouteImport } from './routes/corporate-gifts'
 import { Route as DecorationRouteImport } from './routes/decoration'
+import { Route as GiftsRouteImport } from './routes/gifts'
 import { Route as ImpactAwareRouteImport } from './routes/impact-aware'
 import { Route as LookbookRouteImport } from './routes/lookbook'
 import { Route as McpRouteImport } from './routes/mcp'
@@ -85,6 +86,11 @@ const CorporateGiftsRoute = CorporateGiftsRouteImport.update({
 const DecorationRoute = DecorationRouteImport.update({
   id: '/decoration',
   path: '/decoration',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GiftsRoute = GiftsRouteImport.update({
+  id: '/gifts',
+  path: '/gifts',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ImpactAwareRoute = ImpactAwareRouteImport.update({
@@ -289,6 +295,7 @@ export interface FileRoutesByFullPath {
   '/colour-guide': typeof ColourGuideRoute
   '/corporate-gifts': typeof CorporateGiftsRoute
   '/decoration': typeof DecorationRoute
+  '/gifts': typeof GiftsRoute
   '/impact-aware': typeof ImpactAwareRoute
   '/lookbook': typeof LookbookRoute
   '/mcp': typeof McpRoute
@@ -333,6 +340,7 @@ export interface FileRoutesByTo {
   '/colour-guide': typeof ColourGuideRoute
   '/corporate-gifts': typeof CorporateGiftsRoute
   '/decoration': typeof DecorationRoute
+  '/gifts': typeof GiftsRoute
   '/impact-aware': typeof ImpactAwareRoute
   '/lookbook': typeof LookbookRoute
   '/mcp': typeof McpRoute
@@ -378,6 +386,7 @@ export interface FileRoutesById {
   '/colour-guide': typeof ColourGuideRoute
   '/corporate-gifts': typeof CorporateGiftsRoute
   '/decoration': typeof DecorationRoute
+  '/gifts': typeof GiftsRoute
   '/impact-aware': typeof ImpactAwareRoute
   '/lookbook': typeof LookbookRoute
   '/mcp': typeof McpRoute
@@ -424,6 +433,7 @@ export interface FileRouteTypes {
     | '/colour-guide'
     | '/corporate-gifts'
     | '/decoration'
+    | '/gifts'
     | '/impact-aware'
     | '/lookbook'
     | '/mcp'
@@ -468,6 +478,7 @@ export interface FileRouteTypes {
     | '/colour-guide'
     | '/corporate-gifts'
     | '/decoration'
+    | '/gifts'
     | '/impact-aware'
     | '/lookbook'
     | '/mcp'
@@ -512,6 +523,7 @@ export interface FileRouteTypes {
     | '/colour-guide'
     | '/corporate-gifts'
     | '/decoration'
+    | '/gifts'
     | '/impact-aware'
     | '/lookbook'
     | '/mcp'
@@ -558,6 +570,7 @@ export interface RootRouteChildren {
   ColourGuideRoute: typeof ColourGuideRoute
   CorporateGiftsRoute: typeof CorporateGiftsRoute
   DecorationRoute: typeof DecorationRoute
+  GiftsRoute: typeof GiftsRoute
   ImpactAwareRoute: typeof ImpactAwareRoute
   LookbookRoute: typeof LookbookRoute
   McpRoute: typeof McpRoute
@@ -634,6 +647,13 @@ declare module '@tanstack/react-router' {
       path: '/decoration'
       fullPath: '/decoration'
       preLoaderRoute: typeof DecorationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/gifts': {
+      id: '/gifts'
+      path: '/gifts'
+      fullPath: '/gifts'
+      preLoaderRoute: typeof GiftsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/impact-aware': {
@@ -942,6 +962,7 @@ const rootRouteChildren: RootRouteChildren = {
   ColourGuideRoute: ColourGuideRoute,
   CorporateGiftsRoute: CorporateGiftsRoute,
   DecorationRoute: DecorationRoute,
+  GiftsRoute: GiftsRoute,
   ImpactAwareRoute: ImpactAwareRoute,
   LookbookRoute: LookbookRoute,
   McpRoute: McpRoute,
