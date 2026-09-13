@@ -22,6 +22,7 @@ const mobileSections: { title: string; links: MobileLink[] }[] = [
   {
     title: "Print with us",
     links: [
+      { label: "Print home", to: "/print" },
       { label: "Print range", to: "/products/$category", params: { category: "print" } },
       { label: "Colour guide", to: "/colour-guide" },
       { label: "Design & print brokering", to: "/procurement" },
@@ -30,6 +31,7 @@ const mobileSections: { title: string; links: MobileLink[] }[] = [
   {
     title: "Gifting",
     links: [
+      { label: "Gifting home", to: "/gifts" },
       {
         label: "Hampers & gifting",
         to: "/products/$category",
