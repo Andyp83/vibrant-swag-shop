@@ -1,7 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Gift, Printer, Sparkles } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import { Reveal } from "@/components/site/Reveal";
 import { worlds, type WorldSlug } from "@/lib/worlds";
 import heroMerch from "@/assets/hero/hero-lineup-1400.png";
 import heroPrint from "@/assets/hero/hero-print-rainbow.webp";
@@ -73,8 +72,8 @@ function Chooser() {
           const panel = panels[world.slug];
           const Icon = panel.icon;
           return (
-            <Reveal key={world.slug} delay={i * 90} variant="up" className="flex">
-              <Link
+            <Link
+              key={world.slug}
                 to={world.path}
                 className={`group relative flex w-full flex-col justify-end overflow-hidden ${panel.surface} ${panel.text}`}
               >
@@ -106,8 +105,7 @@ function Chooser() {
                   </span>
                 </div>
                 <div className="spectrum-bar h-1.5 w-full" aria-hidden="true" />
-              </Link>
-            </Reveal>
+            </Link>
           );
         })}
       </div>
