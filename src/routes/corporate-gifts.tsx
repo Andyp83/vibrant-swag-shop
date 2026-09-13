@@ -1,9 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
 import { useState, type FormEvent } from "react";
 import { CheckCircle2, Gift, Loader2, Package, Sparkles } from "lucide-react";
 import { z } from "zod";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
+import { confirmQuoteRequest } from "@/lib/backoffice/quote-confirm.functions";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
@@ -95,6 +97,7 @@ function CorporateGiftsPage() {
   const [errors, setErrors] = useState<FieldErrors>({});
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
+  const sendConfirmation = useServerFn(confirmQuoteRequest);
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -118,7 +121,9 @@ function CorporateGiftsPage() {
 
     try {
       const values = parsed.data;
+      const requestId = crypto.randomUUID();
       const { error } = await supabase.from("quote_requests").insert({
+        id: requestId,
         name: values.fullName,
         email: values.email,
         company: values.company || null,
@@ -133,6 +138,14 @@ function CorporateGiftsPage() {
         file_paths: [],
       });
       if (error) throw error;
+
+      // Confirmation email with a secure link into the quote timeline.
+      try {
+        await sendConfirmation({ data: { requestId } });
+      } catch (emailError) {
+        console.error("Confirmation email failed", emailError);
+      }
+
       setDone(true);
       form.reset();
     } catch (error) {
