@@ -311,6 +311,7 @@ export function matchesFilters(
 
 /** Shared validateSearch shape for routes that expose product filters. */
 export function parseFilterSearch(search: Record<string, unknown>): {
+  world?: "print" | "gifts";
   category?: string;
   sub?: string;
   decoration?: string;
@@ -323,6 +324,7 @@ export function parseFilterSearch(search: Record<string, unknown>): {
   page?: number;
 } {
   const out: {
+    world?: "print" | "gifts";
     category?: string;
     sub?: string;
     decoration?: string;
@@ -334,6 +336,8 @@ export function parseFilterSearch(search: Record<string, unknown>): {
     density?: GridDensity;
     page?: number;
   } = {};
+  // Merchandise is the default listing, so only the other two worlds appear in the URL.
+  if (search["world"] === "print" || search["world"] === "gifts") out.world = search["world"];
   const rawCategory = search["category"];
   if (typeof rawCategory === "string" && rawCategory.trim()) {
     out.category = rawCategory.slice(0, 80);

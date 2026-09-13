@@ -350,6 +350,8 @@ export type CmsFamilyPage = {
 
 const familyQuerySchema = z.object({
   category: z.string().trim().max(80).optional(),
+  /** Restrict results to these category slugs (used to keep each world separate). */
+  categories: z.array(z.string().trim().max(80)).max(40).default([]),
   sub: z.string().trim().max(80).optional(),
   decoration: z.string().trim().max(60).optional(),
   colours: z.array(z.string().trim().max(40)).max(20).default([]),
@@ -404,6 +406,18 @@ export const listProductFamilies = createServerFn({ method: "GET" })
       }
     }
 
+    // World scoping: restrict to a set of category slugs (merchandise / print / gifts).
+    let categoryIds: string[] = [];
+    if (data.categories.length) {
+      const { data: rows, error } = await supabase
+        .from("catalog_categories")
+        .select("id")
+        .in("slug", data.categories);
+      if (error) throw new Error(error.message);
+      categoryIds = (rows ?? []).map((r) => r.id);
+      if (!categoryIds.length) return { total: 0, families: [] };
+    }
+
     const colourTerms = data.colours
       .map((colour) => colourRegexPattern(colour))
       .filter((pattern) => pattern.length > 0);
@@ -415,6 +429,7 @@ export const listProductFamilies = createServerFn({ method: "GET" })
 
     const { data: result, error } = await rpc("search_product_families", {
       p_category_id: categoryId,
+      p_category_ids: categoryIds,
       p_subcategory_id: subcategoryId,
       p_decoration: data.decoration ?? null,
       p_colour_terms: colourTerms,

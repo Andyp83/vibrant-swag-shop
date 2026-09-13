@@ -1,5 +1,6 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { categorySlugsForWorld, parseWorld, worldBySlug } from "@/lib/worlds";
 import { useState } from "react";
 import { borderAccentClass, spectrum } from "@/lib/catalog";
 import {
@@ -28,6 +29,7 @@ const PAGE_SIZE = 60;
 export const Route = createFileRoute("/products/")({
   validateSearch: parseFilterSearch,
   loaderDeps: ({ search }) => ({
+    world: search.world ?? "merchandise",
     category: search.category ?? "",
     sub: search.sub ?? "",
     decoration: search.decoration ?? "",
@@ -39,21 +41,25 @@ export const Route = createFileRoute("/products/")({
     page: search.page ?? 1,
   }),
   loader: async ({ context, deps }) => {
+    const allCategories = await context.queryClient.ensureQueryData(categoriesQueryOptions());
+    const world = parseWorld(deps.world);
+    const worldSlugs = categorySlugsForWorld(world, allCategories);
+    const category = worldSlugs.includes(deps.category) ? deps.category : "";
+
     await Promise.all([
-      context.queryClient.ensureQueryData(categoriesQueryOptions()),
       context.queryClient.ensureQueryData(decorationMethodsQueryOptions()),
       context.queryClient.ensureQueryData(
         productFamiliesQueryOptions({
-      ...(deps.category ? { category: deps.category } : {}),
-      ...(deps.category && deps.sub ? { sub: deps.sub } : {}),
-      ...(deps.decoration ? { decoration: deps.decoration } : {}),
-      colours: coloursFromSearch(deps.colour),
-      colourMode: deps.colourMatch,
-      impact: deps.impact,
-      moqMax: deps.moq,
-      sort: deps.sort,
-      page: Math.max(0, deps.page - 1),
-      pageSize: PAGE_SIZE,
+          ...(category ? { category } : { categories: worldSlugs }),
+          ...(category && deps.sub ? { sub: deps.sub } : {}),
+          ...(deps.decoration ? { decoration: deps.decoration } : {}),
+          colours: coloursFromSearch(deps.colour),
+          colourMode: deps.colourMatch,
+          impact: deps.impact,
+          moqMax: deps.moq,
+          sort: deps.sort,
+          page: Math.max(0, deps.page - 1),
+          pageSize: PAGE_SIZE,
         }),
       ),
     ]);
@@ -89,15 +95,22 @@ export const Route = createFileRoute("/products/")({
 });
 
 function AllProductsPage() {
-  const { data: categories } = useSuspenseQuery(categoriesQueryOptions());
+  const { data: allCategories } = useSuspenseQuery(categoriesQueryOptions());
   const search = Route.useSearch();
   const navigate = useNavigate({ from: Route.fullPath });
   const [quickView, setQuickView] = useState<{ family: ProductFamily; category: CmsCategory } | null>(
     null,
   );
 
+  const world = parseWorld(search.world);
+  const worldMeta = worldBySlug(world);
+  const worldSlugs = categorySlugsForWorld(world, allCategories);
+  const categories = allCategories.filter((c) => worldSlugs.includes(c.slug));
+  const worldSearch = world === "merchandise" ? {} : { world };
+
+  const requestedCategory = search.category ?? "";
   const filters: ProductFilterValue = {
-    category: search.category ?? "",
+    category: worldSlugs.includes(requestedCategory) ? requestedCategory : "",
     subcategory: search.sub ?? "",
     decoration: search.decoration ?? "",
     colours: coloursFromSearch(search.colour),
@@ -113,7 +126,7 @@ function AllProductsPage() {
   const decorations = useSuspenseQuery(decorationMethodsQueryOptions()).data;
   const { data: pageData } = useSuspenseQuery(
     productFamiliesQueryOptions({
-      ...(filters.category ? { category: filters.category } : {}),
+      ...(filters.category ? { category: filters.category } : { categories: worldSlugs }),
       ...(filters.category && filters.subcategory ? { sub: filters.subcategory } : {}),
       ...(filters.decoration ? { decoration: filters.decoration } : {}),
       colours: filters.colours,
@@ -130,12 +143,15 @@ function AllProductsPage() {
   const subSlugFor = (family: ProductFamily, category: CmsCategory | null) =>
     category?.subcategories.find((s) => s.id === family.primary.subcategory_id)?.slug ?? "";
   const categoryFor = (family: ProductFamily) =>
-    categories.find((c) => c.id === family.primary.category_id) ?? activeCategory ?? categories[0]!;
+    allCategories.find((c) => c.id === family.primary.category_id) ??
+    activeCategory ??
+    categories[0]!;
 
   const updateFilters = (next: Partial<ProductFilterValue>) => {
     const merged = { ...filters, ...next };
     navigate({
       search: {
+        ...worldSearch,
         ...(merged.category ? { category: merged.category } : {}),
         ...(merged.category && merged.subcategory ? { sub: merged.subcategory } : {}),
         ...(merged.decoration ? { decoration: merged.decoration } : {}),
@@ -170,13 +186,22 @@ function AllProductsPage() {
   return (
     <div className="mx-auto max-w-6xl px-5 py-14">
       <Reveal>
-        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-muted-foreground">
-          Product range
-        </p>
-        <h1 className="display-type mt-4 max-w-2xl text-5xl sm:text-6xl">All products</h1>
+        <Link
+          to={worldMeta.path}
+          className="text-xs font-semibold uppercase tracking-[0.3em] text-muted-foreground hover:text-foreground"
+        >
+          {worldMeta.label}
+        </Link>
+        <h1 className="display-type mt-4 max-w-2xl text-5xl sm:text-6xl">
+          {world === "print"
+            ? "All print products"
+            : world === "gifts"
+              ? "All gift packs"
+              : "All merchandise"}
+        </h1>
         <p className="mt-5 max-w-2xl text-muted-foreground">
-          Everything in one place. Start with a category, then narrow by sub-range, decoration
-          method, colour or minimum order quantity.
+          {worldMeta.blurb} Narrow by category, sub-range, decoration method, colour or minimum
+          order quantity.
         </p>
       </Reveal>
 

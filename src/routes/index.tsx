@@ -1,329 +1,116 @@
-import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight } from "lucide-react";
-import { borderAccentClass, softBgClass, spectrum, swatchClass } from "@/lib/catalog";
-import { categoriesQueryOptions } from "@/lib/catalog-query";
-import { HeroCarousel, heroPreloadLinks } from "@/components/site/HeroCarousel";
-import { PlacementBanners } from "@/components/site/PlacementBanners";
-import { Reveal } from "@/components/site/Reveal";
-import { Marquee } from "@/components/site/Marquee";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+import { ArrowRight, Gift, Printer, Sparkles } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
+import { worlds, type WorldSlug } from "@/lib/worlds";
+import heroMerch from "@/assets/hero/hero-lineup-1400.png";
+import heroPrint from "@/assets/hero/hero-print-rainbow.webp";
+import heroGifting from "@/assets/hero/hero-gifting-rainbow.webp";
+
+const TITLE = "See See Bloom — Branded Merchandise for Brands Worth Remembering";
+const DESCRIPTION =
+  "Three ways to work with us: promotional merchandise, design and print, and curated gift packs. Decorated in-house and quoted within one business day.";
+const OG_IMAGE =
+  "https://seeseebloom.com.au/__l5e/assets-v1/ea04488e-4e56-49b9-961f-b0142641e600/hero-lineup-1400.webp";
 
 export const Route = createFileRoute("/")({
-  loader: ({ context }) => context.queryClient.ensureQueryData(categoriesQueryOptions()),
   head: () => ({
     meta: [
-      { title: "See See Bloom — Branded Merchandise for Brands Worth Remembering" },
-      {
-        name: "description",
-        content:
-          "Branded merchandise for brands worth remembering. Bright promotional merchandise and corporate gift kits, decorated in-house and quoted within one business day.",
-      },
-      { property: "og:title", content: "See See Bloom — Branded Merchandise for Brands Worth Remembering" },
-      {
-        property: "og:description",
-        content:
-          "Bright promotional merchandise and corporate gift kits, decorated in-house and quoted within one business day.",
-      },
+      { title: TITLE },
+      { name: "description", content: DESCRIPTION },
+      { property: "og:title", content: TITLE },
+      { property: "og:description", content: DESCRIPTION },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "https://seeseebloom.com.au/" },
-      {
-        property: "og:image",
-        content:
-          "https://seeseebloom.com.au/__l5e/assets-v1/ea04488e-4e56-49b9-961f-b0142641e600/hero-lineup-1400.webp",
-      },
-      {
-        name: "twitter:image",
-        content:
-          "https://seeseebloom.com.au/__l5e/assets-v1/ea04488e-4e56-49b9-961f-b0142641e600/hero-lineup-1400.webp",
-      },
+      { property: "og:image", content: OG_IMAGE },
+      { name: "twitter:image", content: OG_IMAGE },
       { name: "twitter:card", content: "summary_large_image" },
     ],
-    links: [...heroPreloadLinks, { rel: "canonical", href: "https://seeseebloom.com.au/" }],
+    links: [{ rel: "canonical", href: "https://seeseebloom.com.au/" }],
   }),
-  component: Home,
+  component: Chooser,
 });
 
-const steps = [
-  {
-    n: "01",
-    title: "Tell us the brief",
-    body: "Quantity, budget, deadline and who it's for. Send your logo while you're there.",
+const panels: Record<
+  WorldSlug,
+  { icon: LucideIcon; image: string; alt: string; surface: string; text: string; button: string }
+> = {
+  merchandise: {
+    icon: Sparkles,
+    image: heroMerch,
+    alt: "Bright branded merchandise including drink bottles, caps, bags and notebooks",
+    surface: "hero-world-merch",
+    text: "text-primary-foreground",
+    button: "bg-primary-foreground text-ink",
   },
-  {
-    n: "02",
-    title: "We curate options",
-    body: "A shortlist of products that suit the brief, with the right decoration method for each.",
+  print: {
+    icon: Printer,
+    image: heroPrint,
+    alt: "Printed business cards, signage, labels and stickers in bright colours",
+    surface: "hero-world-print",
+    text: "text-ink",
+    button: "bg-ink text-primary-foreground",
   },
-  {
-    n: "03",
-    title: "Approve your proof",
-    body: "A digital proof of every placement and colour. Nothing prints until you sign off.",
+  gifts: {
+    icon: Gift,
+    image: heroGifting,
+    alt: "Curated corporate gift packs and hampers with ribbon and branded packaging",
+    surface: "hero-world-gift",
+    text: "text-primary-foreground",
+    button: "bg-primary-foreground text-ink",
   },
-  {
-    n: "04",
-    title: "Packed and delivered",
-    body: "Bulk to one address, or kitted and drop-shipped to individual doors.",
-  },
-];
+};
 
-const faqs = [
-  {
-    question: "How long does a typical quote take?",
-    answer:
-      "Most quotes come back within one business day. Complex jobs — like multi-product gift packs or special decoration — can take a little longer, but we'll keep you posted.",
-  },
-  {
-    question: "What logo file do you need?",
-    answer:
-      "Vector files are best: EPS, AI or PDF with editable outlines. High-resolution PNG or JPEG works for some digital methods. Not sure? Upload what you have and we'll let you know if it's suitable.",
-  },
-  {
-    question: "Is there a minimum order quantity?",
-    answer:
-      "Minimums vary by product and decoration method. Screen-printed apparel often starts at 25–50 units, while promotional products can start lower. We'll flag any MOQ clearly in your quote.",
-  },
-  {
-    question: "Can you handle large bulk orders?",
-    answer:
-      "Yes. We regularly manage hundreds to tens of thousands of units, with staged production and delivery options. Bulk orders also unlock volume pricing once quantities are confirmed.",
-  },
-  {
-    question: "Can you ship to multiple addresses?",
-    answer:
-      "Absolutely. We can pack and drop-ship individual kits to staff or event locations, or deliver everything to one warehouse — whatever suits your project.",
-  },
-  {
-    question: "Will I see a proof before production?",
-    answer:
-      "Always. We send a digital proof showing logo size, position and colours for every item. Nothing goes to print until you approve it.",
-  },
-];
-
-
-// Hampers & Gifting and Print sit outside the printed-merchandise spectrum
-const nonBrandingSlugs = ["hampers-gifting", "print"];
-function Home() {
-  const { data: allCategories } = useSuspenseQuery(categoriesQueryOptions());
-  const categories = allCategories.filter((c) => !nonBrandingSlugs.includes(c.slug));
-
+function Chooser() {
   return (
     <div>
-      {/* ---------- Rotating hero: merch · print · gifting ---------- */}
-      <HeroCarousel />
+      <h1 className="sr-only">
+        See See Bloom — branded merchandise, design and print, and corporate gift packs
+      </h1>
 
-      {/* ---------- Ticker ---------- */}
-      <div className="border-b border-border bg-secondary py-4">
-        <Marquee
-          className="ticker-line text-sm sm:text-base"
-          speed={42}
-          items={[
-            "Design services",
-            "Procurement",
-            "Branding",
-            "Visual merchandising",
-            "POS displays",
-            "24-hour quote turnaround",
-            "Web design",
-            "Client gifts",
-            "Staff welcome packs",
-            "Christmas hampers",
-            "Trade-show giveaways",
-            "Expo stand design",
-            "Kitting",
-          ]}
-        />
-      </div>
-
-      <Reveal variant="blur">
-        <PlacementBanners
-          placement="home"
-          title="In the spotlight"
-          className="mx-auto max-w-6xl px-5 pt-20"
-        />
-      </Reveal>
-
-      {/* ---------- Colour-blocked branding category reel ---------- */}
-      <section className="mx-auto max-w-6xl px-5 py-24">
-        <Reveal className="flex flex-wrap items-end justify-between gap-4">
-          <h2 className="display-type text-4xl sm:text-5xl">Branding by category</h2>
-          <Link
-            to="/products"
-            className="group inline-flex items-center gap-1.5 text-sm font-semibold underline underline-offset-4"
-          >
-            See all branding categories
-            <ArrowRight
-              className="size-4 transition-transform duration-300 group-hover:translate-x-1"
-              aria-hidden="true"
-            />
-          </Link>
-        </Reveal>
-
-        {/* Expanding panels on desktop */}
-        <div className="mt-12 hidden gap-3 lg:flex lg:h-[26rem]">
-          {categories.map((c) => (
+      <div className="grid lg:grid-cols-3">
+        {worlds.map((world, i) => {
+          const panel = panels[world.slug];
+          const Icon = panel.icon;
+          return (
             <Link
-              key={c.slug}
-              to="/products/$category"
-              params={{ category: c.slug }}
-              className={`group relative flex-1 overflow-hidden rounded-2xl border-2 transition-[flex-grow] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] hover:flex-[3.4] ${borderAccentClass[spectrum(c.colour)]}`}
+              key={world.slug}
+              to={world.path}
+              className={`group flex min-h-[26rem] w-full flex-col overflow-hidden lg:min-h-[calc(100vh-5.5rem)] ${panel.surface} ${panel.text}`}
             >
-              <img
-                src={c.image_url}
-                alt={`${c.name} promotional products`}
-                loading="lazy"
-                decoding="async"
-                sizes="(max-width: 1024px) 50vw, 320px"
-                width={1200}
-                height={900}
-                className="absolute inset-0 size-full object-cover object-center transition-transform duration-[1200ms] ease-out group-hover:scale-110"
-              />
-
-              <span
-                className={`absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/35 to-transparent`}
-                aria-hidden="true"
-              />
-              <span
-                className={`absolute inset-x-0 top-0 h-1.5 ${swatchClass[spectrum(c.colour)]}`}
-                aria-hidden="true"
-              />
-              {/* Vertical label while collapsed */}
-              <span className="absolute bottom-5 left-4 flex items-end transition-opacity duration-300 group-hover:opacity-0">
-                <span className="display-type block text-lg leading-none tracking-tight text-primary-foreground [text-shadow:0_1px_12px_var(--ink)] [writing-mode:vertical-rl] rotate-180">
-                  {c.name}
-                </span>
-              </span>
-              {/* Horizontal label + tagline on hover */}
-              <span className="absolute inset-x-0 bottom-0 p-6 text-left opacity-0 transition-opacity duration-500 group-hover:opacity-100">
-                <span className="display-type block text-2xl leading-tight text-primary-foreground [text-shadow:0_1px_12px_var(--ink)]">
-                  {c.name}
-                </span>
-                <span className="mt-2 block max-w-sm text-sm text-primary-foreground/85">
-                  {c.tagline}
-                </span>
-              </span>
-
-            </Link>
-          ))}
-        </div>
-
-        {/* Stacked cards on smaller screens */}
-        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:hidden">
-          {categories.map((c, i) => (
-            <Reveal key={c.slug} delay={i * 70} variant="scale">
-              <Link
-                to="/products/$category"
-                params={{ category: c.slug }}
-                className={`lift group block overflow-hidden rounded-xl border-2 ${borderAccentClass[spectrum(c.colour)]} ${softBgClass[spectrum(c.colour)]}`}
-              >
-                <div className="aspect-[4/3] overflow-hidden">
-                  <img
-                    src={c.image_url}
-                    alt={`${c.name} promotional products`}
-                    loading={i < 2 ? "eager" : "lazy"}
-                    decoding="async"
-                    sizes="(max-width: 640px) 100vw, 50vw"
-                    width={1200}
-                    height={900}
-                    className="size-full object-cover object-center transition-transform duration-[900ms] ease-out group-hover:scale-110"
+              <div className="flex flex-1 items-center justify-center overflow-hidden px-4 pt-10">
+                <img
+                  src={panel.image}
+                  alt={panel.alt}
+                  loading={i === 0 ? "eager" : "lazy"}
+                  decoding="async"
+                  sizes="(max-width: 1024px) 100vw, 33vw"
+                  className="pointer-events-none max-h-[22rem] w-full object-contain transition-transform duration-[1200ms] ease-out group-hover:scale-105"
+                />
+              </div>
+              <div className="p-8 sm:p-10">
+                <Icon className="size-7" aria-hidden="true" />
+                <p className="mt-5 text-xs font-semibold uppercase tracking-[0.3em] opacity-70">
+                  {world.tagline}
+                </p>
+                <p className="display-type mt-3 text-4xl leading-[0.95] sm:text-5xl">
+                  {world.label}
+                </p>
+                <p className="mt-4 max-w-sm text-sm opacity-80">{world.blurb}</p>
+                <span
+                  className={`mt-8 inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold ${panel.button}`}
+                >
+                  Enter
+                  <ArrowRight
+                    className="size-4 transition-transform duration-300 group-hover:translate-x-1"
+                    aria-hidden="true"
                   />
-                </div>
-
-                <div className={`h-1.5 w-full ${swatchClass[spectrum(c.colour)]}`} />
-                <div className="p-5">
-                  <p className="display-type text-base">{c.name}</p>
-                  <p className="mt-1 text-sm text-muted-foreground">{c.tagline}</p>
-                </div>
-              </Link>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
-      {/* ---------- How it works ---------- */}
-      <section className="relative overflow-hidden border-y border-border bg-ink py-24 text-primary-foreground">
-        <div
-          className="spectrum-rays absolute -bottom-1/2 left-1/2 -z-0 aspect-square w-[120vw] -translate-x-1/2 opacity-20 blur-3xl"
-          aria-hidden="true"
-        />
-        <div className="relative mx-auto max-w-6xl px-5">
-          <Reveal>
-            <h2 className="display-type text-4xl sm:text-5xl">How it works</h2>
-          </Reveal>
-          <div className="mt-14 grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
-            {steps.map((s, i) => (
-              <Reveal key={s.n} delay={i * 110} variant="up">
-                <div className="group">
-                  <div
-                    className={`flex size-14 items-center justify-center rounded-full text-base font-bold text-primary-foreground transition-transform duration-500 group-hover:scale-110 group-hover:rotate-6 ${
-                      [swatchClass.red, swatchClass.amber, swatchClass.teal, swatchClass.violet][i]
-                    }`}
-                  >
-                    {s.n}
-                  </div>
-                  <p className="mt-5 text-lg font-semibold">{s.title}</p>
-                  <p className="mt-2 text-sm text-primary-foreground/70">{s.body}</p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ---------- FAQ ---------- */}
-      <section className="mx-auto max-w-3xl px-5 py-24">
-        <Reveal className="text-center">
-          <h2 className="display-type text-4xl sm:text-5xl">Questions we get a lot</h2>
-          <p className="mx-auto mt-4 max-w-xl text-muted-foreground">
-            Quick answers about turnaround, logos and bulk orders.
-          </p>
-        </Reveal>
-        <Reveal delay={120} className="mt-12">
-          <Accordion type="single" collapsible className="w-full">
-            {faqs.map((faq, i) => (
-              <AccordionItem key={i} value={`item-${i}`}>
-                <AccordionTrigger className="text-base font-semibold">
-                  {faq.question}
-                </AccordionTrigger>
-                <AccordionContent className="text-muted-foreground">
-                  {faq.answer}
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
-        </Reveal>
-      </section>
-
-      {/* ---------- Closing CTA ---------- */}
-      <section className="relative overflow-hidden bg-ink py-28 text-primary-foreground">
-        <div
-          className="spectrum-rays spectrum-rays-spin absolute left-1/2 top-1/2 aspect-square w-[130vw] -translate-x-1/2 -translate-y-1/2 opacity-25 blur-2xl"
-          aria-hidden="true"
-        />
-        <Reveal variant="scale" className="relative mx-auto max-w-4xl px-5 text-center">
-          <h2 className="display-type text-5xl sm:text-6xl">Ready for a quote?</h2>
-          <p className="mx-auto mt-5 max-w-xl text-primary-foreground/75">
-            Upload your logo, tell us roughly what you need, and we'll come back with a curated
-            shortlist and pricing — usually within one business day.
-          </p>
-          <Link
-            to="/quote"
-            className="sweep group mt-10 inline-flex items-center gap-2 rounded-full bg-primary-foreground px-9 py-4 text-sm font-semibold text-ink transition-transform duration-300 hover:scale-[1.05]"
-          >
-            Start your quote request
-            <ArrowRight
-              className="size-4 transition-transform duration-300 group-hover:translate-x-1"
-              aria-hidden="true"
-            />
-          </Link>
-        </Reveal>
-        <div className="spectrum-bar absolute inset-x-0 bottom-0 h-2" aria-hidden="true" />
-      </section>
+                </span>
+              </div>
+              <div className="spectrum-bar h-1.5 w-full" aria-hidden="true" />
+            </Link>
+          );
+        })}
+      </div>
     </div>
   );
 }

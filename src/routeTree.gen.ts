@@ -16,9 +16,12 @@ import { Route as CataloguesRouteImport } from './routes/catalogues'
 import { Route as ColourGuideRouteImport } from './routes/colour-guide'
 import { Route as CorporateGiftsRouteImport } from './routes/corporate-gifts'
 import { Route as DecorationRouteImport } from './routes/decoration'
+import { Route as GiftsRouteImport } from './routes/gifts'
 import { Route as ImpactAwareRouteImport } from './routes/impact-aware'
 import { Route as LookbookRouteImport } from './routes/lookbook'
 import { Route as McpRouteImport } from './routes/mcp'
+import { Route as MerchandiseRouteImport } from './routes/merchandise'
+import { Route as PrintRouteImport } from './routes/print'
 import { Route as ProcurementRouteImport } from './routes/procurement'
 import { Route as QuoteRouteImport } from './routes/quote'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
@@ -85,6 +88,11 @@ const DecorationRoute = DecorationRouteImport.update({
   path: '/decoration',
   getParentRoute: () => rootRouteImport,
 } as any)
+const GiftsRoute = GiftsRouteImport.update({
+  id: '/gifts',
+  path: '/gifts',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ImpactAwareRoute = ImpactAwareRouteImport.update({
   id: '/impact-aware',
   path: '/impact-aware',
@@ -98,6 +106,16 @@ const LookbookRoute = LookbookRouteImport.update({
 const McpRoute = McpRouteImport.update({
   id: '/mcp',
   path: '/mcp',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MerchandiseRoute = MerchandiseRouteImport.update({
+  id: '/merchandise',
+  path: '/merchandise',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrintRoute = PrintRouteImport.update({
+  id: '/print',
+  path: '/print',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProcurementRoute = ProcurementRouteImport.update({
@@ -277,9 +295,12 @@ export interface FileRoutesByFullPath {
   '/colour-guide': typeof ColourGuideRoute
   '/corporate-gifts': typeof CorporateGiftsRoute
   '/decoration': typeof DecorationRoute
+  '/gifts': typeof GiftsRoute
   '/impact-aware': typeof ImpactAwareRoute
   '/lookbook': typeof LookbookRoute
   '/mcp': typeof McpRoute
+  '/merchandise': typeof MerchandiseRoute
+  '/print': typeof PrintRoute
   '/procurement': typeof ProcurementRoute
   '/quote': typeof QuoteRoute
   '/reset-password': typeof ResetPasswordRoute
@@ -319,9 +340,12 @@ export interface FileRoutesByTo {
   '/colour-guide': typeof ColourGuideRoute
   '/corporate-gifts': typeof CorporateGiftsRoute
   '/decoration': typeof DecorationRoute
+  '/gifts': typeof GiftsRoute
   '/impact-aware': typeof ImpactAwareRoute
   '/lookbook': typeof LookbookRoute
   '/mcp': typeof McpRoute
+  '/merchandise': typeof MerchandiseRoute
+  '/print': typeof PrintRoute
   '/procurement': typeof ProcurementRoute
   '/quote': typeof QuoteRoute
   '/reset-password': typeof ResetPasswordRoute
@@ -362,9 +386,12 @@ export interface FileRoutesById {
   '/colour-guide': typeof ColourGuideRoute
   '/corporate-gifts': typeof CorporateGiftsRoute
   '/decoration': typeof DecorationRoute
+  '/gifts': typeof GiftsRoute
   '/impact-aware': typeof ImpactAwareRoute
   '/lookbook': typeof LookbookRoute
   '/mcp': typeof McpRoute
+  '/merchandise': typeof MerchandiseRoute
+  '/print': typeof PrintRoute
   '/procurement': typeof ProcurementRoute
   '/quote': typeof QuoteRoute
   '/reset-password': typeof ResetPasswordRoute
@@ -406,9 +433,12 @@ export interface FileRouteTypes {
     | '/colour-guide'
     | '/corporate-gifts'
     | '/decoration'
+    | '/gifts'
     | '/impact-aware'
     | '/lookbook'
     | '/mcp'
+    | '/merchandise'
+    | '/print'
     | '/procurement'
     | '/quote'
     | '/reset-password'
@@ -448,9 +478,12 @@ export interface FileRouteTypes {
     | '/colour-guide'
     | '/corporate-gifts'
     | '/decoration'
+    | '/gifts'
     | '/impact-aware'
     | '/lookbook'
     | '/mcp'
+    | '/merchandise'
+    | '/print'
     | '/procurement'
     | '/quote'
     | '/reset-password'
@@ -490,9 +523,12 @@ export interface FileRouteTypes {
     | '/colour-guide'
     | '/corporate-gifts'
     | '/decoration'
+    | '/gifts'
     | '/impact-aware'
     | '/lookbook'
     | '/mcp'
+    | '/merchandise'
+    | '/print'
     | '/procurement'
     | '/quote'
     | '/reset-password'
@@ -534,9 +570,12 @@ export interface RootRouteChildren {
   ColourGuideRoute: typeof ColourGuideRoute
   CorporateGiftsRoute: typeof CorporateGiftsRoute
   DecorationRoute: typeof DecorationRoute
+  GiftsRoute: typeof GiftsRoute
   ImpactAwareRoute: typeof ImpactAwareRoute
   LookbookRoute: typeof LookbookRoute
   McpRoute: typeof McpRoute
+  MerchandiseRoute: typeof MerchandiseRoute
+  PrintRoute: typeof PrintRoute
   ProcurementRoute: typeof ProcurementRoute
   QuoteRoute: typeof QuoteRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
@@ -610,6 +649,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DecorationRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/gifts': {
+      id: '/gifts'
+      path: '/gifts'
+      fullPath: '/gifts'
+      preLoaderRoute: typeof GiftsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/impact-aware': {
       id: '/impact-aware'
       path: '/impact-aware'
@@ -629,6 +675,20 @@ declare module '@tanstack/react-router' {
       path: '/mcp'
       fullPath: '/mcp'
       preLoaderRoute: typeof McpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/merchandise': {
+      id: '/merchandise'
+      path: '/merchandise'
+      fullPath: '/merchandise'
+      preLoaderRoute: typeof MerchandiseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/print': {
+      id: '/print'
+      path: '/print'
+      fullPath: '/print'
+      preLoaderRoute: typeof PrintRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/procurement': {
@@ -902,9 +962,12 @@ const rootRouteChildren: RootRouteChildren = {
   ColourGuideRoute: ColourGuideRoute,
   CorporateGiftsRoute: CorporateGiftsRoute,
   DecorationRoute: DecorationRoute,
+  GiftsRoute: GiftsRoute,
   ImpactAwareRoute: ImpactAwareRoute,
   LookbookRoute: LookbookRoute,
   McpRoute: McpRoute,
+  MerchandiseRoute: MerchandiseRoute,
+  PrintRoute: PrintRoute,
   ProcurementRoute: ProcurementRoute,
   QuoteRoute: QuoteRoute,
   ResetPasswordRoute: ResetPasswordRoute,
