@@ -118,9 +118,7 @@ function PrintPage() {
                   className="lift block rounded-xl border-2 border-border bg-card p-6"
                 >
                   <p className="display-type text-lg">{sub.name}</p>
-                  <p className="mt-2 text-sm text-muted-foreground">
-                    {sub.tagline ?? "Browse the range"}
-                  </p>
+                  <p className="mt-2 text-sm text-muted-foreground">Browse the range</p>
                 </Link>
               </Reveal>
             ))}
