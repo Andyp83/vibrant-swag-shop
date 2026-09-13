@@ -11,6 +11,7 @@ const mobileSections: { title: string; links: MobileLink[] }[] = [
   {
     title: "Branded merchandise",
     links: [
+      { label: "Merchandise home", to: "/merchandise" },
       { label: "All products", to: "/products" },
       { label: "Catalogues", to: "/catalogues" },
       { label: "Sourcing", to: "/procurement" },
