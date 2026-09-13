@@ -55,19 +55,19 @@ const panels: Record<
     image: heroGifting,
     alt: "Curated corporate gift packs and hampers with ribbon and branded packaging",
     surface: "hero-world-gift",
-    text: "text-ink",
-    button: "bg-ink text-primary-foreground",
+    text: "text-primary-foreground",
+    button: "bg-primary-foreground text-ink",
   },
 };
 
 function Chooser() {
   return (
-    <div className="min-h-[calc(100vh-5.5rem)]">
+    <div>
       <h1 className="sr-only">
         See See Bloom — branded merchandise, design and print, and corporate gift packs
       </h1>
 
-      <div className="grid min-h-[calc(100vh-5.5rem)] lg:grid-cols-3">
+      <div className="grid lg:grid-cols-3">
         {worlds.map((world, i) => {
           const panel = panels[world.slug];
           const Icon = panel.icon;
@@ -75,19 +75,21 @@ function Chooser() {
             <Link
               key={world.slug}
               to={world.path}
-              className={`group relative flex w-full flex-col justify-end overflow-hidden ${panel.surface} ${panel.text}`}
+              className={`group flex min-h-[26rem] w-full flex-col overflow-hidden lg:min-h-[calc(100vh-5.5rem)] ${panel.surface} ${panel.text}`}
             >
-              <img
-                src={panel.image}
-                alt={panel.alt}
-                loading={i === 0 ? "eager" : "lazy"}
-                decoding="async"
-                sizes="(max-width: 1024px) 100vw, 33vw"
-                className="pointer-events-none absolute inset-x-0 top-[12%] mx-auto w-[115%] max-w-none opacity-95 transition-transform duration-[1200ms] ease-out group-hover:scale-105"
-              />
-              <div className="relative p-8 pt-52 sm:p-10 sm:pt-64">
+              <div className="flex flex-1 items-center justify-center overflow-hidden px-4 pt-10">
+                <img
+                  src={panel.image}
+                  alt={panel.alt}
+                  loading={i === 0 ? "eager" : "lazy"}
+                  decoding="async"
+                  sizes="(max-width: 1024px) 100vw, 33vw"
+                  className="pointer-events-none max-h-[22rem] w-full object-contain transition-transform duration-[1200ms] ease-out group-hover:scale-105"
+                />
+              </div>
+              <div className="p-8 sm:p-10">
                 <Icon className="size-7" aria-hidden="true" />
-                <p className="mt-6 text-xs font-semibold uppercase tracking-[0.3em] opacity-70">
+                <p className="mt-5 text-xs font-semibold uppercase tracking-[0.3em] opacity-70">
                   {world.tagline}
                 </p>
                 <p className="display-type mt-3 text-4xl leading-[0.95] sm:text-5xl">
