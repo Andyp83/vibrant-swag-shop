@@ -50,6 +50,21 @@ export function SiteFooter() {
           </p>
           <ul className="mt-4 space-y-2 text-sm">
             <li>
+              <Link to="/merchandise" className="text-muted-foreground hover:text-foreground">
+                Promotional merchandise
+              </Link>
+            </li>
+            <li>
+              <Link to="/print" className="text-muted-foreground hover:text-foreground">
+                Design &amp; print
+              </Link>
+            </li>
+            <li>
+              <Link to="/gifts" className="text-muted-foreground hover:text-foreground">
+                Gift packs
+              </Link>
+            </li>
+            <li>
               <Link to="/products" className="text-muted-foreground hover:text-foreground">
                 All products
               </Link>
