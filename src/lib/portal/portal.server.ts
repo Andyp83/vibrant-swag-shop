@@ -64,6 +64,64 @@ export type PortalUpload = {
   created_at: string;
 };
 
+export type PortalRequest = {
+  id: string;
+  created_at: string;
+  product_interest: string | null;
+  decoration: string | null;
+  quantity: number | null;
+  required_by: string | null;
+  budget: string | null;
+  notes: string | null;
+  status: string;
+  file_count: number;
+  quote_number: string | null;
+  quote_token: string | null;
+};
+
+/** Every brief this email address has submitted, newest first, with any quote raised from it. */
+export async function loadRequestsByEmail(email: string): Promise<PortalRequest[]> {
+  if (!email) return [];
+  const { data } = await supabaseAdmin
+    .from("quote_requests")
+    .select(
+      "id, created_at, product_interest, decoration, quantity, required_by, budget, notes, status, file_paths",
+    )
+    .ilike("email", email)
+    .order("created_at", { ascending: false })
+    .limit(50);
+
+  const rows = (data ?? []) as (Omit<PortalRequest, "file_count" | "quote_number" | "quote_token"> & {
+    file_paths: string[] | null;
+  })[];
+  if (!rows.length) return [];
+
+  const { data: quotes } = await supabaseAdmin
+    .from("quotes")
+    .select("request_id, number, share_token, status")
+    .in(
+      "request_id",
+      rows.map((row) => row.id),
+    )
+    .neq("status", "draft");
+
+  const quoteRows = (quotes ?? []) as {
+    request_id: string | null;
+    number: string;
+    share_token: string;
+  }[];
+
+  return rows.map(({ file_paths, ...row }) => {
+    const quote = quoteRows.find((q) => q.request_id === row.id);
+    return {
+      ...row,
+      file_count: file_paths?.length ?? 0,
+      quote_number: quote?.number ?? null,
+      quote_token: quote?.share_token ?? null,
+    } satisfies PortalRequest;
+  });
+}
+
 export type PortalData = {
   customer: PortalCustomer;
   quotes: PortalQuote[];

@@ -64,6 +64,120 @@ function StageBar({ stage }: { stage: string }) {
   );
 }
 
+type BriefRow = {
+  id: string;
+  created_at: string;
+  product_interest: string | null;
+  decoration: string | null;
+  quantity: number | null;
+  required_by: string | null;
+  budget: string | null;
+  notes: string | null;
+  status: string;
+  file_count: number;
+  quote_number: string | null;
+  quote_token: string | null;
+};
+
+const briefStages = ["new", "in_progress", "quoted", "won"] as const;
+
+/** Every brief this person has sent us, with where each one is up to. */
+function BriefsSection({ requests }: { requests: BriefRow[] }) {
+  return (
+    <section className="mt-12">
+      <div className="flex flex-wrap items-end justify-between gap-3">
+        <h2 className="text-xl font-semibold">Your briefs</h2>
+        <Button asChild variant="outline" size="sm" className="rounded-full">
+          <Link to="/quote">Send a new brief</Link>
+        </Button>
+      </div>
+      {requests.length === 0 ? (
+        <p className="mt-3 text-sm text-muted-foreground">
+          You haven't sent us a brief yet. Tell us what you need and it will show up here.
+        </p>
+      ) : (
+        <div className="mt-4 space-y-4">
+          {requests.map((request) => {
+            const step = briefStages.indexOf(request.status as (typeof briefStages)[number]);
+            return (
+              <article key={request.id} className="rounded-xl border border-border bg-card p-5">
+                <div className="flex flex-wrap items-start justify-between gap-3">
+                  <div>
+                    <p className="font-semibold">
+                      {request.product_interest || "Merchandise brief"}
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      Sent {formatDate(request.created_at)}
+                      {request.quantity ? ` · ${request.quantity} units` : ""}
+                      {request.decoration ? ` · ${request.decoration}` : ""}
+                      {request.required_by ? ` · needed by ${formatDate(request.required_by)}` : ""}
+                    </p>
+                  </div>
+                  <span
+                    className={`rounded-full border px-3 py-1 text-xs ${
+                      request.status === "lost"
+                        ? "border-border text-muted-foreground"
+                        : "border-transparent bg-foreground text-background"
+                    }`}
+                  >
+                    {statusLabels[request.status] ?? request.status}
+                  </span>
+                </div>
+
+                {request.status !== "lost" && (
+                  <ol className="mt-4 flex flex-wrap gap-2">
+                    {briefStages.map((stage, i) => (
+                      <li
+                        key={stage}
+                        className={`rounded-full border px-3 py-1 text-xs ${
+                          step >= 0 && i <= step
+                            ? "border-transparent bg-accent text-foreground"
+                            : "border-border text-muted-foreground"
+                        }`}
+                      >
+                        {stage === "new"
+                          ? "Brief received"
+                          : stage === "in_progress"
+                            ? "Being costed"
+                            : stage === "quoted"
+                              ? "Quote sent"
+                              : "Order placed"}
+                      </li>
+                    ))}
+                  </ol>
+                )}
+
+                {request.notes && (
+                  <p className="mt-4 whitespace-pre-line rounded-lg bg-accent/40 p-3 text-sm text-muted-foreground">
+                    {request.notes}
+                  </p>
+                )}
+
+                <div className="mt-4 flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
+                  {request.budget && <span>Budget: {request.budget}</span>}
+                  {request.file_count > 0 && (
+                    <span className="inline-flex items-center gap-1">
+                      <FileText className="size-3.5" /> {request.file_count} file
+                      {request.file_count === 1 ? "" : "s"} attached
+                    </span>
+                  )}
+                  {request.quote_token && (
+                    <Button asChild variant="outline" size="sm" className="rounded-full">
+                      <Link to="/q/$token" params={{ token: request.quote_token }}>
+                        View quote {request.quote_number}
+                      </Link>
+                    </Button>
+                  )}
+                </div>
+              </article>
+            );
+          })}
+        </div>
+      )}
+    </section>
+  );
+}
+
 function PortalPage() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -237,20 +351,23 @@ function PortalPage() {
 
   if (!data || !data.linked) {
     return (
-      <main className="mx-auto max-w-xl px-6 py-24 text-center">
-        <h1 className="display-type text-3xl">No orders linked yet</h1>
-        <p className="mt-4 text-muted-foreground">
-          We couldn't find any quotes or orders for <strong>{data?.email}</strong>. Send us a quote
-          request with this email address and your portal will fill up automatically.
-        </p>
-        <div className="mt-8 flex justify-center gap-3">
-          <Button asChild className="rounded-full">
-            <Link to="/quote">Request a quote</Link>
-          </Button>
-          <Button variant="outline" className="rounded-full" onClick={handleSignOut}>
+      <main className="mx-auto max-w-3xl px-6 py-16">
+        <header className="flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Client portal</p>
+            <h1 className="display-type mt-2 text-3xl">Your briefs</h1>
+            <p className="mt-1 text-sm text-muted-foreground">{data?.email}</p>
+          </div>
+          <Button variant="ghost" onClick={handleSignOut}>
+            <LogOut className="size-4" />
             Sign out
           </Button>
-        </div>
+        </header>
+        <p className="mt-6 text-sm text-muted-foreground">
+          Quotes, proofs and invoices appear here as soon as our studio raises them against your
+          brief.
+        </p>
+        <BriefsSection requests={data?.requests ?? []} />
       </main>
     );
   }
@@ -279,6 +396,8 @@ function PortalPage() {
           </Button>
         </div>
       </header>
+
+      <BriefsSection requests={data.requests} />
 
       {/* Quotes */}
       <section className="mt-12">
