@@ -9,22 +9,29 @@ import {
   portalUploadRecordSchema,
   portalUploadTicketSchema,
 } from "@/lib/portal/schemas";
-import type { PortalData } from "@/lib/portal/portal.server";
+import type { PortalData, PortalRequest } from "@/lib/portal/portal.server";
 
 export type PortalResult =
-  | { linked: false; verified: boolean; email: string }
-  | ({ linked: true; verified: true } & PortalData);
+  | { linked: false; verified: boolean; email: string; requests: PortalRequest[] }
+  | ({ linked: true; verified: true; requests: PortalRequest[] } & PortalData);
 
 export const getPortal = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }): Promise<PortalResult> => {
     const email = String((context.claims as { email?: string }).email ?? "");
     const { isEmailVerified } = await import("@/lib/portal/verify.server");
-    if (!(await isEmailVerified(context.supabase))) return { linked: false, verified: false, email };
-    const { findCustomerByEmail, loadPortalData } = await import("@/lib/portal/portal.server");
-    const customer = email ? await findCustomerByEmail(email) : null;
-    if (!customer) return { linked: false, verified: true, email };
-    return { linked: true, verified: true, ...(await loadPortalData(customer)) };
+    if (!(await isEmailVerified(context.supabase))) {
+      return { linked: false, verified: false, email, requests: [] };
+    }
+    const { findCustomerByEmail, loadPortalData, loadRequestsByEmail } = await import(
+      "@/lib/portal/portal.server"
+    );
+    const [customer, requests] = await Promise.all([
+      email ? findCustomerByEmail(email) : Promise.resolve(null),
+      loadRequestsByEmail(email),
+    ]);
+    if (!customer) return { linked: false, verified: true, email, requests };
+    return { linked: true, verified: true, requests, ...(await loadPortalData(customer)) };
   });
 
 export const decideQuote = createServerFn({ method: "POST" })
