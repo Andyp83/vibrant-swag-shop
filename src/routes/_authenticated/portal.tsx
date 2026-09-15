@@ -397,6 +397,8 @@ function PortalPage() {
         </div>
       </header>
 
+      <BriefsSection requests={data.requests} />
+
       {/* Quotes */}
       <section className="mt-12">
         <h2 className="text-xl font-semibold">Your quotes</h2>
