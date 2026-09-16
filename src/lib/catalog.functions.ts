@@ -5,6 +5,23 @@ import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
 export type CmsColourImage = { label: string; url: string };
 
+/**
+ * Draft catalogue items are review-only: they appear on localhost and the Lovable
+ * preview hosts, and stay hidden on the live site until they are marked published.
+ */
+async function draftsVisible(): Promise<boolean> {
+  try {
+    const { getRequest } = await import("@tanstack/react-start/server");
+    const request = getRequest();
+    const host = new URL(request.url).hostname.toLowerCase();
+    if (host === "localhost" || host === "127.0.0.1") return true;
+    return host.endsWith(".lovable.app") && (host.includes("-dev") || host.includes("preview"));
+  } catch {
+    return false;
+  }
+}
+
+
 export type CmsProduct = {
   id: string;
   category_id: string;
@@ -271,6 +288,7 @@ export const listCatalog = createServerFn({ method: "GET" }).handler(
     // selected here — they multiplied the payload by ~10x for a full-catalogue
     // read and are only needed on the product detail page, which fetches them
     // on demand via getProductDetail().
+    const catalogIncludesDrafts = await draftsVisible();
     const productsData = await fetchAllRows<CmsProductListRow>("catalog_products", (cursor, limit) => {
       let query = supabase
         .from("catalog_products")
@@ -279,6 +297,7 @@ export const listCatalog = createServerFn({ method: "GET" }).handler(
         )
         .order("id", { ascending: true })
         .limit(limit);
+      if (!catalogIncludesDrafts) query = query.neq("publish_status", "draft");
       if (cursor) query = query.gt("id", cursor);
       return query;
     });
@@ -427,7 +446,10 @@ export const listProductFamilies = createServerFn({ method: "GET" })
       args: Record<string, unknown>,
     ) => PromiseLike<{ data: unknown; error: { message: string } | null }>;
 
-    const { data: result, error } = await rpc("search_product_families", {
+    const includeDrafts = await draftsVisible();
+
+    const { data: result, error } = await rpc("search_product_families_v2", {
+      p_include_drafts: includeDrafts,
       p_category_id: categoryId,
       p_category_ids: categoryIds,
       p_subcategory_id: subcategoryId,
@@ -442,7 +464,7 @@ export const listProductFamilies = createServerFn({ method: "GET" })
       p_offset: data.page * data.pageSize,
     });
 
-    if (error) throw new Error(`search_product_families: ${error.message}`);
+    if (error) throw new Error(`search_product_families_v2: ${error.message}`);
 
     const payload = (result ?? {}) as {
       total?: number;
@@ -585,14 +607,17 @@ export const getProductPage = createServerFn({ method: "GET" })
     const columns =
       "id, category_id, subcategory_id, slug, plu, name, blurb, service, colours, material_group, moq, methods, image_url, colour_images, variant_group, variant_label, impact_aware, sort_order, description, features, specifications, dimensions, materials, branding_options, packaging, carton_details, source_url";
 
+    const pageIncludesDrafts = await draftsVisible();
+
     let productRow: CmsProductRaw | null = null;
     for (const column of ["slug", "plu"] as const) {
-      const { data: row, error } = await supabase
+      let lookup = supabase
         .from("catalog_products")
         .select(columns)
         .eq("subcategory_id", subcategory.id)
-        .eq(column, data.product)
-        .maybeSingle();
+        .eq(column, data.product);
+      if (!pageIncludesDrafts) lookup = lookup.neq("publish_status", "draft");
+      const { data: row, error } = await lookup.maybeSingle();
       if (error) throw new Error(error.message);
       if (row) {
         productRow = row as unknown as CmsProductRaw;
