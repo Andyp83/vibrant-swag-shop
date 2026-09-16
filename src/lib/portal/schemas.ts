@@ -31,3 +31,22 @@ export const portalPreferencesSchema = z.object({
   notifyProofSigned: z.boolean(),
   notifyInvoiceAvailable: z.boolean(),
 });
+
+export const briefIdSchema = z.object({ id: uuid });
+
+export const briefUploadTicketSchema = z.object({
+  requestId: uuid,
+  fileName: z.string().trim().min(1, "File name required").max(200),
+});
+
+export const briefUploadRecordSchema = z.object({
+  requestId: uuid,
+  path: z.string().trim().min(1).max(400),
+  fileName: z.string().trim().min(1).max(200),
+  notes: z.string().trim().max(1000).default(""),
+});
+
+export const briefMessageSchema = z.object({
+  requestId: uuid,
+  notes: z.string().trim().min(2, "Add a short message").max(1000),
+});
