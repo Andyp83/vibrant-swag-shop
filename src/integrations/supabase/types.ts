@@ -211,12 +211,15 @@ export type Database = {
           name: string
           packaging: string
           plu: string | null
+          publish_status: string
+          review_notes: string
           service: string
           slug: string
           sort_order: number
           source_url: string | null
           specifications: string
           subcategory_id: string | null
+          supplier_meta: Json
           updated_at: string
           variant_group: string | null
           variant_label: string | null
@@ -245,12 +248,15 @@ export type Database = {
           name: string
           packaging?: string
           plu?: string | null
+          publish_status?: string
+          review_notes?: string
           service?: string
           slug?: string
           sort_order?: number
           source_url?: string | null
           specifications?: string
           subcategory_id?: string | null
+          supplier_meta?: Json
           updated_at?: string
           variant_group?: string | null
           variant_label?: string | null
@@ -279,12 +285,15 @@ export type Database = {
           name?: string
           packaging?: string
           plu?: string | null
+          publish_status?: string
+          review_notes?: string
           service?: string
           slug?: string
           sort_order?: number
           source_url?: string | null
           specifications?: string
           subcategory_id?: string | null
+          supplier_meta?: Json
           updated_at?: string
           variant_group?: string | null
           variant_label?: string | null
@@ -1101,6 +1110,23 @@ export type Database = {
             }
             Returns: Json
           }
+      search_product_families_v2: {
+        Args: {
+          p_category_id?: string
+          p_category_ids?: string[]
+          p_colour_mode?: string
+          p_colour_terms?: string[]
+          p_decoration?: string
+          p_impact?: boolean
+          p_include_drafts?: boolean
+          p_limit?: number
+          p_moq_max?: number
+          p_offset?: number
+          p_sort?: string
+          p_subcategory_id?: string
+        }
+        Returns: Json
+      }
     }
     Enums: {
       app_role: "admin"

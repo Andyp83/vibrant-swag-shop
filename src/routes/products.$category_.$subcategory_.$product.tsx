@@ -184,6 +184,7 @@ function ProductPage() {
               {category.name} / {subcategory.name}
             </p>
             <h1 className="display-type mt-4 text-4xl sm:text-6xl">{product.name}</h1>
+            {product.publish_status === "draft" ? <DraftReviewPanel product={product} /> : null}
             <div className="mt-4 flex flex-wrap gap-2 text-xs font-semibold text-muted-foreground">
               {product.plu ? <span className="rounded-full border px-3 py-1">PLU {product.plu}</span> : null}
               {product.service ? <span className="rounded-full border px-3 py-1">{product.service}</span> : null}
@@ -357,4 +358,63 @@ function splitSpecList(value: string): string[] {
     .split("|")
     .map((item) => item.trim())
     .filter(Boolean);
+}
+
+/** Review-only panel: shows the supplier source data and outstanding warnings for a draft item. */
+function DraftReviewPanel({ product }: { product: CmsProduct }) {
+  const meta = product.supplier_meta ?? {};
+  const text = (key: string) => {
+    const value = meta[key];
+    return typeof value === "string" || typeof value === "number" ? String(value) : "";
+  };
+  const warnings = (product.review_notes ?? "")
+    .split(" | ")
+    .map((note) => note.trim())
+    .filter(Boolean);
+  const rows: [string, string][] = [
+    ["Supplier SKU", text("supplier_sku")],
+    ["Supplier title", text("supplier_title")],
+    ["Supplier range", [text("supplier_subcategory"), text("supplier_detail_category")].filter(Boolean).join(" / ")],
+    ["Supplier price", [text("currency"), text("supplier_price")].filter(Boolean).join(" ")],
+    ["Supplier cost per item", [text("currency"), text("supplier_cost_per_item")].filter(Boolean).join(" ")],
+    ["Supplier RRP", [text("currency"), text("supplier_rrp")].filter(Boolean).join(" ")],
+    ["Website selling price", text("website_selling_price") || "Not set"],
+    ["Stock snapshot", text("stock_quantity_snapshot")],
+    ["Warranty source value", text("warranty_source_value")],
+    ["Source export date", text("source_export_date")],
+  ].filter(([, value]) => Boolean(value)) as [string, string][];
+
+  return (
+    <aside className="mt-5 rounded-xl border-2 border-dashed p-5">
+      <p className="text-xs font-bold uppercase tracking-[0.2em]">Draft — for review</p>
+      <p className="mt-2 text-sm text-muted-foreground">
+        Not visible on the live site. Internal supplier source data below; no website selling price has been set.
+      </p>
+      {warnings.length > 0 ? (
+        <ul className="mt-4 list-disc space-y-1 pl-5 text-sm">
+          {warnings.map((note) => (
+            <li key={note}>{note}</li>
+          ))}
+        </ul>
+      ) : null}
+      <dl className="mt-4 grid gap-2 text-sm sm:grid-cols-2">
+        {rows.map(([label, value]) => (
+          <div key={label}>
+            <dt className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">{label}</dt>
+            <dd>{value}</dd>
+          </div>
+        ))}
+      </dl>
+      {typeof meta["source_url"] === "string" && meta["source_url"].length > 0 ? (
+        <a
+          className="mt-4 inline-block text-sm font-semibold underline"
+          href={String(meta["source_url"])}
+          target="_blank"
+          rel="noreferrer"
+        >
+          Supplier source page
+        </a>
+      ) : null}
+    </aside>
+  );
 }
