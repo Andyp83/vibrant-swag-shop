@@ -98,6 +98,7 @@ function DesignPage() {
   const [errors, setErrors] = useState<FieldErrors>({});
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
+  const [files, setFiles] = useState<File[]>([]);
   const sendConfirmation = useServerFn(confirmQuoteRequest);
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
@@ -123,6 +124,19 @@ function DesignPage() {
     try {
       const values = parsed.data;
       const requestId = crypto.randomUUID();
+
+      // Attach the client's artwork so the studio has it with the brief from the start.
+      const folder = `${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+      const paths: string[] = [];
+      for (const file of files) {
+        const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_").slice(-80);
+        const path = `${folder}/${safeName}`;
+        const { error: uploadError } = await supabase.storage
+          .from("quote-uploads")
+          .upload(path, file, { cacheControl: "3600", upsert: false });
+        if (uploadError) throw uploadError;
+        paths.push(path);
+      }
       const detailLines = [
         values.finishedSize ? `Finished size: ${values.finishedSize}` : null,
         values.artworkState ? `Artwork status: ${values.artworkState}` : null,
@@ -141,7 +155,7 @@ function DesignPage() {
         required_by: values.deadline || null,
         budget: values.budget || null,
         notes: detailLines.join("\n\n"),
-        file_paths: [],
+        file_paths: paths,
       });
       if (error) throw error;
 
@@ -152,6 +166,7 @@ function DesignPage() {
       }
 
       setDone(true);
+      setFiles([]);
       form.reset();
     } catch (error) {
       console.error("Print brief failed", error);
@@ -329,6 +344,31 @@ function DesignPage() {
                     placeholder="Stock or material, finishes (matt, gloss, foil), single or double sided, delivery address, brand colours…"
                   />
                   {errors.notes && <p className="text-xs text-destructive">{errors.notes}</p>}
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="artwork">Artwork or logo files (optional, max 25MB each)</Label>
+                  <Input
+                    id="artwork"
+                    type="file"
+                    multiple
+                    accept=".pdf,.ai,.eps,.svg,.png,.jpg,.jpeg,.tif,.tiff,.zip"
+                    onChange={(event) => {
+                      const picked = Array.from(event.target.files ?? []);
+                      const tooBig = picked.find((file) => file.size > 25 * 1024 * 1024);
+                      if (tooBig) {
+                        toast.error(`${tooBig.name} is larger than 25MB`);
+                        event.target.value = "";
+                        setFiles([]);
+                        return;
+                      }
+                      setFiles(picked);
+                    }}
+                  />
+                  {files.length > 0 && (
+                    <p className="text-xs text-muted-foreground">
+                      {files.length} file{files.length === 1 ? "" : "s"} ready to send
+                    </p>
+                  )}
                 </div>
               </fieldset>
 
