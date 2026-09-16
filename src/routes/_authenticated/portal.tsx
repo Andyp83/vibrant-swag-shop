@@ -154,6 +154,11 @@ function BriefsSection({ requests }: { requests: BriefRow[] }) {
                 )}
 
                 <div className="mt-4 flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
+                  <Button asChild size="sm" className="rounded-full">
+                    <Link to="/briefs/$id" params={{ id: request.id }}>
+                      Open brief
+                    </Link>
+                  </Button>
                   {request.budget && <span>Budget: {request.budget}</span>}
                   {request.file_count > 0 && (
                     <span className="inline-flex items-center gap-1">
