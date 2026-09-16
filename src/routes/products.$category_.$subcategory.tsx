@@ -258,6 +258,11 @@ function SubcategoryPage() {
                           ) : null}
                         </span>
                         <span className="mt-3 block text-sm font-semibold">{p.name}</span>
+                        {p.publish_status === "draft" ? (
+                  <span className="mt-1 inline-block rounded-full border-2 border-foreground/20 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide">
+                    Draft — for review
+                  </span>
+                ) : null}
                       </button>
                     </Reveal>
                     );
