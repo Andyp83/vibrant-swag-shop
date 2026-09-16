@@ -57,6 +57,51 @@ export const listRequests = createServerFn({ method: "GET" })
     return (data ?? []) as unknown as QuoteRequestRow[];
   });
 
+export type RequestActivityRow = {
+  id: string;
+  kind: string;
+  file_name: string | null;
+  notes: string;
+  created_at: string;
+  url: string | null;
+};
+
+/** Files and messages the client added to a brief after sending it. */
+export const listRequestActivity = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input: unknown) => ({ id: uuid.parse((input as { id: string }).id) }))
+  .handler(async ({ data, context }): Promise<RequestActivityRow[]> => {
+    await assertAdmin(context);
+    const { data: rows, error } = await context.supabase
+      .from("quote_request_activity")
+      .select("id, kind, file_path, file_name, notes, created_at")
+      .eq("request_id", data.id)
+      .order("created_at", { ascending: false })
+      .limit(100);
+    if (error) throw new Error(error.message);
+
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    return Promise.all(
+      (rows ?? []).map(async (row) => {
+        let url: string | null = null;
+        if (row.file_path) {
+          const { data: signed } = await supabaseAdmin.storage
+            .from("quote-uploads")
+            .createSignedUrl(row.file_path, 60 * 30);
+          url = signed?.signedUrl ?? null;
+        }
+        return {
+          id: row.id as string,
+          kind: row.kind as string,
+          file_name: (row.file_name as string | null) ?? null,
+          notes: (row.notes as string | null) ?? "",
+          created_at: row.created_at as string,
+          url,
+        };
+      }),
+    );
+  });
+
 export const updateRequest = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((input: unknown) => requestStatusSchema.parse(input))

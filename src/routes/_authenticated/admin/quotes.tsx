@@ -40,6 +40,7 @@ import {
   jobFromQuote,
   listCustomers,
   listQuotes,
+  listRequestActivity,
   listRequests,
   saveQuote,
   sendQuote,
@@ -301,6 +302,7 @@ function QuotesPage() {
                     {request.file_paths.length} artwork file(s) attached
                   </p>
                 ) : null}
+                <RequestActivity id={request.id} />
               </article>
             ))}
             {(requests.data ?? []).length === 0 ? (
@@ -626,6 +628,49 @@ function MoneyField({
     <div className="space-y-2">
       <Label>{label}</Label>
       <Input value={value} onChange={(event) => onChange(event.target.value)} />
+    </div>
+  );
+}
+
+/** Files and messages the client added to their brief from the portal. */
+function RequestActivity({ id }: { id: string }) {
+  const fetchActivity = useServerFn(listRequestActivity);
+  const activity = useQuery({
+    queryKey: ["request-activity", id],
+    queryFn: () => fetchActivity({ data: { id } }),
+  });
+  const rows = activity.data ?? [];
+  if (rows.length === 0) return null;
+  return (
+    <div className="mt-4 rounded-xl bg-muted/50 p-4">
+      <p className="text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+        From the client since
+      </p>
+      <ul className="mt-2 space-y-2 text-sm">
+        {rows.map((row) => (
+          <li key={row.id} className="flex flex-wrap items-center gap-2">
+            <span className="text-xs text-muted-foreground">{formatDate(row.created_at)}</span>
+            {row.kind === "upload" ? (
+              <>
+                <span>{row.file_name}</span>
+                {row.url ? (
+                  <a
+                    href={row.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs underline"
+                  >
+                    Open
+                  </a>
+                ) : null}
+                {row.notes ? <span className="text-muted-foreground">· {row.notes}</span> : null}
+              </>
+            ) : (
+              <span className="whitespace-pre-line">{row.notes}</span>
+            )}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }

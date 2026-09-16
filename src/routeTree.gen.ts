@@ -50,6 +50,7 @@ import { Route as AuthenticatedAdminCustomersRouteImport } from './routes/_authe
 import { Route as AuthenticatedAdminInvoicesRouteImport } from './routes/_authenticated/admin/invoices'
 import { Route as AuthenticatedAdminJobsRouteImport } from './routes/_authenticated/admin/jobs'
 import { Route as AuthenticatedAdminQuotesRouteImport } from './routes/_authenticated/admin/quotes'
+import { Route as AuthenticatedBriefsIdRouteImport } from './routes/_authenticated/briefs.$id'
 import { Route as ProductsCategorySubcategoryRouteImport } from './routes/products.$category_.$subcategory'
 import { Route as ApiPublicCatalogImageSplatRouteImport } from './routes/api/public/catalog-image.$'
 import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
@@ -269,6 +270,11 @@ const AuthenticatedAdminQuotesRoute =
     path: '/quotes',
     getParentRoute: () => AuthenticatedAdminRouteRoute,
   } as any)
+const AuthenticatedBriefsIdRoute = AuthenticatedBriefsIdRouteImport.update({
+  id: '/briefs/$id',
+  path: '/briefs/$id',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const ProductsCategorySubcategoryRoute =
   ProductsCategorySubcategoryRouteImport.update({
     id: '/products/$category_/$subcategory',
@@ -334,6 +340,7 @@ export interface FileRoutesByFullPath {
   '/admin/invoices': typeof AuthenticatedAdminInvoicesRoute
   '/admin/jobs': typeof AuthenticatedAdminJobsRoute
   '/admin/quotes': typeof AuthenticatedAdminQuotesRoute
+  '/briefs/$id': typeof AuthenticatedBriefsIdRoute
   '/products/$category/$subcategory': typeof ProductsCategorySubcategoryRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/api/public/catalog-image/$': typeof ApiPublicCatalogImageSplatRoute
@@ -379,6 +386,7 @@ export interface FileRoutesByTo {
   '/admin/invoices': typeof AuthenticatedAdminInvoicesRoute
   '/admin/jobs': typeof AuthenticatedAdminJobsRoute
   '/admin/quotes': typeof AuthenticatedAdminQuotesRoute
+  '/briefs/$id': typeof AuthenticatedBriefsIdRoute
   '/products/$category/$subcategory': typeof ProductsCategorySubcategoryRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/api/public/catalog-image/$': typeof ApiPublicCatalogImageSplatRoute
@@ -427,6 +435,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/invoices': typeof AuthenticatedAdminInvoicesRoute
   '/_authenticated/admin/jobs': typeof AuthenticatedAdminJobsRoute
   '/_authenticated/admin/quotes': typeof AuthenticatedAdminQuotesRoute
+  '/_authenticated/briefs/$id': typeof AuthenticatedBriefsIdRoute
   '/products/$category_/$subcategory': typeof ProductsCategorySubcategoryRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/api/public/catalog-image/$': typeof ApiPublicCatalogImageSplatRoute
@@ -475,6 +484,7 @@ export interface FileRouteTypes {
     | '/admin/invoices'
     | '/admin/jobs'
     | '/admin/quotes'
+    | '/briefs/$id'
     | '/products/$category/$subcategory'
     | '/admin/'
     | '/api/public/catalog-image/$'
@@ -520,6 +530,7 @@ export interface FileRouteTypes {
     | '/admin/invoices'
     | '/admin/jobs'
     | '/admin/quotes'
+    | '/briefs/$id'
     | '/products/$category/$subcategory'
     | '/admin'
     | '/api/public/catalog-image/$'
@@ -567,6 +578,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/invoices'
     | '/_authenticated/admin/jobs'
     | '/_authenticated/admin/quotes'
+    | '/_authenticated/briefs/$id'
     | '/products/$category_/$subcategory'
     | '/_authenticated/admin/'
     | '/api/public/catalog-image/$'
@@ -900,6 +912,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminQuotesRouteImport
       parentRoute: typeof AuthenticatedAdminRouteRoute
     }
+    '/_authenticated/briefs/$id': {
+      id: '/_authenticated/briefs/$id'
+      path: '/briefs/$id'
+      fullPath: '/briefs/$id'
+      preLoaderRoute: typeof AuthenticatedBriefsIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/products/$category_/$subcategory': {
       id: '/products/$category_/$subcategory'
       path: '/products/$category/$subcategory'
@@ -963,12 +982,14 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedAdminRouteRoute: typeof AuthenticatedAdminRouteRouteWithChildren
   AuthenticatedEmailPreferencesRoute: typeof AuthenticatedEmailPreferencesRoute
   AuthenticatedPortalRoute: typeof AuthenticatedPortalRoute
+  AuthenticatedBriefsIdRoute: typeof AuthenticatedBriefsIdRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAdminRouteRoute: AuthenticatedAdminRouteRouteWithChildren,
   AuthenticatedEmailPreferencesRoute: AuthenticatedEmailPreferencesRoute,
   AuthenticatedPortalRoute: AuthenticatedPortalRoute,
+  AuthenticatedBriefsIdRoute: AuthenticatedBriefsIdRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =

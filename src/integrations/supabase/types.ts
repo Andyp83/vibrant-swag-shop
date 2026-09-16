@@ -794,6 +794,47 @@ export type Database = {
           },
         ]
       }
+      quote_request_activity: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          file_name: string | null
+          file_path: string | null
+          id: string
+          kind: string
+          notes: string
+          request_id: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          file_name?: string | null
+          file_path?: string | null
+          id?: string
+          kind?: string
+          notes?: string
+          request_id: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          file_name?: string | null
+          file_path?: string | null
+          id?: string
+          kind?: string
+          notes?: string
+          request_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quote_request_activity_request_id_fkey"
+            columns: ["request_id"]
+            isOneToOne: false
+            referencedRelation: "quote_requests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       quote_requests: {
         Row: {
           admin_notes: string
