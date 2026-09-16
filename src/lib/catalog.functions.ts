@@ -49,6 +49,9 @@ export type CmsProduct = {
   variant_group: string | null;
   variant_label: string | null;
   impact_aware?: boolean | null;
+  publish_status?: string | null;
+  review_notes?: string | null;
+  supplier_meta?: Record<string, unknown> | null;
   sort_order: number;
   images: CmsProductImage[];
   colour_options: CmsProductColour[];
@@ -293,7 +296,7 @@ export const listCatalog = createServerFn({ method: "GET" }).handler(
       let query = supabase
         .from("catalog_products")
         .select(
-          "id, category_id, subcategory_id, slug, plu, name, blurb, service, colours, material_group, moq, methods, image_url, colour_images, variant_group, variant_label, impact_aware, sort_order",
+          "id, category_id, subcategory_id, slug, plu, name, blurb, service, colours, material_group, moq, methods, image_url, colour_images, variant_group, variant_label, impact_aware, publish_status, sort_order",
         )
         .order("id", { ascending: true })
         .limit(limit);
@@ -605,7 +608,7 @@ export const getProductPage = createServerFn({ method: "GET" })
     if (!subcategory) return null;
 
     const columns =
-      "id, category_id, subcategory_id, slug, plu, name, blurb, service, colours, material_group, moq, methods, image_url, colour_images, variant_group, variant_label, impact_aware, sort_order, description, features, specifications, dimensions, materials, branding_options, packaging, carton_details, source_url";
+      "id, category_id, subcategory_id, slug, plu, name, blurb, service, colours, material_group, moq, methods, image_url, colour_images, variant_group, variant_label, impact_aware, publish_status, review_notes, supplier_meta, sort_order, description, features, specifications, dimensions, materials, branding_options, packaging, carton_details, source_url";
 
     const pageIncludesDrafts = await draftsVisible();
 
