@@ -5,6 +5,9 @@ import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
 export type CmsColourImage = { label: string; url: string };
 
+/** Internal supplier source data kept alongside an imported product. */
+export type CmsSupplierMeta = Record<string, string | number | boolean | null | string[]>;
+
 /**
  * Draft catalogue items are review-only: they appear on localhost and the Lovable
  * preview hosts, and stay hidden on the live site until they are marked published.
@@ -51,7 +54,7 @@ export type CmsProduct = {
   impact_aware?: boolean | null;
   publish_status?: string | null;
   review_notes?: string | null;
-  supplier_meta?: Record<string, unknown> | null;
+  supplier_meta?: CmsSupplierMeta | null;
   sort_order: number;
   images: CmsProductImage[];
   colour_options: CmsProductColour[];

@@ -362,7 +362,7 @@ function splitSpecList(value: string): string[] {
 
 /** Review-only panel: shows the supplier source data and outstanding warnings for a draft item. */
 function DraftReviewPanel({ product }: { product: CmsProduct }) {
-  const meta = (product.supplier_meta ?? {}) as Record<string, unknown>;
+  const meta = product.supplier_meta ?? {};
   const text = (key: string) => {
     const value = meta[key];
     return typeof value === "string" || typeof value === "number" ? String(value) : "";
@@ -405,7 +405,7 @@ function DraftReviewPanel({ product }: { product: CmsProduct }) {
           </div>
         ))}
       </dl>
-      {typeof meta["source_url"] === "string" && meta["source_url"] ? (
+      {typeof meta["source_url"] === "string" && meta["source_url"].length > 0 ? (
         <a
           className="mt-4 inline-block text-sm font-semibold underline"
           href={String(meta["source_url"])}
