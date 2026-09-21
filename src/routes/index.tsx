@@ -61,6 +61,9 @@ const panels: Record<
 };
 
 function Chooser() {
+  const merch = worlds.find((w) => w.slug === "merchandise");
+  const secondary = worlds.filter((w) => w.slug !== "merchandise");
+
   return (
     <div>
       <h1 className="sr-only">
