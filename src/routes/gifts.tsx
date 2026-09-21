@@ -12,7 +12,14 @@ const DESCRIPTION =
   "Curated corporate gift packs, hampers and welcome kits — assembled, branded, packed and delivered Australia-wide. Quoted within one business day.";
 
 export const Route = createFileRoute("/gifts")({
-  loader: ({ context }) => context.queryClient.ensureQueryData(categoriesQueryOptions()),
+  loader: async ({ context }) => {
+    await Promise.all([
+      context.queryClient.ensureQueryData(categoriesQueryOptions()),
+      context.queryClient.ensureQueryData(
+        productFamiliesQueryOptions({ category: "gift-packs", pageSize: 12 }),
+      ),
+    ]);
+  },
   head: () => ({
     meta: [
       { title: TITLE },
