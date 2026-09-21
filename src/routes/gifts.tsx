@@ -1,8 +1,9 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Boxes, HeartHandshake, PartyPopper, Trophy } from "lucide-react";
-import { categoriesQueryOptions } from "@/lib/catalog-query";
+import { categoriesQueryOptions, productFamiliesQueryOptions } from "@/lib/catalog-query";
 import { Reveal } from "@/components/site/Reveal";
+import { GiftBriefForm } from "@/components/site/GiftBriefForm";
 import { GIFT_CATEGORY_SLUGS } from "@/lib/worlds";
 import heroGifting from "@/assets/hero/hero-gifting-rainbow.webp";
 
