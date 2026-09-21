@@ -6,4 +6,4 @@
 - [x] Gift Packs import: 45 supplier gift packs as draft items (7 sub-ranges, 33 boxed mockups, supplier source data + review warnings kept); drafts visible in preview only
 - [ ] Publish Gift Packs live: flip the 45 draft items to published and build a browsable live gift packs page
 - [ ] Gift brief form (Gift Packs page + Corporate Gifts menu) into quote_requests, with confirmation email and client tracking page
-- [ ] Landing page: merchandise panel across the top half, gift packs and print side by side below
+- [x] Landing page: merchandise panel across the top half, gift packs and print side by side below
