@@ -79,12 +79,12 @@ function GiftsPage() {
                 Browse gift packs
                 <ArrowRight className="size-4" aria-hidden="true" />
               </Link>
-              <Link
-                to="/corporate-gifts"
+              <a
+                href="#gift-brief"
                 className="inline-flex items-center rounded-full border border-primary-foreground/30 px-7 py-3.5 text-sm font-semibold hover:bg-primary-foreground/10"
               >
-                Gift enquiry
-              </Link>
+                Send a gift brief
+              </a>
             </div>
           </div>
           <img
