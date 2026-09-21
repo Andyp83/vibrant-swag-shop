@@ -67,50 +67,77 @@ function Chooser() {
         See See Bloom — branded merchandise, design and print, and corporate gift packs
       </h1>
 
-      <div className="grid lg:grid-cols-3">
-        {worlds.map((world, i) => {
-          const panel = panels[world.slug];
-          const Icon = panel.icon;
-          return (
-            <Link
-              key={world.slug}
-              to={world.path}
-              className={`group flex min-h-[26rem] w-full flex-col overflow-hidden lg:min-h-[calc(100vh-5.5rem)] ${panel.surface} ${panel.text}`}
-            >
-              <div className="flex flex-1 items-center justify-center overflow-hidden px-4 pt-10">
-                <img
-                  src={panel.image}
-                  alt={panel.alt}
-                  loading={i === 0 ? "eager" : "lazy"}
-                  decoding="async"
-                  sizes="(max-width: 1024px) 100vw, 33vw"
-                  className="pointer-events-none max-h-[22rem] w-full object-contain transition-transform duration-[1200ms] ease-out group-hover:scale-105"
-                />
-              </div>
-              <div className="p-8 sm:p-10">
-                <Icon className="size-7" aria-hidden="true" />
-                <p className="mt-5 text-xs font-semibold uppercase tracking-[0.3em] opacity-70">
-                  {world.tagline}
-                </p>
-                <p className="display-type mt-3 text-4xl leading-[0.95] sm:text-5xl">
-                  {world.label}
-                </p>
-                <p className="mt-4 max-w-sm text-sm opacity-80">{world.blurb}</p>
-                <span
-                  className={`mt-8 inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold ${panel.button}`}
-                >
-                  Enter
-                  <ArrowRight
-                    className="size-4 transition-transform duration-300 group-hover:translate-x-1"
-                    aria-hidden="true"
-                  />
-                </span>
-              </div>
-              <div className="spectrum-bar h-1.5 w-full" aria-hidden="true" />
-            </Link>
-          );
-        })}
+      {merch && <WorldPanel world={merch} size="lead" />}
+
+      <div className="grid lg:grid-cols-2">
+        {secondary.map((world) => (
+          <WorldPanel key={world.slug} world={world} size="small" />
+        ))}
       </div>
+    </div>
+  );
+}
+
+function WorldPanel({
+  world,
+  size,
+}: {
+  world: (typeof worlds)[number];
+  size: "lead" | "small";
+}) {
+  const panel = panels[world.slug];
+  const Icon = panel.icon;
+  const lead = size === "lead";
+
+  return (
+    <Link
+      to={world.path}
+      className={`group flex w-full overflow-hidden ${panel.surface} ${panel.text} ${
+        lead
+          ? "min-h-[24rem] flex-col lg:min-h-[52vh] lg:flex-row-reverse lg:items-center"
+          : "min-h-[20rem] flex-col"
+      }`}
+    >
+      <div
+        className={`flex items-center justify-center overflow-hidden px-4 pt-10 ${
+          lead ? "flex-1 lg:py-10 lg:pt-10" : "flex-1"
+        }`}
+      >
+        <img
+          src={panel.image}
+          alt={panel.alt}
+          loading={lead ? "eager" : "lazy"}
+          decoding="async"
+          sizes={lead ? "(max-width: 1024px) 100vw, 55vw" : "(max-width: 1024px) 100vw, 50vw"}
+          className={`pointer-events-none w-full object-contain transition-transform duration-[1200ms] ease-out group-hover:scale-105 ${
+            lead ? "max-h-[26rem]" : "max-h-[15rem]"
+          }`}
+        />
+      </div>
+      <div className={lead ? "p-8 sm:p-12 lg:max-w-xl" : "p-7 sm:p-9"}>
+        <Icon className={lead ? "size-8" : "size-6"} aria-hidden="true" />
+        <p className="mt-5 text-xs font-semibold uppercase tracking-[0.3em] opacity-70">
+          {world.tagline}
+        </p>
+        <p
+          className={`display-type mt-3 leading-[0.95] ${
+            lead ? "text-5xl sm:text-6xl" : "text-3xl sm:text-4xl"
+          }`}
+        >
+          {world.label}
+        </p>
+        <p className="mt-4 max-w-sm text-sm opacity-80">{world.blurb}</p>
+        <span
+          className={`mt-7 inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold ${panel.button}`}
+        >
+          Enter
+          <ArrowRight
+            className="size-4 transition-transform duration-300 group-hover:translate-x-1"
+            aria-hidden="true"
+          />
+        </span>
+      </div>
+      <div className="spectrum-bar h-1.5 w-full lg:hidden" aria-hidden="true" />
     </div>
   );
 }
