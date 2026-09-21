@@ -297,14 +297,24 @@ export function GiftingMenu() {
                 Australia.
               </p>
             </div>
-            <Link
-              to="/products/$category"
-              params={{ category: GIFTING_SLUG }}
-              onClick={close}
-              className="hidden shrink-0 rounded-full border border-border px-4 py-2 text-sm font-semibold transition-colors hover:bg-accent lg:inline-flex"
-            >
-              View gifting range
-            </Link>
+            <div className="hidden shrink-0 gap-2 lg:flex">
+              <Link
+                to="/gifts"
+                hash="gift-brief"
+                onClick={close}
+                className="rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground"
+              >
+                Send a gift brief
+              </Link>
+              <Link
+                to="/products/$category"
+                params={{ category: GIFTING_SLUG }}
+                onClick={close}
+                className="rounded-full border border-border px-4 py-2 text-sm font-semibold transition-colors hover:bg-accent"
+              >
+                View gifting range
+              </Link>
+            </div>
           </div>
 
           <div className="mt-5 grid gap-6 lg:grid-cols-2">
