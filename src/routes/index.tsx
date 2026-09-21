@@ -138,6 +138,6 @@ function WorldPanel({
         </span>
       </div>
       <div className="spectrum-bar h-1.5 w-full lg:hidden" aria-hidden="true" />
-    </div>
+    </Link>
   );
 }
