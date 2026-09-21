@@ -151,22 +151,97 @@ function GiftsPage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-3xl px-5 py-20 text-center">
-        <Reveal>
+      <GiftPackGrid />
+
+      <section id="gift-brief" className="mx-auto max-w-3xl scroll-mt-24 px-5 py-20">
+        <div className="text-center">
           <h2 className="display-type text-4xl sm:text-5xl">Tell us about the gift</h2>
           <p className="mx-auto mt-4 max-w-xl text-muted-foreground">
             Who it's for, how many, and your budget per pack. We'll come back with two or three
-            curated options.
+            curated options — and email you a confirmation you can track in your portal.
           </p>
+        </div>
+        <div className="mt-10">
+          <GiftBriefForm />
+        </div>
+        <p className="mt-8 text-center text-sm text-muted-foreground">
+          Prefer the long-form brief?{" "}
+          <Link to="/corporate-gifts" className="font-semibold underline">
+            Corporate gifts enquiry
+          </Link>
+        </p>
+      </section>
+    </div>
+  );
+}
+
+/** Live gift packs from the catalogue so visitors can browse the range in place. */
+function GiftPackGrid() {
+  const { data: page } = useSuspenseQuery(
+    productFamiliesQueryOptions({ category: "gift-packs", pageSize: 12 }),
+  );
+  const items = page.families
+    .map((family) => family.variants[0])
+    .filter((p): p is NonNullable<typeof p> => Boolean(p));
+
+  if (items.length === 0) return null;
+
+  return (
+    <section className="mx-auto max-w-6xl px-5 py-20">
+      <Reveal>
+        <div className="flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <h2 className="display-type text-4xl sm:text-5xl">Gift packs in the range</h2>
+            <p className="mt-3 max-w-xl text-muted-foreground">
+              {page.total} packs and hampers ready to brand — browse the full range for contents,
+              sizes and minimums.
+            </p>
+          </div>
           <Link
-            to="/corporate-gifts"
-            className="mt-9 inline-flex items-center gap-2 rounded-full bg-primary px-8 py-3.5 text-sm font-semibold text-primary-foreground"
+            to="/products/$category"
+            params={{ category: "gift-packs" }}
+            className="inline-flex items-center gap-2 rounded-full border-2 border-border px-6 py-3 text-sm font-semibold"
           >
-            Start a gift enquiry
+            Browse all gift packs
             <ArrowRight className="size-4" aria-hidden="true" />
           </Link>
-        </Reveal>
-      </section>
+        </div>
+      </Reveal>
+      <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {items.map((p, i) => (
+          <Reveal key={p.id} delay={(i % 4) * 80} variant="up">
+            <Link
+              to="/products/$category"
+              params={{ category: "gift-packs" }}
+              className="lift group flex h-full flex-col overflow-hidden rounded-xl border-2 border-border bg-card"
+            >
+              <div className="aspect-square overflow-hidden bg-secondary">
+                {p.image_url && (
+                  <img
+                    src={p.image_url}
+                    alt={p.name}
+                    loading={i < 4 ? "eager" : "lazy"}
+                    decoding="async"
+                    width={800}
+                    height={800}
+                    className="size-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
+                  />
+                )}
+              </div>
+              <div className="flex flex-1 flex-col p-4">
+                <p className="text-sm font-semibold">{p.name}</p>
+                <p className="mt-1 line-clamp-2 text-xs text-muted-foreground">{p.blurb}</p>
+                <p className="mt-auto pt-3 text-xs font-semibold text-muted-foreground">
+                  MOQ {p.moq}
+                </p>
+              </div>
+            </Link>
+          </Reveal>
+        ))}
+      </div>
+    </section>
+  );
+}
     </div>
   );
 }
