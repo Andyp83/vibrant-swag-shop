@@ -249,6 +249,3 @@ function GiftPackGrid() {
     </section>
   );
 }
-    </div>
-  );
-}
