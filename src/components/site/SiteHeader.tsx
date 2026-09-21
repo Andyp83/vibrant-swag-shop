@@ -38,6 +38,7 @@ const mobileSections: { title: string; links: MobileLink[] }[] = [
         params: { category: "hampers-gifting" },
       },
       { label: "Gift packs", to: "/products/$category", params: { category: "gift-packs" } },
+      { label: "Send a gift brief", to: "/gifts" },
     ],
   },
   {
