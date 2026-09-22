@@ -79,6 +79,10 @@ function BriefPage() {
   const briefQuery = useQuery({
     queryKey: ["brief", id],
     queryFn: () => fetchBrief({ data: { id } }),
+    refetchInterval: 30_000,
+    refetchIntervalInBackground: false,
+    refetchOnWindowFocus: true,
+    refetchOnMount: "always",
   });
 
   const uploadMutation = useMutation({

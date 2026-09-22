@@ -233,7 +233,14 @@ function PortalPage() {
   }
 
 
-  const portalQuery = useQuery({ queryKey: ["portal"], queryFn: () => fetchPortal({}) });
+  const portalQuery = useQuery({
+    queryKey: ["portal"],
+    queryFn: () => fetchPortal({}),
+    refetchInterval: 30_000,
+    refetchIntervalInBackground: false,
+    refetchOnWindowFocus: true,
+    refetchOnMount: "always",
+  });
 
   async function handleSignOut() {
     await queryClient.cancelQueries();
