@@ -107,7 +107,7 @@ export const sendInvoice = createServerFn({ method: "POST" })
     if (!customer) throw new Error("Invoice has no customer");
 
     const { renderQuoteDocument } = await import("@/lib/backoffice/pdf.server");
-    const { sendEmail, emailShell, siteOrigin } = await import("@/lib/backoffice/email.server");
+    const { sendEmail, emailShell, escapeHtml, siteOrigin } = await import("@/lib/backoffice/email.server");
 
     const pdf = await renderQuoteDocument({
       kind: "Invoice",

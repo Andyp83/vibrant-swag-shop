@@ -1,4 +1,4 @@
-import { emailShell, sendEmail, siteOrigin } from "@/lib/backoffice/email.server";
+import { emailShell, escapeHtml, sendEmail, siteOrigin } from "@/lib/backoffice/email.server";
 
 /** Minutes a fresh brief stays eligible for its one confirmation email. */
 const WINDOW_MINUTES = 30;
@@ -78,10 +78,3 @@ export async function sendQuoteRequestConfirmation(requestId: string): Promise<{
   return { ok: true };
 }
 
-function escapeHtml(value: string): string {
-  return value
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
-}

@@ -312,7 +312,7 @@ export const sendQuote = createServerFn({ method: "POST" })
     if (!customer) throw new Error("Quote has no customer");
 
     const { renderQuoteDocument } = await import("@/lib/backoffice/pdf.server");
-    const { sendEmail, emailShell, siteOrigin } = await import("@/lib/backoffice/email.server");
+    const { sendEmail, emailShell, escapeHtml, siteOrigin } = await import("@/lib/backoffice/email.server");
 
     const pdf = await renderQuoteDocument({
       kind: "Quote",
