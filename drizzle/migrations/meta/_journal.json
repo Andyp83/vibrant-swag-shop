@@ -29,6 +29,13 @@
       "when": 1790064879235,
       "tag": "0003_catalog_webmaster_archive",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1790068934197,
+      "tag": "0004_grant_user_roles_select",
+      "breakpoints": true
     }
   ]
 }
