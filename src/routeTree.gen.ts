@@ -17,6 +17,7 @@ import { Route as ColourGuideRouteImport } from './routes/colour-guide'
 import { Route as CorporateGiftsRouteImport } from './routes/corporate-gifts'
 import { Route as DecorationRouteImport } from './routes/decoration'
 import { Route as DesignRouteImport } from './routes/design'
+import { Route as GiftGuideRouteImport } from './routes/gift-guide'
 import { Route as GiftsRouteImport } from './routes/gifts'
 import { Route as ImpactAwareRouteImport } from './routes/impact-aware'
 import { Route as LogoMatchRouteImport } from './routes/logo-match'
@@ -27,6 +28,7 @@ import { Route as PricingCalculatorRouteImport } from './routes/pricing-calculat
 import { Route as PrintRouteImport } from './routes/print'
 import { Route as ProcurementRouteImport } from './routes/procurement'
 import { Route as QuoteRouteImport } from './routes/quote'
+import { Route as RealEstateEssentialsRouteImport } from './routes/real-estate-essentials'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as ShortlistRouteImport } from './routes/shortlist'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
@@ -98,6 +100,11 @@ const DesignRoute = DesignRouteImport.update({
   path: '/design',
   getParentRoute: () => rootRouteImport,
 } as any)
+const GiftGuideRoute = GiftGuideRouteImport.update({
+  id: '/gift-guide',
+  path: '/gift-guide',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const GiftsRoute = GiftsRouteImport.update({
   id: '/gifts',
   path: '/gifts',
@@ -146,6 +153,11 @@ const ProcurementRoute = ProcurementRouteImport.update({
 const QuoteRoute = QuoteRouteImport.update({
   id: '/quote',
   path: '/quote',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RealEstateEssentialsRoute = RealEstateEssentialsRouteImport.update({
+  id: '/real-estate-essentials',
+  path: '/real-estate-essentials',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
@@ -326,6 +338,7 @@ export interface FileRoutesByFullPath {
   '/corporate-gifts': typeof CorporateGiftsRoute
   '/decoration': typeof DecorationRoute
   '/design': typeof DesignRoute
+  '/gift-guide': typeof GiftGuideRoute
   '/gifts': typeof GiftsRoute
   '/impact-aware': typeof ImpactAwareRoute
   '/logo-match': typeof LogoMatchRoute
@@ -336,6 +349,7 @@ export interface FileRoutesByFullPath {
   '/print': typeof PrintRoute
   '/procurement': typeof ProcurementRoute
   '/quote': typeof QuoteRoute
+  '/real-estate-essentials': typeof RealEstateEssentialsRoute
   '/reset-password': typeof ResetPasswordRoute
   '/shortlist': typeof ShortlistRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -376,6 +390,7 @@ export interface FileRoutesByTo {
   '/corporate-gifts': typeof CorporateGiftsRoute
   '/decoration': typeof DecorationRoute
   '/design': typeof DesignRoute
+  '/gift-guide': typeof GiftGuideRoute
   '/gifts': typeof GiftsRoute
   '/impact-aware': typeof ImpactAwareRoute
   '/logo-match': typeof LogoMatchRoute
@@ -386,6 +401,7 @@ export interface FileRoutesByTo {
   '/print': typeof PrintRoute
   '/procurement': typeof ProcurementRoute
   '/quote': typeof QuoteRoute
+  '/real-estate-essentials': typeof RealEstateEssentialsRoute
   '/reset-password': typeof ResetPasswordRoute
   '/shortlist': typeof ShortlistRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -427,6 +443,7 @@ export interface FileRoutesById {
   '/corporate-gifts': typeof CorporateGiftsRoute
   '/decoration': typeof DecorationRoute
   '/design': typeof DesignRoute
+  '/gift-guide': typeof GiftGuideRoute
   '/gifts': typeof GiftsRoute
   '/impact-aware': typeof ImpactAwareRoute
   '/logo-match': typeof LogoMatchRoute
@@ -437,6 +454,7 @@ export interface FileRoutesById {
   '/print': typeof PrintRoute
   '/procurement': typeof ProcurementRoute
   '/quote': typeof QuoteRoute
+  '/real-estate-essentials': typeof RealEstateEssentialsRoute
   '/reset-password': typeof ResetPasswordRoute
   '/shortlist': typeof ShortlistRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -479,6 +497,7 @@ export interface FileRouteTypes {
     | '/corporate-gifts'
     | '/decoration'
     | '/design'
+    | '/gift-guide'
     | '/gifts'
     | '/impact-aware'
     | '/logo-match'
@@ -489,6 +508,7 @@ export interface FileRouteTypes {
     | '/print'
     | '/procurement'
     | '/quote'
+    | '/real-estate-essentials'
     | '/reset-password'
     | '/shortlist'
     | '/sitemap.xml'
@@ -529,6 +549,7 @@ export interface FileRouteTypes {
     | '/corporate-gifts'
     | '/decoration'
     | '/design'
+    | '/gift-guide'
     | '/gifts'
     | '/impact-aware'
     | '/logo-match'
@@ -539,6 +560,7 @@ export interface FileRouteTypes {
     | '/print'
     | '/procurement'
     | '/quote'
+    | '/real-estate-essentials'
     | '/reset-password'
     | '/shortlist'
     | '/sitemap.xml'
@@ -579,6 +601,7 @@ export interface FileRouteTypes {
     | '/corporate-gifts'
     | '/decoration'
     | '/design'
+    | '/gift-guide'
     | '/gifts'
     | '/impact-aware'
     | '/logo-match'
@@ -589,6 +612,7 @@ export interface FileRouteTypes {
     | '/print'
     | '/procurement'
     | '/quote'
+    | '/real-estate-essentials'
     | '/reset-password'
     | '/shortlist'
     | '/sitemap.xml'
@@ -631,6 +655,7 @@ export interface RootRouteChildren {
   CorporateGiftsRoute: typeof CorporateGiftsRoute
   DecorationRoute: typeof DecorationRoute
   DesignRoute: typeof DesignRoute
+  GiftGuideRoute: typeof GiftGuideRoute
   GiftsRoute: typeof GiftsRoute
   ImpactAwareRoute: typeof ImpactAwareRoute
   LogoMatchRoute: typeof LogoMatchRoute
@@ -641,6 +666,7 @@ export interface RootRouteChildren {
   PrintRoute: typeof PrintRoute
   ProcurementRoute: typeof ProcurementRoute
   QuoteRoute: typeof QuoteRoute
+  RealEstateEssentialsRoute: typeof RealEstateEssentialsRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   ShortlistRoute: typeof ShortlistRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
@@ -720,6 +746,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DesignRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/gift-guide': {
+      id: '/gift-guide'
+      path: '/gift-guide'
+      fullPath: '/gift-guide'
+      preLoaderRoute: typeof GiftGuideRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/gifts': {
       id: '/gifts'
       path: '/gifts'
@@ -788,6 +821,13 @@ declare module '@tanstack/react-router' {
       path: '/quote'
       fullPath: '/quote'
       preLoaderRoute: typeof QuoteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/real-estate-essentials': {
+      id: '/real-estate-essentials'
+      path: '/real-estate-essentials'
+      fullPath: '/real-estate-essentials'
+      preLoaderRoute: typeof RealEstateEssentialsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/reset-password': {
@@ -1064,6 +1104,7 @@ const rootRouteChildren: RootRouteChildren = {
   CorporateGiftsRoute: CorporateGiftsRoute,
   DecorationRoute: DecorationRoute,
   DesignRoute: DesignRoute,
+  GiftGuideRoute: GiftGuideRoute,
   GiftsRoute: GiftsRoute,
   ImpactAwareRoute: ImpactAwareRoute,
   LogoMatchRoute: LogoMatchRoute,
@@ -1074,6 +1115,7 @@ const rootRouteChildren: RootRouteChildren = {
   PrintRoute: PrintRoute,
   ProcurementRoute: ProcurementRoute,
   QuoteRoute: QuoteRoute,
+  RealEstateEssentialsRoute: RealEstateEssentialsRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   ShortlistRoute: ShortlistRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
