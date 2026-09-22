@@ -188,7 +188,6 @@ const printServices = [
   { label: "Design studio", note: "Send a print brief — we set up the artwork", to: "/design" },
   { label: "Print brokering", note: "Trade print sourced and managed for you", to: "/procurement" },
   { label: "Artwork requirements", note: "File types, DPI, bleed & colour", to: "/design" },
-  { label: "Colour guide", note: "Pantone, CMYK and spot matching", to: "/colour-guide" },
 ];
 
 /** 2. Print with us — print substrates + design & brokering services. */
