@@ -167,8 +167,8 @@ export const restoreCatalogEntry = createServerFn({ method: "POST" })
     z.object({ kind: z.enum(["product", "category", "subcategory"]), id: z.string().uuid() }).parse(input),
   )
   .handler(async ({ data, context }) => {
-    const { assertAdmin } = await import("./backoffice/guard");
-    await assertAdmin(context);
+    await assertWebmaster(context);
+
 
     if (data.kind === "product") {
       const { error } = await context.supabase
