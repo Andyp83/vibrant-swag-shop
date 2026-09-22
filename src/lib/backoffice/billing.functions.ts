@@ -140,7 +140,7 @@ export const sendInvoice = createServerFn({ method: "POST" })
       relatedId: record.id,
       html: emailShell(
         data.reminder ? `Friendly reminder — ${record.number}` : `Invoice ${record.number}`,
-        `<p>Hi ${customer.name},</p><p>${data.reminder ? "Just a nudge that this invoice is still open" : "Here is your invoice"}: <strong>${amount}</strong>${record.due_date ? `, due ${record.due_date}` : ""}. You can pay securely by card online.</p>`,
+        `<p>Hi ${escapeHtml(customer.name)},</p><p>${data.reminder ? "Just a nudge that this invoice is still open" : "Here is your invoice"}: <strong>${escapeHtml(amount)}</strong>${record.due_date ? `, due ${escapeHtml(record.due_date)}` : ""}. You can pay securely by card online.</p>`,
         { label: "Pay online", url: `${siteOrigin()}/pay/${record.share_token}` },
       ),
       attachment: { filename: `${record.number}.pdf`, contentBase64: pdf },

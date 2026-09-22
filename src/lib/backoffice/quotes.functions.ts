@@ -347,7 +347,7 @@ export const sendQuote = createServerFn({ method: "POST" })
       relatedId: record.id,
       html: emailShell(
         `Quote ${record.number}`,
-        `<p>Hi ${customer.name},</p><p>Thanks for the brief — your quote is attached and ready to review online. It totals <strong>${record.currency} ${(record.total_cents / 100).toFixed(2)}</strong>${record.valid_until ? ` and is valid until ${record.valid_until}` : ""}.</p>`,
+        `<p>Hi ${escapeHtml(customer.name)},</p><p>Thanks for the brief — your quote is attached and ready to review online. It totals <strong>${escapeHtml(record.currency)} ${(record.total_cents / 100).toFixed(2)}</strong>${record.valid_until ? ` and is valid until ${escapeHtml(record.valid_until)}` : ""}.</p>`,
         { label: "Review and accept", url },
       ),
       attachment: { filename: `${record.number}.pdf`, contentBase64: pdf },

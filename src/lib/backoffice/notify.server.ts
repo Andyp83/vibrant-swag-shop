@@ -1,4 +1,4 @@
-import { emailShell, sendEmail, siteOrigin } from "@/lib/backoffice/email.server";
+import { emailShell, escapeHtml, sendEmail, siteOrigin } from "@/lib/backoffice/email.server";
 
 /** Where internal alerts land — override with the ADMIN_EMAIL secret. */
 function adminEmail(): string {
@@ -35,7 +35,7 @@ export async function notifyQuoteDecision(quoteId: string, decision: "accept" | 
     relatedId: quote.id,
     html: emailShell(
       `Quote ${quote.number} ${accepted ? "accepted" : "declined"}`,
-      `<p><strong>${who}</strong> has ${accepted ? "accepted" : "declined"} quote <strong>${quote.number}</strong>.</p>`,
+      `<p><strong>${escapeHtml(who)}</strong> has ${accepted ? "accepted" : "declined"} quote <strong>${escapeHtml(quote.number)}</strong>.</p>`,
       { label: "Open in admin", url: `${origin}/admin/quotes` },
     ),
   });
@@ -51,7 +51,7 @@ export async function notifyQuoteDecision(quoteId: string, decision: "accept" | 
     relatedId: quote.id,
     html: emailShell(
       accepted ? `Quote ${quote.number} accepted` : `Quote ${quote.number} declined`,
-      `<p>Hi ${quote.customer.name},</p><p>${
+      `<p>Hi ${escapeHtml(quote.customer.name)},</p><p>${
         accepted
           ? "Thanks for the green light — we're opening your job now and will be in touch with artwork proofs shortly."
           : "No problem at all. We've closed this quote off; just reply if you'd like it revised."
@@ -115,10 +115,10 @@ export async function notifyProofResponse(
     relatedId: proof.id,
     html: emailShell(
       approved ? `Proof v${proof.version} signed off` : `Changes requested on proof v${proof.version}`,
-      `<p><strong>${who}</strong> ${
+      `<p><strong>${escapeHtml(who)}</strong> ${
         approved ? "signed off" : "requested changes on"
-      } proof v${proof.version} for <strong>${proof.job.number} — ${proof.job.title}</strong>.</p>${
-        options.note ? `<p><em>${options.note}</em></p>` : ""
+      } proof v${proof.version} for <strong>${escapeHtml(proof.job.number)} — ${escapeHtml(proof.job.title)}</strong>.</p>${
+        options.note ? `<p><em>${escapeHtml(options.note)}</em></p>` : ""
       }`,
       { label: "Open the job", url: `${origin}/admin/jobs` },
     ),
@@ -179,12 +179,12 @@ export async function notifyProofResponse(
     relatedId: proof.id,
     html: emailShell(
       approved ? `Thanks for signing off proof v${proof.version}` : `We're on your changes`,
-      `<p>Hi ${proof.job.customer.name},</p><p>${
+      `<p>Hi ${escapeHtml(proof.job.customer.name)},</p><p>${
         approved
           ? `Your approval of proof v${proof.version} is recorded${
-              options.signedName ? ` under the name ${options.signedName}` : ""
-            }. We're moving <strong>${proof.job.number}</strong> into production and will keep you posted on each stage.`
-          : `We've received your change request on proof v${proof.version} for <strong>${proof.job.number}</strong> and will send a revised proof shortly.`
+              options.signedName ? ` under the name ${escapeHtml(options.signedName)}` : ""
+            }. We're moving <strong>${escapeHtml(proof.job.number)}</strong> into production and will keep you posted on each stage.`
+          : `We've received your change request on proof v${proof.version} for <strong>${escapeHtml(proof.job.number)}</strong> and will send a revised proof shortly.`
       }</p>`,
       { label: "Track this job", url: `${origin}/job/${proof.job.share_token}` },
     ),
@@ -241,8 +241,8 @@ export async function notifyRequestStage(requestId: string, status: RequestStage
     relatedId: request.id,
     html: emailShell(
       copy.heading,
-      `<p>Hi ${request.name},</p><p>${copy.body}</p>${
-        request.product_interest ? `<p><strong>Brief:</strong> ${request.product_interest}</p>` : ""
+      `<p>Hi ${escapeHtml(request.name)},</p><p>${copy.body}</p>${
+        request.product_interest ? `<p><strong>Brief:</strong> ${escapeHtml(request.product_interest)}</p>` : ""
       }`,
       { label: "Open your portal", url: `${siteOrigin()}/portal` },
     ),
@@ -315,10 +315,10 @@ export async function notifyInvoiceAvailable(invoiceId: string, options: { remin
     relatedId: invoice.id,
     html: emailShell(
       options.reminder ? `Friendly reminder — ${invoice.number}` : `Invoice ${invoice.number} is ready`,
-      `<p>Hi ${invoice.customer.name},</p><p>${
+      `<p>Hi ${escapeHtml(invoice.customer.name)},</p><p>${
         options.reminder ? "Just a nudge that this invoice is still open" : "Your invoice is ready"
       }: <strong>${amount}</strong>${
-        invoice.due_date ? `, due ${invoice.due_date}` : ""
+        invoice.due_date ? `, due ${escapeHtml(invoice.due_date)}` : ""
       }. The PDF is attached and you can pay securely by card online, or view it any time in your portal.</p>`,
       { label: "Pay online", url: `${siteOrigin()}/pay/${invoice.share_token}` },
     ),

@@ -121,7 +121,7 @@ export const setJobStage = createServerFn({ method: "POST" })
 
     if (!data.notify || !record.customer) return { sent: false };
 
-    const { sendEmail, emailShell, siteOrigin } = await import("@/lib/backoffice/email.server");
+    const { sendEmail, emailShell, escapeHtml, siteOrigin } = await import("@/lib/backoffice/email.server");
     return sendEmail({
       to: record.customer.email,
       subject: `Job ${record.number} update: ${data.stage}`,
@@ -129,8 +129,8 @@ export const setJobStage = createServerFn({ method: "POST" })
       relatedType: "job",
       relatedId: record.id,
       html: emailShell(
-        `${record.title}`,
-        `<p>Hi ${record.customer.name},</p><p>Your job <strong>${record.number}</strong> has moved to <strong>${data.stage}</strong>.${record.tracking_number ? ` Tracking: ${record.tracking_number}.` : ""}</p>`,
+        `${escapeHtml(record.title)}`,
+        `<p>Hi ${escapeHtml(record.customer.name)},</p><p>Your job <strong>${escapeHtml(record.number)}</strong> has moved to <strong>${escapeHtml(data.stage)}</strong>.${record.tracking_number ? ` Tracking: ${escapeHtml(record.tracking_number)}.` : ""}</p>`,
         { label: "Track this job", url: `${siteOrigin()}/job/${record.share_token}` },
       ),
     });
@@ -209,7 +209,7 @@ export const sendProof = createServerFn({ method: "POST" })
     const record = job as unknown as Job;
     if (!record.customer) return { sent: false };
 
-    const { sendEmail, emailShell, siteOrigin } = await import("@/lib/backoffice/email.server");
+    const { sendEmail, emailShell, escapeHtml, siteOrigin } = await import("@/lib/backoffice/email.server");
     return sendEmail({
       to: record.customer.email,
       subject: `Proof v${version} for ${record.number} — please approve`,
@@ -217,8 +217,8 @@ export const sendProof = createServerFn({ method: "POST" })
       relatedType: "proof",
       relatedId: proof.id as string,
       html: emailShell(
-        `Proof v${version} — ${record.title}`,
-        `<p>Hi ${record.customer.name},</p><p>Your artwork proof is ready. Please approve it or request changes so we can get into production.</p>${data.notes ? `<p><em>${data.notes}</em></p>` : ""}`,
+        `Proof v${version} — ${escapeHtml(record.title)}`,
+        `<p>Hi ${escapeHtml(record.customer.name)},</p><p>Your artwork proof is ready. Please approve it or request changes so we can get into production.</p>${data.notes ? `<p><em>${escapeHtml(data.notes)}</em></p>` : ""}`,
         {
           label: "View proof",
           url: `${siteOrigin()}/proof/${(proof as { share_token: string }).share_token}`,
