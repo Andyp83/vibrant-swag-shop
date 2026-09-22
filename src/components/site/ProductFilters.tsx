@@ -128,29 +128,8 @@ export function ProductFilters({
               <ChevronDown className="size-4 shrink-0 opacity-60" aria-hidden="true" />
             </PopoverTrigger>
             <PopoverContent align="start" className="w-64 p-0">
-              <div className="flex items-center justify-between gap-2 border-b border-border p-2">
-                <div
-                  className="flex rounded-full border border-border p-0.5"
-                  role="group"
-                  aria-label="Colour match mode"
-                >
-                  {(["any", "all"] as const).map((mode) => (
-                    <button
-                      key={mode}
-                      type="button"
-                      aria-pressed={(value.colourMatch ?? "any") === mode}
-                      onClick={() => onChange({ colourMatch: mode })}
-                      className={`rounded-full px-3 py-1 text-xs font-semibold transition-colors ${
-                        (value.colourMatch ?? "any") === mode
-                          ? "bg-foreground text-background"
-                          : "text-muted-foreground hover:text-foreground"
-                      }`}
-                    >
-                      Match {mode}
-                    </button>
-                  ))}
-                </div>
-                {selected.length > 0 ? (
+              {selected.length > 0 ? (
+                <div className="flex items-center justify-end border-b border-border p-2">
                   <button
                     type="button"
                     onClick={() => onChange({ colours: [] })}
@@ -158,8 +137,8 @@ export function ProductFilters({
                   >
                     Clear
                   </button>
-                ) : null}
-              </div>
+                </div>
+              ) : null}
               <div className="max-h-64 overflow-y-auto p-1">
                 {colours.map((c) => {
                   const isOn = selected.includes(c);
