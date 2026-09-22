@@ -18,3 +18,4 @@
 - [x] Branded merchandise menu: colour each category pop-out background with its assigned spectrum colour
 - [x] Standalone merchandise pricing calculator: product search, quantity, decoration, itemised estimate and add-to-shortlist
 - [x] New lookbook pages: Real Estate Essentials + Gift Guide 2026–27 on the merchandise side (own routes, catalogues page, sitemap)
+- [x] Replace all Trends product information from the supplied 2,812-row catalogue; remove pricing and stale fields without touching gift packs or customer data
