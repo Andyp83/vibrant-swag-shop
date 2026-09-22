@@ -1,15 +1,19 @@
-# Standalone pricing calculator
+# Replace Trends catalogue product information
 
-## What will be built
-- Add a public `/pricing-calculator` page for branded merchandise.
-- Let visitors search and select a catalogue item, choose its quantity and an available decoration method, then calculate an indicative price.
-- Show the item total, setup cost, freight, GST, total price, and any “price on application” result using the same rules as the shortlist.
-- Add the configured item to the existing shortlist, with a clear route to review and submit the full shortlist.
-- Link the calculator from the branded-merchandise menu and mobile navigation.
+## What will change
+- Treat the uploaded 2,812-row Trends catalogue as the source of truth for all existing Trends products, matched by PLU.
+- Replace each matched product’s name, service, description, features, specifications, colours, dimensions, materials, branding options, packaging, carton details, source URL, decoration methods, and Impact Aware flag with the workbook values.
+- Remove supplier prices, stock snapshots, additional-cost tables, shipping prices, and any other old product text not present in the workbook.
+- Keep See See Bloom’s categories, URLs, images, publish state, review workflow, customer records, quotes, pricing settings, and the separate gift-pack products unchanged.
+- Report workbook products missing from the site and site Trends products missing from the workbook rather than guessing or deleting them.
+
+## Validation
+- Compare PLU coverage and duplicate counts before updating.
+- Confirm representative products exactly match the workbook after the update and no Trends carton details contain prices.
+- Check that product pages, filters, shortlist, and catalogue browsing still load.
+- Run focused tests, type checks, and the preview build. Do not publish production.
 
 ## Technical details
-- Reuse the existing supplier-cost pricing engine, 65% markup, $15 freight, and 10% GST so calculator and shortlist totals stay consistent.
-- Add a lightweight catalogue search function rather than loading the entire catalogue into the page.
-- Use existing design tokens and controls, with responsive desktop and mobile layouts.
-- Add route-specific search and social metadata, a canonical URL, and a sitemap entry.
-- Verify the page interaction, mobile layout, typecheck, and preview build without publishing production.
+- Perform a data-only, PLU-keyed update without changing the database structure.
+- Derive decoration method names from the workbook’s Branding Options field and recalculate the Impact Aware flag only from workbook content.
+- Keep the workbook outside the app; it is import source material, not a public download.
