@@ -20,6 +20,16 @@ export function siteOrigin(): string {
 
 const BRAND = "See See Bloom";
 
+/** Escapes untrusted text before it is interpolated into email HTML. */
+export function escapeHtml(value: string | null | undefined): string {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
 export function emailShell(heading: string, body: string, cta?: { label: string; url: string }) {
   return `<!doctype html><html><body style="margin:0;padding:0;background:#f6f5f2;font-family:Helvetica,Arial,sans-serif;color:#1c1b1a">
   <div style="max-width:600px;margin:0 auto;padding:32px 24px">
