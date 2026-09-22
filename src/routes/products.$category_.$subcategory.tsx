@@ -237,6 +237,8 @@ function SubcategoryPage() {
                     const cols = density === "5" ? 5 : 3;
                     return (
                     <Reveal key={p.id} delay={(i % cols) * 90} variant="up">
+                      <div className="relative h-full">
+                      <WebmasterRemove kind="product" id={p.id} name={p.name} />
                       <button
                         type="button"
                         onClick={() => setQuickView(p)}
@@ -264,7 +266,9 @@ function SubcategoryPage() {
                   </span>
                 ) : null}
                       </button>
+                      </div>
                     </Reveal>
+
                     );
                   })}
                 </div>
