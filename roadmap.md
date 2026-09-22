@@ -14,3 +14,4 @@
 - [x] Webmaster live-site delete controls: X on catalogue items and taxonomy, password confirmation, choose "hide from site" (stays in back end) or "erase completely"
 - [x] Restrict live-site X delete controls to the webmaster account andy@seeseebloom.com.au only (hidden from all other users and guests)
 - [x] Portal auto-refresh: brief and quote statuses update themselves (30s poll + refresh on window focus) so clients see changes without staff action
+- [x] Shortlist pricing engine: supplier cost breaks + decoration run charge/setup, 65% markup, GST 10%, $15 freight; live estimate on /shortlist and a draft quote saved for staff approval, shown in the portal
