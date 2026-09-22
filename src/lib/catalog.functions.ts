@@ -118,7 +118,9 @@ export type CmsSubcategory = {
   description: string;
   image_url: string | null;
   sort_order: number;
+  is_hidden?: boolean;
 };
+
 
 export type CmsCategory = {
   id: string;
@@ -130,6 +132,8 @@ export type CmsCategory = {
   image_url: string;
   hero_image_url: string | null;
   sort_order: number;
+  is_hidden?: boolean;
+
   products: CmsProduct[];
   subcategories: CmsSubcategory[];
 };
@@ -270,21 +274,37 @@ function groupByProductId<T extends { product_id: string }>(rows: T[]) {
   return grouped;
 }
 
+const visibilitySchema = z
+  .object({ includeHidden: z.boolean().optional() })
+  .optional()
+  .transform((value) => ({ includeHidden: value?.includeHidden ?? false }));
+
 /** Public: the whole catalogue, for the marketing site. */
-export const listCatalog = createServerFn({ method: "GET" }).handler(
-  async (): Promise<CmsCategory[]> => {
+export const listCatalog = createServerFn({ method: "GET" })
+  .inputValidator((input: unknown) => visibilitySchema.parse(input ?? {}))
+  .handler(async ({ data }): Promise<CmsCategory[]> => {
     const { getPublicSupabase } = await import("./supabase-public.server");
     const supabase = getPublicSupabase();
+    const includeHidden = data.includeHidden;
+
+    let categoriesQuery = supabase
+      .from("catalog_categories")
+      .select(
+        "id, slug, name, tagline, description, colour, image_url, hero_image_url, sort_order, is_hidden",
+      )
+      .order("sort_order", { ascending: true });
+    let subcategoriesQuery = supabase
+      .from("catalog_subcategories")
+      .select("id, category_id, slug, name, description, image_url, sort_order, is_hidden")
+      .order("sort_order", { ascending: true });
+    if (!includeHidden) {
+      categoriesQuery = categoriesQuery.eq("is_hidden", false);
+      subcategoriesQuery = subcategoriesQuery.eq("is_hidden", false);
+    }
 
     const [categoriesResult, subcategoriesResult] = await Promise.all([
-      supabase
-        .from("catalog_categories")
-        .select("id, slug, name, tagline, description, colour, image_url, hero_image_url, sort_order")
-        .order("sort_order", { ascending: true }),
-      supabase
-        .from("catalog_subcategories")
-        .select("id, category_id, slug, name, description, image_url, sort_order")
-        .order("sort_order", { ascending: true }),
+      categoriesQuery,
+      subcategoriesQuery,
     ]);
 
     // Run the big table scans sequentially: three concurrent full-table reads
@@ -304,9 +324,11 @@ export const listCatalog = createServerFn({ method: "GET" }).handler(
         .order("id", { ascending: true })
         .limit(limit);
       if (!catalogIncludesDrafts) query = query.neq("publish_status", "draft");
+      if (!includeHidden) query = query.neq("publish_status", "archived");
       if (cursor) query = query.gt("id", cursor);
       return query;
     });
+
 
     const images = await fetchAllRows<CmsProductImage>("catalog_product_images", (cursor, limit) => {
       let query = supabase
@@ -363,9 +385,8 @@ export const listCatalog = createServerFn({ method: "GET" }).handler(
       products: products.filter((p) => p.category_id === category.id),
       subcategories: subcategories.filter((s) => s.category_id === category.id),
     }));
-  },
+  });
 
-);
 
 /** One page of grouped (variant-collapsed) products for the catalogue grids. */
 export type CmsFamilyPage = {
@@ -532,20 +553,30 @@ export const listProductFamilies = createServerFn({ method: "GET" })
 
 /** Public: categories + subcategories only (no products) — for nav and the homepage. */
 
-export const listCategories = createServerFn({ method: "GET" }).handler(
-  async (): Promise<CmsCategory[]> => {
+export const listCategories = createServerFn({ method: "GET" })
+  .inputValidator((input: unknown) => visibilitySchema.parse(input ?? {}))
+  .handler(async ({ data }): Promise<CmsCategory[]> => {
     const { getPublicSupabase } = await import("./supabase-public.server");
     const supabase = getPublicSupabase();
 
+    let categoriesQuery = supabase
+      .from("catalog_categories")
+      .select(
+        "id, slug, name, tagline, description, colour, image_url, hero_image_url, sort_order, is_hidden",
+      )
+      .order("sort_order", { ascending: true });
+    let subcategoriesQuery = supabase
+      .from("catalog_subcategories")
+      .select("id, category_id, slug, name, description, image_url, sort_order, is_hidden")
+      .order("sort_order", { ascending: true });
+    if (!data.includeHidden) {
+      categoriesQuery = categoriesQuery.eq("is_hidden", false);
+      subcategoriesQuery = subcategoriesQuery.eq("is_hidden", false);
+    }
+
     const [categoriesResult, subcategoriesResult] = await Promise.all([
-      supabase
-        .from("catalog_categories")
-        .select("id, slug, name, tagline, description, colour, image_url, hero_image_url, sort_order")
-        .order("sort_order", { ascending: true }),
-      supabase
-        .from("catalog_subcategories")
-        .select("id, category_id, slug, name, description, image_url, sort_order")
-        .order("sort_order", { ascending: true }),
+      categoriesQuery,
+      subcategoriesQuery,
     ]);
 
     if (categoriesResult.error) throw new Error(categoriesResult.error.message);
@@ -557,8 +588,8 @@ export const listCategories = createServerFn({ method: "GET" }).handler(
       products: [],
       subcategories: subcategories.filter((s) => s.category_id === category.id),
     }));
-  },
-);
+  });
+
 
 /** Public: the decoration methods used anywhere in the catalogue (filter options). */
 export const listDecorationMethods = createServerFn({ method: "GET" }).handler(
@@ -595,17 +626,19 @@ export const getProductPage = createServerFn({ method: "GET" })
 
     const { data: category, error: categoryError } = await supabase
       .from("catalog_categories")
-      .select("id, slug, name, tagline, description, colour, image_url, hero_image_url, sort_order")
+      .select("id, slug, name, tagline, description, colour, image_url, hero_image_url, sort_order, is_hidden")
       .eq("slug", data.category)
+      .eq("is_hidden", false)
       .maybeSingle();
     if (categoryError) throw new Error(categoryError.message);
     if (!category) return null;
 
     const { data: subcategory, error: subError } = await supabase
       .from("catalog_subcategories")
-      .select("id, category_id, slug, name, description, image_url, sort_order")
+      .select("id, category_id, slug, name, description, image_url, sort_order, is_hidden")
       .eq("category_id", category.id)
       .eq("slug", data.subcategory)
+      .eq("is_hidden", false)
       .maybeSingle();
     if (subError) throw new Error(subError.message);
     if (!subcategory) return null;
@@ -621,7 +654,8 @@ export const getProductPage = createServerFn({ method: "GET" })
         .from("catalog_products")
         .select(columns)
         .eq("subcategory_id", subcategory.id)
-        .eq(column, data.product);
+        .eq(column, data.product)
+        .neq("publish_status", "archived");
       if (!pageIncludesDrafts) lookup = lookup.neq("publish_status", "draft");
       const { data: row, error } = await lookup.maybeSingle();
       if (error) throw new Error(error.message);
@@ -636,10 +670,12 @@ export const getProductPage = createServerFn({ method: "GET" })
         .from("catalog_products")
         .select(columns)
         .eq("id", data.product)
+        .neq("publish_status", "archived")
         .maybeSingle();
       if (error) throw new Error(error.message);
       if (row) productRow = row as unknown as CmsProductRaw;
     }
+
 
     if (!productRow) return null;
 

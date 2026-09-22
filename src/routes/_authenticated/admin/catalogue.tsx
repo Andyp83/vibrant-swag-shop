@@ -59,7 +59,10 @@ function AdminPage() {
   const isAdminFn = useServerFn(checkIsAdmin);
 
   const adminQuery = useQuery({ queryKey: ["is-admin"], queryFn: () => isAdminFn({}) });
-  const catalogQuery = useQuery(catalogQueryOptions());
+  // Include entries a webmaster has taken off the live site, so they stay
+  // manageable (and restorable) here.
+  const catalogQuery = useQuery(catalogQueryOptions(true));
+
 
   const [categoryDraft, setCategoryDraft] = useState<Partial<CmsCategory> | null>(null);
   const [subcategoryDraft, setSubcategoryDraft] = useState<Partial<CmsSubcategory> | null>(null);

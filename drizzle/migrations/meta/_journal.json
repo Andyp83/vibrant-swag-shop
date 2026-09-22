@@ -22,6 +22,13 @@
       "when": 1789528710530,
       "tag": "0002_catalog_publish_status_and_supplier_meta",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1790064879235,
+      "tag": "0003_catalog_webmaster_archive",
+      "breakpoints": true
     }
   ]
 }

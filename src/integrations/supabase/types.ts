@@ -67,6 +67,7 @@ export type Database = {
           hero_image_url: string | null
           id: string
           image_url: string
+          is_hidden: boolean
           name: string
           slug: string
           sort_order: number
@@ -80,6 +81,7 @@ export type Database = {
           hero_image_url?: string | null
           id?: string
           image_url?: string
+          is_hidden?: boolean
           name: string
           slug: string
           sort_order?: number
@@ -93,6 +95,7 @@ export type Database = {
           hero_image_url?: string | null
           id?: string
           image_url?: string
+          is_hidden?: boolean
           name?: string
           slug?: string
           sort_order?: number
@@ -322,6 +325,7 @@ export type Database = {
           description: string
           id: string
           image_url: string | null
+          is_hidden: boolean
           name: string
           slug: string
           sort_order: number
@@ -333,6 +337,7 @@ export type Database = {
           description?: string
           id?: string
           image_url?: string | null
+          is_hidden?: boolean
           name: string
           slug: string
           sort_order?: number
@@ -344,6 +349,7 @@ export type Database = {
           description?: string
           id?: string
           image_url?: string | null
+          is_hidden?: boolean
           name?: string
           slug?: string
           sort_order?: number

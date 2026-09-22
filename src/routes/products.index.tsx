@@ -12,6 +12,8 @@ import {
 import { Reveal } from "@/components/site/Reveal";
 import { ProductFilters } from "@/components/site/ProductFilters";
 import { ProductQuickView } from "@/components/site/ProductQuickView";
+import { WebmasterRemove } from "@/components/site/WebmasterRemove";
+
 import {
   ALLOWED_COLOURS,
   colourImageFor,
@@ -233,6 +235,8 @@ function AllProductsPage() {
           const previewImage = colourImageFor(featured, filters.colours) ?? featured.image_url;
           return (
             <Reveal key={family.key} delay={(i % cols) * 90} variant="up">
+              <div className="relative h-full">
+              <WebmasterRemove kind="product" id={featured.id} name={family.name} />
               <button
                 type="button"
                 onClick={() => setQuickView({ family, category })}
@@ -269,7 +273,9 @@ function AllProductsPage() {
                   </span>
                 ) : null}
               </button>
+              </div>
             </Reveal>
+
           );
         })}
       </div>

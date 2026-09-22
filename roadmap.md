@@ -10,3 +10,6 @@
 - [x] Shortlist: per-line decoration/quantity/notes plus submit form sending the whole shortlist as a quote request
 - [x] Colour guide & catalogue PDFs limited to the merchandise world (removed from print/gifts)
 - [x] Logo/design upload with AI product recommendations (AI Gateway) for merchandise clients
+- [x] Client portal login: self-serve account creation on /auth (quote status, files, messages already live)
+- [x] Webmaster live-site delete controls: X on catalogue items and taxonomy, password confirmation, choose "hide from site" (stays in back end) or "erase completely"
+- [x] Restrict live-site X delete controls to the webmaster account andy@seeseebloom.com.au only (hidden from all other users and guests)

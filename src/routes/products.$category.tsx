@@ -13,6 +13,8 @@ import { categoryPlacement } from "@/lib/banners";
 import { PlacementBanners } from "@/components/site/PlacementBanners";
 import { Reveal } from "@/components/site/Reveal";
 import { ProductQuickView } from "@/components/site/ProductQuickView";
+import { WebmasterRemove } from "@/components/site/WebmasterRemove";
+
 
 import { ProductFilters } from "@/components/site/ProductFilters";
 import {
@@ -235,7 +237,16 @@ function CategoryPage() {
             >
               {category.tagline}
             </p>
-            <h1 className="display-type mt-4 text-5xl sm:text-6xl">{category.name}</h1>
+            <div className="mt-4 flex items-center gap-3">
+              <h1 className="display-type text-5xl sm:text-6xl">{category.name}</h1>
+              <WebmasterRemove
+                kind="category"
+                id={category.id}
+                name={category.name}
+                className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-destructive/40 bg-background text-destructive transition hover:bg-destructive hover:text-destructive-foreground"
+              />
+            </div>
+
             <p className="mt-5 text-muted-foreground">{category.description}</p>
             <Link
               to="/quote"
@@ -292,6 +303,8 @@ function CategoryPage() {
             const cols = filters.density === "5" ? 5 : 3;
             return (
             <Reveal key={family.key} delay={(i % cols) * 90} variant="up">
+              <div className="relative h-full">
+              <WebmasterRemove kind="product" id={p.id} name={family.name} />
               <button
                 type="button"
                 onClick={() => setQuickView(family)}
@@ -324,7 +337,9 @@ function CategoryPage() {
                   </span>
                 ) : null}
               </button>
+              </div>
             </Reveal>
+
             );
           })}
         </div>

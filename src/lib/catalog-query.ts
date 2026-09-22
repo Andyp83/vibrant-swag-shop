@@ -15,15 +15,16 @@ import {
   type CmsSubcategory,
 } from "./catalog.functions";
 
-export const catalogQueryOptions = () =>
+export const catalogQueryOptions = (includeHidden = false) =>
   queryOptions({
-    queryKey: ["catalog"],
-    queryFn: () => listCatalog(),
+    queryKey: ["catalog", { includeHidden }],
+    queryFn: () => listCatalog({ data: { includeHidden } }),
     staleTime: 60_000,
     // Transient network/dev-server hiccups shouldn't blank the page
     retry: 2,
     retryDelay: (attempt) => Math.min(1000 * 2 ** attempt, 4000),
   });
+
 
 
 export type { CmsCategory, CmsProduct, CmsProductColour, CmsProductImage, CmsSubcategory };
@@ -36,13 +37,14 @@ export const productDetailQueryOptions = (id: string) =>
   });
 
 /** Lightweight: categories + subcategories, without the full product payload. */
-export const categoriesQueryOptions = () =>
+export const categoriesQueryOptions = (includeHidden = false) =>
   queryOptions({
-    queryKey: ["catalog", "categories"],
-    queryFn: () => listCategories(),
+    queryKey: ["catalog", "categories", { includeHidden }],
+    queryFn: () => listCategories({ data: { includeHidden } }),
     staleTime: 5 * 60_000,
     retry: 2,
   });
+
 
 /** One page of variant-grouped products, filtered and counted in the database. */
 export const productFamiliesQueryOptions = (query: CmsFamilyQuery) =>
