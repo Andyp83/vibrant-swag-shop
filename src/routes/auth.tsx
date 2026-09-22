@@ -12,9 +12,7 @@ export const Route = createFileRoute("/auth")({
   ssr: false,
   validateSearch: (search: Record<string, unknown>) => {
     const next = search['next'];
-    return typeof next === "string" && next.startsWith("/") && !next.startsWith("//")
-      ? { next }
-      : {};
+    return typeof next === "string" && isSafeLocalPath(next) ? { next } : {};
   },
   head: () => ({
     meta: [
