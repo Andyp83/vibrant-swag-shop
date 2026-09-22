@@ -13,6 +13,8 @@ import { categoryPlacement } from "@/lib/banners";
 import { PlacementBanners } from "@/components/site/PlacementBanners";
 import { Reveal } from "@/components/site/Reveal";
 import { ProductQuickView } from "@/components/site/ProductQuickView";
+import { WebmasterRemove } from "@/components/site/WebmasterRemove";
+
 
 import { ProductFilters } from "@/components/site/ProductFilters";
 import {
