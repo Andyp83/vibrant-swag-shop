@@ -34,6 +34,7 @@ import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } fr
 import { Route as AuthenticatedAdminRouteRouteImport } from './routes/_authenticated/admin/route'
 import { Route as AuthenticatedEmailPreferencesRouteImport } from './routes/_authenticated/email-preferences'
 import { Route as AuthenticatedPortalRouteImport } from './routes/_authenticated/portal'
+import { Route as ApiLogoMatchRouteImport } from './routes/api/logo-match'
 import { Route as JobTokenRouteImport } from './routes/job.$token'
 import { Route as PayTokenRouteImport } from './routes/pay.$token'
 import { Route as ProductsIndexRouteImport } from './routes/products.index'
@@ -183,6 +184,11 @@ const AuthenticatedPortalRoute = AuthenticatedPortalRouteImport.update({
   path: '/portal',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const ApiLogoMatchRoute = ApiLogoMatchRouteImport.update({
+  id: '/api/logo-match',
+  path: '/api/logo-match',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const JobTokenRoute = JobTokenRouteImport.update({
   id: '/job/$token',
   path: '/job/$token',
@@ -325,6 +331,7 @@ export interface FileRoutesByFullPath {
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/email-preferences': typeof AuthenticatedEmailPreferencesRoute
   '/portal': typeof AuthenticatedPortalRoute
+  '/api/logo-match': typeof ApiLogoMatchRoute
   '/job/$token': typeof JobTokenRoute
   '/pay/$token': typeof PayTokenRoute
   '/products/$category': typeof ProductsCategoryRoute
@@ -371,6 +378,7 @@ export interface FileRoutesByTo {
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/email-preferences': typeof AuthenticatedEmailPreferencesRoute
   '/portal': typeof AuthenticatedPortalRoute
+  '/api/logo-match': typeof ApiLogoMatchRoute
   '/job/$token': typeof JobTokenRoute
   '/pay/$token': typeof PayTokenRoute
   '/products/$category': typeof ProductsCategoryRoute
@@ -420,6 +428,7 @@ export interface FileRoutesById {
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/_authenticated/email-preferences': typeof AuthenticatedEmailPreferencesRoute
   '/_authenticated/portal': typeof AuthenticatedPortalRoute
+  '/api/logo-match': typeof ApiLogoMatchRoute
   '/job/$token': typeof JobTokenRoute
   '/pay/$token': typeof PayTokenRoute
   '/products/$category': typeof ProductsCategoryRoute
@@ -469,6 +478,7 @@ export interface FileRouteTypes {
     | '/.well-known/oauth-protected-resource'
     | '/email-preferences'
     | '/portal'
+    | '/api/logo-match'
     | '/job/$token'
     | '/pay/$token'
     | '/products/$category'
@@ -515,6 +525,7 @@ export interface FileRouteTypes {
     | '/.well-known/oauth-protected-resource'
     | '/email-preferences'
     | '/portal'
+    | '/api/logo-match'
     | '/job/$token'
     | '/pay/$token'
     | '/products/$category'
@@ -563,6 +574,7 @@ export interface FileRouteTypes {
     | '/.well-known/oauth-protected-resource'
     | '/_authenticated/email-preferences'
     | '/_authenticated/portal'
+    | '/api/logo-match'
     | '/job/$token'
     | '/pay/$token'
     | '/products/$category'
@@ -609,6 +621,7 @@ export interface RootRouteChildren {
   StarPerformersRoute: typeof StarPerformersRoute
   Char91DotmcpChar93ListToolsRoute: typeof Char91DotmcpChar93ListToolsRoute
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  ApiLogoMatchRoute: typeof ApiLogoMatchRoute
   JobTokenRoute: typeof JobTokenRoute
   PayTokenRoute: typeof PayTokenRoute
   ProductsCategoryRoute: typeof ProductsCategoryRoute
@@ -799,6 +812,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/portal'
       preLoaderRoute: typeof AuthenticatedPortalRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/api/logo-match': {
+      id: '/api/logo-match'
+      path: '/api/logo-match'
+      fullPath: '/api/logo-match'
+      preLoaderRoute: typeof ApiLogoMatchRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/job/$token': {
       id: '/job/$token'
@@ -1019,6 +1039,7 @@ const rootRouteChildren: RootRouteChildren = {
   Char91DotmcpChar93ListToolsRoute: Char91DotmcpChar93ListToolsRoute,
   Char91DotwellKnownChar93OauthProtectedResourceRoute:
     Char91DotwellKnownChar93OauthProtectedResourceRoute,
+  ApiLogoMatchRoute: ApiLogoMatchRoute,
   JobTokenRoute: JobTokenRoute,
   PayTokenRoute: PayTokenRoute,
   ProductsCategoryRoute: ProductsCategoryRoute,
