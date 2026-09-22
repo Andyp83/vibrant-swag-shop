@@ -176,7 +176,7 @@ function AdminPage() {
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.3em] text-muted-foreground">
-            Catalogue manager
+            Staff login
           </p>
           <h1 className="display-type mt-3 text-4xl">Categories & products</h1>
           <p className="mt-3 max-w-2xl text-sm text-muted-foreground">
