@@ -1,15 +1,17 @@
+import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { CheckCircle2, Loader2, Send } from "lucide-react";
-import { useState, type FormEvent } from "react";
+import { useMemo, useState, type FormEvent } from "react";
 import { toast } from "sonner";
 import { z } from "zod";
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { supabase } from "@/integrations/supabase/client";
-import { confirmQuoteRequest } from "@/lib/backoffice/quote-confirm.functions";
+import { formatMoney } from "@/lib/backoffice/format";
+import type { PricedQuote } from "@/lib/pricing/engine";
+import { priceShortlist, submitShortlistQuote } from "@/lib/pricing/quote.functions";
 import { shortlistSummary, type ShortlistItem } from "@/lib/shortlist";
 
 const schema = z.object({
@@ -24,7 +26,17 @@ const schema = z.object({
 
 type FieldErrors = Partial<Record<keyof z.infer<typeof schema>, string>>;
 
-/** Sends the whole shortlist — every line with its decoration, quantity and notes — as one quote request. */
+function toLines(items: ShortlistItem[]) {
+  return items.slice(0, 30).map((item) => ({
+    productId: /^[0-9a-f-]{36}$/i.test(item.id) ? item.id : null,
+    name: item.name.slice(0, 200),
+    decoration: item.decoration.slice(0, 120),
+    quantity: Math.max(1, Number(item.quantity) || 1),
+    notes: item.notes.slice(0, 500),
+  }));
+}
+
+/** Sends the whole shortlist — every line with its decoration, quantity and notes — as one priced quote. */
 export function ShortlistQuoteForm({
   items,
   onSent,
@@ -34,8 +46,19 @@ export function ShortlistQuoteForm({
 }) {
   const [errors, setErrors] = useState<FieldErrors>({});
   const [submitting, setSubmitting] = useState(false);
-  const [done, setDone] = useState(false);
-  const sendConfirmation = useServerFn(confirmQuoteRequest);
+  const [result, setResult] = useState<{ quoteNumber: string; pricing: PricedQuote } | null>(null);
+  const priceItems = useServerFn(priceShortlist);
+  const submit = useServerFn(submitShortlistQuote);
+
+  const lines = useMemo(() => toLines(items), [items]);
+
+  const estimate = useQuery({
+    queryKey: ["shortlist-estimate", lines],
+    queryFn: () => priceItems({ data: { items: lines } }),
+    enabled: lines.length > 0 && !result,
+    staleTime: 60_000,
+    retry: false,
+  });
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -64,42 +87,21 @@ export function ShortlistQuoteForm({
 
     try {
       const values = parsed.data;
-      const requestId = crypto.randomUUID();
-      const totalQuantity = items.reduce((sum, item) => sum + (Number(item.quantity) || 0), 0);
-      const body = [
-        `Shortlist quote request — ${items.length} item${items.length === 1 ? "" : "s"}:`,
-        shortlistSummary(items),
-        values.notes ? `Additional information:\n${values.notes}` : null,
-      ]
-        .filter(Boolean)
-        .join("\n\n");
-
-      const { error } = await supabase.from("quote_requests").insert({
-        id: requestId,
-        name: values.fullName,
-        email: values.email,
-        company: values.company || null,
-        phone: values.phone || null,
-        product_interest: items
-          .map((item) => item.name)
-          .join(", ")
-          .slice(0, 200),
-        quantity: totalQuantity > 0 ? totalQuantity : null,
-        decoration: items.find((item) => item.decoration)?.decoration ?? null,
-        required_by: values.deadline || null,
-        budget: values.budget || null,
-        notes: body,
-        file_paths: [],
+      const response = await submit({
+        data: {
+          items: lines,
+          fullName: values.fullName,
+          email: values.email,
+          company: values.company ?? "",
+          phone: values.phone ?? "",
+          deadline: values.deadline ?? "",
+          budget: values.budget ?? "",
+          notes: values.notes ?? "",
+          summary: shortlistSummary(items).slice(0, 4000),
+        },
       });
-      if (error) throw error;
 
-      try {
-        await sendConfirmation({ data: { requestId } });
-      } catch (emailError) {
-        console.error("Confirmation email failed", emailError);
-      }
-
-      setDone(true);
+      setResult({ quoteNumber: response.quoteNumber, pricing: response.pricing });
       form.reset();
       onSent?.();
     } catch (error) {
@@ -110,14 +112,16 @@ export function ShortlistQuoteForm({
     }
   }
 
-  if (done) {
+  if (result) {
     return (
       <div className="rounded-2xl border border-border bg-secondary p-10 text-center">
         <CheckCircle2 className="mx-auto size-12 text-spectrum-green" aria-hidden="true" />
-        <h2 className="display-type mt-5 text-3xl">Shortlist sent</h2>
+        <h2 className="display-type mt-5 text-3xl">Shortlist priced</h2>
         <p className="mx-auto mt-3 max-w-xl text-sm text-muted-foreground">
-          A confirmation is on its way to your inbox. We'll price every item on your list, usually
-          within one business day.
+          Quote {result.quoteNumber} has been costed from your list — {" "}
+          {formatMoney(result.pricing.totalCents)} including GST and freight. We're checking it over
+          and you'll see it in your portal as soon as it's confirmed, usually within one business
+          day.
         </p>
         <Link
           to="/portal"
@@ -128,6 +132,8 @@ export function ShortlistQuoteForm({
       </div>
     );
   }
+
+  const pricing = estimate.data;
 
   return (
     <form
@@ -140,6 +146,46 @@ export function ShortlistQuoteForm({
         We'll quote every item above — with the decoration, quantity and notes you've set on each
         line.
       </p>
+
+      {pricing && pricing.lines.length > 0 && (
+        <div className="mt-6 overflow-hidden rounded-xl border border-border">
+          <div className="border-b border-border bg-accent/40 px-4 py-2 text-sm font-semibold">
+            Estimate
+          </div>
+          <ul className="divide-y divide-border text-sm">
+            {pricing.lines.map((line, index) => (
+              <li key={`${line.name}-${index}`} className="flex flex-wrap gap-2 px-4 py-3">
+                <div className="min-w-0 flex-1">
+                  <p className="truncate font-medium">{line.name}</p>
+                  <p className="text-xs text-muted-foreground">
+                    {line.quantity} units
+                    {line.decoration ? ` · ${line.decoration}` : ""}
+                    {line.priced ? ` · ${formatMoney(line.unitPriceCents)} each` : ""}
+                    {line.setupCents > 0 ? ` · setup ${formatMoney(line.setupCents)}` : ""}
+                  </p>
+                </div>
+                <p className="shrink-0 font-semibold">
+                  {line.priced ? formatMoney(line.amountCents) : "Price on application"}
+                </p>
+              </li>
+            ))}
+          </ul>
+          <dl className="space-y-1 border-t border-border bg-secondary/60 px-4 py-3 text-sm">
+            {pricing.setupCents > 0 && (
+              <Row label="Setups" value={formatMoney(pricing.setupCents)} />
+            )}
+            <Row label="Freight" value={formatMoney(pricing.freightCents)} />
+            <Row label={`GST ${pricing.taxRate}%`} value={formatMoney(pricing.taxCents)} />
+            <Row label="Estimated total" value={formatMoney(pricing.totalCents)} strong />
+          </dl>
+          <p className="border-t border-border px-4 py-3 text-xs text-muted-foreground">
+            Indicative only — we confirm every price, and{" "}
+            {pricing.unpricedCount > 0
+              ? `${pricing.unpricedCount} item${pricing.unpricedCount === 1 ? "" : "s"} on your list need a manual quote.`
+              : "larger runs often come in lower."}
+          </p>
+        </div>
+      )}
 
       <div className="mt-6 grid gap-5 sm:grid-cols-2">
         <Field label="Full name" name="fullName" required error={errors.fullName} />
@@ -177,7 +223,7 @@ export function ShortlistQuoteForm({
         ) : (
           <Send className="size-4" aria-hidden="true" />
         )}
-        {submitting ? "Sending…" : `Submit shortlist (${items.length})`}
+        {submitting ? "Pricing…" : `Submit shortlist (${items.length})`}
       </button>
       <p className="mt-3 text-xs text-muted-foreground">
         Need to attach logo files?{" "}
@@ -187,6 +233,15 @@ export function ShortlistQuoteForm({
         — your shortlist comes with you.
       </p>
     </form>
+  );
+}
+
+function Row({ label, value, strong }: { label: string; value: string; strong?: boolean }) {
+  return (
+    <div className={`flex justify-between ${strong ? "font-semibold" : "text-muted-foreground"}`}>
+      <dt>{label}</dt>
+      <dd>{value}</dd>
+    </div>
   );
 }
 

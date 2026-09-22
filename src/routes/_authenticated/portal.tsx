@@ -77,6 +77,7 @@ type BriefRow = {
   file_count: number;
   quote_number: string | null;
   quote_token: string | null;
+  quote_pending?: boolean;
 };
 
 const briefStages = ["new", "in_progress", "quoted", "won"] as const;
@@ -166,12 +167,18 @@ function BriefsSection({ requests }: { requests: BriefRow[] }) {
                       {request.file_count === 1 ? "" : "s"} attached
                     </span>
                   )}
-                  {request.quote_token && (
+                  {request.quote_token ? (
                     <Button asChild variant="outline" size="sm" className="rounded-full">
                       <Link to="/q/$token" params={{ token: request.quote_token }}>
                         View quote {request.quote_number}
                       </Link>
                     </Button>
+                  ) : (
+                    request.quote_pending && (
+                      <span className="rounded-full border border-border px-3 py-1">
+                        Pricing prepared — we're checking it before it reaches you
+                      </span>
+                    )
                   )}
                 </div>
               </article>

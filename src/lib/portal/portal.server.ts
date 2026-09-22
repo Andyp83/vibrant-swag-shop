@@ -77,6 +77,8 @@ export type PortalRequest = {
   file_count: number;
   quote_number: string | null;
   quote_token: string | null;
+  /** A priced quote exists but is still being checked by staff. */
+  quote_pending: boolean;
 };
 
 /** Every brief this email address has submitted, newest first, with any quote raised from it. */
@@ -91,7 +93,10 @@ export async function loadRequestsByEmail(email: string): Promise<PortalRequest[
     .order("created_at", { ascending: false })
     .limit(50);
 
-  const rows = (data ?? []) as (Omit<PortalRequest, "file_count" | "quote_number" | "quote_token"> & {
+  const rows = (data ?? []) as (Omit<
+    PortalRequest,
+    "file_count" | "quote_number" | "quote_token" | "quote_pending"
+  > & {
     file_paths: string[] | null;
   })[];
   if (!rows.length) return [];
@@ -102,22 +107,24 @@ export async function loadRequestsByEmail(email: string): Promise<PortalRequest[
     .in(
       "request_id",
       rows.map((row) => row.id),
-    )
-    .neq("status", "draft");
+    );
 
   const quoteRows = (quotes ?? []) as {
     request_id: string | null;
     number: string;
     share_token: string;
+    status: string;
   }[];
 
   return rows.map(({ file_paths, ...row }) => {
-    const quote = quoteRows.find((q) => q.request_id === row.id);
+    const sent = quoteRows.find((q) => q.request_id === row.id && q.status !== "draft");
+    const draft = quoteRows.find((q) => q.request_id === row.id && q.status === "draft");
     return {
       ...row,
       file_count: file_paths?.length ?? 0,
-      quote_number: quote?.number ?? null,
-      quote_token: quote?.share_token ?? null,
+      quote_pending: !sent && Boolean(draft),
+      quote_number: sent?.number ?? null,
+      quote_token: sent?.share_token ?? null,
     } satisfies PortalRequest;
   });
 }
