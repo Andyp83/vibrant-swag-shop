@@ -1,6 +1,7 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { Heart, Trash2, ArrowRight } from "lucide-react";
 
+import { ShortlistQuoteForm } from "@/components/site/ShortlistQuoteForm";
 import { decorations } from "@/lib/catalog";
 import { useShortlist } from "@/lib/shortlist";
 import { Input } from "@/components/ui/input";
@@ -30,7 +31,6 @@ export const Route = createFileRoute("/shortlist")({
 
 function ShortlistPage() {
   const { items, hydrated, update, remove, clear } = useShortlist();
-  const navigate = useNavigate();
 
   return (
     <div className="mx-auto max-w-4xl px-5 py-16">
@@ -128,15 +128,18 @@ function ShortlistPage() {
             })}
           </ul>
 
-          <div className="mt-10 flex flex-wrap items-center gap-3">
-            <button
-              type="button"
-              onClick={() => navigate({ to: "/quote", search: { shortlist: true } })}
-              className="inline-flex items-center gap-2 rounded-full bg-primary px-7 py-3.5 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90"
+          <div className="mt-10">
+            <ShortlistQuoteForm items={items} onSent={clear} />
+          </div>
+
+          <div className="mt-6 flex flex-wrap items-center gap-3">
+            <Link
+              to="/products"
+              className="inline-flex items-center gap-2 rounded-full border border-border px-6 py-3 text-sm font-semibold"
             >
-              Send shortlist as a quote request
+              Keep browsing
               <ArrowRight className="size-4" aria-hidden="true" />
-            </button>
+            </Link>
             <button
               type="button"
               onClick={clear}

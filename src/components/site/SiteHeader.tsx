@@ -13,6 +13,7 @@ const mobileSections: { title: string; links: MobileLink[] }[] = [
     links: [
       { label: "Merchandise home", to: "/merchandise" },
       { label: "All products", to: "/products" },
+      { label: "Logo match", to: "/logo-match" },
       { label: "Catalogues", to: "/catalogues" },
       { label: "Sourcing", to: "/procurement" },
       { label: "Decoration", to: "/decoration" },
