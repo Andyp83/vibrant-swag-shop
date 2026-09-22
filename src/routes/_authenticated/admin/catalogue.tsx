@@ -43,7 +43,7 @@ export const Route = createFileRoute("/_authenticated/admin/catalogue")({
         content:
           "Manage See See Bloom product categories, minimum order quantities, decoration tags and catalogue imagery.",
       },
-      { property: "og:title", content: "Catalogue Manager | See See Bloom" },
+      { property: "og:title", content: "Staff login | See See Bloom" },
       { property: "og:description", content: "Manage the See See Bloom product catalogue." },
       { name: "robots", content: "noindex" },
     ],
