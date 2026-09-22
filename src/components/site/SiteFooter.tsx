@@ -127,9 +127,14 @@ export function SiteFooter() {
       </div>
 
       <div className="border-t border-border px-5 py-6">
-        <p className="mx-auto max-w-6xl text-xs text-muted-foreground">
-          © {new Date().getFullYear()} See See Bloom · Australian owned and operated. All prices in Australian dollars (AUD) and exclude GST unless stated. Product imagery shown unbranded for illustration.
-        </p>
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4">
+          <p className="text-xs text-muted-foreground">
+            © {new Date().getFullYear()} See See Bloom · Australian owned and operated. All prices in Australian dollars (AUD) and exclude GST unless stated. Product imagery shown unbranded for illustration.
+          </p>
+          <Link to="/admin" className="text-xs text-muted-foreground/70 transition-colors hover:text-foreground">
+            Staff login
+          </Link>
+        </div>
       </div>
     </footer>
   );
