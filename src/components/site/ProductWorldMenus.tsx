@@ -185,6 +185,11 @@ export function BrandedMenu() {
                 label: "Decoration",
                 note: `${decorations.length} branding methods`,
               },
+              {
+                to: "/pricing-calculator",
+                label: "Pricing calculator",
+                note: "Estimate one item before you shortlist it",
+              },
               { to: "/shortlist", label: "Shortlist", note: "Your saved items & decoration picks" },
             ]}
           />

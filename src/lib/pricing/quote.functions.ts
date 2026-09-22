@@ -28,6 +28,64 @@ const submitSchema = priceInputSchema.extend({
 
 type Line = z.infer<typeof lineSchema>;
 
+const productSearchSchema = z.object({
+  query: z.string().trim().min(2).max(80),
+});
+
+export type PricingSearchProduct = {
+  id: string;
+  name: string;
+  plu: string | null;
+  categoryName: string;
+  categorySlug: string;
+  methods: string[];
+  moq: string;
+};
+
+/** Lightweight public product search for the standalone calculator. */
+export const searchPricingProducts = createServerFn({ method: "GET" })
+  .inputValidator((input: unknown) => productSearchSchema.parse(input))
+  .handler(async ({ data }): Promise<PricingSearchProduct[]> => {
+    const { getPublicSupabase } = await import("@/lib/supabase-public.server");
+    const supabase = getPublicSupabase();
+    const escaped = data.query.replace(/[\\%_]/g, (character) => `\\${character}`);
+
+    const { data: rows, error } = await supabase
+      .from("catalog_products")
+      .select("id, name, plu, category_id, methods, moq")
+      .ilike("name", `%${escaped}%`)
+      .eq("publish_status", "published")
+      .order("name", { ascending: true })
+      .limit(20);
+    if (error) throw new Error(error.message);
+
+    const categoryIds = [...new Set((rows ?? []).map((row) => row.category_id))];
+    if (!categoryIds.length) return [];
+    const { data: categories, error: categoryError } = await supabase
+      .from("catalog_categories")
+      .select("id, name, slug")
+      .in("id", categoryIds)
+      .eq("is_hidden", false);
+    if (categoryError) throw new Error(categoryError.message);
+
+    const categoryById = new Map((categories ?? []).map((category) => [category.id, category]));
+    const excluded = new Set(["print", "hampers-gifting", "gift-packs"]);
+
+    return (rows ?? []).flatMap((row) => {
+      const category = categoryById.get(row.category_id);
+      if (!category || excluded.has(category.slug)) return [];
+      return [{
+        id: row.id,
+        name: row.name,
+        plu: row.plu,
+        categoryName: category.name,
+        categorySlug: category.slug,
+        methods: Array.isArray(row.methods) ? row.methods : [],
+        moq: row.moq ?? "",
+      }];
+    });
+  });
+
 async function loadProducts(ids: string[]) {
   const map = new Map<string, PricingProduct>();
   if (!ids.length) return map;
