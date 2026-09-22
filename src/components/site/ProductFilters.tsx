@@ -114,20 +114,12 @@ export function ProductFilters({
               <span className="flex items-center gap-2 truncate">
                 {selected.length > 0 ? (
                   <>
-                    <span className="flex -space-x-1" aria-hidden="true">
-                      {selected.slice(0, 4).map((c) => (
-                        <span
-                          key={c}
-                          className="size-3 rounded-full border border-border"
-                          style={{ backgroundColor: colourSwatchCss(c) }}
-                        />
-                      ))}
-                    </span>
-                    <span className="truncate">
-                      {selected.length === 1
-                        ? selected[0]
-                        : `${selected.length} colours selected`}
-                    </span>
+                    <span
+                      className="size-3 rounded-full border border-border"
+                      style={{ backgroundColor: colourSwatchCss(selected[0]) }}
+                      aria-hidden="true"
+                    />
+                    <span className="truncate">{selected[0]}</span>
                   </>
                 ) : (
                   "Any colour"
