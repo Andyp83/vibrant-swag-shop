@@ -42,11 +42,10 @@ export function ProductFilters({
     value.impact ||
     value.moq > 0;
 
+  // Single-select: clicking a colour replaces the current selection; clicking
+  // the active colour again clears it.
   const toggleColour = (colour: string) => {
-    const next = selected.includes(colour)
-      ? selected.filter((c) => c !== colour)
-      : [...selected, colour];
-    onChange({ colours: next });
+    onChange({ colours: selected[0] === colour ? [] : [colour] });
   };
 
 
