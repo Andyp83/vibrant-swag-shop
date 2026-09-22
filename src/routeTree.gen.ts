@@ -23,6 +23,7 @@ import { Route as LogoMatchRouteImport } from './routes/logo-match'
 import { Route as LookbookRouteImport } from './routes/lookbook'
 import { Route as McpRouteImport } from './routes/mcp'
 import { Route as MerchandiseRouteImport } from './routes/merchandise'
+import { Route as PricingCalculatorRouteImport } from './routes/pricing-calculator'
 import { Route as PrintRouteImport } from './routes/print'
 import { Route as ProcurementRouteImport } from './routes/procurement'
 import { Route as QuoteRouteImport } from './routes/quote'
@@ -125,6 +126,11 @@ const McpRoute = McpRouteImport.update({
 const MerchandiseRoute = MerchandiseRouteImport.update({
   id: '/merchandise',
   path: '/merchandise',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PricingCalculatorRoute = PricingCalculatorRouteImport.update({
+  id: '/pricing-calculator',
+  path: '/pricing-calculator',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PrintRoute = PrintRouteImport.update({
@@ -326,6 +332,7 @@ export interface FileRoutesByFullPath {
   '/lookbook': typeof LookbookRoute
   '/mcp': typeof McpRoute
   '/merchandise': typeof MerchandiseRoute
+  '/pricing-calculator': typeof PricingCalculatorRoute
   '/print': typeof PrintRoute
   '/procurement': typeof ProcurementRoute
   '/quote': typeof QuoteRoute
@@ -375,6 +382,7 @@ export interface FileRoutesByTo {
   '/lookbook': typeof LookbookRoute
   '/mcp': typeof McpRoute
   '/merchandise': typeof MerchandiseRoute
+  '/pricing-calculator': typeof PricingCalculatorRoute
   '/print': typeof PrintRoute
   '/procurement': typeof ProcurementRoute
   '/quote': typeof QuoteRoute
@@ -425,6 +433,7 @@ export interface FileRoutesById {
   '/lookbook': typeof LookbookRoute
   '/mcp': typeof McpRoute
   '/merchandise': typeof MerchandiseRoute
+  '/pricing-calculator': typeof PricingCalculatorRoute
   '/print': typeof PrintRoute
   '/procurement': typeof ProcurementRoute
   '/quote': typeof QuoteRoute
@@ -476,6 +485,7 @@ export interface FileRouteTypes {
     | '/lookbook'
     | '/mcp'
     | '/merchandise'
+    | '/pricing-calculator'
     | '/print'
     | '/procurement'
     | '/quote'
@@ -525,6 +535,7 @@ export interface FileRouteTypes {
     | '/lookbook'
     | '/mcp'
     | '/merchandise'
+    | '/pricing-calculator'
     | '/print'
     | '/procurement'
     | '/quote'
@@ -574,6 +585,7 @@ export interface FileRouteTypes {
     | '/lookbook'
     | '/mcp'
     | '/merchandise'
+    | '/pricing-calculator'
     | '/print'
     | '/procurement'
     | '/quote'
@@ -625,6 +637,7 @@ export interface RootRouteChildren {
   LookbookRoute: typeof LookbookRoute
   McpRoute: typeof McpRoute
   MerchandiseRoute: typeof MerchandiseRoute
+  PricingCalculatorRoute: typeof PricingCalculatorRoute
   PrintRoute: typeof PrintRoute
   ProcurementRoute: typeof ProcurementRoute
   QuoteRoute: typeof QuoteRoute
@@ -747,6 +760,13 @@ declare module '@tanstack/react-router' {
       path: '/merchandise'
       fullPath: '/merchandise'
       preLoaderRoute: typeof MerchandiseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pricing-calculator': {
+      id: '/pricing-calculator'
+      path: '/pricing-calculator'
+      fullPath: '/pricing-calculator'
+      preLoaderRoute: typeof PricingCalculatorRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/print': {
@@ -1050,6 +1070,7 @@ const rootRouteChildren: RootRouteChildren = {
   LookbookRoute: LookbookRoute,
   McpRoute: McpRoute,
   MerchandiseRoute: MerchandiseRoute,
+  PricingCalculatorRoute: PricingCalculatorRoute,
   PrintRoute: PrintRoute,
   ProcurementRoute: ProcurementRoute,
   QuoteRoute: QuoteRoute,
