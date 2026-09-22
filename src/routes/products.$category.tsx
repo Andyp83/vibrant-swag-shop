@@ -237,7 +237,16 @@ function CategoryPage() {
             >
               {category.tagline}
             </p>
-            <h1 className="display-type mt-4 text-5xl sm:text-6xl">{category.name}</h1>
+            <div className="mt-4 flex items-center gap-3">
+              <h1 className="display-type text-5xl sm:text-6xl">{category.name}</h1>
+              <WebmasterRemove
+                kind="category"
+                id={category.id}
+                name={category.name}
+                className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-destructive/40 bg-background text-destructive transition hover:bg-destructive hover:text-destructive-foreground"
+              />
+            </div>
+
             <p className="mt-5 text-muted-foreground">{category.description}</p>
             <Link
               to="/quote"

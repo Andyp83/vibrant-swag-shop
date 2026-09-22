@@ -12,6 +12,8 @@ import {
 import { Reveal } from "@/components/site/Reveal";
 import { ProductFilters } from "@/components/site/ProductFilters";
 import { ProductQuickView } from "@/components/site/ProductQuickView";
+import { WebmasterRemove } from "@/components/site/WebmasterRemove";
+
 import {
   ALLOWED_COLOURS,
   colourImageFor,
