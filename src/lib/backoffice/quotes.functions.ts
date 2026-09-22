@@ -186,9 +186,9 @@ export const customerFromRequest = createServerFn({ method: "POST" })
     if (error || !request) throw new Error(error?.message ?? "Request not found");
 
     const { data: existing } = await db
-      .from("customers")
+      .rpc("customers_by_email", { p_email: request.email })
       .select("*")
-      .ilike("email", request.email)
+      .limit(1)
       .maybeSingle();
 
     let customer = existing as unknown as Customer | null;

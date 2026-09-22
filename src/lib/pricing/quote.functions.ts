@@ -163,10 +163,8 @@ export const submitShortlistQuote = createServerFn({ method: "POST" })
 
     // Reuse the customer record for this email, or create one.
     const { data: existing } = await supabaseAdmin
-      .from("customers")
+      .rpc("customers_by_email", { p_email: email })
       .select("id")
-      .ilike("email", email)
-      .order("created_at", { ascending: true })
       .limit(1);
 
     let customerId = existing?.[0]?.id as string | undefined;
