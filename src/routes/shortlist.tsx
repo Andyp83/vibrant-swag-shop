@@ -1,6 +1,7 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { Heart, Trash2, ArrowRight } from "lucide-react";
 
+import { ShortlistQuoteForm } from "@/components/site/ShortlistQuoteForm";
 import { decorations } from "@/lib/catalog";
 import { useShortlist } from "@/lib/shortlist";
 import { Input } from "@/components/ui/input";
@@ -30,7 +31,6 @@ export const Route = createFileRoute("/shortlist")({
 
 function ShortlistPage() {
   const { items, hydrated, update, remove, clear } = useShortlist();
-  const navigate = useNavigate();
 
   return (
     <div className="mx-auto max-w-4xl px-5 py-16">
