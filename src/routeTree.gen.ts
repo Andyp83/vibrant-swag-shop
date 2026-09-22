@@ -19,6 +19,7 @@ import { Route as DecorationRouteImport } from './routes/decoration'
 import { Route as DesignRouteImport } from './routes/design'
 import { Route as GiftsRouteImport } from './routes/gifts'
 import { Route as ImpactAwareRouteImport } from './routes/impact-aware'
+import { Route as LogoMatchRouteImport } from './routes/logo-match'
 import { Route as LookbookRouteImport } from './routes/lookbook'
 import { Route as McpRouteImport } from './routes/mcp'
 import { Route as MerchandiseRouteImport } from './routes/merchandise'
@@ -104,6 +105,11 @@ const GiftsRoute = GiftsRouteImport.update({
 const ImpactAwareRoute = ImpactAwareRouteImport.update({
   id: '/impact-aware',
   path: '/impact-aware',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LogoMatchRoute = LogoMatchRouteImport.update({
+  id: '/logo-match',
+  path: '/logo-match',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LookbookRoute = LookbookRouteImport.update({
@@ -316,6 +322,7 @@ export interface FileRoutesByFullPath {
   '/design': typeof DesignRoute
   '/gifts': typeof GiftsRoute
   '/impact-aware': typeof ImpactAwareRoute
+  '/logo-match': typeof LogoMatchRoute
   '/lookbook': typeof LookbookRoute
   '/mcp': typeof McpRoute
   '/merchandise': typeof MerchandiseRoute
@@ -364,6 +371,7 @@ export interface FileRoutesByTo {
   '/design': typeof DesignRoute
   '/gifts': typeof GiftsRoute
   '/impact-aware': typeof ImpactAwareRoute
+  '/logo-match': typeof LogoMatchRoute
   '/lookbook': typeof LookbookRoute
   '/mcp': typeof McpRoute
   '/merchandise': typeof MerchandiseRoute
@@ -413,6 +421,7 @@ export interface FileRoutesById {
   '/design': typeof DesignRoute
   '/gifts': typeof GiftsRoute
   '/impact-aware': typeof ImpactAwareRoute
+  '/logo-match': typeof LogoMatchRoute
   '/lookbook': typeof LookbookRoute
   '/mcp': typeof McpRoute
   '/merchandise': typeof MerchandiseRoute
@@ -463,6 +472,7 @@ export interface FileRouteTypes {
     | '/design'
     | '/gifts'
     | '/impact-aware'
+    | '/logo-match'
     | '/lookbook'
     | '/mcp'
     | '/merchandise'
@@ -511,6 +521,7 @@ export interface FileRouteTypes {
     | '/design'
     | '/gifts'
     | '/impact-aware'
+    | '/logo-match'
     | '/lookbook'
     | '/mcp'
     | '/merchandise'
@@ -559,6 +570,7 @@ export interface FileRouteTypes {
     | '/design'
     | '/gifts'
     | '/impact-aware'
+    | '/logo-match'
     | '/lookbook'
     | '/mcp'
     | '/merchandise'
@@ -609,6 +621,7 @@ export interface RootRouteChildren {
   DesignRoute: typeof DesignRoute
   GiftsRoute: typeof GiftsRoute
   ImpactAwareRoute: typeof ImpactAwareRoute
+  LogoMatchRoute: typeof LogoMatchRoute
   LookbookRoute: typeof LookbookRoute
   McpRoute: typeof McpRoute
   MerchandiseRoute: typeof MerchandiseRoute
@@ -706,6 +719,13 @@ declare module '@tanstack/react-router' {
       path: '/impact-aware'
       fullPath: '/impact-aware'
       preLoaderRoute: typeof ImpactAwareRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/logo-match': {
+      id: '/logo-match'
+      path: '/logo-match'
+      fullPath: '/logo-match'
+      preLoaderRoute: typeof LogoMatchRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/lookbook': {
@@ -1026,6 +1046,7 @@ const rootRouteChildren: RootRouteChildren = {
   DesignRoute: DesignRoute,
   GiftsRoute: GiftsRoute,
   ImpactAwareRoute: ImpactAwareRoute,
+  LogoMatchRoute: LogoMatchRoute,
   LookbookRoute: LookbookRoute,
   McpRoute: McpRoute,
   MerchandiseRoute: MerchandiseRoute,
