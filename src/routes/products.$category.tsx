@@ -292,6 +292,8 @@ function CategoryPage() {
             const cols = filters.density === "5" ? 5 : 3;
             return (
             <Reveal key={family.key} delay={(i % cols) * 90} variant="up">
+              <div className="relative h-full">
+              <WebmasterRemove kind="product" id={p.id} name={family.name} />
               <button
                 type="button"
                 onClick={() => setQuickView(family)}
@@ -324,7 +326,9 @@ function CategoryPage() {
                   </span>
                 ) : null}
               </button>
+              </div>
             </Reveal>
+
             );
           })}
         </div>
