@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useCallback, useEffect, useState } from "react";
 
 import { supabase } from "@/integrations/supabase/client";
-import { checkIsAdmin } from "./catalog.functions";
+import { checkIsWebmaster } from "./webmaster.functions";
 
 const STORAGE_KEY = "ssb-webmaster-manage";
 const EVENT = "ssb-webmaster-change";
