@@ -81,9 +81,6 @@ function PrintPage() {
               </Link>
             </div>
             <div className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm text-ink/70">
-              <Link to="/colour-guide" className="underline underline-offset-4">
-                Colour guide
-              </Link>
               <Link to="/decoration" className="underline underline-offset-4">
                 Artwork requirements
               </Link>

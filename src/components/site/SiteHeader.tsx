@@ -24,7 +24,6 @@ const mobileSections: { title: string; links: MobileLink[] }[] = [
     links: [
       { label: "Print home", to: "/print" },
       { label: "Print range", to: "/products/$category", params: { category: "print" } },
-      { label: "Colour guide", to: "/colour-guide" },
       { label: "Design & print brokering", to: "/procurement" },
     ],
   },

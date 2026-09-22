@@ -236,12 +236,6 @@ function DesignPage() {
           </div>
           <div className="mt-8 flex flex-wrap gap-3">
             <Link
-              to="/colour-guide"
-              className="rounded-full border border-border bg-background px-5 py-2 text-sm font-semibold"
-            >
-              Colour guide
-            </Link>
-            <Link
               to="/decoration"
               className="rounded-full border border-border bg-background px-5 py-2 text-sm font-semibold"
             >
