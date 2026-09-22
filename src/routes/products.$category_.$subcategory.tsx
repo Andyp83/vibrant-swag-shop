@@ -4,6 +4,8 @@ import { ArrowLeft, ArrowRight, LayoutGrid } from "lucide-react";
 
 import { Reveal } from "@/components/site/Reveal";
 import { ProductQuickView } from "@/components/site/ProductQuickView";
+import { WebmasterRemove } from "@/components/site/WebmasterRemove";
+
 import { borderAccentClass, softBgClass, spectrum, swatchClass, textClass } from "@/lib/catalog";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import {
@@ -168,7 +170,16 @@ function SubcategoryPage() {
           <p className={`text-xs font-semibold uppercase tracking-[0.3em] ${textClass[accent]}`}>
             {category.name}
           </p>
-          <h1 className="display-type mt-4 text-5xl sm:text-6xl">{subcategory.name}</h1>
+          <div className="mt-4 flex items-center gap-3">
+            <h1 className="display-type text-5xl sm:text-6xl">{subcategory.name}</h1>
+            <WebmasterRemove
+              kind="subcategory"
+              id={subcategory.id}
+              name={subcategory.name}
+              className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-destructive/40 bg-background text-destructive transition hover:bg-destructive hover:text-destructive-foreground"
+            />
+          </div>
+
           <p className="mt-5 text-muted-foreground">
             {subcategory.description ||
               `Branded ${subcategory.name.toLowerCase()} sourced, decorated and delivered to spec. Tell us your quantity, colours and deadline and we'll come back with options and pricing.`}
