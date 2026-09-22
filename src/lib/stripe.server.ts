@@ -10,6 +10,16 @@ export type StripeEnv = "sandbox" | "live";
 
 const GATEWAY_STRIPE_BASE = "https://connector-gateway.lovable.dev/stripe";
 
+/**
+ * The payment mode this deployment is configured for, from server secrets only.
+ * Never accept the mode from the caller: a sandbox event must not settle a live invoice.
+ */
+export function resolvePaymentEnvironment(): StripeEnv {
+  if (process.env["STRIPE_LIVE_API_KEY"]) return "live";
+  if (process.env["STRIPE_SANDBOX_API_KEY"]) return "sandbox";
+  throw new Error("Payments are not configured");
+}
+
 export function getConnectionApiKey(env: StripeEnv): string {
   return env === "sandbox" ? getEnv("STRIPE_SANDBOX_API_KEY") : getEnv("STRIPE_LIVE_API_KEY");
 }
