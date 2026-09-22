@@ -168,6 +168,11 @@ export function BrandedMenu() {
             title="Also under branded merchandise"
             close={close}
             links={[
+              {
+                to: "/logo-match",
+                label: "Logo match",
+                note: "Upload your logo for instant product ideas",
+              },
               { to: "/catalogues", label: "Catalogues", note: "Flipbooks, lookbooks & guides" },
               { to: "/procurement", label: "Sourcing", note: "Request anything off-catalogue" },
               {
