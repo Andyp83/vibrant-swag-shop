@@ -44,7 +44,7 @@ function CategoryPanes({
               className={`flex items-center justify-between gap-2 rounded-xl px-3 py-2.5 text-sm font-semibold transition-colors ${
                 active?.slug === c.slug
                   ? `${softBgClass[spectrum(c.colour)]} text-foreground`
-                  : `hover:${softBgClass[spectrum(c.colour)]}`
+                  : "hover:bg-accent"
               }`}
             >
               <span className="flex items-center gap-2.5">
