@@ -4,7 +4,7 @@ import { ChevronRight } from "lucide-react";
 import { useState } from "react";
 
 import { MegaMenu, MenuHeading } from "@/components/site/MegaMenu";
-import { swatchClass } from "@/lib/catalog";
+import { softBgClass, spectrum, swatchClass } from "@/lib/catalog";
 import { categoriesQueryOptions, type CmsCategory } from "@/lib/catalog-query";
 import { decorations } from "@/lib/catalog";
 
@@ -28,6 +28,7 @@ function CategoryPanes({
 }) {
   const [activeSlug, setActiveSlug] = useState(categories[0]?.slug ?? "");
   const active = categories.find((c) => c.slug === activeSlug) ?? categories[0];
+  const activeColour = spectrum(active?.colour ?? "red");
 
   return (
     <div className="mt-4 grid gap-6 lg:grid-cols-[minmax(0,260px)_1fr]">
@@ -41,7 +42,9 @@ function CategoryPanes({
               onFocus={() => setActiveSlug(c.slug)}
               onClick={close}
               className={`flex items-center justify-between gap-2 rounded-xl px-3 py-2.5 text-sm font-semibold transition-colors ${
-                active?.slug === c.slug ? "bg-accent text-foreground" : "hover:bg-accent"
+                active?.slug === c.slug
+                  ? `${softBgClass[spectrum(c.colour)]} text-foreground`
+                  : "hover:bg-accent"
               }`}
             >
               <span className="flex items-center gap-2.5">
@@ -57,7 +60,9 @@ function CategoryPanes({
         ))}
       </ul>
 
-      <div className="min-w-0 rounded-2xl border border-border bg-card p-5">
+      <div
+        className={`min-w-0 rounded-2xl border border-border p-5 transition-colors duration-200 ${softBgClass[activeColour]}`}
+      >
         {active ? (
           <>
             <div className="flex items-baseline justify-between gap-4">
