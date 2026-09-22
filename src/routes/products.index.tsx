@@ -233,6 +233,8 @@ function AllProductsPage() {
           const previewImage = colourImageFor(featured, filters.colours) ?? featured.image_url;
           return (
             <Reveal key={family.key} delay={(i % cols) * 90} variant="up">
+              <div className="relative h-full">
+              <WebmasterRemove kind="product" id={featured.id} name={family.name} />
               <button
                 type="button"
                 onClick={() => setQuickView({ family, category })}
@@ -269,7 +271,9 @@ function AllProductsPage() {
                   </span>
                 ) : null}
               </button>
+              </div>
             </Reveal>
+
           );
         })}
       </div>
