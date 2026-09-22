@@ -116,7 +116,7 @@ export function ProductFilters({
                   <>
                     <span
                       className="size-3 rounded-full border border-border"
-                      style={{ backgroundColor: colourSwatchCss(selected[0]) }}
+                      style={{ backgroundColor: colourSwatchCss(selected[0] ?? "") }}
                       aria-hidden="true"
                     />
                     <span className="truncate">{selected[0]}</span>
