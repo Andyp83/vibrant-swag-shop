@@ -42,11 +42,10 @@ export function ProductFilters({
     value.impact ||
     value.moq > 0;
 
+  // Single-select: clicking a colour replaces the current selection; clicking
+  // the active colour again clears it.
   const toggleColour = (colour: string) => {
-    const next = selected.includes(colour)
-      ? selected.filter((c) => c !== colour)
-      : [...selected, colour];
-    onChange({ colours: next });
+    onChange({ colours: selected[0] === colour ? [] : [colour] });
   };
 
 
@@ -115,20 +114,12 @@ export function ProductFilters({
               <span className="flex items-center gap-2 truncate">
                 {selected.length > 0 ? (
                   <>
-                    <span className="flex -space-x-1" aria-hidden="true">
-                      {selected.slice(0, 4).map((c) => (
-                        <span
-                          key={c}
-                          className="size-3 rounded-full border border-border"
-                          style={{ backgroundColor: colourSwatchCss(c) }}
-                        />
-                      ))}
-                    </span>
-                    <span className="truncate">
-                      {selected.length === 1
-                        ? selected[0]
-                        : `${selected.length} colours selected`}
-                    </span>
+                    <span
+                      className="size-3 rounded-full border border-border"
+                      style={{ backgroundColor: colourSwatchCss(selected[0] ?? "") }}
+                      aria-hidden="true"
+                    />
+                    <span className="truncate">{selected[0]}</span>
                   </>
                 ) : (
                   "Any colour"
@@ -137,29 +128,8 @@ export function ProductFilters({
               <ChevronDown className="size-4 shrink-0 opacity-60" aria-hidden="true" />
             </PopoverTrigger>
             <PopoverContent align="start" className="w-64 p-0">
-              <div className="flex items-center justify-between gap-2 border-b border-border p-2">
-                <div
-                  className="flex rounded-full border border-border p-0.5"
-                  role="group"
-                  aria-label="Colour match mode"
-                >
-                  {(["any", "all"] as const).map((mode) => (
-                    <button
-                      key={mode}
-                      type="button"
-                      aria-pressed={(value.colourMatch ?? "any") === mode}
-                      onClick={() => onChange({ colourMatch: mode })}
-                      className={`rounded-full px-3 py-1 text-xs font-semibold transition-colors ${
-                        (value.colourMatch ?? "any") === mode
-                          ? "bg-foreground text-background"
-                          : "text-muted-foreground hover:text-foreground"
-                      }`}
-                    >
-                      Match {mode}
-                    </button>
-                  ))}
-                </div>
-                {selected.length > 0 ? (
+              {selected.length > 0 ? (
+                <div className="flex items-center justify-end border-b border-border p-2">
                   <button
                     type="button"
                     onClick={() => onChange({ colours: [] })}
@@ -167,8 +137,8 @@ export function ProductFilters({
                   >
                     Clear
                   </button>
-                ) : null}
-              </div>
+                </div>
+              ) : null}
               <div className="max-h-64 overflow-y-auto p-1">
                 {colours.map((c) => {
                   const isOn = selected.includes(c);
