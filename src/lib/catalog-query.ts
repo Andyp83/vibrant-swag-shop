@@ -37,13 +37,14 @@ export const productDetailQueryOptions = (id: string) =>
   });
 
 /** Lightweight: categories + subcategories, without the full product payload. */
-export const categoriesQueryOptions = () =>
+export const categoriesQueryOptions = (includeHidden = false) =>
   queryOptions({
-    queryKey: ["catalog", "categories"],
-    queryFn: () => listCategories(),
+    queryKey: ["catalog", "categories", { includeHidden }],
+    queryFn: () => listCategories({ data: { includeHidden } }),
     staleTime: 5 * 60_000,
     retry: 2,
   });
+
 
 /** One page of variant-grouped products, filtered and counted in the database. */
 export const productFamiliesQueryOptions = (query: CmsFamilyQuery) =>
