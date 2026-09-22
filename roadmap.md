@@ -17,3 +17,4 @@
 - [x] Shortlist pricing engine: supplier cost breaks + decoration run charge/setup, 65% markup, GST 10%, $15 freight; live estimate on /shortlist and a draft quote saved for staff approval, shown in the portal
 - [x] Branded merchandise menu: colour each category pop-out background with its assigned spectrum colour
 - [x] Standalone merchandise pricing calculator: product search, quantity, decoration, itemised estimate and add-to-shortlist
+- [x] New lookbook pages: Real Estate Essentials + Gift Guide 2026–27 on the merchandise side (own routes, catalogues page, sitemap)

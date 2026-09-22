@@ -8,7 +8,13 @@ type Catalogue = {
   edition: string;
   blurb: string;
   src: string;
-  href: "/lookbook" | "/colour-guide" | "/impact-aware" | "/star-performers";
+  href:
+    | "/lookbook"
+    | "/colour-guide"
+    | "/impact-aware"
+    | "/star-performers"
+    | "/real-estate-essentials"
+    | "/gift-guide";
 };
 
 const catalogues: Catalogue[] = [
@@ -44,6 +50,24 @@ const catalogues: Catalogue[] = [
     blurb: "Colour matching reference for decoration, so brand palettes land exactly right.",
     src: "https://e.issuu.com/embed.html?d=colour_guide_-_unbranded&hideIssuuLogo=true&u=trendscollection",
     href: "/colour-guide",
+  },
+  {
+    id: "real-estate-essentials",
+    name: "Real Estate Essentials",
+    edition: "Lookbook",
+    blurb:
+      "Branded merchandise and gift ideas curated for real estate agencies and property professionals.",
+    src: "https://e.issuu.com/embed.html?d=real_estate_essentials_lookbook&hideIssuuLogo=true&u=trendscollection",
+    href: "/real-estate-essentials",
+  },
+  {
+    id: "gift-guide",
+    name: "Gift Guide",
+    edition: "2026–27",
+    blurb:
+      "Curated corporate gift ideas, hampers and branded merchandise for every occasion this year.",
+    src: "https://e.issuu.com/embed.html?d=gift_guide_-_2026_2027_-_unbranded&hideIssuuLogo=true&u=trendscollection",
+    href: "/gift-guide",
   },
 ];
 
