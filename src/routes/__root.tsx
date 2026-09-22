@@ -142,7 +142,9 @@ function RootComponent() {
         </main>
         <SiteFooter />
       </div>
+      <WebmasterBar />
       <Toaster position="top-center" richColors />
+
     </QueryClientProvider>
   );
 }
