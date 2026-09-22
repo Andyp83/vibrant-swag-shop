@@ -12,7 +12,7 @@ function read(): boolean {
   return window.localStorage.getItem(STORAGE_KEY) === "on";
 }
 
-/** True when the visitor is signed in as an admin (webmaster). */
+/** True only when the visitor is signed in as the webmaster account. */
 export function useIsWebmaster() {
   const [hasSession, setHasSession] = useState(false);
 
@@ -31,15 +31,16 @@ export function useIsWebmaster() {
   }, []);
 
   const { data } = useQuery({
-    queryKey: ["webmaster", "is-admin"],
-    queryFn: () => checkIsAdmin(),
+    queryKey: ["webmaster", "is-webmaster"],
+    queryFn: () => checkIsWebmaster(),
     enabled: hasSession,
     staleTime: 5 * 60_000,
     retry: false,
   });
 
-  return Boolean(data?.isAdmin);
+  return Boolean(data?.isWebmaster);
 }
+
 
 /**
  * Manage mode: while it's on, the webmaster sees a small X on catalogue items
