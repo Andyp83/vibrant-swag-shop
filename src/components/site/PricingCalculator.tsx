@@ -9,7 +9,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { formatMoney } from "@/lib/backoffice/format";
-import { priceShortlist, searchPricingProducts, type PricingSearchProduct } from "@/lib/pricing/quote.functions";
+import {
+  priceShortlist,
+  searchPricingProducts,
+  type PricingSearchProduct,
+} from "@/lib/pricing/quote.functions";
 import { useShortlist } from "@/lib/shortlist";
 
 export function PricingCalculator() {
@@ -130,18 +134,19 @@ export function PricingCalculator() {
                 <p className="flex items-center gap-2 px-3 py-4 text-sm text-muted-foreground"><Loader2 className="size-4 animate-spin" /> Searching…</p>
               ) : results.data?.length ? (
                 results.data.map((product) => (
-                  <button
+                  <Button
                     key={product.id}
                     type="button"
+                    variant="ghost"
                     onClick={() => chooseProduct(product)}
-                    className="flex w-full items-start justify-between gap-4 rounded-md px-3 py-3 text-left transition-colors hover:bg-accent"
+                    className="h-auto w-full items-start justify-between gap-4 whitespace-normal px-3 py-3 text-left"
                   >
                     <span>
                       <span className="block text-sm font-semibold">{product.name}</span>
                       <span className="mt-0.5 block text-xs text-muted-foreground">{product.categoryName}{product.plu ? ` · ${product.plu}` : ""}</span>
                     </span>
                     <span className="shrink-0 text-xs text-muted-foreground">{product.moq ? `MOQ ${product.moq}` : ""}</span>
-                  </button>
+                  </Button>
                 ))
               ) : (
                 <p className="px-3 py-4 text-sm text-muted-foreground">No matching merchandise found.</p>
