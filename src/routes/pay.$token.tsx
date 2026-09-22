@@ -44,7 +44,6 @@ function PayInvoicePage() {
     const result = await startCheckout({
       data: {
         token,
-        environment: getStripeEnvironment(),
         returnUrl: `${window.location.origin}/pay/${token}?paid=1`,
       },
     });

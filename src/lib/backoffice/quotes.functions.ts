@@ -186,9 +186,9 @@ export const customerFromRequest = createServerFn({ method: "POST" })
     if (error || !request) throw new Error(error?.message ?? "Request not found");
 
     const { data: existing } = await db
-      .from("customers")
+      .rpc("customers_by_email", { p_email: request.email })
       .select("*")
-      .ilike("email", request.email)
+      .limit(1)
       .maybeSingle();
 
     let customer = existing as unknown as Customer | null;
@@ -312,7 +312,7 @@ export const sendQuote = createServerFn({ method: "POST" })
     if (!customer) throw new Error("Quote has no customer");
 
     const { renderQuoteDocument } = await import("@/lib/backoffice/pdf.server");
-    const { sendEmail, emailShell, siteOrigin } = await import("@/lib/backoffice/email.server");
+    const { sendEmail, emailShell, escapeHtml, siteOrigin } = await import("@/lib/backoffice/email.server");
 
     const pdf = await renderQuoteDocument({
       kind: "Quote",
@@ -347,7 +347,7 @@ export const sendQuote = createServerFn({ method: "POST" })
       relatedId: record.id,
       html: emailShell(
         `Quote ${record.number}`,
-        `<p>Hi ${customer.name},</p><p>Thanks for the brief — your quote is attached and ready to review online. It totals <strong>${record.currency} ${(record.total_cents / 100).toFixed(2)}</strong>${record.valid_until ? ` and is valid until ${record.valid_until}` : ""}.</p>`,
+        `<p>Hi ${escapeHtml(customer.name)},</p><p>Thanks for the brief — your quote is attached and ready to review online. It totals <strong>${escapeHtml(record.currency)} ${(record.total_cents / 100).toFixed(2)}</strong>${record.valid_until ? ` and is valid until ${escapeHtml(record.valid_until)}` : ""}.</p>`,
         { label: "Review and accept", url },
       ),
       attachment: { filename: `${record.number}.pdf`, contentBase64: pdf },

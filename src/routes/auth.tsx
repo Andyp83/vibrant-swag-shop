@@ -7,14 +7,13 @@ import { checkIsAdmin } from "@/lib/catalog.functions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { isSafeLocalPath } from "@/lib/safe-redirect";
 
 export const Route = createFileRoute("/auth")({
   ssr: false,
   validateSearch: (search: Record<string, unknown>) => {
     const next = search['next'];
-    return typeof next === "string" && next.startsWith("/") && !next.startsWith("//")
-      ? { next }
-      : {};
+    return typeof next === "string" && isSafeLocalPath(next) ? { next } : {};
   },
   head: () => ({
     meta: [
@@ -48,7 +47,7 @@ function AuthPage() {
   useEffect(() => {
     const { data } = supabase.auth.onAuthStateChange((event, session) => {
       if (session && (event === "SIGNED_IN" || event === "INITIAL_SESSION")) {
-        if (next) {
+        if (next && isSafeLocalPath(next)) {
           window.location.replace(next);
           return;
         }

@@ -84,13 +84,13 @@ export type PortalRequest = {
 /** Every brief this email address has submitted, newest first, with any quote raised from it. */
 export async function loadRequestsByEmail(email: string): Promise<PortalRequest[]> {
   if (!email) return [];
+  // Exact, case-insensitive match via lower(email) = lower(input); no pattern
+  // matching, so %, _, \ and * in a mailbox stay literal characters.
   const { data } = await supabaseAdmin
-    .from("quote_requests")
+    .rpc("quote_requests_by_email", { p_email: email })
     .select(
       "id, created_at, product_interest, decoration, quantity, required_by, budget, notes, status, file_paths",
     )
-    .ilike("email", email)
-    .order("created_at", { ascending: false })
     .limit(50);
 
   const rows = (data ?? []) as (Omit<
@@ -140,11 +140,10 @@ export type PortalData = {
 
 /** Finds the customer record that matches a signed-in user's email address. */
 export async function findCustomerByEmail(email: string): Promise<PortalCustomer | null> {
+  if (!email) return null;
   const { data } = await supabaseAdmin
-    .from("customers")
+    .rpc("customers_by_email", { p_email: email })
     .select("id, name, company, email")
-    .ilike("email", email)
-    .order("created_at", { ascending: true })
     .limit(1);
   return (data?.[0] as PortalCustomer | undefined) ?? null;
 }

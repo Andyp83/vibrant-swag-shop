@@ -254,20 +254,25 @@ export const getSharedInvoice = createServerFn({ method: "POST" })
 /** Creates an embedded Stripe checkout session for an invoice share link. */
 export const createInvoiceCheckout = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) => {
-    const raw = input as { token: string; environment: string; returnUrl: string };
+    const raw = input as { token: string; returnUrl: string };
     const parsed = tokenSchema.parse({ token: raw.token });
-    if (raw.environment !== "sandbox" && raw.environment !== "live") {
-      throw new Error("Invalid payment environment");
-    }
     return {
       token: parsed.token,
-      environment: raw.environment as "sandbox" | "live",
       returnUrl: String(raw.returnUrl).slice(0, 500),
     };
   })
   .handler(async ({ data }): Promise<{ clientSecret: string } | { error: string }> => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const { createStripeClient, getStripeErrorMessage } = await import("@/lib/stripe.server");
+    const { createStripeClient, getStripeErrorMessage, resolvePaymentEnvironment } = await import(
+      "@/lib/stripe.server"
+    );
+    // The mode comes from trusted server config, never from the browser.
+    let environment: "sandbox" | "live";
+    try {
+      environment = resolvePaymentEnvironment();
+    } catch {
+      return { error: "Card payments are not available right now." };
+    }
 
     const { data: invoice } = await supabaseAdmin
       .from("invoices")
@@ -281,7 +286,7 @@ export const createInvoiceCheckout = createServerFn({ method: "POST" })
     const email = (invoice as unknown as { customer: { email: string } | null }).customer?.email;
 
     try {
-      const stripe = createStripeClient(data.environment);
+      const stripe = createStripeClient(environment);
       const session = await stripe.checkout.sessions.create({
         mode: "payment",
         ui_mode: "embedded_page",
@@ -301,9 +306,11 @@ export const createInvoiceCheckout = createServerFn({ method: "POST" })
         metadata: { invoiceId: invoice.id, invoiceNumber: invoice.number },
       });
 
+      // Bind this invoice to the session and the mode it was created in, so a
+      // webhook can only settle it with a matching, current session.
       await supabaseAdmin
         .from("invoices")
-        .update({ stripe_session_id: session.id })
+        .update({ stripe_session_id: session.id, payment_environment: environment })
         .eq("id", invoice.id);
 
       return { clientSecret: session.client_secret ?? "" };

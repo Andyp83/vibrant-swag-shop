@@ -36,6 +36,13 @@
       "when": 1790068934197,
       "tag": "0004_grant_user_roles_select",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1790103517165,
+      "tag": "0005_security_email_match_and_payment_settlement",
+      "breakpoints": true
     }
   ]
 }

@@ -54,12 +54,11 @@ export async function loadBriefForEmail(email: string, id: string): Promise<Brie
   if (!email) return null;
 
   const { data: brief } = await supabaseAdmin
-    .from("quote_requests")
+    .rpc("quote_requests_by_email", { p_email: email })
     .select(
       "id, created_at, name, company, email, phone, product_interest, decoration, quantity, required_by, budget, notes, status, file_paths",
     )
     .eq("id", id)
-    .ilike("email", email)
     .maybeSingle();
   if (!brief) return null;
 
@@ -163,10 +162,9 @@ export async function loadBriefForEmail(email: string, id: string): Promise<Brie
 async function ownsBrief(email: string, id: string): Promise<boolean> {
   if (!email) return false;
   const { data } = await supabaseAdmin
-    .from("quote_requests")
+    .rpc("quote_requests_by_email", { p_email: email })
     .select("id")
     .eq("id", id)
-    .ilike("email", email)
     .maybeSingle();
   return Boolean(data);
 }
