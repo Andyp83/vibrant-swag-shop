@@ -50,17 +50,39 @@ async function verifyPassword(email: string, password: string) {
   if (error) throw new Error("That password didn't match. Nothing was changed.");
 }
 
+/** The single account allowed to remove catalogue items from the live site. */
+const WEBMASTER_EMAIL = "andy@seeseebloom.com.au";
+
+/** Throws unless the caller is an admin AND the webmaster account. */
+async function assertWebmaster(context: unknown): Promise<string> {
+  const ctx = context as unknown as AuthContext;
+  const { assertAdmin } = await import("./backoffice/guard");
+  await assertAdmin(context);
+  const email = (ctx.claims?.email ?? "").trim().toLowerCase();
+  if (email !== WEBMASTER_EMAIL) throw new Error("Forbidden: webmaster access required");
+  return email;
+}
+
+/** True only for the signed-in webmaster account (drives the live-site controls). */
+export const checkIsWebmaster = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    try {
+      await assertWebmaster(context);
+      return { isWebmaster: true as const };
+    } catch {
+      return { isWebmaster: false as const };
+    }
+  });
+
 export const removeCatalogEntry = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((input: unknown) => removalSchema.parse(input))
   .handler(async ({ data, context }) => {
     const ctx = context as unknown as AuthContext;
-    const { assertAdmin } = await import("./backoffice/guard");
-    await assertAdmin(context);
-
-    const email = ctx.claims?.email;
-    if (!email) throw new Error("Your sign-in has no email address, so we can't confirm the password.");
+    const email = await assertWebmaster(context);
     await verifyPassword(email, data.password);
+
 
     const supabase = context.supabase;
     const table =
