@@ -499,6 +499,7 @@ export type Database = {
           last_reminder_at: string | null
           number: string
           paid_at: string | null
+          payment_environment: string | null
           quote_id: string | null
           share_token: string
           status: Database["public"]["Enums"]["invoice_status"]
@@ -518,6 +519,7 @@ export type Database = {
           last_reminder_at?: string | null
           number?: string
           paid_at?: string | null
+          payment_environment?: string | null
           quote_id?: string | null
           share_token?: string
           status?: Database["public"]["Enums"]["invoice_status"]
@@ -537,6 +539,7 @@ export type Database = {
           last_reminder_at?: string | null
           number?: string
           paid_at?: string | null
+          payment_environment?: string | null
           quote_id?: string | null
           share_token?: string
           status?: Database["public"]["Enums"]["invoice_status"]
@@ -1077,12 +1080,69 @@ export type Database = {
     }
     Functions: {
       catalog_decoration_methods: { Args: never; Returns: string[] }
+      customers_by_email: {
+        Args: { p_email: string }
+        Returns: {
+          company: string | null
+          created_at: string
+          email: string
+          id: string
+          name: string
+          notes: string
+          notify_invoice_available: boolean
+          notify_proof_signed: boolean
+          phone: string | null
+          updated_at: string
+        }[]
+        SetofOptions: {
+          from: "*"
+          to: "customers"
+          isOneToOne: false
+          isSetofReturn: true
+        }
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
           _user_id: string
         }
         Returns: boolean
+      }
+      mark_invoice_payment_failed: {
+        Args: {
+          p_environment: string
+          p_invoice_id: string
+          p_session_id: string
+        }
+        Returns: string
+      }
+      quote_requests_by_email: {
+        Args: { p_email: string }
+        Returns: {
+          admin_notes: string
+          budget: string | null
+          company: string | null
+          confirmation_sent_at: string | null
+          created_at: string
+          customer_id: string | null
+          decoration: string | null
+          email: string
+          file_paths: string[]
+          id: string
+          name: string
+          notes: string | null
+          phone: string | null
+          product_interest: string | null
+          quantity: number | null
+          required_by: string | null
+          status: Database["public"]["Enums"]["quote_request_status"]
+        }[]
+        SetofOptions: {
+          from: "*"
+          to: "quote_requests"
+          isOneToOne: false
+          isSetofReturn: true
+        }
       }
       search_product_families:
         | {
@@ -1132,6 +1192,17 @@ export type Database = {
           p_subcategory_id?: string
         }
         Returns: Json
+      }
+      settle_invoice_payment: {
+        Args: {
+          p_amount_cents: number
+          p_currency: string
+          p_environment: string
+          p_invoice_id: string
+          p_provider_reference: string
+          p_session_id: string
+        }
+        Returns: string
       }
     }
     Enums: {
