@@ -9,4 +9,4 @@
 - [x] Landing page: merchandise panel across the top half, gift packs and print side by side below
 - [x] Shortlist: per-line decoration/quantity/notes plus submit form sending the whole shortlist as a quote request
 - [x] Colour guide & catalogue PDFs limited to the merchandise world (removed from print/gifts)
-- [ ] Logo/design upload with AI product recommendations (AI Gateway) for merchandise clients
+- [x] Logo/design upload with AI product recommendations (AI Gateway) for merchandise clients
