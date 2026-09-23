@@ -43,6 +43,13 @@
       "when": 1790103517165,
       "tag": "0005_security_email_match_and_payment_settlement",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1790163299545,
+      "tag": "0006_tighten_public_read_policies",
+      "breakpoints": true
     }
   ]
 }
