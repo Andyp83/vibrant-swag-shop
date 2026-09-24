@@ -55,6 +55,20 @@ export const listBanners = createServerFn({ method: "GET" }).handler(
   },
 );
 
+/** Staff only: every banner, including switched-off ones. */
+export const listBannersAdmin = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }): Promise<SiteBanner[]> => {
+    await assertAdmin(context);
+    const { data, error } = await context.supabase
+      .from("site_banners")
+      .select(columns)
+      .order("sort_order", { ascending: true })
+      .order("key", { ascending: true });
+    if (error) throw new Error(error.message);
+    return (data ?? []) as SiteBanner[];
+  });
+
 export const saveBanner = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((input: unknown) => bannerSchema.parse(input))

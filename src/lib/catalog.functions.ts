@@ -280,12 +280,33 @@ const visibilitySchema = z
   .transform((value) => ({ includeHidden: value?.includeHidden ?? false }));
 
 /** Public: the whole catalogue, for the marketing site. */
-export const listCatalog = createServerFn({ method: "GET" })
-  .inputValidator((input: unknown) => visibilitySchema.parse(input ?? {}))
-  .handler(async ({ data }): Promise<CmsCategory[]> => {
+export const listCatalog = createServerFn({ method: "GET" }).handler(
+  async (): Promise<CmsCategory[]> => {
     const { getPublicSupabase } = await import("./supabase-public.server");
-    const supabase = getPublicSupabase();
-    const includeHidden = data.includeHidden;
+    return loadCatalog(getPublicSupabase(), false, await draftsVisible());
+  },
+);
+
+/** Staff only: the whole catalogue including hidden, archived and draft items. */
+export const listCatalogAdmin = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }): Promise<CmsCategory[]> => {
+    const { assertAdmin } = await import("./backoffice/guard");
+    await assertAdmin(context);
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    return loadCatalog(supabaseAdmin, true, true);
+  });
+
+type CatalogClient = ReturnType<
+  typeof import("./supabase-public.server")["getPublicSupabase"]
+>;
+
+async function loadCatalog(
+  supabase: CatalogClient,
+  includeHidden: boolean,
+  catalogIncludesDrafts: boolean,
+): Promise<CmsCategory[]> {
+  {
 
     let categoriesQuery = supabase
       .from("catalog_categories")
@@ -314,7 +335,6 @@ export const listCatalog = createServerFn({ method: "GET" })
     // selected here — they multiplied the payload by ~10x for a full-catalogue
     // read and are only needed on the product detail page, which fetches them
     // on demand via getProductDetail().
-    const catalogIncludesDrafts = await draftsVisible();
     const productsData = await fetchAllRows<CmsProductListRow>("catalog_products", (cursor, limit) => {
       let query = supabase
         .from("catalog_products")
@@ -385,7 +405,8 @@ export const listCatalog = createServerFn({ method: "GET" })
       products: products.filter((p) => p.category_id === category.id),
       subcategories: subcategories.filter((s) => s.category_id === category.id),
     }));
-  });
+  }
+}
 
 
 /** One page of grouped (variant-collapsed) products for the catalogue grids. */
