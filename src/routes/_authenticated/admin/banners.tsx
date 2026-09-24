@@ -19,7 +19,8 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { supabase } from "@/integrations/supabase/client";
-import { bannerPlacements, bannersQueryOptions, categoryPlacement } from "@/lib/banners";
+import { bannerPlacements, bannersQueryOptions,
+  adminBannersQueryOptions, categoryPlacement } from "@/lib/banners";
 import { deleteBanner, saveBanner, type SiteBanner } from "@/lib/banners.functions";
 import { categoriesQueryOptions } from "@/lib/catalog-query";
 
@@ -54,7 +55,7 @@ const emptyDraft: Draft = {
 
 function BannersPage() {
   const queryClient = useQueryClient();
-  const bannersQuery = useQuery(bannersQueryOptions());
+  const bannersQuery = useQuery(adminBannersQueryOptions());
   const catalogQuery = useSuspenseQuery(categoriesQueryOptions());
   const [draft, setDraft] = useState<Draft | null>(null);
 

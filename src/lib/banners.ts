@@ -1,6 +1,6 @@
 import { queryOptions } from "@tanstack/react-query";
 
-import { listBanners, type SiteBanner } from "./banners.functions";
+import { listBanners, listBannersAdmin, type SiteBanner } from "./banners.functions";
 
 export type Banner = {
   url: string;
@@ -8,6 +8,13 @@ export type Banner = {
   to?: string;
   cta?: string;
 };
+
+/** Back office: all banners including inactive ones. */
+export const adminBannersQueryOptions = () =>
+  queryOptions({
+    queryKey: ["site-banners", "admin"],
+    queryFn: () => listBannersAdmin(),
+  });
 
 /** Placement slots a banner can be assigned to in the back office. */
 export const bannerPlacements = [

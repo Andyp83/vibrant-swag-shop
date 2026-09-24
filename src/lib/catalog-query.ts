@@ -4,6 +4,7 @@ import {
   getProductDetail,
   getProductPage,
   listCatalog,
+  listCatalogAdmin,
   listCategories,
   listDecorationMethods,
   listProductFamilies,
@@ -18,7 +19,7 @@ import {
 export const catalogQueryOptions = (includeHidden = false) =>
   queryOptions({
     queryKey: ["catalog", { includeHidden }],
-    queryFn: () => listCatalog({ data: { includeHidden } }),
+    queryFn: () => (includeHidden ? listCatalogAdmin() : listCatalog()),
     staleTime: 60_000,
     // Transient network/dev-server hiccups shouldn't blank the page
     retry: 2,

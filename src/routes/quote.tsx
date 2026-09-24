@@ -230,7 +230,7 @@ function QuotePage() {
         quantity: values.quantity ? Number(values.quantity) : null,
         required_by: values.deadline || null,
         budget: values.budget || null,
-        notes: `${values.brief}${shortlistText}`,
+        notes: `${values.brief}${shortlistText}`.slice(0, 5000),
         file_paths: paths,
       });
 
