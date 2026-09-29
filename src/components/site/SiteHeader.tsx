@@ -17,7 +17,6 @@ const mobileSections: { title: string; links: MobileLink[] }[] = [
       { label: "Catalogues", to: "/catalogues" },
       { label: "Sourcing", to: "/procurement" },
       { label: "Decoration", to: "/decoration" },
-      { label: "Pricing calculator", to: "/pricing-calculator" },
       { label: "Shortlist", to: "/shortlist" },
     ],
   },
