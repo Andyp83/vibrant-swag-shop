@@ -1,13 +1,16 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { ArrowLeft, ArrowRight, ExternalLink, HeartHandshake } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, ExternalLink, HeartHandshake } from "lucide-react";
 import type { ReactNode } from "react";
 import { useEffect, useMemo, useState } from "react";
 
-import { FavoriteButton } from "@/components/site/FavoriteButton";
+import { toast } from "sonner";
 import { Reveal } from "@/components/site/Reveal";
 import { borderAccentClass, softBgClass, spectrum, swatchClass, textClass } from "@/lib/catalog";
 import { productPageQueryOptions, type CmsCategory, type CmsSubcategory } from "@/lib/catalog-query";
 import type { CmsProduct } from "@/lib/catalog.functions";
+import { detectExtras, parseBrandingOptions, parseProductChoices } from "@/lib/product-options";
+import { useShortlist } from "@/lib/shortlist";
+import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/products/$category_/$subcategory_/$product")({
   loader: async ({ params, context }) => {
@@ -119,6 +122,68 @@ function ProductPage() {
     setSelectedImage(gallery[0]);
   }, [gallery]);
 
+  const brandingOptions = useMemo(
+    () => parseBrandingOptions(product.branding_options, product.methods),
+    [product],
+  );
+  const productChoices = useMemo(() => parseProductChoices(product.specifications), [product]);
+  const extrasAvailable = useMemo(
+    () => detectExtras(product.features, product.packaging, product.specifications, product.description),
+    [product],
+  );
+  const shortlist = useShortlist();
+  const saved = shortlist.items.find((item) => item.id === product.id);
+  const [colour, setColour] = useState("");
+  const [brandings, setBrandings] = useState<string[]>([]);
+  const [choices, setChoices] = useState<Record<string, string>>({});
+  const [extras, setExtras] = useState<string[]>([]);
+  const [loadedSaved, setLoadedSaved] = useState(false);
+
+  useEffect(() => {
+    if (loadedSaved || !shortlist.hydrated) return;
+    setLoadedSaved(true);
+    if (!saved) return;
+    setColour(saved.colour ?? "");
+    setBrandings((saved.brandings ?? []).map((b) => b.method));
+    setChoices(saved.choices ?? {});
+    setExtras(saved.extras ?? []);
+  }, [saved, shortlist.hydrated, loadedSaved]);
+
+  const pickColour = (label: string, code: string, name: string) => {
+    const next = colour === label ? "" : label;
+    setColour(next);
+    if (next) {
+      const match = gallery.find(
+        (img) =>
+          img.colour_label &&
+          [code, name].some((v) => v && img.colour_label!.toLowerCase().includes(v.toLowerCase())),
+      );
+      if (match) setSelectedImage(match);
+    }
+  };
+  const toggleIn = (list: string[], value: string) =>
+    list.includes(value) ? list.filter((v) => v !== value) : [...list, value];
+
+  const addToShortlist = () => {
+    const added = shortlist.upsert(
+      {
+        id: product.id,
+        name: product.name,
+        categoryName: `${category.name} - ${subcategory.name}`,
+        categorySlug: category.slug,
+        methods: product.methods,
+        moq: product.moq,
+      },
+      {
+        colour: colour || undefined,
+        brandings: brandingOptions.filter((b) => brandings.includes(b.method)),
+        choices,
+        extras,
+      },
+    );
+    toast.success(added ? `${product.name} added to your shortlist` : "Shortlist updated with your choices");
+  };
+
   return (
     <div className={softBgClass[accent]}>
       <div className={`h-2 w-full ${swatchClass[accent]}`} />
@@ -203,44 +268,108 @@ function ProductPage() {
               <Detail label="Materials" value={product.materials} />
             </dl>
 
+            <p className="mt-7 text-sm font-medium">
+              Tap a colour, branding options and any extras, then add to your shortlist.
+            </p>
+
             {product.colour_options.length > 0 ? (
-              <section className="mt-6">
-                <h2 className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-                  Colour Codes
-                </h2>
-                <ul className="mt-3 flex flex-wrap gap-2">
-                  {product.colour_options.map((colour) => (
-                    <li key={colour.id} className="rounded-full border bg-card px-3 py-1.5 text-xs">
-                      <span className="font-semibold">{colour.colour_code}</span>
-                      <span className="text-muted-foreground"> / {colour.colour_name}</span>
+              <OptionGroup title="Colour" hint="Choose one">
+                <div className="flex flex-wrap gap-2">
+                  {product.colour_options.map((c) => {
+                    const label = `${c.colour_code} / ${c.colour_name}`;
+                    return (
+                      <OptionButton
+                        key={c.id}
+                        active={colour === label}
+                        accent={accent}
+                        onClick={() => pickColour(label, c.colour_code, c.colour_name)}
+                      >
+                        <span className="font-semibold">{c.colour_code}</span>
+                        <span className="opacity-80"> / {c.colour_name}</span>
+                      </OptionButton>
+                    );
+                  })}
+                </div>
+              </OptionGroup>
+            ) : null}
+
+            {productChoices.map((choice) => (
+              <OptionGroup key={choice.label} title={choice.label} hint="Choose one">
+                <div className="flex flex-wrap gap-2">
+                  {choice.options.map((opt) => (
+                    <OptionButton
+                      key={opt}
+                      active={choices[choice.label] === opt}
+                      accent={accent}
+                      onClick={() =>
+                        setChoices((prev) => {
+                          const next = { ...prev };
+                          if (next[choice.label] === opt) delete next[choice.label];
+                          else next[choice.label] = opt;
+                          return next;
+                        })
+                      }
+                    >
+                      {opt}
+                    </OptionButton>
+                  ))}
+                </div>
+              </OptionGroup>
+            ))}
+
+            {brandingOptions.length > 0 ? (
+              <OptionGroup title="Branding options" hint="Choose one or more to compare prices">
+                <ul className="space-y-2">
+                  {brandingOptions.map((b) => (
+                    <li key={b.method} className="flex flex-wrap items-center gap-3">
+                      <OptionButton
+                        active={brandings.includes(b.method)}
+                        accent={accent}
+                        onClick={() => setBrandings((prev) => toggleIn(prev, b.method))}
+                      >
+                        {b.method}
+                      </OptionButton>
+                      {b.size ? <span className="text-xs text-muted-foreground">{b.size}</span> : null}
                     </li>
                   ))}
                 </ul>
-              </section>
+              </OptionGroup>
+            ) : null}
+
+            {extrasAvailable.length > 0 ? (
+              <OptionGroup title="Optional extras" hint="Choose any">
+                <div className="flex flex-wrap gap-2">
+                  {extrasAvailable.map((e) => (
+                    <OptionButton
+                      key={e}
+                      active={extras.includes(e)}
+                      accent={accent}
+                      onClick={() => setExtras((prev) => toggleIn(prev, e))}
+                    >
+                      {e}
+                    </OptionButton>
+                  ))}
+                </div>
+              </OptionGroup>
             ) : null}
 
             <div className="mt-7 flex flex-wrap items-center gap-3">
-              <Link
-                to="/quote"
-                search={{ product: product.name }}
+              <button
+                type="button"
+                onClick={addToShortlist}
                 className="sweep group inline-flex items-center gap-2 rounded-full bg-primary px-7 py-3.5 text-sm font-semibold text-primary-foreground transition-transform duration-300 hover:scale-[1.04]"
               >
-                Quote this item
+                {saved ? "Update shortlist" : "Add to Shortlist"}
                 <ArrowRight
                   className="size-4 transition-transform duration-300 group-hover:translate-x-1"
                   aria-hidden="true"
                 />
-              </Link>
-              <FavoriteButton
-                item={{
-                  id: product.id,
-                  name: product.name,
-                  categoryName: `${category.name} - ${subcategory.name}`,
-                  categorySlug: category.slug,
-                  methods: product.methods,
-                  moq: product.moq,
-                }}
-              />
+              </button>
+              {saved ? (
+                <Link to="/shortlist" className="text-sm font-semibold underline underline-offset-4">
+                  View shortlist
+                </Link>
+              ) : null}
             </div>
           </Reveal>
         </div>
@@ -262,18 +391,6 @@ function ProductPage() {
           </InfoSection>
 
           <InfoSection title="Branding Options">
-            {product.methods.length > 0 ? (
-              <ul className="mb-4 flex flex-wrap gap-1.5">
-                {product.methods.map((method) => (
-                  <li
-                    key={method}
-                    className={`rounded-full border px-2.5 py-1 text-[11px] font-medium ${borderAccentClass[accent]} ${textClass[accent]}`}
-                  >
-                    {method}
-                  </li>
-                ))}
-              </ul>
-            ) : null}
             <p className="text-sm text-muted-foreground">
               {product.branding_options || "Branding options depend on artwork, quantity and stock."}
             </p>
@@ -329,6 +446,46 @@ function ProductPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+function OptionGroup({ title, hint, children }: { title: string; hint: string; children: ReactNode }) {
+  return (
+    <section className="mt-6">
+      <h2 className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+        {title} <span className="ml-1 normal-case tracking-normal opacity-80">· {hint}</span>
+      </h2>
+      <div className="mt-3">{children}</div>
+    </section>
+  );
+}
+
+function OptionButton({
+  active,
+  accent,
+  onClick,
+  children,
+}: {
+  active: boolean;
+  accent: ReturnType<typeof spectrum>;
+  onClick: () => void;
+  children: ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      aria-pressed={active}
+      onClick={onClick}
+      className={cn(
+        "inline-flex items-center gap-1 rounded-full border-2 px-4 py-2 text-xs font-medium transition",
+        active
+          ? `${swatchClass[accent]} border-foreground text-foreground shadow-sm`
+          : "border-border bg-card hover:border-foreground",
+      )}
+    >
+      {active ? <Check className="size-3.5" aria-hidden="true" /> : null}
+      {children}
+    </button>
   );
 }
 

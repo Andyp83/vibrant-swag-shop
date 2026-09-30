@@ -3,6 +3,7 @@ import { Heart, Trash2, ArrowRight } from "lucide-react";
 
 import { ShortlistQuoteForm } from "@/components/site/ShortlistQuoteForm";
 import { decorations } from "@/lib/catalog";
+import type { ShortlistItem } from "@/lib/shortlist";
 import { useShortlist } from "@/lib/shortlist";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -72,6 +73,7 @@ function ShortlistPage() {
                         {item.categoryName}
                         {item.moq ? ` · minimum ${item.moq}` : ""}
                       </p>
+                      <ChoiceChips item={item} />
                     </div>
                     <button
                       type="button"
@@ -94,6 +96,9 @@ function ShortlistPage() {
                         className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
                       >
                         <option value="">Not sure — recommend one</option>
+                        {item.decoration && !options.includes(item.decoration) ? (
+                          <option value={item.decoration}>{item.decoration}</option>
+                        ) : null}
                         {options.map((m) => (
                           <option key={m} value={m}>
                             {m}
@@ -151,5 +156,24 @@ function ShortlistPage() {
         </>
       )}
     </div>
+  );
+}
+
+function ChoiceChips({ item }: { item: ShortlistItem }) {
+  const chips = [
+    item.colour ? `Colour: ${item.colour}` : null,
+    ...Object.entries(item.choices ?? {}).map(([k, v]) => `${k}: ${v}`),
+    ...(item.brandings ?? []).map((b) => (b.size ? `${b.method} · ${b.size}` : b.method)),
+    ...(item.extras ?? []).map((e) => `Extra: ${e}`),
+  ].filter((c): c is string => Boolean(c));
+  if (chips.length === 0) return null;
+  return (
+    <ul className="mt-3 flex flex-wrap gap-1.5">
+      {chips.map((c) => (
+        <li key={c} className="rounded-full border bg-muted px-2.5 py-1 text-[11px] font-medium">
+          {c}
+        </li>
+      ))}
+    </ul>
   );
 }
