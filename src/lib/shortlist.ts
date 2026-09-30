@@ -13,8 +13,25 @@ export type ShortlistItem = {
   decoration: string;
   quantity: string;
   notes: string;
+  /** Choices made on the product page. */
+  colour?: string;
+  brandings?: { method: string; size: string }[];
+  choices?: Record<string, string>;
+  extras?: string[];
   addedAt: number;
 };
+
+export type ShortlistChoices = Pick<ShortlistItem, "colour" | "brandings" | "choices" | "extras">;
+
+export function describeChoices(item: ShortlistChoices): string {
+  return [
+    item.colour ? `colour: ${item.colour}` : null,
+    ...Object.entries(item.choices ?? {}).map(([k, v]) => `${k.toLowerCase()}: ${v}`),
+    item.extras?.length ? `extras: ${item.extras.join(", ")}` : null,
+  ]
+    .filter(Boolean)
+    .join("; ");
+}
 
 export type ShortlistInput = Omit<ShortlistItem, "decoration" | "quantity" | "notes" | "addedAt">;
 
@@ -49,6 +66,10 @@ export function shortlistSummary(items: ShortlistItem[]) {
       const bits = [
         `${i + 1}. ${item.name} (${item.categoryName})`,
         item.decoration ? `decoration: ${item.decoration}` : "decoration: recommend one",
+        item.brandings?.length
+          ? `branding options: ${item.brandings.map((b) => (b.size ? `${b.method} (${b.size})` : b.method)).join(", ")}`
+          : null,
+        describeChoices(item) || null,
         item.quantity ? `qty: ${item.quantity}` : null,
         item.notes ? `notes: ${item.notes}` : null,
       ].filter(Boolean);
@@ -111,7 +132,22 @@ export function useShortlist() {
     write(read().map((item) => (item.id === id ? { ...item, ...patch } : item)));
   }, []);
 
+  const upsert = useCallback((input: ShortlistInput, choices: ShortlistChoices) => {
+    const current = read();
+    const existing = current.find((item) => item.id === input.id);
+    const decoration =
+      choices.brandings && choices.brandings.length > 0
+        ? choices.brandings.map((b) => b.method).join(", ")
+        : existing?.decoration ?? (input.methods.length === 1 ? (input.methods[0] as string) : "");
+    if (existing) {
+      write(current.map((item) => (item.id === input.id ? { ...item, ...input, ...choices, decoration } : item)));
+      return false;
+    }
+    write([...current, { ...input, ...choices, decoration, quantity: "", notes: "", addedAt: Date.now() }]);
+    return true;
+  }, []);
+
   const clear = useCallback(() => write([]), []);
 
-  return { items, hydrated, has, add, remove, toggle, update, clear };
+  return { items, hydrated, has, add, remove, toggle, update, upsert, clear };
 }

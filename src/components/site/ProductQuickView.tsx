@@ -3,7 +3,8 @@ import { Link } from "@tanstack/react-router";
 import { ArrowRight, ExternalLink } from "lucide-react";
 import { useEffect, useState } from "react";
 
-import { FavoriteButton } from "@/components/site/FavoriteButton";
+import { toast } from "sonner";
+import { useShortlist } from "@/lib/shortlist";
 import {
   Dialog,
   DialogContent,
@@ -83,6 +84,7 @@ export function ProductQuickView({
   preferredColours?: string[];
   onClose: () => void;
 }) {
+  const shortlist = useShortlist();
   const [activeIndex, setActiveIndex] = useState(0);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const preferredKey = preferredColours.join(",");
@@ -277,27 +279,30 @@ export function ProductQuickView({
             ) : null}
 
             <div className="mt-7 flex flex-wrap items-center gap-3">
-              <Link
-                to="/quote"
-                search={{ product: selected.name }}
+              <button
+                type="button"
+                onClick={() => {
+                  const added = shortlist.upsert(
+                    {
+                      id: selected.id,
+                      name: selected.name,
+                      categoryName,
+                      categorySlug,
+                      methods: selected.methods,
+                      moq: selected.moq,
+                    },
+                    {},
+                  );
+                  toast.success(added ? `${selected.name} added to your shortlist` : "Already on your shortlist");
+                }}
                 className="sweep group inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground"
               >
-                Quote this item
+                {shortlist.has(selected.id) ? "On your shortlist" : "Add to Shortlist"}
                 <ArrowRight
                   className="size-4 transition-transform duration-300 group-hover:translate-x-1"
                   aria-hidden="true"
                 />
-              </Link>
-              <FavoriteButton
-                item={{
-                  id: selected.id,
-                  name: selected.name,
-                  categoryName,
-                  categorySlug,
-                  methods: selected.methods,
-                  moq: selected.moq,
-                }}
-              />
+              </button>
             </div>
 
             {productLink ? (
