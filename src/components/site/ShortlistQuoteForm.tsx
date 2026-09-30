@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { submitShortlistQuote } from "@/lib/pricing/quote.functions";
 import { shortlistSummary, type ShortlistItem } from "@/lib/shortlist";
+import { describeChoices } from "@/lib/shortlist";
 
 const schema = z.object({
   fullName: z.string().trim().min(2, "Please enter your name").max(100),
@@ -24,13 +25,24 @@ const schema = z.object({
 type FieldErrors = Partial<Record<keyof z.infer<typeof schema>, string>>;
 
 function toLines(items: ShortlistItem[]) {
-  return items.slice(0, 30).map((item) => ({
-    productId: /^[0-9a-f-]{36}$/i.test(item.id) ? item.id : null,
-    name: item.name.slice(0, 200),
-    decoration: item.decoration.slice(0, 120),
-    quantity: Math.max(1, Number(item.quantity) || 1),
-    notes: item.notes.slice(0, 500),
-  }));
+  // One quote line per chosen branding option so each can be priced separately.
+  return items
+    .flatMap((item) => {
+      const extra = describeChoices(item);
+      const notes = [extra, item.notes].filter(Boolean).join(" — ").slice(0, 500);
+      const base = {
+        productId: /^[0-9a-f-]{36}$/i.test(item.id) ? item.id : null,
+        name: item.name.slice(0, 200),
+        quantity: Math.max(1, Number(item.quantity) || 1),
+        notes,
+      };
+      const brandings = item.brandings ?? [];
+      if (brandings.length > 1 && item.decoration === brandings.map((b) => b.method).join(", ")) {
+        return brandings.map((b) => ({ ...base, decoration: b.method.slice(0, 120) }));
+      }
+      return [{ ...base, decoration: item.decoration.slice(0, 120) }];
+    })
+    .slice(0, 30);
 }
 
 /** Sends the whole shortlist — every line with its decoration, quantity and notes — as one priced quote. */
