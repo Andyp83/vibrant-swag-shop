@@ -175,7 +175,7 @@ function ProductPage() {
         moq: product.moq,
       },
       {
-        colour: colour || undefined,
+        colour,
         brandings: brandingOptions.filter((b) => brandings.includes(b.method)),
         choices,
         extras,
