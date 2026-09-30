@@ -3,6 +3,7 @@
 ## What customers will see
 - **Colour**: each colour code turns into a clear tap button (code + name). Pick one; tap again to clear. It's optional, so "not chosen" means "recommend for me". Picking a colour also switches the main photo to that colour when a matching photo exists.
 - **Branding options**: a list of buttons, one per branding option from the product details (e.g. "Pad Print"). The print area size sits beside each button (e.g. "45mm circle · 50mm x 25mm"). Customers can pick **several**, so each one can be priced separately.
+- **Product choices (e.g. lid style)**: when the product details list more than one version of something, such as "Lid Style: Sipper lid | Carabiner lid | Flip valve lid", each version becomes a tap button under its own heading, like "Lid style". Customers pick one per heading. It's optional, like colour.
 - **Optional extras**: only shown when the product text mentions an optional add-on such as a gift box or gift box sleeve. Each extra is a tap button too. No free-text box.
 - A short line above the buttons says: "Tap a colour, branding options and any extras, then add to your shortlist."
 - "Quote this item" is removed. The main button now reads **Add to Shortlist**. If the item is already on the shortlist, the same button reads "Update shortlist" and saves the new choices.
