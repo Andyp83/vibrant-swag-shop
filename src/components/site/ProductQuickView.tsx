@@ -84,6 +84,7 @@ export function ProductQuickView({
   preferredColours?: string[];
   onClose: () => void;
 }) {
+  const shortlist = useShortlist();
   const [activeIndex, setActiveIndex] = useState(0);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const preferredKey = preferredColours.join(",");
