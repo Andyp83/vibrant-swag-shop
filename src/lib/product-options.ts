@@ -25,7 +25,7 @@ export function parseBrandingOptions(text: string, methods: string[]): BrandingO
     }
   }
   const seen = new Set(out.map((o) => o.method.toLowerCase()));
-  for (const m of methods) if (!seen.has(m.toLowerCase())) out.push({ method: m, size: "" });
+  for (const m of methods.filter((x) => !/\d\s*mm|^\d/i.test(x))) if (!seen.has(m.toLowerCase())) out.push({ method: m, size: "" });
   return out;
 }
 
@@ -53,7 +53,6 @@ const EXTRA_PATTERNS: [RegExp, string][] = [
   [/optional[^.|]*gift box|gift box \(optional\)|gift box[^.|]*optional/i, "Gift box"],
   [/optional[^.|]*gift bag/i, "Gift bag"],
   [/optional[^.|]*pouch/i, "Pouch"],
-  [/optional[^.|]*(tube|sleeve)(?! box)/i, "Presentation sleeve"],
 ];
 
 export function detectExtras(...texts: string[]): string[] {
