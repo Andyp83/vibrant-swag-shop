@@ -1,3 +1,4 @@
+import { matchColourImage } from "@/lib/colour-match";
 import type { CmsProduct } from "./catalog.functions";
 
 export type ColourMatchMode = "any" | "all";

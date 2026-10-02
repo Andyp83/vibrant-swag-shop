@@ -1,3 +1,4 @@
+import { matchColourImage, cleanColourName } from "@/lib/colour-match";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft, ArrowRight, Check, ExternalLink, HeartHandshake } from "lucide-react";
 import type { ReactNode } from "react";
@@ -179,7 +180,7 @@ function ProductPage() {
         categorySlug: category.slug,
         imageUrl: selectedImage?.image_url ?? product.image_url ?? undefined,
         colourOptions: product.colour_options.map(
-          (option) => `${option.colour_code} / ${option.colour_name}`,
+          (option) => cleanColourName(option.colour_name) || option.colour_name,
         ),
         methods: product.methods,
         moq: product.moq,

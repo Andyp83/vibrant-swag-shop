@@ -1,3 +1,4 @@
+import { cleanColourName } from "./colour-match";
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 
@@ -938,7 +939,7 @@ export const getShortlistProducts = createServerFn({ method: "POST" })
           imageUrl: r.image_url || firstImage || null,
           colourOptions: (colours.data ?? [])
             .filter((c) => c.product_id === r.id)
-            .map((c) => `${c.colour_code} / ${c.colour_name}`),
+            .map((c) => cleanColourName(c.colour_name) || c.colour_name),
         },
       ];
     });

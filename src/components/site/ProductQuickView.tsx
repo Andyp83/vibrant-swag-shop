@@ -1,3 +1,4 @@
+import { matchColourImage, cleanColourName } from "@/lib/colour-match";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, ExternalLink } from "lucide-react";
@@ -291,7 +292,7 @@ export function ProductQuickView({
                       imageUrl: active?.url ?? selected.image_url ?? undefined,
                       colourOptions:
                         selected.colour_options?.map(
-                          (option) => `${option.colour_code} / ${option.colour_name}`,
+                          (option) => cleanColourName(option.colour_name) || option.colour_name,
                         ) ?? colourNames,
                       methods: selected.methods,
                       moq: selected.moq,
