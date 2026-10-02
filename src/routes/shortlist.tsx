@@ -278,7 +278,7 @@ function FilePicker({
   onFile,
 }: {
   id: string;
-  file?: File;
+  file?: File | undefined;
   onFile: (file: File | undefined) => void;
 }) {
   return (
@@ -314,7 +314,7 @@ function ArtworkSlot({
   item: ShortlistItem;
   placement: "Front" | "Back";
   decoration: string;
-  file?: File;
+  file?: File | undefined;
   options: string[];
   onDecoration: (value: string) => void;
   onFile: (file: File | undefined) => void;

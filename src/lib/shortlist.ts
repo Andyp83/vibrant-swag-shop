@@ -7,9 +7,9 @@ export type ShortlistItem = {
   categoryName: string;
   categorySlug: string;
   /** Catalogue image shown beside the item in the shortlist. */
-  imageUrl?: string;
+  imageUrl?: string | undefined;
   /** Available catalogue colours so the choice can be changed in the shortlist. */
-  colourOptions?: string[];
+  colourOptions?: string[] | undefined;
   /** Decoration methods the item supports (used to offer favourites). */
   methods: string[];
   moq: string;

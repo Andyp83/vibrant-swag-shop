@@ -15,11 +15,11 @@ import { describeChoices } from "@/lib/shortlist";
 
 export type ArtworkSelection = {
   usePrevious: boolean;
-  artwork?: File;
-  frontArtwork?: File;
-  backArtwork?: File;
-  frontDecoration?: string;
-  backDecoration?: string;
+  artwork?: File | undefined;
+  frontArtwork?: File | undefined;
+  backArtwork?: File | undefined;
+  frontDecoration?: string | undefined;
+  backDecoration?: string | undefined;
 };
 
 const schema = z.object({
