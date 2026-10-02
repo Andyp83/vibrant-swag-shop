@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Heart, Trash2, ArrowRight } from "lucide-react";
 import { useState } from "react";
+import { toast } from "sonner";
 
 import {
   ShortlistQuoteForm,
@@ -262,11 +263,16 @@ function ShortlistPage() {
 }
 
 const ARTWORK_ACCEPT = ".pdf,.ai,.eps,.svg,.png,.jpg,.jpeg,.tif,.tiff,.zip";
+const ARTWORK_EXTENSION = /\.(pdf|ai|eps|svg|png|jpe?g|tiff?|zip)$/i;
 
 function checkedFile(file: File | undefined, onFile: (file: File | undefined) => void) {
   if (file && file.size > 25 * 1024 * 1024) {
     onFile(undefined);
     return `${file.name} is larger than 25MB`;
+  }
+  if (file && !ARTWORK_EXTENSION.test(file.name)) {
+    onFile(undefined);
+    return `${file.name} isn't a supported artwork file`;
   }
   onFile(file);
   return null;
@@ -293,7 +299,7 @@ function FilePicker({
           const error = checkedFile(picked, onFile);
           if (error) {
             event.target.value = "";
-            window.alert(error);
+            toast.error(error);
           }
         }}
       />

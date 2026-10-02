@@ -128,7 +128,10 @@ export function ShortlistQuoteForm({
         const itemDetails: string[] = [];
 
         for (const slot of slots) {
-          if (!slot.file) continue;
+          if (!slot.file) {
+            if (slot.decoration) itemDetails.push(`${slot.label}: ${slot.decoration}`);
+            continue;
+          }
           let path = uploaded.get(slot.file);
           if (!path) {
             if (uploaded.size >= 20) throw new Error("A maximum of 20 artwork files can be sent");
