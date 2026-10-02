@@ -25,24 +25,32 @@ const schema = z.object({
 type FieldErrors = Partial<Record<keyof z.infer<typeof schema>, string>>;
 
 function toLines(items: ShortlistItem[]) {
-  // One quote line per chosen branding option so each can be priced separately.
-  return items
-    .flatMap((item) => {
-      const extra = describeChoices(item);
-      const notes = [extra, item.notes].filter(Boolean).join(" — ").slice(0, 500);
-      const base = {
-        productId: /^[0-9a-f-]{36}$/i.test(item.id) ? item.id : null,
-        name: item.name.slice(0, 200),
-        quantity: Math.max(1, Number(item.quantity) || 1),
-        notes,
-      };
-      const brandings = item.brandings ?? [];
-      if (brandings.length > 1 && item.decoration === brandings.map((b) => b.method).join(", ")) {
-        return brandings.map((b) => ({ ...base, decoration: b.method.slice(0, 120) }));
-      }
-      return [{ ...base, decoration: item.decoration.slice(0, 120) }];
-    })
-    .slice(0, 30);
+  // One quote line per shortlist item — the quantity is ordered once.
+  // Extra branding options are comparison alternatives, noted on the line
+  // so staff can price each, never duplicated as extra quantity.
+  return items.slice(0, 30).map((item) => {
+    const brandings = item.brandings ?? [];
+    const alternates =
+      brandings.length > 1
+        ? `Also quote: ${brandings
+            .slice(1)
+            .map((b) => (b.size ? `${b.method} (${b.size})` : b.method))
+            .join("; ")}`
+        : "";
+    const notes = [describeChoices(item), alternates, item.notes]
+      .filter(Boolean)
+      .join(" — ")
+      .slice(0, 500);
+    const primary = brandings[0];
+    const decoration = (primary?.method ?? item.decoration).slice(0, 120);
+    return {
+      productId: /^[0-9a-f-]{36}$/i.test(item.id) ? item.id : null,
+      name: item.name.slice(0, 200),
+      decoration,
+      quantity: Math.max(1, Number(item.quantity) || 1),
+      notes,
+    };
+  });
 }
 
 /** Sends the whole shortlist — every line with its decoration, quantity and notes — as one priced quote. */
