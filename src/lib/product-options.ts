@@ -29,6 +29,19 @@ export function parseBrandingOptions(text: string, methods: string[]): BrandingO
   return out;
 }
 
+const PACKAGING_METHOD = /packaging|gift box/i;
+
+/** Digital packaging print / gift box methods belong under optional extras, not branding. */
+export function splitBrandingOptions(options: BrandingOption[]): { branding: BrandingOption[]; extras: string[] } {
+  const branding: BrandingOption[] = [];
+  const extras: string[] = [];
+  for (const o of options) {
+    if (PACKAGING_METHOD.test(o.method)) extras.push(o.size ? `${o.method} (${o.size})` : o.method);
+    else branding.push(o);
+  }
+  return { branding, extras };
+}
+
 /** "Lid Style: Sipper lid | Carabiner lid | Flip valve lid" → a choice with 3 options. */
 export function parseProductChoices(specifications: string): ProductChoice[] {
   const parts = split(specifications);

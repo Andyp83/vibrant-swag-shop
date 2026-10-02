@@ -8,7 +8,7 @@ import { Reveal } from "@/components/site/Reveal";
 import { borderAccentClass, softBgClass, spectrum, swatchClass, textClass } from "@/lib/catalog";
 import { productPageQueryOptions, type CmsCategory, type CmsSubcategory } from "@/lib/catalog-query";
 import type { CmsProduct } from "@/lib/catalog.functions";
-import { detectExtras, parseBrandingOptions, parseProductChoices } from "@/lib/product-options";
+import { detectExtras, parseBrandingOptions, parseProductChoices, splitBrandingOptions } from "@/lib/product-options";
 import { useShortlist } from "@/lib/shortlist";
 import { cn } from "@/lib/utils";
 
@@ -123,13 +123,19 @@ function ProductPage() {
   }, [gallery]);
 
   const brandingOptions = useMemo(
-    () => parseBrandingOptions(product.branding_options, product.methods),
+    () => splitBrandingOptions(parseBrandingOptions(product.branding_options, product.methods)),
     [product],
   );
   const productChoices = useMemo(() => parseProductChoices(product.specifications), [product]);
   const extrasAvailable = useMemo(
-    () => detectExtras(product.features, product.packaging, product.specifications, product.description),
-    [product],
+    () =>
+      Array.from(
+        new Set([
+          ...detectExtras(product.features, product.packaging, product.specifications, product.description),
+          ...brandingOptions.extras,
+        ]),
+      ),
+    [product, brandingOptions],
   );
   const shortlist = useShortlist();
   const saved = shortlist.items.find((item) => item.id === product.id);
@@ -180,7 +186,7 @@ function ProductPage() {
       },
       {
         colour,
-        brandings: brandingOptions.filter((b) => brandings.includes(b.method)),
+        brandings: brandingOptions.branding.filter((b) => brandings.includes(b.method)),
         choices,
         extras,
       },
@@ -321,10 +327,10 @@ function ProductPage() {
               </OptionGroup>
             ))}
 
-            {brandingOptions.length > 0 ? (
+            {brandingOptions.branding.length > 0 ? (
               <OptionGroup title="Branding options" hint="Choose one or more to compare prices">
                 <ul className="space-y-2">
-                  {brandingOptions.map((b) => (
+                  {brandingOptions.branding.map((b) => (
                     <li key={b.method} className="flex flex-wrap items-center gap-3">
                       <OptionButton
                         active={brandings.includes(b.method)}
