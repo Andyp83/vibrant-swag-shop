@@ -926,14 +926,15 @@ export const getShortlistProducts = createServerFn({ method: "POST" })
     return rows.flatMap((r) => {
       const category = catSlug.get(r.category_id);
       const subcategory = r.subcategory_id ? subSlug.get(r.subcategory_id) : undefined;
-      if (!category || !subcategory) return [];
+      const product = r.slug || r.plu;
+      if (!category || !subcategory || !product) return [];
       const firstImage = (images.data ?? []).find((i) => i.product_id === r.id)?.image_url;
       return [
         {
           id: r.id,
           category,
           subcategory,
-          product: r.slug || r.plu,
+          product,
           imageUrl: r.image_url || firstImage || null,
           colourOptions: (colours.data ?? [])
             .filter((c) => c.product_id === r.id)
