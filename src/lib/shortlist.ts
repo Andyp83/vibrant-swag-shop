@@ -6,6 +6,10 @@ export type ShortlistItem = {
   name: string;
   categoryName: string;
   categorySlug: string;
+  /** Catalogue image shown beside the item in the shortlist. */
+  imageUrl?: string | undefined;
+  /** Available catalogue colours so the choice can be changed in the shortlist. */
+  colourOptions?: string[] | undefined;
   /** Decoration methods the item supports (used to offer favourites). */
   methods: string[];
   moq: string;
@@ -22,6 +26,13 @@ export type ShortlistItem = {
 };
 
 export type ShortlistChoices = Pick<ShortlistItem, "colour" | "brandings" | "choices" | "extras">;
+
+export function isFrontBackApparel(item: Pick<ShortlistItem, "name" | "categoryName" | "categorySlug">) {
+  if (item.categorySlug !== "apparel") return false;
+  return /\b(t[ -]?shirt|tee|jumper|hoodie|sweatshirt|sweater)\b/i.test(
+    `${item.name} ${item.categoryName}`,
+  );
+}
 
 export function describeChoices(item: ShortlistChoices): string {
   return [

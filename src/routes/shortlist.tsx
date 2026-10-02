@@ -1,12 +1,18 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Heart, Trash2, ArrowRight } from "lucide-react";
+import { useState } from "react";
+import { toast } from "sonner";
 
-import { ShortlistQuoteForm } from "@/components/site/ShortlistQuoteForm";
+import {
+  ShortlistQuoteForm,
+  type ArtworkSelection,
+} from "@/components/site/ShortlistQuoteForm";
 import { decorations } from "@/lib/catalog";
 import type { ShortlistItem } from "@/lib/shortlist";
-import { useShortlist } from "@/lib/shortlist";
+import { isFrontBackApparel, useShortlist } from "@/lib/shortlist";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
 
 export const Route = createFileRoute("/shortlist")({
   head: () => ({
@@ -32,6 +38,14 @@ export const Route = createFileRoute("/shortlist")({
 
 function ShortlistPage() {
   const { items, hydrated, update, remove, clear } = useShortlist();
+  const [artwork, setArtwork] = useState<Record<string, ArtworkSelection>>({});
+
+  const patchArtwork = (id: string, patch: Partial<ArtworkSelection>) => {
+    setArtwork((current) => ({
+      ...current,
+      [id]: { usePrevious: false, ...current[id], ...patch },
+    }));
+  };
 
   return (
     <div className="mx-auto max-w-4xl px-5 py-16">
@@ -62,18 +76,35 @@ function ShortlistPage() {
       ) : (
         <>
           <ul className="mt-10 space-y-5">
-            {items.map((item) => {
+            {items.map((item, index) => {
               const options = item.methods.length > 0 ? item.methods : decorations.map((d) => d.name);
+              const selection = artwork[item.id] ?? { usePrevious: false };
+              const frontBack = isFrontBackApparel(item);
               return (
                 <li key={item.id} className="rounded-2xl border border-border bg-card p-6">
                   <div className="flex flex-wrap items-start justify-between gap-3">
-                    <div>
+                    <div className="flex min-w-0 gap-4">
+                      {item.imageUrl ? (
+                        <img
+                          src={item.imageUrl}
+                          alt={item.name}
+                          width={112}
+                          height={112}
+                          className="size-24 shrink-0 rounded-lg border border-border bg-background object-contain p-2 sm:size-28"
+                        />
+                      ) : (
+                        <div className="flex size-24 shrink-0 items-center justify-center rounded-lg border border-border bg-muted text-center text-[11px] text-muted-foreground sm:size-28">
+                          Image coming soon
+                        </div>
+                      )}
+                      <div className="min-w-0">
                       <h2 className="font-semibold">{item.name}</h2>
                       <p className="mt-1 text-xs text-muted-foreground">
                         {item.categoryName}
                         {item.moq ? ` · minimum ${item.moq}` : ""}
                       </p>
                       <ChoiceChips item={item} />
+                      </div>
                     </div>
                     <button
                       type="button"
@@ -87,6 +118,28 @@ function ShortlistPage() {
                   </div>
 
                   <div className="mt-5 grid gap-4 sm:grid-cols-3">
+                    {item.colourOptions && item.colourOptions.length > 0 ? (
+                      <div className="space-y-2 sm:col-span-3">
+                        <Label>Colour</Label>
+                        <div className="flex flex-wrap gap-2" role="group" aria-label={`Colour for ${item.name}`}>
+                          {item.colourOptions.map((option) => (
+                            <button
+                              key={option}
+                              type="button"
+                              aria-pressed={item.colour === option}
+                              onClick={() => update(item.id, { colour: item.colour === option ? "" : option })}
+                              className={`rounded-md border px-3 py-2 text-xs font-semibold transition-colors ${
+                                item.colour === option
+                                  ? "border-primary bg-primary text-primary-foreground"
+                                  : "border-border bg-background hover:bg-accent"
+                              }`}
+                            >
+                              {option}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    ) : null}
                     <div className="space-y-2 sm:col-span-2">
                       <Label htmlFor={`decoration-${item.id}`}>Favoured decoration</Label>
                       <select
@@ -127,6 +180,56 @@ function ShortlistPage() {
                         onChange={(e) => update(item.id, { notes: e.target.value })}
                       />
                     </div>
+
+                    <fieldset className="space-y-4 border-t border-border pt-5 sm:col-span-3">
+                      <legend className="text-sm font-semibold">High-resolution logo or design</legend>
+                      {index > 0 ? (
+                        <label className="flex items-center gap-2 text-sm">
+                          <Checkbox
+                            checked={selection.usePrevious}
+                            onCheckedChange={(checked) =>
+                              patchArtwork(item.id, { usePrevious: checked === true })
+                            }
+                          />
+                          Use the same artwork as the previous item
+                        </label>
+                      ) : null}
+
+                      {!selection.usePrevious ? (
+                        frontBack ? (
+                          <div className="grid gap-4 sm:grid-cols-2">
+                            <ArtworkSlot
+                              item={item}
+                              placement="Front"
+                              decoration={selection.frontDecoration ?? ""}
+                              file={selection.frontArtwork}
+                              options={options}
+                              onDecoration={(value) => patchArtwork(item.id, { frontDecoration: value })}
+                              onFile={(file) => patchArtwork(item.id, { frontArtwork: file })}
+                            />
+                            <ArtworkSlot
+                              item={item}
+                              placement="Back"
+                              decoration={selection.backDecoration ?? ""}
+                              file={selection.backArtwork}
+                              options={options}
+                              onDecoration={(value) => patchArtwork(item.id, { backDecoration: value })}
+                              onFile={(file) => patchArtwork(item.id, { backArtwork: file })}
+                            />
+                          </div>
+                        ) : (
+                          <FilePicker
+                            id={`artwork-${item.id}`}
+                            file={selection.artwork}
+                            onFile={(file) => patchArtwork(item.id, { artwork: file })}
+                          />
+                        )
+                      ) : (
+                        <p className="text-xs text-muted-foreground">
+                          This item will use the previous item’s uploaded artwork.
+                        </p>
+                      )}
+                    </fieldset>
                   </div>
                 </li>
               );
@@ -134,7 +237,7 @@ function ShortlistPage() {
           </ul>
 
           <div className="mt-10">
-            <ShortlistQuoteForm items={items} onSent={clear} />
+            <ShortlistQuoteForm items={items} artwork={artwork} onSent={clear} />
           </div>
 
           <div className="mt-6 flex flex-wrap items-center gap-3">
@@ -155,6 +258,92 @@ function ShortlistPage() {
           </div>
         </>
       )}
+    </div>
+  );
+}
+
+const ARTWORK_ACCEPT = ".pdf,.ai,.eps,.svg,.png,.jpg,.jpeg,.tif,.tiff,.zip";
+const ARTWORK_EXTENSION = /\.(pdf|ai|eps|svg|png|jpe?g|tiff?|zip)$/i;
+
+function checkedFile(file: File | undefined, onFile: (file: File | undefined) => void) {
+  if (file && file.size > 25 * 1024 * 1024) {
+    onFile(undefined);
+    return `${file.name} is larger than 25MB`;
+  }
+  if (file && !ARTWORK_EXTENSION.test(file.name)) {
+    onFile(undefined);
+    return `${file.name} isn't a supported artwork file`;
+  }
+  onFile(file);
+  return null;
+}
+
+function FilePicker({
+  id,
+  file,
+  onFile,
+}: {
+  id: string;
+  file?: File | undefined;
+  onFile: (file: File | undefined) => void;
+}) {
+  return (
+    <div className="space-y-2">
+      <Label htmlFor={id}>Artwork file (optional, max 25MB)</Label>
+      <Input
+        id={id}
+        type="file"
+        accept={ARTWORK_ACCEPT}
+        onChange={(event) => {
+          const picked = event.target.files?.[0];
+          const error = checkedFile(picked, onFile);
+          if (error) {
+            event.target.value = "";
+            toast.error(error);
+          }
+        }}
+      />
+      {file ? <p className="text-xs text-muted-foreground">{file.name} ready to send</p> : null}
+    </div>
+  );
+}
+
+function ArtworkSlot({
+  item,
+  placement,
+  decoration,
+  file,
+  options,
+  onDecoration,
+  onFile,
+}: {
+  item: ShortlistItem;
+  placement: "Front" | "Back";
+  decoration: string;
+  file?: File | undefined;
+  options: string[];
+  onDecoration: (value: string) => void;
+  onFile: (file: File | undefined) => void;
+}) {
+  const key = placement.toLowerCase();
+  return (
+    <div className="space-y-3 rounded-lg border border-border bg-background p-4">
+      <h3 className="text-sm font-semibold">{placement}</h3>
+      <div className="space-y-2">
+        <Label htmlFor={`${key}-decoration-${item.id}`}>Decoration option</Label>
+        <select
+          id={`${key}-decoration-${item.id}`}
+          value={decoration}
+          onChange={(event) => onDecoration(event.target.value)}
+          className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+        >
+          <option value="">Not required / recommend one</option>
+          {options.map((option) => (
+            <option key={option} value={option}>{option}</option>
+          ))}
+        </select>
+      </div>
+      <FilePicker id={`${key}-artwork-${item.id}`} file={file} onFile={onFile} />
     </div>
   );
 }

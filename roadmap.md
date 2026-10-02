@@ -22,3 +22,4 @@
 - [x] Remove customer-facing pricing calculator and shortlist estimate; redirect old links to shortlist while keeping staff-reviewed quote submission intact
 
 - [x] Product page as a pick-and-add form: colour, lid/product choices, multiple branding options with sizes, optional extras → Add to Shortlist
+- [x] Shortlist item inputs: product image, editable colours, per-item high-resolution artwork, reuse-previous option, and front/back apparel artwork controls

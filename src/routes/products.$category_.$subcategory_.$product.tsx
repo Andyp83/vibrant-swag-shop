@@ -171,6 +171,10 @@ function ProductPage() {
         name: product.name,
         categoryName: `${category.name} - ${subcategory.name}`,
         categorySlug: category.slug,
+        imageUrl: selectedImage?.image_url ?? product.image_url ?? undefined,
+        colourOptions: product.colour_options.map(
+          (option) => `${option.colour_code} / ${option.colour_name}`,
+        ),
         methods: product.methods,
         moq: product.moq,
       },
