@@ -24,6 +24,8 @@ const submitSchema = priceInputSchema.extend({
   budget: z.string().trim().max(60).default(""),
   notes: z.string().trim().max(2000).default(""),
   summary: z.string().trim().max(4000).default(""),
+  filePaths: z.array(z.string().trim().min(1).max(500)).max(20).default([]),
+  artworkSummary: z.string().trim().max(4000).default(""),
 });
 
 type Line = z.infer<typeof lineSchema>;
@@ -131,6 +133,7 @@ export const submitShortlistQuote = createServerFn({ method: "POST" })
       `Shortlist quote request — ${data.items.length} item${data.items.length === 1 ? "" : "s"}:`,
       data.summary,
       data.notes ? `Additional information:\n${data.notes}` : null,
+      data.artworkSummary ? `Artwork files:\n${data.artworkSummary}` : null,
       pricing.unpricedCount
         ? `${pricing.unpricedCount} item(s) have no supplier cost table — price on application.`
         : null,
@@ -154,7 +157,7 @@ export const submitShortlistQuote = createServerFn({ method: "POST" })
         required_by: data.deadline || null,
         budget: data.budget || null,
         notes: body,
-        file_paths: [],
+        file_paths: data.filePaths,
         status: "in_progress",
       })
       .select("id")

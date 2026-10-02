@@ -8,9 +8,19 @@ import { z } from "zod";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { supabase } from "@/integrations/supabase/client";
 import { submitShortlistQuote } from "@/lib/pricing/quote.functions";
-import { shortlistSummary, type ShortlistItem } from "@/lib/shortlist";
+import { isFrontBackApparel, shortlistSummary, type ShortlistItem } from "@/lib/shortlist";
 import { describeChoices } from "@/lib/shortlist";
+
+export type ArtworkSelection = {
+  usePrevious: boolean;
+  artwork?: File;
+  frontArtwork?: File;
+  backArtwork?: File;
+  frontDecoration?: string;
+  backDecoration?: string;
+};
 
 const schema = z.object({
   fullName: z.string().trim().min(2, "Please enter your name").max(100),
@@ -56,9 +66,11 @@ function toLines(items: ShortlistItem[]) {
 /** Sends the whole shortlist — every line with its decoration, quantity and notes — as one priced quote. */
 export function ShortlistQuoteForm({
   items,
+  artwork,
   onSent,
 }: {
   items: ShortlistItem[];
+  artwork: Record<string, ArtworkSelection>;
   onSent?: () => void;
 }) {
   const [errors, setErrors] = useState<FieldErrors>({});
@@ -95,6 +107,48 @@ export function ShortlistQuoteForm({
 
     try {
       const values = parsed.data;
+      const folder = `shortlist/${Date.now()}-${crypto.randomUUID()}`;
+      const uploaded = new Map<File, string>();
+      const effectiveArtwork = new Map<string, ArtworkSelection>();
+      const filePaths: string[] = [];
+      const artworkLines: string[] = [];
+
+      for (const [index, item] of items.entries()) {
+        const selected = artwork[item.id] ?? { usePrevious: false };
+        const previous = index > 0 ? effectiveArtwork.get(items[index - 1]?.id ?? "") : undefined;
+        const effective = selected.usePrevious && previous ? previous : selected;
+        effectiveArtwork.set(item.id, effective);
+
+        const slots = isFrontBackApparel(item)
+          ? [
+              { label: "Front", file: effective.frontArtwork, decoration: effective.frontDecoration },
+              { label: "Back", file: effective.backArtwork, decoration: effective.backDecoration },
+            ]
+          : [{ label: "Artwork", file: effective.artwork, decoration: item.decoration }];
+        const itemDetails: string[] = [];
+
+        for (const slot of slots) {
+          if (!slot.file) continue;
+          let path = uploaded.get(slot.file);
+          if (!path) {
+            if (uploaded.size >= 20) throw new Error("A maximum of 20 artwork files can be sent");
+            const safeName = slot.file.name.replace(/[^a-zA-Z0-9._-]/g, "_").slice(-80);
+            path = `${folder}/${uploaded.size + 1}-${safeName}`;
+            const { error: uploadError } = await supabase.storage
+              .from("quote-uploads")
+              .upload(path, slot.file, { cacheControl: "3600", upsert: false });
+            if (uploadError) throw uploadError;
+            uploaded.set(slot.file, path);
+            filePaths.push(path);
+          }
+          itemDetails.push(
+            `${slot.label}: ${slot.file.name}${slot.decoration ? ` — ${slot.decoration}` : ""}`,
+          );
+        }
+        if (selected.usePrevious && previous) itemDetails.unshift("Same artwork as previous item");
+        if (itemDetails.length) artworkLines.push(`${index + 1}. ${item.name} — ${itemDetails.join("; ")}`);
+      }
+
       const response = await submit({
         data: {
           items: lines,
@@ -106,6 +160,8 @@ export function ShortlistQuoteForm({
           budget: values.budget ?? "",
           notes: values.notes ?? "",
           summary: shortlistSummary(items).slice(0, 4000),
+          filePaths,
+          artworkSummary: artworkLines.join("\n").slice(0, 4000),
         },
       });
 
@@ -190,11 +246,7 @@ export function ShortlistQuoteForm({
         {submitting ? "Pricing…" : `Submit shortlist (${items.length})`}
       </button>
       <p className="mt-3 text-xs text-muted-foreground">
-        Need to attach logo files?{" "}
-        <Link to="/quote" search={{ shortlist: true }} className="underline underline-offset-4">
-          Use the full quote form
-        </Link>{" "}
-        — your shortlist comes with you.
+        High-resolution artwork selected above will be sent securely with this request.
       </p>
     </form>
   );

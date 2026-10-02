@@ -288,6 +288,11 @@ export function ProductQuickView({
                       name: selected.name,
                       categoryName,
                       categorySlug,
+                      imageUrl: active?.url ?? selected.image_url ?? undefined,
+                      colourOptions:
+                        selected.colour_options?.map(
+                          (option) => `${option.colour_code} / ${option.colour_name}`,
+                        ) ?? colourNames,
                       methods: selected.methods,
                       moq: selected.moq,
                     },

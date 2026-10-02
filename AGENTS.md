@@ -8,3 +8,5 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Shortlist artwork remains transient until submission, then uploads to the private quote-artwork bucket and is referenced by the quote request; this avoids persisting browser File objects and keeps files off public URLs.
