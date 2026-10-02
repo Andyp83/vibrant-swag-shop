@@ -123,13 +123,19 @@ function ProductPage() {
   }, [gallery]);
 
   const brandingOptions = useMemo(
-    () => parseBrandingOptions(product.branding_options, product.methods),
+    () => splitBrandingOptions(parseBrandingOptions(product.branding_options, product.methods)),
     [product],
   );
   const productChoices = useMemo(() => parseProductChoices(product.specifications), [product]);
   const extrasAvailable = useMemo(
-    () => detectExtras(product.features, product.packaging, product.specifications, product.description),
-    [product],
+    () =>
+      Array.from(
+        new Set([
+          ...detectExtras(product.features, product.packaging, product.specifications, product.description),
+          ...brandingOptions.extras,
+        ]),
+      ),
+    [product, brandingOptions],
   );
   const shortlist = useShortlist();
   const saved = shortlist.items.find((item) => item.id === product.id);
