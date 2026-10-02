@@ -70,7 +70,7 @@ export const Route = createFileRoute("/lookbook")({
   }),
   errorComponent: ({ error }) => (
     <div role="alert" className="mx-auto max-w-3xl px-5 py-24 text-center text-muted-foreground">
-      {error.message}
+      {error instanceof Error ? error.message : String(error)}
     </div>
   ),
   notFoundComponent: () => (
