@@ -156,16 +156,13 @@ function ProductPage() {
     setExtras(saved.extras ?? []);
   }, [saved, shortlist.hydrated, loadedSaved]);
 
-  const pickColour = (label: string, code: string, name: string) => {
+  const pickColour = (label: string, name: string) => {
     const next = colour === label ? "" : label;
     setColour(next);
     if (next) {
-      const match = gallery.find(
-        (img) =>
-          img.colour_label &&
-          [code, name].some((v) => v && img.colour_label!.toLowerCase().includes(v.toLowerCase())),
-      );
-      if (match) setSelectedImage(match);
+      const match = matchColourImage(gallery, name, (img) => img.colour_label);
+      // No confident photo for this colour: show the main shot rather than a wrong colour.
+      setSelectedImage(match ?? gallery[0]);
     }
   };
   const toggleIn = (list: string[], value: string) =>
@@ -287,16 +284,15 @@ function ProductPage() {
               <OptionGroup title="Colour" hint="Choose one">
                 <div className="flex flex-wrap gap-2">
                   {product.colour_options.map((c) => {
-                    const label = `${c.colour_code} / ${c.colour_name}`;
+                    const label = cleanColourName(c.colour_name) || c.colour_name;
                     return (
                       <OptionButton
                         key={c.id}
                         active={colour === label}
                         accent={accent}
-                        onClick={() => pickColour(label, c.colour_code, c.colour_name)}
+                        onClick={() => pickColour(label, label)}
                       >
-                        <span className="font-semibold">{c.colour_code}</span>
-                        <span className="opacity-80"> / {c.colour_name}</span>
+                        <span className="font-semibold">{label}</span>
                       </OptionButton>
                     );
                   })}

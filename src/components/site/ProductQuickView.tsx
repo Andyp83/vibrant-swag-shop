@@ -56,11 +56,9 @@ function buildGallery(product: QuickViewProduct): Gallery {
 
 /** Index of the first gallery shot matching any of the preferred colour names. */
 function preferredIndex(gallery: Gallery, preferred: string[]): number {
-  for (const wanted of preferred.map((c) => c.trim().toLowerCase()).filter(Boolean)) {
-    const index = gallery.findIndex((shot) =>
-      `${shot.colourLabel ?? ""} ${shot.label}`.toLowerCase().includes(wanted),
-    );
-    if (index >= 0) return index;
+  for (const wanted of preferred.map((c) => c.trim()).filter(Boolean)) {
+    const shot = matchColourImage(gallery, wanted, (s) => s.colourLabel);
+    if (shot) return gallery.indexOf(shot);
   }
   return 0;
 }
