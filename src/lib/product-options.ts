@@ -29,15 +29,19 @@ export function parseBrandingOptions(text: string, methods: string[]): BrandingO
   return out;
 }
 
-const PACKAGING_METHOD = /packaging|gift box/i;
+const DIMENSION_ONLY = /^(?=.*\d)(?:\s*\d+(?:\.\d+)?\s*(?:mm|cm|m|in|inch|inches|″|x|×)?\s*(?:x|×|by|-)?\s*)+(?:dia(?:meter)?|circle|square|wide|high|deep|w|h|d|ø)?\s*$/i;
 
-/** Digital packaging print / gift box methods belong under optional extras, not branding. */
+export function isDimensionOnly(value: string): boolean {
+  return DIMENSION_ONLY.test(value.trim());
+}
+
+/** Only methods followed solely by print dimensions are branding options; descriptive variants are extras. */
 export function splitBrandingOptions(options: BrandingOption[]): { branding: BrandingOption[]; extras: string[] } {
   const branding: BrandingOption[] = [];
   const extras: string[] = [];
   for (const o of options) {
-    if (PACKAGING_METHOD.test(o.method)) extras.push(o.size ? `${o.method} (${o.size})` : o.method);
-    else branding.push(o);
+    if (isDimensionOnly(o.size)) branding.push(o);
+    else extras.push(o.size ? `${o.method} (${o.size})` : o.method);
   }
   return { branding, extras };
 }
