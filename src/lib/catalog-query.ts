@@ -20,7 +20,10 @@ export const catalogQueryOptions = (includeHidden = false) =>
   queryOptions({
     queryKey: ["catalog", { includeHidden }],
     queryFn: () => (includeHidden ? listCatalogAdmin() : listCatalog()),
-    staleTime: 60_000,
+    // Whole-catalogue reads scan three large tables; staff edits invalidate
+    // this key explicitly, so avoid re-reading on every tab focus.
+    staleTime: 5 * 60_000,
+    refetchOnWindowFocus: false,
     // Transient network/dev-server hiccups shouldn't blank the page
     retry: 2,
     retryDelay: (attempt) => Math.min(1000 * 2 ** attempt, 4000),
