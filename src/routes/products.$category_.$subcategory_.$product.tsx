@@ -8,7 +8,7 @@ import { Reveal } from "@/components/site/Reveal";
 import { borderAccentClass, softBgClass, spectrum, swatchClass, textClass } from "@/lib/catalog";
 import { productPageQueryOptions, type CmsCategory, type CmsSubcategory } from "@/lib/catalog-query";
 import type { CmsProduct } from "@/lib/catalog.functions";
-import { detectExtras, parseBrandingOptions, parseProductChoices } from "@/lib/product-options";
+import { detectExtras, parseBrandingOptions, parseProductChoices, splitBrandingOptions } from "@/lib/product-options";
 import { useShortlist } from "@/lib/shortlist";
 import { cn } from "@/lib/utils";
 
