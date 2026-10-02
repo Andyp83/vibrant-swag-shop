@@ -186,7 +186,7 @@ function ProductPage() {
       },
       {
         colour,
-        brandings: brandingOptions.filter((b) => brandings.includes(b.method)),
+        brandings: brandingOptions.branding.filter((b) => brandings.includes(b.method)),
         choices,
         extras,
       },
@@ -327,10 +327,10 @@ function ProductPage() {
               </OptionGroup>
             ))}
 
-            {brandingOptions.length > 0 ? (
+            {brandingOptions.branding.length > 0 ? (
               <OptionGroup title="Branding options" hint="Choose one or more to compare prices">
                 <ul className="space-y-2">
-                  {brandingOptions.map((b) => (
+                  {brandingOptions.branding.map((b) => (
                     <li key={b.method} className="flex flex-wrap items-center gap-3">
                       <OptionButton
                         active={brandings.includes(b.method)}
