@@ -1,3 +1,4 @@
+import { matchColourImage, cleanColourName } from "@/lib/colour-match";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, ExternalLink } from "lucide-react";
@@ -55,11 +56,9 @@ function buildGallery(product: QuickViewProduct): Gallery {
 
 /** Index of the first gallery shot matching any of the preferred colour names. */
 function preferredIndex(gallery: Gallery, preferred: string[]): number {
-  for (const wanted of preferred.map((c) => c.trim().toLowerCase()).filter(Boolean)) {
-    const index = gallery.findIndex((shot) =>
-      `${shot.colourLabel ?? ""} ${shot.label}`.toLowerCase().includes(wanted),
-    );
-    if (index >= 0) return index;
+  for (const wanted of preferred.map((c) => c.trim()).filter(Boolean)) {
+    const shot = matchColourImage(gallery, wanted, (s) => s.colourLabel);
+    if (shot) return gallery.indexOf(shot);
   }
   return 0;
 }
@@ -291,7 +290,7 @@ export function ProductQuickView({
                       imageUrl: active?.url ?? selected.image_url ?? undefined,
                       colourOptions:
                         selected.colour_options?.map(
-                          (option) => `${option.colour_code} / ${option.colour_name}`,
+                          (option) => cleanColourName(option.colour_name) || option.colour_name,
                         ) ?? colourNames,
                       methods: selected.methods,
                       moq: selected.moq,

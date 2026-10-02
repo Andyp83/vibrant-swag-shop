@@ -1,3 +1,4 @@
+import { matchColourImage } from "@/lib/colour-match";
 import type { CmsProduct } from "./catalog.functions";
 
 export type ColourMatchMode = "any" | "all";
@@ -206,15 +207,18 @@ export function productMatchesColours(
  */
 export function colourImageFor(product: CmsProduct, colour: string | string[]): string | null {
   const wanted = (Array.isArray(colour) ? colour : [colour]).map((c) => c.trim()).filter(Boolean);
-  for (const needle of wanted.map((c) => c.toLowerCase())) {
-    const terms = colourSearchTerms(needle);
-    const galleryShot = (product.images ?? []).find((image) =>
-      Boolean(image?.image_url) && terms.some((t) => (image.colour_label ?? "").trim().toLowerCase().includes(t)),
+  for (const needle of wanted) {
+    const galleryShot = matchColourImage(
+      (product.images ?? []).filter((image) => Boolean(image?.image_url)),
+      needle,
+      (image) => image.colour_label,
     );
     if (galleryShot?.image_url) return galleryShot.image_url;
 
-    const shot = (product.colour_images ?? []).find((image) =>
-      Boolean(image?.url) && terms.some((t) => (image.label ?? "").trim().toLowerCase().includes(t)),
+    const shot = matchColourImage(
+      (product.colour_images ?? []).filter((image) => Boolean(image?.url)),
+      needle,
+      (image) => image.label,
     );
     if (shot?.url) return shot.url;
   }
