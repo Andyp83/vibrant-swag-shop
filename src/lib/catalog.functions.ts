@@ -878,3 +878,68 @@ export const deleteSubcategory = createServerFn({ method: "POST" })
     if (error) throw new Error(error.message);
     return { ok: true };
   });
+
+export type ShortlistProductInfo = {
+  id: string;
+  category: string;
+  subcategory: string;
+  product: string;
+  imageUrl: string | null;
+  colourOptions: string[];
+};
+
+/** Live product details (link, photo, colours) for items on a shortlist. */
+export const getShortlistProducts = createServerFn({ method: "POST" })
+  .inputValidator((input: unknown) =>
+    z.object({ ids: z.array(z.string().uuid()).max(60) }).parse(input),
+  )
+  .handler(async ({ data }): Promise<ShortlistProductInfo[]> => {
+    if (data.ids.length === 0) return [];
+    const { getPublicSupabase } = await import("./supabase-public.server");
+    const supabase = getPublicSupabase();
+    const [products, images, colours] = await Promise.all([
+      supabase
+        .from("catalog_products")
+        .select("id, slug, plu, image_url, category_id, subcategory_id")
+        .in("id", data.ids),
+      supabase
+        .from("catalog_product_images")
+        .select("product_id, image_url, sort_order")
+        .in("product_id", data.ids)
+        .order("sort_order"),
+      supabase
+        .from("catalog_product_colours")
+        .select("product_id, colour_code, colour_name, sort_order")
+        .in("product_id", data.ids)
+        .order("sort_order"),
+    ]);
+    if (products.error) throw new Error(products.error.message);
+    const rows = products.data ?? [];
+    const catIds = [...new Set(rows.map((r) => r.category_id))];
+    const subIds = [...new Set(rows.map((r) => r.subcategory_id).filter(Boolean))] as string[];
+    const [cats, subs] = await Promise.all([
+      supabase.from("catalog_categories").select("id, slug").in("id", catIds),
+      supabase.from("catalog_subcategories").select("id, slug").in("id", subIds),
+    ]);
+    const catSlug = new Map((cats.data ?? []).map((c) => [c.id, c.slug]));
+    const subSlug = new Map((subs.data ?? []).map((s) => [s.id, s.slug]));
+    return rows.flatMap((r) => {
+      const category = catSlug.get(r.category_id);
+      const subcategory = r.subcategory_id ? subSlug.get(r.subcategory_id) : undefined;
+      const product = r.slug || r.plu;
+      if (!category || !subcategory || !product) return [];
+      const firstImage = (images.data ?? []).find((i) => i.product_id === r.id)?.image_url;
+      return [
+        {
+          id: r.id,
+          category,
+          subcategory,
+          product,
+          imageUrl: r.image_url || firstImage || null,
+          colourOptions: (colours.data ?? [])
+            .filter((c) => c.product_id === r.id)
+            .map((c) => `${c.colour_code} / ${c.colour_name}`),
+        },
+      ];
+    });
+  });

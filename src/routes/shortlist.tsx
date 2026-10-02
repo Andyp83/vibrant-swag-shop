@@ -1,6 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Heart, Trash2, ArrowRight } from "lucide-react";
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { getShortlistProducts } from "@/lib/catalog.functions";
 import { toast } from "sonner";
 
 import {
@@ -39,6 +41,16 @@ export const Route = createFileRoute("/shortlist")({
 function ShortlistPage() {
   const { items, hydrated, update, remove, clear } = useShortlist();
   const [artwork, setArtwork] = useState<Record<string, ArtworkSelection>>({});
+  const productIds = items
+    .map((i) => i.id)
+    .filter((id) => /^[0-9a-f-]{36}$/i.test(id));
+  const { data: liveInfo } = useQuery({
+    queryKey: ["shortlist-products", productIds],
+    queryFn: () => getShortlistProducts({ data: { ids: productIds } }),
+    enabled: hydrated && productIds.length > 0,
+    staleTime: 5 * 60_000,
+  });
+  const infoById = new Map((liveInfo ?? []).map((p) => [p.id, p]));
 
   const patchArtwork = (id: string, patch: Partial<ArtworkSelection>) => {
     setArtwork((current) => ({
@@ -76,7 +88,13 @@ function ShortlistPage() {
       ) : (
         <>
           <ul className="mt-10 space-y-5">
-            {items.map((item, index) => {
+            {items.map((stored, index) => {
+              const info = infoById.get(stored.id);
+              const item: ShortlistItem = {
+                ...stored,
+                imageUrl: stored.imageUrl || info?.imageUrl || undefined,
+                colourOptions: stored.colourOptions?.length ? stored.colourOptions : info?.colourOptions,
+              };
               const options = item.methods.length > 0 ? item.methods : decorations.map((d) => d.name);
               const selection = artwork[item.id] ?? { usePrevious: false };
               const frontBack = isFrontBackApparel(item);
@@ -85,20 +103,31 @@ function ShortlistPage() {
                   <div className="flex flex-wrap items-start justify-between gap-3">
                     <div className="flex min-w-0 gap-4">
                       {item.imageUrl ? (
-                        <img
+                        <ProductLink info={info}><img
                           src={item.imageUrl}
                           alt={item.name}
                           width={112}
                           height={112}
                           className="size-24 shrink-0 rounded-lg border border-border bg-background object-contain p-2 sm:size-28"
-                        />
+                        /></ProductLink>
                       ) : (
                         <div className="flex size-24 shrink-0 items-center justify-center rounded-lg border border-border bg-muted text-center text-[11px] text-muted-foreground sm:size-28">
                           Image coming soon
                         </div>
                       )}
                       <div className="min-w-0">
-                      <h2 className="font-semibold">{item.name}</h2>
+                      <h2 className="font-semibold">
+                        <ProductLink info={info}>{item.name}</ProductLink>
+                      </h2>
+                      {info ? (
+                        <Link
+                          to="/products/$category/$subcategory/$product"
+                          params={{ category: info.category, subcategory: info.subcategory, product: info.product }}
+                          className="mt-1 inline-block text-xs font-semibold text-primary underline-offset-4 hover:underline"
+                        >
+                          View product
+                        </Link>
+                      ) : null}
                       <p className="mt-1 text-xs text-muted-foreground">
                         {item.categoryName}
                         {item.moq ? ` · minimum ${item.moq}` : ""}
@@ -120,24 +149,24 @@ function ShortlistPage() {
                   <div className="mt-5 grid gap-4 sm:grid-cols-3">
                     {item.colourOptions && item.colourOptions.length > 0 ? (
                       <div className="space-y-2 sm:col-span-3">
-                        <Label>Colour</Label>
-                        <div className="flex flex-wrap gap-2" role="group" aria-label={`Colour for ${item.name}`}>
+                        <Label htmlFor={`colour-${item.id}`}>Colour</Label>
+                        <select
+                          id={`colour-${item.id}`}
+                          aria-label={`Colour for ${item.name}`}
+                          value={item.colour ?? ""}
+                          onChange={(e) => update(item.id, { colour: e.target.value })}
+                          className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                        >
+                          <option value="">Not sure — recommend one</option>
+                          {item.colour && !item.colourOptions.includes(item.colour) ? (
+                            <option value={item.colour}>{item.colour}</option>
+                          ) : null}
                           {item.colourOptions.map((option) => (
-                            <button
-                              key={option}
-                              type="button"
-                              aria-pressed={item.colour === option}
-                              onClick={() => update(item.id, { colour: item.colour === option ? "" : option })}
-                              className={`rounded-md border px-3 py-2 text-xs font-semibold transition-colors ${
-                                item.colour === option
-                                  ? "border-primary bg-primary text-primary-foreground"
-                                  : "border-border bg-background hover:bg-accent"
-                              }`}
-                            >
+                            <option key={option} value={option}>
                               {option}
-                            </button>
+                            </option>
                           ))}
-                        </div>
+                        </select>
                       </div>
                     ) : null}
                     <div className="space-y-2 sm:col-span-2">
@@ -364,5 +393,24 @@ function ChoiceChips({ item }: { item: ShortlistItem }) {
         </li>
       ))}
     </ul>
+  );
+}
+
+function ProductLink({
+  info,
+  children,
+}: {
+  info: { category: string; subcategory: string; product: string } | undefined;
+  children: React.ReactNode;
+}) {
+  if (!info) return <>{children}</>;
+  return (
+    <Link
+      to="/products/$category/$subcategory/$product"
+      params={{ category: info.category, subcategory: info.subcategory, product: info.product }}
+      className="hover:underline underline-offset-4"
+    >
+      {children}
+    </Link>
   );
 }
