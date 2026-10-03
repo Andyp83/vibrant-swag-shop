@@ -1,5 +1,7 @@
 # Roadmap
 
+- [ ] Add Keepsake Lookbook 2026–27 to merchandise catalogues with a dedicated flipbook page
+
 - [x] Add the October 2026 Australian newsletter to merchandise catalogues with a dedicated flipbook page
 
 - [x] Portal dashboard: show submitted briefs (quote_requests) and their status
