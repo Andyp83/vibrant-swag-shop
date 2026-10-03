@@ -10,3 +10,4 @@
 <!-- LOVABLE:END -->
 
 - Shortlist artwork remains transient until submission, then uploads to the private quote-artwork bucket and is referenced by the quote request; this avoids persisting browser File objects and keeps files off public URLs.
+- Merchandise newsletter flipbooks use dedicated public routes listed in the existing catalogues library and sitemap, keeping them separate from print and gift-pack navigation.

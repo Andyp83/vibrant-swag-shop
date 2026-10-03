@@ -20,10 +20,12 @@ import { Route as DesignRouteImport } from './routes/design'
 import { Route as GiftGuideRouteImport } from './routes/gift-guide'
 import { Route as GiftsRouteImport } from './routes/gifts'
 import { Route as ImpactAwareRouteImport } from './routes/impact-aware'
+import { Route as KeepsakeLookbookRouteImport } from './routes/keepsake-lookbook'
 import { Route as LogoMatchRouteImport } from './routes/logo-match'
 import { Route as LookbookRouteImport } from './routes/lookbook'
 import { Route as McpRouteImport } from './routes/mcp'
 import { Route as MerchandiseRouteImport } from './routes/merchandise'
+import { Route as OctoberNewsletterRouteImport } from './routes/october-newsletter'
 import { Route as PricingCalculatorRouteImport } from './routes/pricing-calculator'
 import { Route as PrintRouteImport } from './routes/print'
 import { Route as ProcurementRouteImport } from './routes/procurement'
@@ -115,6 +117,11 @@ const ImpactAwareRoute = ImpactAwareRouteImport.update({
   path: '/impact-aware',
   getParentRoute: () => rootRouteImport,
 } as any)
+const KeepsakeLookbookRoute = KeepsakeLookbookRouteImport.update({
+  id: '/keepsake-lookbook',
+  path: '/keepsake-lookbook',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LogoMatchRoute = LogoMatchRouteImport.update({
   id: '/logo-match',
   path: '/logo-match',
@@ -133,6 +140,11 @@ const McpRoute = McpRouteImport.update({
 const MerchandiseRoute = MerchandiseRouteImport.update({
   id: '/merchandise',
   path: '/merchandise',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OctoberNewsletterRoute = OctoberNewsletterRouteImport.update({
+  id: '/october-newsletter',
+  path: '/october-newsletter',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PricingCalculatorRoute = PricingCalculatorRouteImport.update({
@@ -341,10 +353,12 @@ export interface FileRoutesByFullPath {
   '/gift-guide': typeof GiftGuideRoute
   '/gifts': typeof GiftsRoute
   '/impact-aware': typeof ImpactAwareRoute
+  '/keepsake-lookbook': typeof KeepsakeLookbookRoute
   '/logo-match': typeof LogoMatchRoute
   '/lookbook': typeof LookbookRoute
   '/mcp': typeof McpRoute
   '/merchandise': typeof MerchandiseRoute
+  '/october-newsletter': typeof OctoberNewsletterRoute
   '/pricing-calculator': typeof PricingCalculatorRoute
   '/print': typeof PrintRoute
   '/procurement': typeof ProcurementRoute
@@ -393,10 +407,12 @@ export interface FileRoutesByTo {
   '/gift-guide': typeof GiftGuideRoute
   '/gifts': typeof GiftsRoute
   '/impact-aware': typeof ImpactAwareRoute
+  '/keepsake-lookbook': typeof KeepsakeLookbookRoute
   '/logo-match': typeof LogoMatchRoute
   '/lookbook': typeof LookbookRoute
   '/mcp': typeof McpRoute
   '/merchandise': typeof MerchandiseRoute
+  '/october-newsletter': typeof OctoberNewsletterRoute
   '/pricing-calculator': typeof PricingCalculatorRoute
   '/print': typeof PrintRoute
   '/procurement': typeof ProcurementRoute
@@ -446,10 +462,12 @@ export interface FileRoutesById {
   '/gift-guide': typeof GiftGuideRoute
   '/gifts': typeof GiftsRoute
   '/impact-aware': typeof ImpactAwareRoute
+  '/keepsake-lookbook': typeof KeepsakeLookbookRoute
   '/logo-match': typeof LogoMatchRoute
   '/lookbook': typeof LookbookRoute
   '/mcp': typeof McpRoute
   '/merchandise': typeof MerchandiseRoute
+  '/october-newsletter': typeof OctoberNewsletterRoute
   '/pricing-calculator': typeof PricingCalculatorRoute
   '/print': typeof PrintRoute
   '/procurement': typeof ProcurementRoute
@@ -500,10 +518,12 @@ export interface FileRouteTypes {
     | '/gift-guide'
     | '/gifts'
     | '/impact-aware'
+    | '/keepsake-lookbook'
     | '/logo-match'
     | '/lookbook'
     | '/mcp'
     | '/merchandise'
+    | '/october-newsletter'
     | '/pricing-calculator'
     | '/print'
     | '/procurement'
@@ -552,10 +572,12 @@ export interface FileRouteTypes {
     | '/gift-guide'
     | '/gifts'
     | '/impact-aware'
+    | '/keepsake-lookbook'
     | '/logo-match'
     | '/lookbook'
     | '/mcp'
     | '/merchandise'
+    | '/october-newsletter'
     | '/pricing-calculator'
     | '/print'
     | '/procurement'
@@ -604,10 +626,12 @@ export interface FileRouteTypes {
     | '/gift-guide'
     | '/gifts'
     | '/impact-aware'
+    | '/keepsake-lookbook'
     | '/logo-match'
     | '/lookbook'
     | '/mcp'
     | '/merchandise'
+    | '/october-newsletter'
     | '/pricing-calculator'
     | '/print'
     | '/procurement'
@@ -658,10 +682,12 @@ export interface RootRouteChildren {
   GiftGuideRoute: typeof GiftGuideRoute
   GiftsRoute: typeof GiftsRoute
   ImpactAwareRoute: typeof ImpactAwareRoute
+  KeepsakeLookbookRoute: typeof KeepsakeLookbookRoute
   LogoMatchRoute: typeof LogoMatchRoute
   LookbookRoute: typeof LookbookRoute
   McpRoute: typeof McpRoute
   MerchandiseRoute: typeof MerchandiseRoute
+  OctoberNewsletterRoute: typeof OctoberNewsletterRoute
   PricingCalculatorRoute: typeof PricingCalculatorRoute
   PrintRoute: typeof PrintRoute
   ProcurementRoute: typeof ProcurementRoute
@@ -767,6 +793,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ImpactAwareRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/keepsake-lookbook': {
+      id: '/keepsake-lookbook'
+      path: '/keepsake-lookbook'
+      fullPath: '/keepsake-lookbook'
+      preLoaderRoute: typeof KeepsakeLookbookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/logo-match': {
       id: '/logo-match'
       path: '/logo-match'
@@ -793,6 +826,13 @@ declare module '@tanstack/react-router' {
       path: '/merchandise'
       fullPath: '/merchandise'
       preLoaderRoute: typeof MerchandiseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/october-newsletter': {
+      id: '/october-newsletter'
+      path: '/october-newsletter'
+      fullPath: '/october-newsletter'
+      preLoaderRoute: typeof OctoberNewsletterRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/pricing-calculator': {
@@ -1107,10 +1147,12 @@ const rootRouteChildren: RootRouteChildren = {
   GiftGuideRoute: GiftGuideRoute,
   GiftsRoute: GiftsRoute,
   ImpactAwareRoute: ImpactAwareRoute,
+  KeepsakeLookbookRoute: KeepsakeLookbookRoute,
   LogoMatchRoute: LogoMatchRoute,
   LookbookRoute: LookbookRoute,
   McpRoute: McpRoute,
   MerchandiseRoute: MerchandiseRoute,
+  OctoberNewsletterRoute: OctoberNewsletterRoute,
   PricingCalculatorRoute: PricingCalculatorRoute,
   PrintRoute: PrintRoute,
   ProcurementRoute: ProcurementRoute,
