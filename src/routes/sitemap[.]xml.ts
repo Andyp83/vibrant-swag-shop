@@ -28,6 +28,7 @@ const STATIC_ENTRIES: SitemapEntry[] = [
   { path: "/real-estate-essentials", changefreq: "monthly", priority: "0.6" },
   { path: "/gift-guide", changefreq: "monthly", priority: "0.6" },
   { path: "/october-newsletter", changefreq: "monthly", priority: "0.6" },
+  { path: "/keepsake-lookbook", changefreq: "monthly", priority: "0.6" },
   { path: "/corporate-gifts", changefreq: "monthly", priority: "0.8" },
 ];
 

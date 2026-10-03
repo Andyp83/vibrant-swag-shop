@@ -15,10 +15,19 @@ type Catalogue = {
     | "/star-performers"
     | "/real-estate-essentials"
     | "/gift-guide"
-    | "/october-newsletter";
+    | "/october-newsletter"
+    | "/keepsake-lookbook";
 };
 
 const catalogues: Catalogue[] = [
+  {
+    id: "keepsake-lookbook",
+    name: "Keepsake Lookbook",
+    edition: "2026–27 · Australia",
+    blurb: "Branded merchandise and corporate gift inspiration from the Australian Keepsake collection.",
+    src: "https://e.issuu.com/embed.html?d=keepsake_lookbook_2026_2027_au_056d39b39afe9b&hideIssuuLogo=true&u=trendscollection",
+    href: "/keepsake-lookbook",
+  },
   {
     id: "october-newsletter",
     name: "October Newsletter",
