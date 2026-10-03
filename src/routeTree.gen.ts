@@ -24,6 +24,7 @@ import { Route as LogoMatchRouteImport } from './routes/logo-match'
 import { Route as LookbookRouteImport } from './routes/lookbook'
 import { Route as McpRouteImport } from './routes/mcp'
 import { Route as MerchandiseRouteImport } from './routes/merchandise'
+import { Route as OctoberNewsletterRouteImport } from './routes/october-newsletter'
 import { Route as PricingCalculatorRouteImport } from './routes/pricing-calculator'
 import { Route as PrintRouteImport } from './routes/print'
 import { Route as ProcurementRouteImport } from './routes/procurement'
@@ -133,6 +134,11 @@ const McpRoute = McpRouteImport.update({
 const MerchandiseRoute = MerchandiseRouteImport.update({
   id: '/merchandise',
   path: '/merchandise',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OctoberNewsletterRoute = OctoberNewsletterRouteImport.update({
+  id: '/october-newsletter',
+  path: '/october-newsletter',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PricingCalculatorRoute = PricingCalculatorRouteImport.update({
@@ -345,6 +351,7 @@ export interface FileRoutesByFullPath {
   '/lookbook': typeof LookbookRoute
   '/mcp': typeof McpRoute
   '/merchandise': typeof MerchandiseRoute
+  '/october-newsletter': typeof OctoberNewsletterRoute
   '/pricing-calculator': typeof PricingCalculatorRoute
   '/print': typeof PrintRoute
   '/procurement': typeof ProcurementRoute
@@ -397,6 +404,7 @@ export interface FileRoutesByTo {
   '/lookbook': typeof LookbookRoute
   '/mcp': typeof McpRoute
   '/merchandise': typeof MerchandiseRoute
+  '/october-newsletter': typeof OctoberNewsletterRoute
   '/pricing-calculator': typeof PricingCalculatorRoute
   '/print': typeof PrintRoute
   '/procurement': typeof ProcurementRoute
@@ -450,6 +458,7 @@ export interface FileRoutesById {
   '/lookbook': typeof LookbookRoute
   '/mcp': typeof McpRoute
   '/merchandise': typeof MerchandiseRoute
+  '/october-newsletter': typeof OctoberNewsletterRoute
   '/pricing-calculator': typeof PricingCalculatorRoute
   '/print': typeof PrintRoute
   '/procurement': typeof ProcurementRoute
@@ -504,6 +513,7 @@ export interface FileRouteTypes {
     | '/lookbook'
     | '/mcp'
     | '/merchandise'
+    | '/october-newsletter'
     | '/pricing-calculator'
     | '/print'
     | '/procurement'
@@ -556,6 +566,7 @@ export interface FileRouteTypes {
     | '/lookbook'
     | '/mcp'
     | '/merchandise'
+    | '/october-newsletter'
     | '/pricing-calculator'
     | '/print'
     | '/procurement'
@@ -608,6 +619,7 @@ export interface FileRouteTypes {
     | '/lookbook'
     | '/mcp'
     | '/merchandise'
+    | '/october-newsletter'
     | '/pricing-calculator'
     | '/print'
     | '/procurement'
@@ -662,6 +674,7 @@ export interface RootRouteChildren {
   LookbookRoute: typeof LookbookRoute
   McpRoute: typeof McpRoute
   MerchandiseRoute: typeof MerchandiseRoute
+  OctoberNewsletterRoute: typeof OctoberNewsletterRoute
   PricingCalculatorRoute: typeof PricingCalculatorRoute
   PrintRoute: typeof PrintRoute
   ProcurementRoute: typeof ProcurementRoute
@@ -793,6 +806,13 @@ declare module '@tanstack/react-router' {
       path: '/merchandise'
       fullPath: '/merchandise'
       preLoaderRoute: typeof MerchandiseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/october-newsletter': {
+      id: '/october-newsletter'
+      path: '/october-newsletter'
+      fullPath: '/october-newsletter'
+      preLoaderRoute: typeof OctoberNewsletterRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/pricing-calculator': {
@@ -1111,6 +1131,7 @@ const rootRouteChildren: RootRouteChildren = {
   LookbookRoute: LookbookRoute,
   McpRoute: McpRoute,
   MerchandiseRoute: MerchandiseRoute,
+  OctoberNewsletterRoute: OctoberNewsletterRoute,
   PricingCalculatorRoute: PricingCalculatorRoute,
   PrintRoute: PrintRoute,
   ProcurementRoute: ProcurementRoute,
