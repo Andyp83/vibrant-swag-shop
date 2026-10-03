@@ -20,6 +20,7 @@ import { Route as DesignRouteImport } from './routes/design'
 import { Route as GiftGuideRouteImport } from './routes/gift-guide'
 import { Route as GiftsRouteImport } from './routes/gifts'
 import { Route as ImpactAwareRouteImport } from './routes/impact-aware'
+import { Route as KeepsakeLookbookRouteImport } from './routes/keepsake-lookbook'
 import { Route as LogoMatchRouteImport } from './routes/logo-match'
 import { Route as LookbookRouteImport } from './routes/lookbook'
 import { Route as McpRouteImport } from './routes/mcp'
@@ -114,6 +115,11 @@ const GiftsRoute = GiftsRouteImport.update({
 const ImpactAwareRoute = ImpactAwareRouteImport.update({
   id: '/impact-aware',
   path: '/impact-aware',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KeepsakeLookbookRoute = KeepsakeLookbookRouteImport.update({
+  id: '/keepsake-lookbook',
+  path: '/keepsake-lookbook',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LogoMatchRoute = LogoMatchRouteImport.update({
@@ -347,6 +353,7 @@ export interface FileRoutesByFullPath {
   '/gift-guide': typeof GiftGuideRoute
   '/gifts': typeof GiftsRoute
   '/impact-aware': typeof ImpactAwareRoute
+  '/keepsake-lookbook': typeof KeepsakeLookbookRoute
   '/logo-match': typeof LogoMatchRoute
   '/lookbook': typeof LookbookRoute
   '/mcp': typeof McpRoute
@@ -400,6 +407,7 @@ export interface FileRoutesByTo {
   '/gift-guide': typeof GiftGuideRoute
   '/gifts': typeof GiftsRoute
   '/impact-aware': typeof ImpactAwareRoute
+  '/keepsake-lookbook': typeof KeepsakeLookbookRoute
   '/logo-match': typeof LogoMatchRoute
   '/lookbook': typeof LookbookRoute
   '/mcp': typeof McpRoute
@@ -454,6 +462,7 @@ export interface FileRoutesById {
   '/gift-guide': typeof GiftGuideRoute
   '/gifts': typeof GiftsRoute
   '/impact-aware': typeof ImpactAwareRoute
+  '/keepsake-lookbook': typeof KeepsakeLookbookRoute
   '/logo-match': typeof LogoMatchRoute
   '/lookbook': typeof LookbookRoute
   '/mcp': typeof McpRoute
@@ -509,6 +518,7 @@ export interface FileRouteTypes {
     | '/gift-guide'
     | '/gifts'
     | '/impact-aware'
+    | '/keepsake-lookbook'
     | '/logo-match'
     | '/lookbook'
     | '/mcp'
@@ -562,6 +572,7 @@ export interface FileRouteTypes {
     | '/gift-guide'
     | '/gifts'
     | '/impact-aware'
+    | '/keepsake-lookbook'
     | '/logo-match'
     | '/lookbook'
     | '/mcp'
@@ -615,6 +626,7 @@ export interface FileRouteTypes {
     | '/gift-guide'
     | '/gifts'
     | '/impact-aware'
+    | '/keepsake-lookbook'
     | '/logo-match'
     | '/lookbook'
     | '/mcp'
@@ -670,6 +682,7 @@ export interface RootRouteChildren {
   GiftGuideRoute: typeof GiftGuideRoute
   GiftsRoute: typeof GiftsRoute
   ImpactAwareRoute: typeof ImpactAwareRoute
+  KeepsakeLookbookRoute: typeof KeepsakeLookbookRoute
   LogoMatchRoute: typeof LogoMatchRoute
   LookbookRoute: typeof LookbookRoute
   McpRoute: typeof McpRoute
@@ -778,6 +791,13 @@ declare module '@tanstack/react-router' {
       path: '/impact-aware'
       fullPath: '/impact-aware'
       preLoaderRoute: typeof ImpactAwareRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/keepsake-lookbook': {
+      id: '/keepsake-lookbook'
+      path: '/keepsake-lookbook'
+      fullPath: '/keepsake-lookbook'
+      preLoaderRoute: typeof KeepsakeLookbookRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/logo-match': {
@@ -1127,6 +1147,7 @@ const rootRouteChildren: RootRouteChildren = {
   GiftGuideRoute: GiftGuideRoute,
   GiftsRoute: GiftsRoute,
   ImpactAwareRoute: ImpactAwareRoute,
+  KeepsakeLookbookRoute: KeepsakeLookbookRoute,
   LogoMatchRoute: LogoMatchRoute,
   LookbookRoute: LookbookRoute,
   McpRoute: McpRoute,
