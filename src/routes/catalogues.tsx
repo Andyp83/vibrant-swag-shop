@@ -14,10 +14,19 @@ type Catalogue = {
     | "/impact-aware"
     | "/star-performers"
     | "/real-estate-essentials"
-    | "/gift-guide";
+    | "/gift-guide"
+    | "/october-newsletter";
 };
 
 const catalogues: Catalogue[] = [
+  {
+    id: "october-newsletter",
+    name: "October Newsletter",
+    edition: "October 2026 · Australia",
+    blurb: "Branded merchandise inspiration from the October Australian Trends newsletter.",
+    src: "https://e.issuu.com/embed.html?d=trends_newsletter_-_october_2026_-_au_unbranded&hideIssuuLogo=true&u=trendscollection",
+    href: "/october-newsletter",
+  },
   {
     id: "brands-lookbook",
     name: "Brands Lookbook",
@@ -94,7 +103,7 @@ export const Route = createFileRoute("/catalogues")({
 });
 
 function CataloguesPage() {
-  const [active, setActive] = useState<string>(catalogues[0]!.id);
+  const [active, setActive] = useState<string>(catalogues[0]?.id ?? "october-newsletter");
 
   const jumpTo = (id: string) => {
     setActive(id);
