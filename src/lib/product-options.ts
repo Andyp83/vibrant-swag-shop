@@ -32,7 +32,11 @@ export function parseBrandingOptions(text: string, methods: string[]): BrandingO
 const DIMENSION_ONLY = /^(?=.*\d)(?:\s*\d+(?:\.\d+)?\s*(?:mm|cm|m|in|inch|inches|″|x|×)?\s*(?:x|×|by|-)?\s*)+(?:dia(?:meter)?|circle|square|wide|high|deep|w|h|d|ø)?\s*$/i;
 
 export function isDimensionOnly(value: string): boolean {
-  return DIMENSION_ONLY.test(value.trim());
+  const parts = value
+    .split("·")
+    .map((p) => p.trim())
+    .filter(Boolean);
+  return parts.length > 0 && parts.every((p) => DIMENSION_ONLY.test(p));
 }
 
 /** Only methods followed solely by print dimensions are branding options; descriptive variants are extras. */
