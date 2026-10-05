@@ -1053,6 +1053,120 @@ export type Database = {
         }
         Relationships: []
       }
+      stg_trends_images: {
+        Row: {
+          assignment_method: string | null
+          colour_label: string | null
+          confidence: number | null
+          image_code: string
+          image_sequence: number | null
+          image_url: string | null
+          plu: string
+          product_name: string | null
+          shot_type: string | null
+          source_filename: string | null
+        }
+        Insert: {
+          assignment_method?: string | null
+          colour_label?: string | null
+          confidence?: number | null
+          image_code: string
+          image_sequence?: number | null
+          image_url?: string | null
+          plu: string
+          product_name?: string | null
+          shot_type?: string | null
+          source_filename?: string | null
+        }
+        Update: {
+          assignment_method?: string | null
+          colour_label?: string | null
+          confidence?: number | null
+          image_code?: string
+          image_sequence?: number | null
+          image_url?: string | null
+          plu?: string
+          product_name?: string | null
+          shot_type?: string | null
+          source_filename?: string | null
+        }
+        Relationships: []
+      }
+      stg_trends_products: {
+        Row: {
+          branding_options: string | null
+          canonical_colours_json: Json | null
+          carton_details: string | null
+          carton_notes: string | null
+          colours_source: string | null
+          description: string | null
+          dimensions: string | null
+          features: string | null
+          materials: string | null
+          name: string | null
+          packaging: string | null
+          plu: string
+          scrape_status: string | null
+          service: string | null
+          site_images_json: Json | null
+          source_categories: string | null
+          source_image_count: number | null
+          source_row_order: number | null
+          source_url: string | null
+          source_used: string | null
+          specifications: string | null
+          web_status: string | null
+        }
+        Insert: {
+          branding_options?: string | null
+          canonical_colours_json?: Json | null
+          carton_details?: string | null
+          carton_notes?: string | null
+          colours_source?: string | null
+          description?: string | null
+          dimensions?: string | null
+          features?: string | null
+          materials?: string | null
+          name?: string | null
+          packaging?: string | null
+          plu: string
+          scrape_status?: string | null
+          service?: string | null
+          site_images_json?: Json | null
+          source_categories?: string | null
+          source_image_count?: number | null
+          source_row_order?: number | null
+          source_url?: string | null
+          source_used?: string | null
+          specifications?: string | null
+          web_status?: string | null
+        }
+        Update: {
+          branding_options?: string | null
+          canonical_colours_json?: Json | null
+          carton_details?: string | null
+          carton_notes?: string | null
+          colours_source?: string | null
+          description?: string | null
+          dimensions?: string | null
+          features?: string | null
+          materials?: string | null
+          name?: string | null
+          packaging?: string | null
+          plu?: string
+          scrape_status?: string | null
+          service?: string | null
+          site_images_json?: Json | null
+          source_categories?: string | null
+          source_image_count?: number | null
+          source_row_order?: number | null
+          source_url?: string | null
+          source_used?: string | null
+          specifications?: string | null
+          web_status?: string | null
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
