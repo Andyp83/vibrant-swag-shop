@@ -134,6 +134,30 @@ function RootShell({ children }: { children: ReactNode }) {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
+  // After a new deploy, an open tab may request page files that no longer
+  // exist. Reload once to pick up the current version instead of a blank page.
+  useEffect(() => {
+    const KEY = "ssb-chunk-reload";
+    const recover = (event?: Event) => {
+      if (sessionStorage.getItem(KEY)) return;
+      event?.preventDefault();
+      sessionStorage.setItem(KEY, String(Date.now()));
+      window.location.reload();
+    };
+    const onRejection = (e: PromiseRejectionEvent) => {
+      const msg = String((e.reason as Error | undefined)?.message ?? e.reason ?? "");
+      if (/dynamically imported module|Importing a module script failed|error loading dynamically/i.test(msg)) recover(e);
+    };
+    window.addEventListener("vite:preloadError", recover);
+    window.addEventListener("unhandledrejection", onRejection);
+    const clear = window.setTimeout(() => sessionStorage.removeItem(KEY), 10_000);
+    return () => {
+      window.removeEventListener("vite:preloadError", recover);
+      window.removeEventListener("unhandledrejection", onRejection);
+      window.clearTimeout(clear);
+    };
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       <div className="flex min-h-screen flex-col">
