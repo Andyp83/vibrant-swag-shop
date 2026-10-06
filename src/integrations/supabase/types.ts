@@ -1053,6 +1053,33 @@ export type Database = {
         }
         Relationships: []
       }
+      stg_ni_colours: {
+        Row: {
+          code: string
+          colour: string
+          fname: string
+          plu: string
+          seq: number
+          url: string
+        }
+        Insert: {
+          code: string
+          colour: string
+          fname: string
+          plu: string
+          seq: number
+          url: string
+        }
+        Update: {
+          code?: string
+          colour?: string
+          fname?: string
+          plu?: string
+          seq?: number
+          url?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
