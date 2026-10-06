@@ -251,6 +251,28 @@ export const getSharedInvoice = createServerFn({ method: "POST" })
     };
   });
 
+const TRUSTED_ORIGINS = [
+  "https://seeseebloom.com.au",
+  "https://www.seeseebloom.com.au",
+  "https://vibrant-swag-shop.lovable.app",
+];
+
+/** Only allow returning to this invoice's pay page on a trusted site origin. */
+function safeReturnUrl(value: string, token: string): string {
+  const fallback = `${TRUSTED_ORIGINS[0]}/pay/${encodeURIComponent(token)}?paid=1`;
+  try {
+    const url = new URL(value);
+    const trusted =
+      TRUSTED_ORIGINS.includes(url.origin) ||
+      /^https:\/\/[a-z0-9-]+\.lovable\.app$/.test(url.origin) ||
+      /^http:\/\/localhost(:\d+)?$/.test(url.origin);
+    if (!trusted) return fallback;
+    return `${url.origin}/pay/${encodeURIComponent(token)}?paid=1`;
+  } catch {
+    return fallback;
+  }
+}
+
 /** Creates an embedded Stripe checkout session for an invoice share link. */
 export const createInvoiceCheckout = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) => {
@@ -258,7 +280,7 @@ export const createInvoiceCheckout = createServerFn({ method: "POST" })
     const parsed = tokenSchema.parse({ token: raw.token });
     return {
       token: parsed.token,
-      returnUrl: String(raw.returnUrl).slice(0, 500),
+      returnUrl: safeReturnUrl(String(raw.returnUrl ?? ""), parsed.token),
     };
   })
   .handler(async ({ data }): Promise<{ clientSecret: string } | { error: string }> => {
