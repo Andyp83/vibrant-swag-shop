@@ -24,9 +24,28 @@ const submitSchema = priceInputSchema.extend({
   budget: z.string().trim().max(60).default(""),
   notes: z.string().trim().max(2000).default(""),
   summary: z.string().trim().max(4000).default(""),
-  filePaths: z.array(z.string().trim().min(1).max(500)).max(20).default([]),
+  filePaths: z
+    .array(
+      z
+        .string()
+        .trim()
+        .regex(/^shortlist\/[0-9a-f-]{36}\/[A-Za-z0-9._-]{1,120}$/, "Invalid file reference"),
+    )
+    .max(20)
+    .default([]),
   artworkSummary: z.string().trim().max(4000).default(""),
 });
+
+async function callerOwnsEmail(email: string): Promise<boolean> {
+  const { getRequest } = await import("@tanstack/react-start/server");
+  const auth = getRequest()?.headers.get("authorization") ?? "";
+  const token = auth.startsWith("Bearer ") ? auth.slice(7) : "";
+  if (!token) return false;
+  const { getPublicSupabase } = await import("@/lib/supabase-public.server");
+  const { data } = await getPublicSupabase().auth.getUser(token);
+  const verified = data.user?.email_confirmed_at ? data.user.email : null;
+  return !!verified && verified.toLowerCase() === email.toLowerCase();
+}
 
 type Line = z.infer<typeof lineSchema>;
 
@@ -164,13 +183,16 @@ export const submitShortlistQuote = createServerFn({ method: "POST" })
       .single();
     if (requestError || !request) throw new Error(requestError?.message ?? "Could not save request");
 
-    // Reuse the customer record for this email, or create one.
-    const { data: existing } = await supabaseAdmin
-      .rpc("customers_by_email", { p_email: email })
-      .select("id")
-      .limit(1);
-
-    let customerId = existing?.[0]?.id as string | undefined;
+    // Only reuse an existing customer record when the caller has proven they own
+    // this email by being signed in with it; otherwise create a separate record.
+    let customerId: string | undefined;
+    if (await callerOwnsEmail(email)) {
+      const { data: existing } = await supabaseAdmin
+        .rpc("customers_by_email", { p_email: email })
+        .select("id")
+        .limit(1);
+      customerId = existing?.[0]?.id as string | undefined;
+    }
     if (!customerId) {
       const { data: created, error: customerError } = await supabaseAdmin
         .from("customers")

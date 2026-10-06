@@ -12,6 +12,7 @@ import {
 import { z } from "zod";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
+import { uploadArtwork } from "@/lib/artwork-upload";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { confirmQuoteRequest } from "@/lib/backoffice/quote-confirm.functions";
@@ -197,19 +198,7 @@ function QuotePage() {
 
 
     try {
-      const folder = `${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
-      const paths: string[] = [];
-
-      for (const file of files) {
-        const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_").slice(-80);
-        const path = `${folder}/${safeName}`;
-        const { error } = await supabase.storage.from("quote-uploads").upload(path, file, {
-          cacheControl: "3600",
-          upsert: false,
-        });
-        if (error) throw error;
-        paths.push(path);
-      }
+      const paths = await uploadArtwork("quote", files);
 
       const values = parsed.data;
       const requestId = crypto.randomUUID();

@@ -16,6 +16,7 @@ import { toast } from "sonner";
 import { useServerFn } from "@tanstack/react-start";
 
 import { supabase } from "@/integrations/supabase/client";
+import { uploadArtwork } from "@/lib/artwork-upload";
 import { confirmQuoteRequest } from "@/lib/backoffice/quote-confirm.functions";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -133,18 +134,7 @@ function ProcurementPage() {
     setSubmitting(true);
 
     try {
-      const folder = `sourcing/${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
-      const paths: string[] = [];
-      for (const file of files) {
-        const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_").slice(-80);
-        const path = `${folder}/${safeName}`;
-        const { error } = await supabase.storage.from("quote-uploads").upload(path, file, {
-          cacheControl: "3600",
-          upsert: false,
-        });
-        if (error) throw error;
-        paths.push(path);
-      }
+      const paths = await uploadArtwork("sourcing", files);
 
       const values = parsed.data;
       const requestId = crypto.randomUUID();

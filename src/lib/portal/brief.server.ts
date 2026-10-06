@@ -87,7 +87,21 @@ export async function loadBriefForEmail(email: string, id: string): Promise<Brie
     created_at: string;
   }[];
 
-  const originalPaths = ((brief.file_paths ?? []) as string[]).filter(Boolean);
+  // Only sign files this brief genuinely owns: a path also referenced by an
+  // earlier request belongs to that request, not to this one.
+  const candidatePaths = ((brief.file_paths ?? []) as string[]).filter(
+    (path) => !!path && !path.includes(".."),
+  );
+  let originalPaths = candidatePaths;
+  if (candidatePaths.length) {
+    const { data: claimants } = await supabaseAdmin
+      .from("quote_requests")
+      .select("id, created_at, file_paths")
+      .overlaps("file_paths", candidatePaths)
+      .lt("created_at", brief.created_at as string);
+    const taken = new Set((claimants ?? []).flatMap((row) => (row.file_paths ?? []) as string[]));
+    originalPaths = candidatePaths.filter((path) => !taken.has(path));
+  }
   const originals: BriefFile[] = await Promise.all(
     originalPaths.map(async (path) => ({
       key: path,

@@ -71,6 +71,13 @@
       "when": 1791266881434,
       "tag": "0009_stg_ni_colours",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1791319929977,
+      "tag": "0010_remove_open_quote_upload_policy",
+      "breakpoints": true
     }
   ]
 }

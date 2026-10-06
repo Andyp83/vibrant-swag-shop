@@ -8,7 +8,7 @@ import { z } from "zod";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { supabase } from "@/integrations/supabase/client";
+import { uploadArtwork } from "@/lib/artwork-upload";
 import { submitShortlistQuote } from "@/lib/pricing/quote.functions";
 import { isFrontBackApparel, shortlistSummary, type ShortlistItem } from "@/lib/shortlist";
 import { describeChoices } from "@/lib/shortlist";
@@ -107,10 +107,9 @@ export function ShortlistQuoteForm({
 
     try {
       const values = parsed.data;
-      const folder = `shortlist/${Date.now()}-${crypto.randomUUID()}`;
-      const uploaded = new Map<File, string>();
+      const uploaded = new Set<File>();
+      const pending: File[] = [];
       const effectiveArtwork = new Map<string, ArtworkSelection>();
-      const filePaths: string[] = [];
       const artworkLines: string[] = [];
 
       for (const [index, item] of items.entries()) {
@@ -132,17 +131,10 @@ export function ShortlistQuoteForm({
             if (slot.decoration) itemDetails.push(`${slot.label}: ${slot.decoration}`);
             continue;
           }
-          let path = uploaded.get(slot.file);
-          if (!path) {
+          if (!uploaded.has(slot.file)) {
             if (uploaded.size >= 20) throw new Error("A maximum of 20 artwork files can be sent");
-            const safeName = slot.file.name.replace(/[^a-zA-Z0-9._-]/g, "_").slice(-80);
-            path = `${folder}/${uploaded.size + 1}-${safeName}`;
-            const { error: uploadError } = await supabase.storage
-              .from("quote-uploads")
-              .upload(path, slot.file, { cacheControl: "3600", upsert: false });
-            if (uploadError) throw uploadError;
-            uploaded.set(slot.file, path);
-            filePaths.push(path);
+            uploaded.add(slot.file);
+            pending.push(slot.file);
           }
           itemDetails.push(
             `${slot.label}: ${slot.file.name}${slot.decoration ? ` — ${slot.decoration}` : ""}`,
@@ -151,6 +143,8 @@ export function ShortlistQuoteForm({
         if (selected.usePrevious && previous) itemDetails.unshift("Same artwork as previous item");
         if (itemDetails.length) artworkLines.push(`${index + 1}. ${item.name} — ${itemDetails.join("; ")}`);
       }
+
+      const filePaths = await uploadArtwork("shortlist", pending);
 
       const response = await submit({
         data: {
