@@ -264,7 +264,7 @@ function safeReturnUrl(value: string, token: string): string {
     const url = new URL(value);
     const trusted =
       TRUSTED_ORIGINS.includes(url.origin) ||
-      /^https:\/\/[a-z0-9-]+\.lovable\.app$/.test(url.origin) ||
+      /^https:\/\/[a-z0-9-]*9e177bc1-ac79-43c5-b4d6-0cb7b2342cf8[a-z0-9-]*\.lovable\.app$/.test(url.origin) ||
       /^http:\/\/localhost(:\d+)?$/.test(url.origin);
     if (!trusted) return fallback;
     return `${url.origin}/pay/${encodeURIComponent(token)}?paid=1`;
