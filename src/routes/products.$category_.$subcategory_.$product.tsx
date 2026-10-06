@@ -400,46 +400,7 @@ function ProductPage() {
           </Reveal>
         </div>
 
-        <div className="mt-14 grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
-          <InfoSection title="Features">
-            {features.length > 1 ? (
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                {features.map((item) => (
-                  <li key={item} className="flex gap-2">
-                    <span className={`mt-2 size-1.5 shrink-0 rounded-full ${swatchClass[accent]}`} />
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p className="text-sm text-muted-foreground">{product.features || product.blurb}</p>
-            )}
-          </InfoSection>
-
-          <InfoSection title="Branding Options">
-            <p className="text-sm text-muted-foreground">
-              {product.branding_options || "Branding options depend on artwork, quantity and stock."}
-            </p>
-          </InfoSection>
-
-          <InfoSection title="Specifications">
-            {specs.length > 1 ? (
-              <dl className="space-y-2 text-sm text-muted-foreground">
-                {specs.map((item) => {
-                  const [label, ...rest] = item.split(": ");
-                  return (
-                    <div key={item} className="grid gap-1 sm:grid-cols-[10rem_1fr]">
-                      <dt className="font-semibold text-foreground">{rest.length ? label : "Spec"}</dt>
-                      <dd>{rest.length ? rest.join(": ") : item}</dd>
-                    </div>
-                  );
-                })}
-              </dl>
-            ) : (
-              <p className="text-sm text-muted-foreground">{product.specifications || "Specifications on request."}</p>
-            )}
-          </InfoSection>
-
+        <div className="mt-14">
           <InfoSection title="Packaging">
             <p className="text-sm text-muted-foreground">
               {product.packaging || "Packaging details confirmed at quote stage."}
